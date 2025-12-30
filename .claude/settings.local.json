@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cargo build:*)",
+      "Bash(probe-rs list:*)",
+      "Bash(mode COM3)",
+      "Bash(cargo install:*)",
+      "Bash(powershell -Command:*)",
+      "Bash(dfu-util:*)",
+      "Bash(cargo flash:*)",
+      "Bash(where:*)",
+      "Bash(rustup component add:*)",
+      "Bash(cargo objcopy:*)",
+      "Bash(probe-rs download:*)",
+      "Bash(pip install:*)",
+      "Bash(python px4_upload.py:*)",
+      "Bash(python -c:*)",
+      "Bash(python:*)",
+      "Bash(cargo run:*)",
+      "Bash(mode)",
+      "Bash(ls:*)"
+    ]
+  }
+}

@@ -1,0 +1,113 @@
+================================================================================
+JFOX FCU - MANUAL BOOTLOADER MODE ENTRY INSTRUCTIONS
+================================================================================
+
+The device is currently running firmware and won't enter bootloader via software
+commands. You must physically set BOOT0 HIGH during reset.
+
+METHOD 1: Using BOOT0 Button (if available)
+================================================================================
+1. Disconnect the USB cable from the JFOX FCU
+2. Locate the BOOT0 button on the board (may be labeled "BOOT", "BL", or "B0")
+3. Press and HOLD the BOOT0 button
+4. While holding BOOT0, connect the USB cable
+5. Keep holding BOOT0 for 2 seconds
+6. Release the BOOT0 button
+7. Run: python px4_upload.py COM3 target/thumbv7em-none-eabihf/release/jfox-fcu.bin
+
+METHOD 2: Using BOOT0 Jumper (if available)
+================================================================================
+1. Disconnect the USB cable
+2. Locate the BOOT0 jumper (2-pin header labeled "BOOT0" or "BL")
+3. Set jumper to connect BOOT0 to 3.3V (HIGH position)
+4. Connect the USB cable
+5. Wait 2 seconds
+6. Run: python px4_upload.py COM3 target/thumbv7em-none-eabihf/release/jfox-fcu.bin
+7. After flashing, remove jumper or set back to GND
+
+METHOD 3: Using BOOT0 Test Pad (advanced)
+================================================================================
+1. Disconnect the USB cable
+2. Locate the BOOT0 test pad on the PCB
+3. Use a wire or tweezers to connect BOOT0 pad to 3.3V pad
+4. While holding connection, connect USB cable
+5. Keep connected for 2 seconds
+6. Remove connection
+7. Run: python px4_upload.py COM3 target/thumbv7em-none-eabihf/release/jfox-fcu.bin
+
+METHOD 4: Using ST-Link Debug Probe (RECOMMENDED)
+================================================================================
+If you have an ST-Link V2 or compatible debug probe:
+
+1. Connect ST-Link to JFOX FCU SWD pins:
+   - SWDIO -> PA13 (pin 46 on STM32F427VIT6)
+   - SWCLK -> PA14 (pin 49)
+   - GND -> GND
+   - 3.3V -> 3.3V (optional)
+
+2. Connect ST-Link to computer via USB
+
+3. Flash directly without bootloader:
+   cd firmware
+   cargo flash --chip STM32F427VITx --release
+
+4. View logs in real-time:
+   cargo run --release
+
+VERIFYING BOOTLOADER MODE
+================================================================================
+After entering bootloader mode, the device should:
+- No longer send random telemetry data on COM3
+- Respond to bootloader sync command (0x21 0x20)
+- Windows may show "STM32 BOOTLOADER" or similar device name
+
+To test if bootloader is active:
+  python -c "import serial; s=serial.Serial('COM3',115200,timeout=1); s.write(b'\x21\x20'); print('Response:',s.read(10).hex()); s.close()"
+
+Expected response in bootloader mode: "1210" (INSYNC + OK)
+
+TROUBLESHOOTING
+================================================================================
+Problem: Still getting "Failed to sync with bootloader"
+- BOOT0 may not be held high long enough
+- Try holding BOOT0 for 5 seconds instead of 2
+- Verify BOOT0 is actually connected to 3.3V (measure with multimeter)
+
+Problem: COM3 disappears after entering bootloader
+- This is normal - device may re-enumerate on different COM port
+- Check Device Manager for new COM port
+- Update flash command with new port number
+
+Problem: Device shows as "Unknown USB Device"
+- STM32 bootloader may use DFU mode instead of serial
+- Try: dfu-util -l  (to list DFU devices)
+- Flash via DFU: dfu-util -a 0 -D firmware.bin -s 0x08000000
+
+Problem: No BOOT0 button/jumper found
+- Check board documentation/schematic
+- BOOT0 is pin 60 on STM32F427VIT6 (100-pin package)
+- May be connected to test pad on PCB underside
+- Consider using ST-Link instead (more reliable)
+
+CURRENT STATUS
+================================================================================
+Firmware ready: target/thumbv7em-none-eabihf/release/jfox-fcu.bin (16,732 bytes)
+Device detected: COM3 (VID:26AC PID:0011 - 3D Robotics)
+Device state: Running existing firmware (not in bootloader mode)
+Tools ready: probe-rs, px4_upload.py, cargo-flash
+
+NEXT STEPS
+================================================================================
+1. Choose a method above based on available hardware
+2. Enter bootloader mode using chosen method
+3. Flash firmware:
+   - Via USB Serial: python px4_upload.py COM3 <firmware.bin>
+   - Via ST-Link: cargo flash --chip STM32F427VITx --release
+4. Verify: Device should reboot and run new firmware
+5. Monitor logs: probe-rs run --chip STM32F427VITx <firmware.elf>
+
+================================================================================
+Generated: 2025-12-30
+Hardware: JFOX FCU (PX4FMUv2.4.5 - STM32F427VIT6)
+Firmware: Bare-metal Rust flight controller
+================================================================================

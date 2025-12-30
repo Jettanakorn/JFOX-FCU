@@ -1,0 +1,156 @@
+================================================================================
+JFOX FCU v2.0 - FLASHING INSTRUCTIONS (LED + UART Version)
+================================================================================
+
+New Features:
+- Status LED blinks at 1Hz on PE14
+- UART2 debug output at 115200 baud on TX=PD5, RX=PD6
+- Real-time attitude data visible without ST-Link!
+
+================================================================================
+STEP 1: ENTER BOOTLOADER MODE
+================================================================================
+
+1. Disconnect USB cable from JFOX FCU
+2. Press and HOLD the BOOT0 button (or set jumper to HIGH)
+3. Connect USB cable while holding BOOT0
+4. Hold for 2-3 seconds
+5. Release BOOT0 button
+
+Verify bootloader is active:
+> python -c "import serial; s=serial.Serial('COM3',115200,timeout=1); s.write(b'\x21\x20'); r=s.read(10); print('Bootloader active!' if b'\x12\x10' in r else 'Not in bootloader'); s.close()"
+
+Expected: "Bootloader active!"
+
+================================================================================
+STEP 2: FLASH NEW FIRMWARE
+================================================================================
+
+Run the flash command:
+
+> python px4_flash_simple.py COM3 target/thumbv7em-none-eabihf/release/jfox-fcu.bin
+
+Expected output:
+  [1/4] Syncing with bootloader...
+  [2/4] Erasing flash memory...
+  [3/4] Programming 48732 bytes to flash...
+  [4/4] Rebooting device...
+  FIRMWARE FLASHED SUCCESSFULLY!
+
+================================================================================
+STEP 3: VERIFY LED BLINK
+================================================================================
+
+After flashing, the device will reboot automatically.
+
+LOOK AT THE BOARD:
+- LED on PE14 should blink every 1 second (ON for 1 second, OFF for 1 second)
+- If blinking: SUCCESS! Firmware is running correctly!
+
+================================================================================
+STEP 4: VIEW UART OUTPUT
+================================================================================
+
+Connect to UART2 (115200 baud, 8N1):
+
+OPTION A: Using Python
+> python -c "import serial; s=serial.Serial('COM3',115200); import time; [print(s.readline().decode('ascii',errors='ignore').strip()) for _ in range(100)]"
+
+OPTION B: Using PuTTY
+1. Download PuTTY (putty.exe)
+2. Select "Serial"
+3. Serial line: COM3
+4. Speed: 115200
+5. Click "Open"
+
+OPTION C: Using Arduino IDE Serial Monitor
+1. Open Arduino IDE
+2. Tools > Port > COM3
+3. Tools > Serial Monitor
+4. Set baud rate to 115200
+
+Expected Output:
+========================================
+JFOX FCU v2.0 - Rust Flight Controller
+Hardware: STM32F427VIT6 @ 180MHz
+========================================
+
+[INIT] SPI1 for MPU-6000...
+[INIT] MPU-6000 IMU...
+[OK]   MPU-6000 ready!
+[OK]   Madgwick AHRS filter ready
+
+[START] Main loop running...
+LED will blink at 1Hz
+Attitude updated at 1Hz
+
+[00001] Roll:   0.2° Pitch:  -0.5° Yaw:  45.3° Temp: 25.4°C LED:ON
+[00002] Roll:   0.3° Pitch:  -0.4° Yaw:  45.2° Temp: 25.5°C LED:OFF
+[00003] Roll:   0.1° Pitch:  -0.3° Yaw:  45.4° Temp: 25.3°C LED:ON
+...
+
+================================================================================
+PIN CONNECTIONS FOR UART2
+================================================================================
+
+If you want to connect an external USB-to-Serial adapter:
+
+JFOX FCU (UART2)  ->  USB-Serial Adapter
+-----------------     --------------------
+PD5 (TX)          ->  RX
+PD6 (RX)          ->  TX  (optional, for commands)
+GND               ->  GND
+
+Set adapter to 115200 baud, 8 data bits, no parity, 1 stop bit (8N1)
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+Problem: LED not blinking
+- Check if PE14 has an LED connected on the board
+- Try another LED pin if PE14 is not available
+- Firmware may still be running (check UART output)
+
+Problem: No UART output
+- Wrong COM port - check Device Manager
+- Wrong baud rate - must be 115200
+- UART2 pins may not be connected to USB serial
+- Try using external USB-serial adapter on PD5/PD6
+
+Problem: "Bootloader not active"
+- BOOT0 not held long enough - try 5 seconds
+- BOOT0 button/jumper not working - check with multimeter
+- Device may have reset - try again
+
+Problem: "MPU-6000 failed!" in UART output
+- SPI wiring issue
+- IMU power issue
+- CS pin (PC2) not properly configured
+- Firmware still works, just no sensor data
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+With working LED and UART, you can:
+
+1. Verify firmware operation visually (LED blink)
+2. View real-time IMU data (UART output)
+3. Debug issues without ST-Link
+4. Add interactive commands via UART RX
+5. Log flight data to SD card or wireless
+
+To expand functionality:
+- Implement RC input decoding
+- Add motor PWM output
+- Implement flight modes
+- Add SD card logging
+- Wireless telemetry (433MHz/900MHz/WiFi)
+
+================================================================================
+Generated: 2025-12-30
+Firmware: JFOX FCU v2.0 (LED + UART)
+Binary Size: 48KB
+Features: IMU + Madgwick + LED + UART Debug
+================================================================================

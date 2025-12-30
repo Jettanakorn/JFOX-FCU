@@ -1,0 +1,12 @@
+[package]
+name = "hal"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+cortex-m = { workspace = true }
+defmt = { workspace = true }
+embedded-hal = { workspace = true }
+bsp = { path = "../bsp" }

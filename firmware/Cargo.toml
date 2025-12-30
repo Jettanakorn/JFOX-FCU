@@ -1,0 +1,49 @@
+[package]
+name = "firmware"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "jfox-fcu"
+path = "src/main_simple.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "jfox-fcu-usb"
+path = "src/main_usb.rs"
+test = false
+bench = false
+
+[[bin]]
+name = "jfox-fcu-minimal"
+path = "src/main_minimal_usb.rs"
+test = false
+bench = false
+
+[dependencies]
+cortex-m = { workspace = true }
+cortex-m-rt = { workspace = true }
+rtic = { workspace = true }
+rtic-monotonics = { workspace = true }
+defmt = { workspace = true }
+defmt-rtt = { workspace = true }
+panic-probe = { workspace = true }
+
+# STM32F4 PAC for RTIC
+stm32f4 = { version = "0.15", features = ["stm32f427", "rt"] }
+
+# USB support
+usb-device = "0.3"
+usbd-serial = "0.2"
+synopsys-usb-otg = { version = "0.4", features = ["cortex-m", "fs"] }
+
+# Local crates
+bsp = { path = "../bsp" }
+hal = { path = "../hal" }
+drivers = { path = "../drivers" }
+math = { path = "../math" }
+flight = { path = "../flight" }
+common = { path = "../common" }

@@ -1,0 +1,11 @@
+[package]
+name = "flight"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+defmt = { workspace = true }
+libm = { workspace = true }
+math = { path = "../math" }

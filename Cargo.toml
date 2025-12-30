@@ -1,0 +1,45 @@
+[workspace]
+members = [
+    "firmware",
+    "bsp",
+    "hal",
+    "drivers",
+    "math",
+    "flight",
+    "telemetry",
+    "common",
+]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+authors = ["JFOX Team"]
+edition = "2021"
+license = "MIT OR Apache-2.0"
+
+[workspace.dependencies]
+# Core ARM Cortex-M dependencies
+cortex-m = { version = "0.7", features = ["critical-section-single-core"] }
+cortex-m-rt = "0.7"
+rtic = { version = "2.1", features = ["thumbv7-backend"] }
+rtic-monotonics = { version = "2.0", features = ["cortex-m-systick"] }
+
+# Embedded HAL traits
+embedded-hal = "1.0"
+embedded-io = "0.6"
+critical-section = "1.1"
+
+# Math libraries (no_std compatible)
+libm = "0.2"
+micromath = "2.1"
+
+# Utilities
+heapless = "0.8"
+
+# Debugging and logging
+defmt = "0.3"
+defmt-rtt = "0.4"
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+
+# Peripheral access
+cortex-m-semihosting = "0.5"

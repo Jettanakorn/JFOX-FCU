@@ -1,0 +1,22 @@
+[target.'cfg(all(target_arch = "arm", target_os = "none"))']
+# Use probe-rs for flashing and debugging
+runner = "probe-rs run --chip STM32F427VITx"
+
+rustflags = [
+    # Link with cortex-m-rt and defmt linker scripts
+    "-C", "link-arg=-Tlink.x",
+    "-C", "link-arg=-Tdefmt.x",
+]
+
+[build]
+# Target ARM Cortex-M4F with hardware FPU
+target = "thumbv7em-none-eabihf"
+
+[env]
+# Defmt logging level (trace, debug, info, warn, error)
+DEFMT_LOG = "info"
+
+[alias]
+# Convenient aliases for common tasks
+rb = "build --release"
+rr = "run --release"
