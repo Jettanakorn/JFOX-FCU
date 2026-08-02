@@ -1,658 +1,2340 @@
-(kicad_sch (version 20230819) (generator eeschema)
-
-  (uuid d1e4a7ef-c869-4456-ac3d-175c4e7f2af8)
-
-  (paper "A3")
-
-  (lib_symbols
-    (symbol "jfox:Conn_01x04" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
-      (property "Reference" "J" (at 0 2.54 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Value" "Conn_01x04" (at 0 -11.43 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "~" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "Conn_01x04_1_1"
-        (rectangle (start -1.27 1.27) (end 1.27 -8.89)
-          (stroke (width 0.254) (type default))
-          (fill (type background))
-        )
-        (pin passive line (at -5.08 -0.0 0) (length 3.81)
-          (name "P1" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -2.54 0) (length 3.81)
-          (name "P2" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -5.08 0) (length 3.81)
-          (name "P3" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -7.62 0) (length 3.81)
-          (name "P4" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-    (symbol "jfox:Conn_01x06" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
-      (property "Reference" "J" (at 0 2.54 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Value" "Conn_01x06" (at 0 -16.51 0)
-        (effects (font (size 1.27 1.27)))
-      )
-      (property "Footprint" "" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (property "Datasheet" "~" (at 0 0 0)
-        (effects (font (size 1.27 1.27)) hide)
-      )
-      (symbol "Conn_01x06_1_1"
-        (rectangle (start -1.27 1.27) (end 1.27 -13.97)
-          (stroke (width 0.254) (type default))
-          (fill (type background))
-        )
-        (pin passive line (at -5.08 -0.0 0) (length 3.81)
-          (name "P1" (effects (font (size 1.27 1.27))))
-          (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -2.54 0) (length 3.81)
-          (name "P2" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -5.08 0) (length 3.81)
-          (name "P3" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -7.62 0) (length 3.81)
-          (name "P4" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -10.16 0) (length 3.81)
-          (name "P5" (effects (font (size 1.27 1.27))))
-          (number "5" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at -5.08 -12.7 0) (length 3.81)
-          (name "P6" (effects (font (size 1.27 1.27))))
-          (number "6" (effects (font (size 1.27 1.27))))
-        )
-      )
-    )
-  )
-
-  (text "JFOX TMR carrier.\\nThree PX4FMUv2.4.5 modules stacked on M3 + Richco R908-5 (7.95mm) spacers,\\ncabled to this board through their existing DF13 connectors.\\nMounting pattern is 30.0 x 30.0 mm, taken from the module's own .brd file." (at 25.4 20.32 0)
-    (effects (font (size 1.27 1.27)) (justify left top))
-    (uuid 5ffd139a-54cb-4e66-ac4a-18b7c90389b3)
-  )
-  (text "CAN1 BUS - daisy chain, NOT a star. Keep every stub short.\\nNO TERMINATION ON THIS BOARD. Each module carries R409, a fixed 120R\\nacross CAN_H/CAN_L with no disable jumper (RC0402FR-07120RL, verified\\nfrom the FMU netlist). Three unmodified modules = 3x120R in parallel\\n= ~40R, a real signal-integrity fault.\\nREQUIRED: desolder R409 on the electrically-middle module only.\\nVerify ~60R across CAN_H/CAN_L with the bus unpowered before trusting it." (at 25.4 38.1 0)
-    (effects (font (size 1.27 1.27)) (justify left top))
-    (uuid 4fc08564-c3f4-4f1c-b265-8ee91c165456)
-  )
-  (symbol (lib_id "jfox:Conn_01x04") (at 76.2 76.2 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 1a4ccf73-c190-4898-aca2-f25585a4e483)
-    (property "Reference" "J1" (at 78.74 73.66 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "CAN A -> module J405" (at 78.74 76.2 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical" (at 76.2 76.2 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J1") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 71.12 76.2) (xy 63.50000000000001 76.2))
-    (stroke (width 0) (type default))
-    (uuid 0798a0cc-6e8b-4fd3-b796-b6fa5c7c3ea2)
-  )
-  (no_connect (at 71.12 76.2) (uuid 30066646-9cc9-4661-9a68-d323aa91228d))
-  (wire (pts (xy 71.12 78.74) (xy 63.50000000000001 78.74))
-    (stroke (width 0) (type default))
-    (uuid 74b4c32a-87e0-4a9f-841c-1ea314f911c5)
-  )
-  (global_label "CAN_H" (shape bidirectional) (at 63.50000000000001 78.74 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 63c9c429-73ae-41aa-ab26-e1aa5f379c9e)
-  )
-  (wire (pts (xy 71.12 81.28) (xy 63.50000000000001 81.28))
-    (stroke (width 0) (type default))
-    (uuid 9074b3d2-baf2-4467-9d3d-30840e3ccbb7)
-  )
-  (global_label "CAN_L" (shape bidirectional) (at 63.50000000000001 81.28 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 28423001-9227-4555-899a-a092034c4213)
-  )
-  (wire (pts (xy 71.12 83.82) (xy 63.50000000000001 83.82))
-    (stroke (width 0) (type default))
-    (uuid 194484d2-86a2-4d51-a03f-86c5e3ae09d1)
-  )
-  (global_label "GND" (shape passive) (at 63.50000000000001 83.82 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 9c8221df-7815-4626-9eca-6f3efb0cc992)
-  )
-  (symbol (lib_id "jfox:Conn_01x04") (at 76.2 104.14 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 889ebea8-aeed-492f-879e-73441e46a2b9)
-    (property "Reference" "J2" (at 78.74 101.6 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "CAN B -> module J405" (at 78.74 104.14 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical" (at 76.2 104.14 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J2") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 71.12 104.14) (xy 63.50000000000001 104.14))
-    (stroke (width 0) (type default))
-    (uuid 75441f4f-59d7-471f-a984-76c888b19266)
-  )
-  (no_connect (at 71.12 104.14) (uuid 5445a034-1b50-4a5f-ac92-b600196fb418))
-  (wire (pts (xy 71.12 106.68) (xy 63.50000000000001 106.68))
-    (stroke (width 0) (type default))
-    (uuid 9fbeeb9f-eae7-4262-bc4e-f141c12dc325)
-  )
-  (global_label "CAN_H" (shape bidirectional) (at 63.50000000000001 106.68 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid f3556ec9-5ed7-43c0-a1bc-721c644166d1)
-  )
-  (wire (pts (xy 71.12 109.22) (xy 63.50000000000001 109.22))
-    (stroke (width 0) (type default))
-    (uuid 3d159422-cc71-4075-a519-ea7c0dc0910f)
-  )
-  (global_label "CAN_L" (shape bidirectional) (at 63.50000000000001 109.22 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 23e410b5-f1f6-458f-bcbd-cbe5da66ebde)
-  )
-  (wire (pts (xy 71.12 111.76) (xy 63.50000000000001 111.76))
-    (stroke (width 0) (type default))
-    (uuid 46a8f975-69f1-4c12-a6d8-344c314db8c4)
-  )
-  (global_label "GND" (shape passive) (at 63.50000000000001 111.76 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid dbc2a31e-1057-4d95-acbc-1bc56c8c8dac)
-  )
-  (symbol (lib_id "jfox:Conn_01x04") (at 76.2 132.08 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 7fb96e31-013e-4f55-a582-00394779e492)
-    (property "Reference" "J3" (at 78.74 129.54 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "CAN C -> module J405" (at 78.74 132.08 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical" (at 76.2 132.08 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J3") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 71.12 132.08) (xy 63.50000000000001 132.08))
-    (stroke (width 0) (type default))
-    (uuid f7285c28-b943-4438-af46-03b2a7272e0c)
-  )
-  (no_connect (at 71.12 132.08) (uuid 83bddfe7-a5d5-4041-a4e3-71999d80003b))
-  (wire (pts (xy 71.12 134.62) (xy 63.50000000000001 134.62))
-    (stroke (width 0) (type default))
-    (uuid 312643ca-fe8a-443b-978c-8fd04a4538e5)
-  )
-  (global_label "CAN_H" (shape bidirectional) (at 63.50000000000001 134.62 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 54752478-19a4-41f5-9b57-5e9ef2e81b40)
-  )
-  (wire (pts (xy 71.12 137.16) (xy 63.50000000000001 137.16))
-    (stroke (width 0) (type default))
-    (uuid 50e9aa86-235e-4578-9e99-d2e7b3481a25)
-  )
-  (global_label "CAN_L" (shape bidirectional) (at 63.50000000000001 137.16 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 6018118e-6d4c-4f7b-9683-6eed17e81f57)
-  )
-  (wire (pts (xy 71.12 139.7) (xy 63.50000000000001 139.7))
-    (stroke (width 0) (type default))
-    (uuid 56451929-cfeb-4db9-aba4-cc55e25e8784)
-  )
-  (global_label "GND" (shape passive) (at 63.50000000000001 139.7 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 0d772832-f031-4a3c-a636-37a05cb957e6)
-  )
-  (text "POWER - three INDEPENDENT paths, one per module. Deliberately not commoned:\\nboard-level redundancy is meaningless if one supply can take all three down.\\nEach module still arbitrates its own inputs internally via LTC4417 (U1101).\\nBrick in -> module out; the only shared net here is GND." (at 177.8 38.1 0)
-    (effects (font (size 1.27 1.27)) (justify left top))
-    (uuid cfbf7e43-383a-4979-9095-2fa0cce9382f)
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 228.6 76.2 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 4a5e35a4-6dc9-4e00-8e7b-9dd1408c46c5)
-    (property "Reference" "J4" (at 231.14 73.66 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "BRICK A in" (at 231.14 76.2 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 228.6 76.2 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J4") (unit 1)
-        )
-      )
-    )
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 292.1 76.2 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 650cf308-cd59-4d72-970b-5839b1614e75)
-    (property "Reference" "J7" (at 294.64 73.66 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "PWR A -> module J601" (at 294.64 76.2 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 292.1 76.2 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J7") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 223.52 76.2) (xy 215.9 76.2))
-    (stroke (width 0) (type default))
-    (uuid bced4e72-a571-4a7c-9c76-d0f0dd51420b)
-  )
-  (label "VBRICK_A" (at 215.9 76.2 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 637b3455-3ed3-46ea-93db-bd1a6a3e8eb5)
-  )
-  (wire (pts (xy 223.52 78.74) (xy 215.9 78.74))
-    (stroke (width 0) (type default))
-    (uuid bb754472-7b47-4144-ab8f-7225fe3e660a)
-  )
-  (label "VBRICK_A" (at 215.9 78.74 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 03a9ebd9-af61-4916-b92b-4e279876ec69)
-  )
-  (wire (pts (xy 223.52 81.28) (xy 215.9 81.28))
-    (stroke (width 0) (type default))
-    (uuid e488c31b-2879-4252-b82b-72805e02c9ff)
-  )
-  (label "BATT_I_A" (at 215.9 81.28 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid ea0ef1b6-9beb-43d2-9693-39d9a2154547)
-  )
-  (wire (pts (xy 223.52 83.82) (xy 215.9 83.82))
-    (stroke (width 0) (type default))
-    (uuid 7c14e84d-8c6f-44de-8d2e-31e25d39574a)
-  )
-  (label "BATT_V_A" (at 215.9 83.82 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid a29b3599-c6c5-4739-b0ca-c66d7a56ce20)
-  )
-  (wire (pts (xy 223.52 86.36) (xy 215.9 86.36))
-    (stroke (width 0) (type default))
-    (uuid fdd3473a-3096-44a2-b78a-67a1604554e5)
-  )
-  (global_label "GND" (shape passive) (at 215.9 86.36 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 805ae258-a918-4164-9c2d-2c185a460095)
-  )
-  (wire (pts (xy 223.52 88.9) (xy 215.9 88.9))
-    (stroke (width 0) (type default))
-    (uuid 9a59d96f-d6ff-4d96-85cd-dac91998099f)
-  )
-  (global_label "GND" (shape passive) (at 215.9 88.9 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 854fc063-9ec4-4af4-9c60-3afd97dd9a48)
-  )
-  (wire (pts (xy 287.02 76.2) (xy 279.4 76.2))
-    (stroke (width 0) (type default))
-    (uuid 3ed28366-fa37-4a22-ab30-707eff8641be)
-  )
-  (label "VBRICK_A" (at 279.4 76.2 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 37bf1ab5-2a94-40e8-a164-9f99c5897925)
-  )
-  (wire (pts (xy 287.02 78.74) (xy 279.4 78.74))
-    (stroke (width 0) (type default))
-    (uuid 7698234e-db38-4f19-88ca-161943b78f50)
-  )
-  (label "VBRICK_A" (at 279.4 78.74 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 0497a493-1884-47a8-8bed-e23f660786e8)
-  )
-  (wire (pts (xy 287.02 81.28) (xy 279.4 81.28))
-    (stroke (width 0) (type default))
-    (uuid a594734b-5e47-48aa-b661-e6b1ac25da67)
-  )
-  (label "BATT_I_A" (at 279.4 81.28 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid bd85c38d-36ed-4cc8-9ebc-ea208f0a1e1c)
-  )
-  (wire (pts (xy 287.02 83.82) (xy 279.4 83.82))
-    (stroke (width 0) (type default))
-    (uuid 9e3ec335-bbf4-4044-9b66-850acc4ddc2b)
-  )
-  (label "BATT_V_A" (at 279.4 83.82 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid f0ee8b11-908d-45d5-9f11-b7320487f0e6)
-  )
-  (wire (pts (xy 287.02 86.36) (xy 279.4 86.36))
-    (stroke (width 0) (type default))
-    (uuid 82683182-b05c-40eb-8e01-a6d0cd299c89)
-  )
-  (global_label "GND" (shape passive) (at 279.4 86.36 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 616dbd4a-a444-44f8-a568-ba9dd036c9bb)
-  )
-  (wire (pts (xy 287.02 88.9) (xy 279.4 88.9))
-    (stroke (width 0) (type default))
-    (uuid 1f915cbb-86cf-4c17-a812-84921dc2cc45)
-  )
-  (global_label "GND" (shape passive) (at 279.4 88.9 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid ba72c979-aecc-49f5-a331-2d3987793fa8)
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 228.6 121.92 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid c101d048-0e6a-4ab3-8bb2-bc8111e1e0f1)
-    (property "Reference" "J5" (at 231.14 119.38 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "BRICK B in" (at 231.14 121.92 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 228.6 121.92 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J5") (unit 1)
-        )
-      )
-    )
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 292.1 121.92 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid a71a09f1-d58f-4f20-8e74-3f656a28ef31)
-    (property "Reference" "J8" (at 294.64 119.38 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "PWR B -> module J601" (at 294.64 121.92 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 292.1 121.92 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J8") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 223.52 121.92) (xy 215.9 121.92))
-    (stroke (width 0) (type default))
-    (uuid a33a0374-3e38-474f-80bc-7d2d003ebe23)
-  )
-  (label "VBRICK_B" (at 215.9 121.92 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 13f2ec6d-8eea-4e2f-8506-52aeb02eaf12)
-  )
-  (wire (pts (xy 223.52 124.46) (xy 215.9 124.46))
-    (stroke (width 0) (type default))
-    (uuid 2e3423b1-4eec-414d-a5cf-a9802fe2f295)
-  )
-  (label "VBRICK_B" (at 215.9 124.46 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 32ac5c4f-933e-40df-92c8-21f3f3a2da6b)
-  )
-  (wire (pts (xy 223.52 127.0) (xy 215.9 127.0))
-    (stroke (width 0) (type default))
-    (uuid eff9ff16-d615-4d97-82df-5386ed379153)
-  )
-  (label "BATT_I_B" (at 215.9 127.0 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid c0218c6b-32a1-4a64-9713-6f068ee050f5)
-  )
-  (wire (pts (xy 223.52 129.54) (xy 215.9 129.54))
-    (stroke (width 0) (type default))
-    (uuid 8804eaf1-0159-46b4-92b7-e295a3874b1e)
-  )
-  (label "BATT_V_B" (at 215.9 129.54 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 2ff7d29a-2f53-4638-bdc6-527089bcd3a3)
-  )
-  (wire (pts (xy 223.52 132.08) (xy 215.9 132.08))
-    (stroke (width 0) (type default))
-    (uuid 49a069be-6aef-4e26-bf88-348fe7199fea)
-  )
-  (global_label "GND" (shape passive) (at 215.9 132.08 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 801cedcb-299b-46ef-98e2-4302417b4996)
-  )
-  (wire (pts (xy 223.52 134.62) (xy 215.9 134.62))
-    (stroke (width 0) (type default))
-    (uuid f1ca2963-29f2-4975-8901-8ba4b8045780)
-  )
-  (global_label "GND" (shape passive) (at 215.9 134.62 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 98581a18-1ecd-47f8-8ab7-8b60e4d053e0)
-  )
-  (wire (pts (xy 287.02 121.92) (xy 279.4 121.92))
-    (stroke (width 0) (type default))
-    (uuid d24d28ef-f3f8-4cbd-9586-e83e4d80d1a7)
-  )
-  (label "VBRICK_B" (at 279.4 121.92 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 2896b6a3-c056-409b-b383-fce1982993a5)
-  )
-  (wire (pts (xy 287.02 124.46) (xy 279.4 124.46))
-    (stroke (width 0) (type default))
-    (uuid 1809042d-8e81-45b8-9036-6724bfc03cb1)
-  )
-  (label "VBRICK_B" (at 279.4 124.46 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid b19eac08-612e-408d-9c2f-1be5f6e593c0)
-  )
-  (wire (pts (xy 287.02 127.0) (xy 279.4 127.0))
-    (stroke (width 0) (type default))
-    (uuid 63f2aea3-3a59-4042-85b8-ce266f045d77)
-  )
-  (label "BATT_I_B" (at 279.4 127.0 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 30eafabf-9e42-4205-b63f-b7fa46a0c1d3)
-  )
-  (wire (pts (xy 287.02 129.54) (xy 279.4 129.54))
-    (stroke (width 0) (type default))
-    (uuid 3c1dfb3a-5656-43c7-9cfe-3db0cc3c7673)
-  )
-  (label "BATT_V_B" (at 279.4 129.54 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid b3a197dd-0c50-4052-91e2-c850777eabaa)
-  )
-  (wire (pts (xy 287.02 132.08) (xy 279.4 132.08))
-    (stroke (width 0) (type default))
-    (uuid 70c4004a-875b-49fc-8e7d-cbc82dad6c55)
-  )
-  (global_label "GND" (shape passive) (at 279.4 132.08 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid ce7448cb-257c-4ea6-af29-302f590d20dd)
-  )
-  (wire (pts (xy 287.02 134.62) (xy 279.4 134.62))
-    (stroke (width 0) (type default))
-    (uuid b34e0a1e-1950-48a2-a8a1-e9cd15d3b39f)
-  )
-  (global_label "GND" (shape passive) (at 279.4 134.62 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 952e2037-5a97-4663-b6ec-a4c0e996a751)
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 228.6 167.64 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 3a948d31-1339-4bc8-8fca-9686163b8fbe)
-    (property "Reference" "J6" (at 231.14 165.1 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "BRICK C in" (at 231.14 167.64 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 228.6 167.64 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J6") (unit 1)
-        )
-      )
-    )
-  )
-  (symbol (lib_id "jfox:Conn_01x06") (at 292.1 167.64 0) (unit 1)
-    (in_bom yes) (on_board yes) (fields_autoplaced)
-    (uuid 717e4bc1-817d-4e07-b36b-59993c85cc56)
-    (property "Reference" "J9" (at 294.64 165.1 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Value" "PWR C -> module J601" (at 294.64 167.64 0)
-      (effects (font (size 1.27 1.27)) (justify left))
-    )
-    (property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical" (at 292.1 167.64 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (instances
-      (project "carrier"
-        (path "/"
-          (reference "J9") (unit 1)
-        )
-      )
-    )
-  )
-  (wire (pts (xy 223.52 167.64) (xy 215.9 167.64))
-    (stroke (width 0) (type default))
-    (uuid ef194d8d-12b9-47b4-bd47-80e5ce96ad1b)
-  )
-  (label "VBRICK_C" (at 215.9 167.64 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 5911ad8e-3880-4714-926e-403ccb8d25ab)
-  )
-  (wire (pts (xy 223.52 170.18) (xy 215.9 170.18))
-    (stroke (width 0) (type default))
-    (uuid 395f37c1-103f-4ecc-af71-5afa0c7bdeee)
-  )
-  (label "VBRICK_C" (at 215.9 170.18 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid e355471b-97bb-4ebc-8aac-59c8d20fd56a)
-  )
-  (wire (pts (xy 223.52 172.72) (xy 215.9 172.72))
-    (stroke (width 0) (type default))
-    (uuid 8d0db131-03e3-4d07-aae2-d607d993263e)
-  )
-  (label "BATT_I_C" (at 215.9 172.72 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 521e5c30-827c-4022-84da-d92623cbf8b7)
-  )
-  (wire (pts (xy 223.52 175.26) (xy 215.9 175.26))
-    (stroke (width 0) (type default))
-    (uuid 9192a27c-e26f-45ae-9fe8-9c7fdd90a525)
-  )
-  (label "BATT_V_C" (at 215.9 175.26 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 35dd2a9f-01b3-4b97-8d10-d0c34811aa96)
-  )
-  (wire (pts (xy 223.52 177.8) (xy 215.9 177.8))
-    (stroke (width 0) (type default))
-    (uuid 4161c0c5-14af-401f-a5ba-aeac1585aca9)
-  )
-  (global_label "GND" (shape passive) (at 215.9 177.8 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 3ae00f95-4757-45d3-b54e-26d36529390f)
-  )
-  (wire (pts (xy 223.52 180.34) (xy 215.9 180.34))
-    (stroke (width 0) (type default))
-    (uuid f22712ff-8a44-47f0-8060-2844f825743e)
-  )
-  (global_label "GND" (shape passive) (at 215.9 180.34 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid aa9b12a6-e3b4-4fb5-8846-da3c7f6ce163)
-  )
-  (wire (pts (xy 287.02 167.64) (xy 279.4 167.64))
-    (stroke (width 0) (type default))
-    (uuid 37c7c345-c963-4b94-b8d5-b38dca125b19)
-  )
-  (label "VBRICK_C" (at 279.4 167.64 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 8e10a0a1-c080-4b3d-b40f-1bea259be61d)
-  )
-  (wire (pts (xy 287.02 170.18) (xy 279.4 170.18))
-    (stroke (width 0) (type default))
-    (uuid f6872233-a40a-4b18-bd24-5c869c866c88)
-  )
-  (label "VBRICK_C" (at 279.4 170.18 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid e5ff9cb1-29a1-40d5-b8ec-5b90985da36f)
-  )
-  (wire (pts (xy 287.02 172.72) (xy 279.4 172.72))
-    (stroke (width 0) (type default))
-    (uuid 00025c26-c6eb-481e-8cff-16291ab2cb83)
-  )
-  (label "BATT_I_C" (at 279.4 172.72 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 0fb01711-7b4b-4cb2-8362-fb804c910f69)
-  )
-  (wire (pts (xy 287.02 175.26) (xy 279.4 175.26))
-    (stroke (width 0) (type default))
-    (uuid 8bb30b3b-5dad-4b15-9122-c28ece00769d)
-  )
-  (label "BATT_V_C" (at 279.4 175.26 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid ad4d6a1e-7adf-44f3-a3cf-c9ffb8bc6fa0)
-  )
-  (wire (pts (xy 287.02 177.8) (xy 279.4 177.8))
-    (stroke (width 0) (type default))
-    (uuid 4f6c4e04-86f2-45c7-a391-b4a9e8dc75e2)
-  )
-  (global_label "GND" (shape passive) (at 279.4 177.8 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid fef9faef-25f2-4436-935b-4c3531ce08e9)
-  )
-  (wire (pts (xy 287.02 180.34) (xy 279.4 180.34))
-    (stroke (width 0) (type default))
-    (uuid cd86a78f-f3c5-4c1a-ac0a-31c814df9489)
-  )
-  (global_label "GND" (shape passive) (at 279.4 180.34 180) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 864307a5-f0f8-49c9-90f3-76d0cea4c6d9)
-  )
-
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "4783bba1-e34d-4a06-bd56-47381e220f36")
+	(paper "A3")
+	(lib_symbols
+		(symbol "jfox:Conn_01x04"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x04"
+				(at 0 -11.43 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x04_1_1"
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -8.89)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "P1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "P2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "P3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -7.62 0)
+					(length 3.81)
+					(name "P4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+		(symbol "jfox:Conn_01x06"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "J"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "Conn_01x06"
+				(at 0 -16.51 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Conn_01x06_1_1"
+				(rectangle
+					(start -1.27 1.27)
+					(end 1.27 -13.97)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 3.81)
+					(name "P1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -2.54 0)
+					(length 3.81)
+					(name "P2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -5.08 0)
+					(length 3.81)
+					(name "P3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -7.62 0)
+					(length 3.81)
+					(name "P4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -10.16 0)
+					(length 3.81)
+					(name "P5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at -5.08 -12.7 0)
+					(length 3.81)
+					(name "P6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "CAN1 BUS - daisy chain, NOT a star. Keep every stub short.\\nNO TERMINATION ON THIS BOARD. Each module carries R409, a fixed 120R\\nacross CAN_H/CAN_L with no disable jumper (RC0402FR-07120RL, verified\\nfrom the FMU netlist). Three unmodified modules = 3x120R in parallel\\n= ~40R, a real signal-integrity fault.\\nREQUIRED: desolder R409 on the electrically-middle module only.\\nVerify ~60R across CAN_H/CAN_L with the bus unpowered before trusting it."
+		(exclude_from_sim no)
+		(at 25.4 38.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "6127082b-0ded-4914-bf27-f831d810c422")
+	)
+	(text "POWER - three INDEPENDENT paths, one per module. Deliberately not commoned:\\nboard-level redundancy is meaningless if one supply can take all three down.\\nEach module still arbitrates its own inputs internally via LTC4417 (U1101).\\nBrick in -> module out; the only shared net here is GND."
+		(exclude_from_sim no)
+		(at 177.8 38.1 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "f782633e-7040-4b44-bdd8-e01adb5aff41")
+	)
+	(text "JFOX TMR carrier.\\nThree PX4FMUv2.4.5 modules stacked on M3 + Richco R908-5 (7.95mm) spacers,\\ncabled to this board through their existing DF13 connectors.\\nMounting pattern is 30.0 x 30.0 mm, taken from the module's own .brd file."
+		(exclude_from_sim no)
+		(at 25.4 20.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "f8c4176e-47aa-417d-bdde-cfaeeaa6bfbf")
+	)
+	(no_connect
+		(at 71.12 132.08)
+		(uuid "143475f6-f98a-4a5a-aa0c-f376e3fe3fde")
+	)
+	(no_connect
+		(at 71.12 104.14)
+		(uuid "8c929df9-b404-4f06-ba06-065ed0bff047")
+	)
+	(no_connect
+		(at 71.12 76.2)
+		(uuid "ffcad1fb-2f7a-46a8-a939-17ac20624c12")
+	)
+	(wire
+		(pts
+			(xy 223.52 124.46) (xy 215.9 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "072d5065-8b1e-4eea-a2d5-c1642ea4a178")
+	)
+	(wire
+		(pts
+			(xy 223.52 76.2) (xy 215.9 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0b294a2b-20ea-42f9-a27c-7a6fcf172845")
+	)
+	(wire
+		(pts
+			(xy 223.52 78.74) (xy 215.9 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "113dd5b2-8b44-4773-8b0a-a047ed71eb7f")
+	)
+	(wire
+		(pts
+			(xy 287.02 83.82) (xy 279.4 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1872e3da-b1af-490c-b488-f97f00cde9e0")
+	)
+	(wire
+		(pts
+			(xy 71.12 109.22) (xy 63.5 109.22)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "199e15b1-ccb8-4749-a369-ba2d631c5eca")
+	)
+	(wire
+		(pts
+			(xy 287.02 177.8) (xy 279.4 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2803c6be-3562-4031-ae9b-291edb2e6510")
+	)
+	(wire
+		(pts
+			(xy 71.12 139.7) (xy 63.5 139.7)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bb20a6d-6902-43e5-927c-3f4e197db1fd")
+	)
+	(wire
+		(pts
+			(xy 287.02 121.92) (xy 279.4 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3493f5dc-b2bc-4c0f-a5c8-240b5d255474")
+	)
+	(wire
+		(pts
+			(xy 287.02 86.36) (xy 279.4 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "35ce3206-4e1e-4091-9b22-dc49133a3937")
+	)
+	(wire
+		(pts
+			(xy 287.02 180.34) (xy 279.4 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "456757e7-35cd-4f81-bbe2-440fccf0eb33")
+	)
+	(wire
+		(pts
+			(xy 287.02 175.26) (xy 279.4 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "461209f6-4cbe-4fa3-99bc-bf8d4f3fcb6e")
+	)
+	(wire
+		(pts
+			(xy 223.52 170.18) (xy 215.9 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4728558a-188a-463f-9783-8c723aeaa5c3")
+	)
+	(wire
+		(pts
+			(xy 71.12 83.82) (xy 63.5 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4a1505ba-7e49-4fbe-82c4-e8a16bbdcf16")
+	)
+	(wire
+		(pts
+			(xy 287.02 88.9) (xy 279.4 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "562779f9-1e3f-4a70-aa9e-27d41bfa4dc7")
+	)
+	(wire
+		(pts
+			(xy 223.52 167.64) (xy 215.9 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "66c2c25e-97ad-45a1-94b9-130f778e85c7")
+	)
+	(wire
+		(pts
+			(xy 71.12 111.76) (xy 63.5 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "68e01281-c4d6-4b3b-8f8f-157da063a33b")
+	)
+	(wire
+		(pts
+			(xy 71.12 104.14) (xy 63.5 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "70e2a2df-c0c1-4c02-93fe-c7d24a0560b4")
+	)
+	(wire
+		(pts
+			(xy 287.02 172.72) (xy 279.4 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "741adbf3-5e1c-4988-92b5-5d1eb41156d2")
+	)
+	(wire
+		(pts
+			(xy 223.52 175.26) (xy 215.9 175.26)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78bfe64f-d04b-46dd-bf76-d769adeda129")
+	)
+	(wire
+		(pts
+			(xy 71.12 132.08) (xy 63.5 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "78c77032-5b2f-46af-b383-42f60f48b7fc")
+	)
+	(wire
+		(pts
+			(xy 287.02 127) (xy 279.4 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "79c6dbe0-9f86-493b-af9a-184e66835756")
+	)
+	(wire
+		(pts
+			(xy 71.12 134.62) (xy 63.5 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7d047ab1-fb3d-46f0-994f-098386b8362d")
+	)
+	(wire
+		(pts
+			(xy 287.02 170.18) (xy 279.4 170.18)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8110ad42-34f9-4812-a350-9c6f9d338cbe")
+	)
+	(wire
+		(pts
+			(xy 287.02 129.54) (xy 279.4 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "850455a8-1bac-4bd1-9d01-3e855354c7ff")
+	)
+	(wire
+		(pts
+			(xy 223.52 180.34) (xy 215.9 180.34)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "87ec30ce-da8a-4f84-9f41-0876e5475c29")
+	)
+	(wire
+		(pts
+			(xy 223.52 81.28) (xy 215.9 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8dd1c8e9-4290-46e9-b687-973f3b43f692")
+	)
+	(wire
+		(pts
+			(xy 223.52 86.36) (xy 215.9 86.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8dd459bf-e860-48a8-8aaa-22b7a16dbf3d")
+	)
+	(wire
+		(pts
+			(xy 287.02 78.74) (xy 279.4 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e4df2ba-4013-42fa-80f2-54fcb8e51d3c")
+	)
+	(wire
+		(pts
+			(xy 223.52 132.08) (xy 215.9 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "90a53928-6346-47ec-b12e-8ee50114ae88")
+	)
+	(wire
+		(pts
+			(xy 223.52 129.54) (xy 215.9 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "964009c8-e951-4f0d-a709-529cc9a3a9ed")
+	)
+	(wire
+		(pts
+			(xy 287.02 124.46) (xy 279.4 124.46)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "97ced6fb-b1b7-4d69-b0f5-175bc75166e5")
+	)
+	(wire
+		(pts
+			(xy 223.52 134.62) (xy 215.9 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "988685b8-9ff6-4f62-895e-b369e29f8ff6")
+	)
+	(wire
+		(pts
+			(xy 71.12 106.68) (xy 63.5 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a05528e0-ea39-4733-87f4-e979dd13caa5")
+	)
+	(wire
+		(pts
+			(xy 223.52 172.72) (xy 215.9 172.72)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a5c4b6f0-0e21-4ffa-926d-a702cff8e6dc")
+	)
+	(wire
+		(pts
+			(xy 223.52 83.82) (xy 215.9 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a863fc17-3a50-41f2-81e8-14b6e6be6aa3")
+	)
+	(wire
+		(pts
+			(xy 223.52 177.8) (xy 215.9 177.8)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b1d2ccd3-6fc4-469a-95c1-be1483000856")
+	)
+	(wire
+		(pts
+			(xy 223.52 121.92) (xy 215.9 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c31d5543-4d2f-49b1-be4e-5c0f379234e2")
+	)
+	(wire
+		(pts
+			(xy 287.02 134.62) (xy 279.4 134.62)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c89722ea-f815-4e48-99b5-3698f855b274")
+	)
+	(wire
+		(pts
+			(xy 71.12 76.2) (xy 63.5 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ca645e39-99c5-4527-8fe0-32e4069dfc2b")
+	)
+	(wire
+		(pts
+			(xy 287.02 76.2) (xy 279.4 76.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cbf59734-4b5e-4a04-be5e-1432b49d77db")
+	)
+	(wire
+		(pts
+			(xy 287.02 81.28) (xy 279.4 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc3ebc1a-525a-4b4d-8d18-c9ca9f2af1ea")
+	)
+	(wire
+		(pts
+			(xy 71.12 81.28) (xy 63.5 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cc9e6e9f-470d-401e-a636-f0a7f74b71a4")
+	)
+	(wire
+		(pts
+			(xy 287.02 132.08) (xy 279.4 132.08)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cd6eb1f0-2e49-4290-a0cb-69741e4607e1")
+	)
+	(wire
+		(pts
+			(xy 287.02 167.64) (xy 279.4 167.64)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3a9e406-6d05-4e67-b96f-9d006aeef24f")
+	)
+	(wire
+		(pts
+			(xy 223.52 88.9) (xy 215.9 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d8572c1e-fe65-45f9-98e2-ee7f794924ed")
+	)
+	(wire
+		(pts
+			(xy 71.12 137.16) (xy 63.5 137.16)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ebee138b-813f-45fe-91b4-9c64ba4185b7")
+	)
+	(wire
+		(pts
+			(xy 223.52 127) (xy 215.9 127)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f47b1018-ee54-4819-9bc4-42c94679beed")
+	)
+	(wire
+		(pts
+			(xy 71.12 78.74) (xy 63.5 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fdeeafa3-b9d0-4cab-9e67-bb8256314042")
+	)
+	(label "VBRICK_A"
+		(at 279.4 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "18875a8c-b905-412c-b6a7-75ecea493def")
+	)
+	(label "VBRICK_B"
+		(at 279.4 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "1ece5d11-154d-4227-89f6-b3dfcad3d612")
+	)
+	(label "VBRICK_B"
+		(at 215.9 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "2281cf8f-409b-4fb5-8f90-f98e1700f11c")
+	)
+	(label "BATT_V_C"
+		(at 279.4 175.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "23cbba6a-5036-4edd-8e38-e38947b6fc45")
+	)
+	(label "VBRICK_C"
+		(at 215.9 167.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3bdeb5eb-63b5-4d9b-bc2e-cee55419435c")
+	)
+	(label "BATT_I_C"
+		(at 215.9 172.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "3f07c62e-4ef8-4f0a-9a2b-e61524dd0126")
+	)
+	(label "VBRICK_A"
+		(at 215.9 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4d8ded8e-5e55-47bb-80fd-af7c1ffb5ffd")
+	)
+	(label "VBRICK_A"
+		(at 279.4 76.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "54b5a49a-9e9c-4054-b289-8c430f3dc267")
+	)
+	(label "BATT_V_B"
+		(at 279.4 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "6ae33a05-9183-4b97-94fc-eb82e6472fae")
+	)
+	(label "VBRICK_C"
+		(at 279.4 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "75a08de6-efbb-4256-976f-a3ab80ca7938")
+	)
+	(label "BATT_V_A"
+		(at 279.4 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7bd6746d-2168-4477-8c40-64b796a26397")
+	)
+	(label "BATT_V_C"
+		(at 215.9 175.26 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "7e73edaa-43a9-4ffa-a5bd-900fc4b1aa0d")
+	)
+	(label "VBRICK_C"
+		(at 215.9 170.18 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9403769f-4eb4-4897-9430-5c6fd4d74f12")
+	)
+	(label "BATT_I_B"
+		(at 279.4 127 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9bd686e9-0c25-4724-8c00-99b05752a077")
+	)
+	(label "BATT_I_A"
+		(at 215.9 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "a025fe61-d907-432d-a03a-944778871d88")
+	)
+	(label "VBRICK_A"
+		(at 215.9 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "bbc9866f-862d-463c-b1ca-1d84e1017a24")
+	)
+	(label "VBRICK_C"
+		(at 279.4 167.64 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c48e43bd-3c28-4daa-aed4-08532ba4a6cb")
+	)
+	(label "BATT_V_B"
+		(at 215.9 129.54 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d7af74ec-2745-44e5-a8c4-92166bb63a5b")
+	)
+	(label "BATT_I_C"
+		(at 279.4 172.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d8b3c72d-4f66-40a4-b8c5-b0d4fa111416")
+	)
+	(label "BATT_V_A"
+		(at 215.9 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d8ce7447-c2b5-4c40-b563-30aae91ac983")
+	)
+	(label "BATT_I_B"
+		(at 215.9 127 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "da27c00b-1e9f-4ef7-8296-64b3d00eabec")
+	)
+	(label "VBRICK_B"
+		(at 215.9 121.92 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "e440e44f-6d28-4701-859a-978ccc85633b")
+	)
+	(label "BATT_I_A"
+		(at 279.4 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "f1e79422-2dc4-4bf7-ab5b-77ecb5e37835")
+	)
+	(label "VBRICK_B"
+		(at 279.4 124.46 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "fe101794-3aac-40b6-a5c6-0daba86b6853")
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 177.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "09d0db8d-f040-43f2-a392-4326533d970f")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 86.36 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "474cb2f8-19d2-4df0-8672-6e3fa8099c17")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 88.9 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "520046d8-dbae-4196-9998-e2418f408d8b")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_L"
+		(shape bidirectional)
+		(at 63.5 109.22 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5c2b6b5c-e75c-4593-a581-356da5f93584")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 109.22 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 134.62 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "76e2d04d-cc7f-4773-9b2c-7166f6c52868")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 180.34 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "916f12da-5b48-4da3-b92a-b0158f16a640")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_L"
+		(shape bidirectional)
+		(at 63.5 81.28 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9674e22d-ea8a-4fdf-ac94-676ac73a4262")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 81.28 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 132.08 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9a7d0232-8dd9-4c6a-9067-961442ad8f07")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 132.08 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_H"
+		(shape bidirectional)
+		(at 63.5 78.74 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a7cfef7a-a9ff-4eae-9cbd-287dea2b47cf")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 78.74 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_H"
+		(shape bidirectional)
+		(at 63.5 134.62 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ad963e8d-cdbd-4c2a-b49b-42c8b57a94ce")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 63.5 83.82 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bcabcab5-9047-45fe-bfcc-d86ad36bf095")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 83.82 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 63.5 111.76 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c73bc907-a90a-4397-bfa3-019763fa7dc0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 111.76 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 63.5 139.7 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d1d20080-4e23-48c9-9efc-1f3e72d84ed4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 139.7 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_H"
+		(shape bidirectional)
+		(at 63.5 106.68 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d8698910-8042-44d0-91f4-d5fa03185622")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 106.68 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 180.34 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d897a095-2cca-4c20-865d-3cfc687786f7")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 180.34 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 134.62 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d8b757d2-cbbc-4cca-bc1b-259ab4b52359")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 134.62 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 132.08 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e559d925-26cc-490e-9d71-a123c4a9c798")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 132.08 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 279.4 177.8 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ed3f8a25-627f-464c-8b44-55a8d40824f0")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 279.4 177.8 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 86.36 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ee9f456c-8b44-45da-a41a-2587d3da58b4")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 86.36 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape passive)
+		(at 215.9 88.9 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "faa2d428-4d79-402e-875d-fa22f4cc05b1")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 215.9 88.9 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(global_label "CAN_L"
+		(shape bidirectional)
+		(at 63.5 137.16 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fab67a12-87f5-4d60-9481-7acec9ed8b98")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 63.5 137.16 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x04")
+		(at 76.2 76.2 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "1261b06a-ab05-46d1-81b0-099383de40a7")
+		(property "Reference" "J1"
+			(at 78.74 73.66 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "CAN A -> module J405"
+			(at 78.74 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical"
+			(at 76.2 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 76.2 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "585c224d-f08c-4a8f-87c8-e784df6f58a5")
+		)
+		(pin "1"
+			(uuid "6eb0f5a8-f414-45a0-b363-26e3cf4231a8")
+		)
+		(pin "4"
+			(uuid "4ed202c4-605a-426b-8c59-532df1c08cac")
+		)
+		(pin "3"
+			(uuid "38848477-4028-4420-b65b-1336fe3040cc")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 292.1 121.92 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "17f1a374-e98a-41f9-9a6a-bb4ae203d0b9")
+		(property "Reference" "J8"
+			(at 294.64 119.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "PWR B -> module J601"
+			(at 294.64 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 292.1 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 292.1 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 292.1 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "220f1504-b7cd-4d0e-b22d-091bdfd1fa53")
+		)
+		(pin "2"
+			(uuid "688f414a-044a-4b0c-9f41-07fe7cec277f")
+		)
+		(pin "4"
+			(uuid "7d7d7e08-6864-4f32-a382-03a144b734cc")
+		)
+		(pin "3"
+			(uuid "6cff5d3e-35e3-402a-9315-400461f5561c")
+		)
+		(pin "5"
+			(uuid "db20ab75-806f-40b7-b724-daa30654d659")
+		)
+		(pin "6"
+			(uuid "4e90caed-4271-4738-ad98-83dea6af92a0")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 228.6 167.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2628ecb3-e8cb-4756-983e-4567b67c5931")
+		(property "Reference" "J6"
+			(at 231.14 165.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BRICK C in"
+			(at 231.14 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 228.6 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 228.6 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 228.6 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "c5ff31b8-0901-4e84-b3e7-bda225ca9b8c")
+		)
+		(pin "5"
+			(uuid "19d1dc94-9c25-4b9f-a11f-7957516b7f6d")
+		)
+		(pin "1"
+			(uuid "4f77656d-61b4-48e1-b050-80475b832dfe")
+		)
+		(pin "3"
+			(uuid "edeceab6-c55f-433d-8940-dc2db1f0743e")
+		)
+		(pin "6"
+			(uuid "24c43dfe-0340-46fb-8bb5-0ca0e86815c7")
+		)
+		(pin "2"
+			(uuid "d2c54a01-83bb-4405-82ee-936a3614294b")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 292.1 76.2 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "3117a962-de59-4dce-b75b-c02abb84be9f")
+		(property "Reference" "J7"
+			(at 294.64 73.66 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "PWR A -> module J601"
+			(at 294.64 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 292.1 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 292.1 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 292.1 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "2e0a4f31-db77-4153-a8a3-8ab7d50648ee")
+		)
+		(pin "6"
+			(uuid "3a591c21-ed8f-4505-8715-e6a5bf631a1a")
+		)
+		(pin "1"
+			(uuid "06cd1167-1bf9-4d3d-9fae-09e810a9b767")
+		)
+		(pin "3"
+			(uuid "bbd2ee26-d6b9-465c-ba23-3d72aeb5d842")
+		)
+		(pin "2"
+			(uuid "068da66b-4493-46e6-b11d-0d05052f0248")
+		)
+		(pin "5"
+			(uuid "14d6c284-fc2d-44ed-8859-429a71fd6849")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x04")
+		(at 76.2 132.08 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "762f6c41-ff74-49e5-acc6-917939e0d4f5")
+		(property "Reference" "J3"
+			(at 78.74 129.54 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "CAN C -> module J405"
+			(at 78.74 132.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical"
+			(at 76.2 132.08 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 132.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 76.2 132.08 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "2"
+			(uuid "e646ebc2-f2cf-4a1b-9da7-74588d10e678")
+		)
+		(pin "1"
+			(uuid "f6d55949-9435-48de-9ed9-4c0314948981")
+		)
+		(pin "4"
+			(uuid "19944cc1-7aa4-4bc3-b08a-17dbfb5bbd22")
+		)
+		(pin "3"
+			(uuid "00ec7e8a-7085-4e92-92eb-170ccde8b8bb")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x04")
+		(at 76.2 104.14 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d25edbc1-661a-4b9b-b53c-95fba7fa5710")
+		(property "Reference" "J2"
+			(at 78.74 101.6 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "CAN B -> module J405"
+			(at 78.74 104.14 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical"
+			(at 76.2 104.14 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 76.2 104.14 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 76.2 104.14 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "4"
+			(uuid "81c59df7-b349-404e-a8e9-ff56b687c289")
+		)
+		(pin "1"
+			(uuid "e03b45cd-fe1d-4f3c-b855-a73bd6565bc1")
+		)
+		(pin "2"
+			(uuid "4a7fd5de-e04c-49b2-b1aa-959bacb118f6")
+		)
+		(pin "3"
+			(uuid "78776a23-af37-45a9-86f7-b6fb2b81ab0b")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 292.1 167.64 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d5f413da-1123-48bd-9b82-1b66146d2165")
+		(property "Reference" "J9"
+			(at 294.64 165.1 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "PWR C -> module J601"
+			(at 294.64 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 292.1 167.64 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 292.1 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 292.1 167.64 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "6"
+			(uuid "c586f01c-0923-4c4f-9ae8-43abf72ea7ae")
+		)
+		(pin "5"
+			(uuid "c60ff5cf-98cb-4ae9-84c9-42ad113167c2")
+		)
+		(pin "3"
+			(uuid "4b9bf93f-7ab9-472e-a633-7d3159d48b9f")
+		)
+		(pin "4"
+			(uuid "cb8fc8db-dbda-4c26-a890-a172413c926c")
+		)
+		(pin "2"
+			(uuid "1889a01e-4cc5-463c-b861-670792c39838")
+		)
+		(pin "1"
+			(uuid "5ccf0862-29af-44db-8b32-2f4da23337e8")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 228.6 121.92 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "df161a43-fbfa-492b-a8ce-018f887b3300")
+		(property "Reference" "J5"
+			(at 231.14 119.38 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BRICK B in"
+			(at 231.14 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 228.6 121.92 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 228.6 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 228.6 121.92 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "a65f6cf2-78ed-4530-9be9-305e760daba7")
+		)
+		(pin "2"
+			(uuid "63018d96-8d55-4d08-96a2-bac18f70cfca")
+		)
+		(pin "3"
+			(uuid "b56ded85-3aed-4f8f-b0ec-8ddb160c9992")
+		)
+		(pin "5"
+			(uuid "c2664e1d-5fe9-4e48-941d-53b04c9bfd3f")
+		)
+		(pin "6"
+			(uuid "95a284f8-4806-4f35-9c2a-17ef2f408286")
+		)
+		(pin "4"
+			(uuid "d2950252-f0cb-4866-9103-8b3a3d386f1b")
+		)
+		(instances)
+	)
+	(symbol
+		(lib_id "jfox:Conn_01x06")
+		(at 228.6 76.2 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "ed3b75bc-6a06-4180-b6ee-b71c8ec90dd3")
+		(property "Reference" "J4"
+			(at 231.14 73.66 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "BRICK A in"
+			(at 231.14 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical"
+			(at 228.6 76.2 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 228.6 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" ""
+			(at 228.6 76.2 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "fe7340b1-da02-4c80-a927-bade6524a73a")
+		)
+		(pin "2"
+			(uuid "ed8eb60f-8b1b-4b9d-8732-b3a06cd18e45")
+		)
+		(pin "4"
+			(uuid "6598f17e-b56c-4931-8a24-4c8378265ab0")
+		)
+		(pin "3"
+			(uuid "9918f6a0-e8a7-470a-8cb4-31a6e3f2936a")
+		)
+		(pin "5"
+			(uuid "e9720665-46c7-42a9-9b1a-174082979ecd")
+		)
+		(pin "6"
+			(uuid "3fda30ff-4b5e-4a2c-9d4a-e7ff4b6334b8")
+		)
+		(instances)
+	)
 )

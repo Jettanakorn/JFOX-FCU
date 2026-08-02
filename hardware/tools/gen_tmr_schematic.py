@@ -366,6 +366,13 @@ def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
         "three boards genuinely share those nets. Power and servo signals are\\n"
         "hierarchical pins so each board's stay separate - which is the entire point.",
         25.4, 20.32))
+    body.append(text_note(
+        "THIS PROJECT HAS NO PCB, ON PURPOSE.\\n"
+        "'Switch to PCB Editor' will offer to create one - say no. The three FMU\\n"
+        "modules are separately manufactured boards, not parts to be placed; a board\\n"
+        "made from this schematic would try to lay out ~885 components.\\n"
+        "The PCB is the carrier alone: open hardware/carrier/carrier.kicad_pro.",
+        25.4, 45.72))
 
     page = 2
     for i, b in enumerate(BOARDS):
@@ -528,6 +535,25 @@ def build_sym_lib_table(with_fmu=False):
     return "(sym_lib_table\n  (version 7)\n" + "\n".join(libs) + "\n)\n"
 
 
+def upgrade(paths):
+    """Rewrite generated schematics in the installed KiCad's own format."""
+    import os
+    import shutil
+    import subprocess
+    cli = shutil.which("kicad-cli") or next(
+        (str(c) for c in (
+            Path(os.environ.get("LOCALAPPDATA", ""))
+            / "Programs/KiCad/10.0/bin/kicad-cli.exe",
+            Path("C:/Program Files/KiCad/10.0/bin/kicad-cli.exe"),
+        ) if c.exists()), None)
+    if not cli:
+        print("  (kicad-cli not found - skipping format upgrade)")
+        return
+    for p in paths:
+        subprocess.run([cli, "sch", "upgrade", str(p)],
+                       check=True, capture_output=True, text=True)
+
+
 def main():
     HW.mkdir(parents=True, exist_ok=True)
 
@@ -575,6 +601,13 @@ def main():
              HW / "sym-lib-table",
              car / "carrier.kicad_sch", car / "carrier.kicad_pro",
              car / "jfox.kicad_sym", car / "sym-lib-table"]
+    # Normalise to the format the installed KiCad writes. These files are
+    # emitted in KiCad 7 syntax (that being the version there are real
+    # reference files for), and KiCad rewrites them on first open - which made
+    # merely *opening* the project show sixteen modified files. Upgrading here
+    # means opening changes nothing.
+    upgrade([HW / f"{PROJECT}.kicad_sch", car / "carrier.kicad_sch"])
+
     for path in list(files) + extra:
         print(f"  wrote {path.relative_to(REPO)} ({path.stat().st_size} bytes)")
     if problems:

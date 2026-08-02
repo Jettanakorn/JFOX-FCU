@@ -1,299 +1,759 @@
-(kicad_sch (version 20230819) (generator eeschema)
-
-  (uuid 0aa4df91-bba1-44a5-8b0f-5997e6fd590b)
-
-  (paper "A3")
-
-  (lib_symbols
-
-  )
-
-  (text "JFOX-FCU - 3-board TMR system.\\nFMU-A/B/C are three instances of ONE sheet (fmu-v2/). Editing it\\nedits all three; KiCad keeps their reference designators distinct via the\\nper-instance paths. CAN_H/CAN_L/GND/SAFETY are global labels because all\\nthree boards genuinely share those nets. Power and servo signals are\\nhierarchical pins so each board's stay separate - which is the entire point." (at 25.4 20.32 0)
-    (effects (font (size 1.27 1.27)) (justify left top))
-    (uuid e4c0d7f5-33cd-45b9-8367-def887ddaa87)
-  )
-  (sheet (at 38.1 76.2) (size 55.88 12.7) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid e60533ea-d97a-466f-964f-8bd9159a815b)
-    (property "Sheetname" "FMU-A" (at 38.1 75.4884 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch" (at 38.1 89.4846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "VDD_5V_BRICK" passive (at 38.1 78.74 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 75b702f8-85a7-4547-a976-6f38cc84cd62)
-    )
-    (pin "BATT_CURRENT_SENS" output (at 38.1 81.28 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid d6dc2b4a-f9a7-4c32-8d78-962c75314267)
-    )
-    (pin "BATT_VOLTAGE_SENS" output (at 38.1 83.82 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 0dd43138-a6e2-4d8e-8c5d-02fd298303ed)
-    )
-    (instances
-      (project "jfox-tmr"
-        (path "/0aa4df91-bba1-44a5-8b0f-5997e6fd590b" (page "2"))
-      )
-    )
-  )
-  (wire (pts (xy 38.1 78.74000000000001) (xy 30.48 78.74000000000001))
-    (stroke (width 0) (type default))
-    (uuid 1ba0e380-f3e0-4362-85bc-0618973695ae)
-  )
-  (label "VBRICK_A" (at 30.48 78.74000000000001 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 88be700e-dacf-424f-b6bf-f8f2312d98d7)
-  )
-  (wire (pts (xy 38.1 81.28000000000002) (xy 30.48 81.28000000000002))
-    (stroke (width 0) (type default))
-    (uuid a88df47e-0963-4b7e-ae24-763ee2a24320)
-  )
-  (label "BATT_I_A" (at 30.48 81.28000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 2b007020-27fb-4be1-9e53-45850920dd69)
-  )
-  (wire (pts (xy 38.1 83.82000000000002) (xy 30.48 83.82000000000002))
-    (stroke (width 0) (type default))
-    (uuid 1143154e-471a-4760-b769-f02362c740ae)
-  )
-  (label "BATT_V_A" (at 30.48 83.82000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid f8ed07d5-c857-4ee2-9fad-3f1c1f8d7c6b)
-  )
-  (sheet (at 127.0 76.2) (size 55.88 12.7) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid f689cd5d-992a-4b14-94a6-061caa506edc)
-    (property "Sheetname" "FMU-B" (at 127.0 75.4884 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch" (at 127.0 89.4846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "VDD_5V_BRICK" passive (at 127.0 78.74 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 48c55d10-6092-4e69-95fa-a0adb76daf4d)
-    )
-    (pin "BATT_CURRENT_SENS" output (at 127.0 81.28 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 8655361a-09a2-46ae-840a-033ed01a5891)
-    )
-    (pin "BATT_VOLTAGE_SENS" output (at 127.0 83.82 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 6e053a54-af00-4ed1-a0c4-6512a3fc48d6)
-    )
-    (instances
-      (project "jfox-tmr"
-        (path "/0aa4df91-bba1-44a5-8b0f-5997e6fd590b" (page "3"))
-      )
-    )
-  )
-  (wire (pts (xy 127.0 78.74000000000001) (xy 119.38 78.74000000000001))
-    (stroke (width 0) (type default))
-    (uuid 778eb309-bac6-453b-9464-3f0c660ebad6)
-  )
-  (label "VBRICK_B" (at 119.38 78.74000000000001 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid b3ec8395-f25a-4acf-b94b-5cef5c56d30b)
-  )
-  (wire (pts (xy 127.0 81.28000000000002) (xy 119.38 81.28000000000002))
-    (stroke (width 0) (type default))
-    (uuid c0af14d6-d167-4155-bc3a-baf7b29824bc)
-  )
-  (label "BATT_I_B" (at 119.38 81.28000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid f9afd842-9bad-4075-ad19-d2a3b4198430)
-  )
-  (wire (pts (xy 127.0 83.82000000000002) (xy 119.38 83.82000000000002))
-    (stroke (width 0) (type default))
-    (uuid f6093c9f-ab8d-431e-a4da-8a6b88fe7b28)
-  )
-  (label "BATT_V_B" (at 119.38 83.82000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 9e115a82-1bf1-446c-9fa1-0e8a36c9b50e)
-  )
-  (sheet (at 215.9 76.2) (size 55.88 12.7) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid 5cb36ebb-ac06-4b34-afa1-d1a1c849474a)
-    (property "Sheetname" "FMU-C" (at 215.9 75.4884 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch" (at 215.9 89.4846 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "VDD_5V_BRICK" passive (at 215.9 78.74 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid d665c56f-32fb-4479-bc9c-61b941f8db3b)
-    )
-    (pin "BATT_CURRENT_SENS" output (at 215.9 81.28 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 60b18cc5-7a63-471b-9c94-ebcb61aa9896)
-    )
-    (pin "BATT_VOLTAGE_SENS" output (at 215.9 83.82 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid dcd0fbc6-8b92-4077-a955-010d8cbe3a08)
-    )
-    (instances
-      (project "jfox-tmr"
-        (path "/0aa4df91-bba1-44a5-8b0f-5997e6fd590b" (page "4"))
-      )
-    )
-  )
-  (wire (pts (xy 215.9 78.74000000000001) (xy 208.28 78.74000000000001))
-    (stroke (width 0) (type default))
-    (uuid fb985e71-9f85-4e43-bb56-974beb8e15e4)
-  )
-  (label "VBRICK_C" (at 208.28 78.74000000000001 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 2f554157-759a-4662-9246-7c7bf0eda174)
-  )
-  (wire (pts (xy 215.9 81.28000000000002) (xy 208.28 81.28000000000002))
-    (stroke (width 0) (type default))
-    (uuid 958440bc-1ba0-4805-a193-8c72586bafb4)
-  )
-  (label "BATT_I_C" (at 208.28 81.28000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 7c68a9c3-0fd7-426d-805b-f58e5def5e29)
-  )
-  (wire (pts (xy 215.9 83.82000000000002) (xy 208.28 83.82000000000002))
-    (stroke (width 0) (type default))
-    (uuid f7a091c1-c722-432a-bf60-65c2aec8f934)
-  )
-  (label "BATT_V_C" (at 208.28 83.82000000000002 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 87b156e2-fefa-4422-adc7-d1ced665a568)
-  )
-  (sheet (at 38.1 190.5) (size 76.2 27.94) (fields_autoplaced)
-    (stroke (width 0.1524) (type solid))
-    (fill (color 0 0 0 0.0000))
-    (uuid dba17893-ba60-43f5-bc78-321fb2425c4c)
-    (property "Sheetname" "CARRIER" (at 38.1 189.7884 0)
-      (effects (font (size 1.27 1.27)) (justify left bottom))
-    )
-    (property "Sheetfile" "carrier.kicad_sch" (at 38.1 219.0246 0)
-      (effects (font (size 1.27 1.27)) (justify left top))
-    )
-    (pin "VBRICK_A" passive (at 38.1 193.04 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid d6013eb2-2adb-4df2-8f31-0e41e7135bad)
-    )
-    (pin "VBRICK_B" passive (at 38.1 195.58 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 7cd87d6e-bdf3-4648-9d60-08c644b0cd05)
-    )
-    (pin "VBRICK_C" passive (at 38.1 198.12 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 309d9dcf-ed58-43ef-94ad-32ed20543b57)
-    )
-    (pin "BATT_V_A" input (at 38.1 200.66 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 851c3646-c5e4-4e07-8ec7-18d5e9be3c5a)
-    )
-    (pin "BATT_V_B" input (at 38.1 203.2 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 0b8af0af-1134-4976-8640-33e851e73bdb)
-    )
-    (pin "BATT_V_C" input (at 38.1 205.74 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid fe7311b9-a11f-4b42-b570-ce8d5ce84acd)
-    )
-    (pin "BATT_I_A" input (at 38.1 208.28 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 8e87dee1-a1af-44fa-a2af-bb2dace7cc73)
-    )
-    (pin "BATT_I_B" input (at 38.1 210.82 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 057c2c54-33d8-44fd-ba58-a977bbc65e15)
-    )
-    (pin "BATT_I_C" input (at 38.1 213.36 180)
-      (effects (font (size 1.27 1.27)) (justify right))
-      (uuid 70451cd1-8e21-49c4-b806-cd98aece9380)
-    )
-    (instances
-      (project "jfox-tmr"
-        (path "/0aa4df91-bba1-44a5-8b0f-5997e6fd590b" (page "5"))
-      )
-    )
-  )
-  (wire (pts (xy 38.1 193.04) (xy 30.48 193.04))
-    (stroke (width 0) (type default))
-    (uuid 24a6e7c9-bd85-4163-8614-5858027ba7f1)
-  )
-  (label "VBRICK_A" (at 30.48 193.04 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 086688e3-0576-46d0-8529-69e94234382f)
-  )
-  (wire (pts (xy 38.1 195.57999999999998) (xy 30.48 195.57999999999998))
-    (stroke (width 0) (type default))
-    (uuid 161bf6b6-dd93-4b40-aa39-85633c206091)
-  )
-  (label "VBRICK_B" (at 30.48 195.57999999999998 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 83df3a8f-2846-4896-b30f-9713b4dbc0fe)
-  )
-  (wire (pts (xy 38.1 198.11999999999998) (xy 30.48 198.11999999999998))
-    (stroke (width 0) (type default))
-    (uuid 8c8df8d3-b490-4856-b6de-98cf8b81d46c)
-  )
-  (label "VBRICK_C" (at 30.48 198.11999999999998 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid b4b4e6e9-9723-4eaf-97d8-608d156ea406)
-  )
-  (wire (pts (xy 38.1 200.65999999999997) (xy 30.48 200.65999999999997))
-    (stroke (width 0) (type default))
-    (uuid 22e2aec6-1ced-490b-9b83-b3e4708a6620)
-  )
-  (label "BATT_V_A" (at 30.48 200.65999999999997 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 4a935f66-d6a6-45d8-988f-f4666642e9e2)
-  )
-  (wire (pts (xy 38.1 203.19999999999996) (xy 30.48 203.19999999999996))
-    (stroke (width 0) (type default))
-    (uuid 399bffbe-bd54-496c-add6-f600390c09e0)
-  )
-  (label "BATT_V_B" (at 30.48 203.19999999999996 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid f5a0d6db-4143-4986-91a1-e0d03dbcdda7)
-  )
-  (wire (pts (xy 38.1 205.73999999999995) (xy 30.48 205.73999999999995))
-    (stroke (width 0) (type default))
-    (uuid 60900104-13ee-4ad8-9a13-816bd6d28d53)
-  )
-  (label "BATT_V_C" (at 30.48 205.73999999999995 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 5ca7aa96-7640-4573-9d10-5c3052c959b3)
-  )
-  (wire (pts (xy 38.1 208.27999999999994) (xy 30.48 208.27999999999994))
-    (stroke (width 0) (type default))
-    (uuid cc02e2b5-aa29-4b4c-9486-b1881b3e4067)
-  )
-  (label "BATT_I_A" (at 30.48 208.27999999999994 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 5fae60bd-b5f9-44b2-8e0c-ac3da4540ef4)
-  )
-  (wire (pts (xy 38.1 210.81999999999994) (xy 30.48 210.81999999999994))
-    (stroke (width 0) (type default))
-    (uuid cd58ae2a-648c-45c6-b6ad-5d9b7ccfe6eb)
-  )
-  (label "BATT_I_B" (at 30.48 210.81999999999994 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid cc51f583-7346-43a6-88a9-e4d796a5536f)
-  )
-  (wire (pts (xy 38.1 213.35999999999993) (xy 30.48 213.35999999999993))
-    (stroke (width 0) (type default))
-    (uuid d9612d7f-e9a0-4083-a534-02bae35ef859)
-  )
-  (label "BATT_I_C" (at 30.48 213.35999999999993 180)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid fa2b70c0-36d3-4287-9f0e-946fb345b011)
-  )
-
-  (sheet_instances
-    (path "/" (page "1"))
-  )
+(kicad_sch
+	(version 20260306)
+	(generator "eeschema")
+	(generator_version "10.0")
+	(uuid "e3d7d19a-c559-49f6-89bb-a0580e4d3523")
+	(paper "A3")
+	(lib_symbols)
+	(text "JFOX-FCU - 3-board TMR system.\\nFMU-A/B/C are three instances of ONE sheet (fmu-v2/). Editing it\\nedits all three; KiCad keeps their reference designators distinct via the\\nper-instance paths. CAN_H/CAN_L/GND/SAFETY are global labels because all\\nthree boards genuinely share those nets. Power and servo signals are\\nhierarchical pins so each board's stay separate - which is the entire point."
+		(exclude_from_sim no)
+		(at 25.4 20.32 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "5c372844-4bae-48d7-906a-ffcf0cca9b7a")
+	)
+	(text "THIS PROJECT HAS NO PCB, ON PURPOSE.\\n'Switch to PCB Editor' will offer to create one - say no. The three FMU\\nmodules are separately manufactured boards, not parts to be placed; a board\\nmade from this schematic would try to lay out ~885 components.\\nThe PCB is the carrier alone: open hardware/carrier/carrier.kicad_pro."
+		(exclude_from_sim no)
+		(at 25.4 45.72 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left top)
+		)
+		(uuid "e70dfe1d-2efb-47cf-b5f9-70904a4ade8f")
+	)
+	(wire
+		(pts
+			(xy 215.9 83.82) (xy 208.28 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f32d074-824c-42cf-b24e-d4e8a525a8e3")
+	)
+	(wire
+		(pts
+			(xy 38.1 81.28) (xy 30.48 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0fa9d186-7fad-46e2-b81b-007509ca84e3")
+	)
+	(wire
+		(pts
+			(xy 38.1 195.58) (xy 30.48 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "17c7e18b-81b8-47af-ba08-3b9290527eba")
+	)
+	(wire
+		(pts
+			(xy 38.1 193.04) (xy 30.48 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "29b7f859-70f9-4fda-a013-01438fa5fac4")
+	)
+	(wire
+		(pts
+			(xy 38.1 208.28) (xy 30.48 208.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a56688b-2416-4ed4-9d6b-29f7e85ccb69")
+	)
+	(wire
+		(pts
+			(xy 38.1 205.74) (xy 30.48 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "480b11e0-6fbe-4a41-91a6-9ae18ff3da5b")
+	)
+	(wire
+		(pts
+			(xy 215.9 81.28) (xy 208.28 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "566438bb-1bab-44ce-97dd-e5e1a274869f")
+	)
+	(wire
+		(pts
+			(xy 215.9 78.74) (xy 208.28 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f852e40-1ca0-4ce2-a69a-4e7653c2dc53")
+	)
+	(wire
+		(pts
+			(xy 127 83.82) (xy 119.38 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "98e5d3bc-e80e-4f61-89de-0d6392f7c8ec")
+	)
+	(wire
+		(pts
+			(xy 38.1 213.36) (xy 30.48 213.36)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9a55fec3-ba69-41f9-84c6-6af1ca338c16")
+	)
+	(wire
+		(pts
+			(xy 38.1 78.74) (xy 30.48 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ac07ad02-52b4-4628-991b-5fe128d54b05")
+	)
+	(wire
+		(pts
+			(xy 127 78.74) (xy 119.38 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3747579-1ae1-47ec-a190-dbc7d165d018")
+	)
+	(wire
+		(pts
+			(xy 38.1 203.2) (xy 30.48 203.2)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dab4495e-074d-4a28-84a8-1f6cd2e0cdec")
+	)
+	(wire
+		(pts
+			(xy 38.1 83.82) (xy 30.48 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dbb9fa8e-2cfa-44b6-87d1-2b2832c0b0c7")
+	)
+	(wire
+		(pts
+			(xy 127 81.28) (xy 119.38 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e00221ae-dace-4c00-8fb3-bde080e31d9d")
+	)
+	(wire
+		(pts
+			(xy 38.1 200.66) (xy 30.48 200.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f261959d-cb2b-4f41-9709-7deac0d5b606")
+	)
+	(wire
+		(pts
+			(xy 38.1 210.82) (xy 30.48 210.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f9786484-85f0-4aac-89a9-960b48fea0a0")
+	)
+	(wire
+		(pts
+			(xy 38.1 198.12) (xy 30.48 198.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fa7f4f0e-b31d-46dc-89b5-a2aea8d811bc")
+	)
+	(label "VBRICK_B"
+		(at 30.48 195.58 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "07211988-3d9d-4aad-84a8-00df7bee7d62")
+	)
+	(label "BATT_I_B"
+		(at 30.48 210.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "0d617bb5-1956-432b-bd4b-15be3a6ad665")
+	)
+	(label "BATT_I_A"
+		(at 30.48 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "37fcc153-bd25-42f8-9317-66dd1b48334a")
+	)
+	(label "BATT_V_B"
+		(at 119.38 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "392fee7c-c6c4-46fb-a443-743b177e0fe5")
+	)
+	(label "BATT_V_C"
+		(at 208.28 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "4a9fafda-611c-45e2-ad1d-999ab1dfce70")
+	)
+	(label "BATT_V_A"
+		(at 30.48 83.82 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "65d6d376-eba2-4485-bb53-bd4a05e468f3")
+	)
+	(label "BATT_I_A"
+		(at 30.48 208.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "836e96dd-f5e7-4914-9981-05b87839f940")
+	)
+	(label "VBRICK_A"
+		(at 30.48 193.04 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "89c7d366-a97b-4a65-84cf-2855ed5ad993")
+	)
+	(label "BATT_I_C"
+		(at 208.28 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8e38b73b-12bd-4f16-91f2-bd9686cd1f51")
+	)
+	(label "BATT_V_B"
+		(at 30.48 203.2 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "8fb0f69e-7df7-4628-bf63-8f5138bdc782")
+	)
+	(label "BATT_V_A"
+		(at 30.48 200.66 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9d54cd5a-9de9-463d-a063-65bdb0783ec6")
+	)
+	(label "BATT_I_C"
+		(at 30.48 213.36 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "9e35d0d4-ab95-413c-b445-4f1d9f787c49")
+	)
+	(label "VBRICK_C"
+		(at 208.28 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "ae09a16e-4c1c-4d97-b216-ed69dea66173")
+	)
+	(label "VBRICK_A"
+		(at 30.48 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "b91f22e3-5528-4438-adfe-111b6348d070")
+	)
+	(label "VBRICK_C"
+		(at 30.48 198.12 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "bbbf309b-ef35-4280-92bf-3d508998e139")
+	)
+	(label "BATT_I_B"
+		(at 119.38 81.28 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "c3afb3a2-a040-4a84-82c1-27044fd067ee")
+	)
+	(label "BATT_V_C"
+		(at 30.48 205.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "d8f48bf0-54d4-4ec8-8367-2b4ddf1f3cde")
+	)
+	(label "VBRICK_B"
+		(at 119.38 78.74 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left bottom)
+		)
+		(uuid "dd35ceaf-9420-4132-b0c3-e32992725254")
+	)
+	(sheet
+		(at 127 76.2)
+		(size 55.88 12.7)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "09797f84-d144-412a-a8dd-e020267ddc53")
+		(property "Sheetname" "FMU-B"
+			(at 127 75.4884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch"
+			(at 127 89.4846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "VDD_5V_BRICK" passive
+			(at 127 78.74 180)
+			(uuid "bb82d94e-32fd-4aa5-bdac-91537f33c212")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_CURRENT_SENS" output
+			(at 127 81.28 180)
+			(uuid "cd26d763-1826-49b0-a00b-c49819fe4bad")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_VOLTAGE_SENS" output
+			(at 127 83.82 180)
+			(uuid "2026a1ed-6039-4df9-9a2f-cd36a38d32ab")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "jfox-tmr"
+				(path "/e3d7d19a-c559-49f6-89bb-a0580e4d3523"
+					(page "3")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 38.1 190.5)
+		(size 76.2 27.94)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "2c951f10-3ddd-4aa7-8a49-2b7ec7ea3a81")
+		(property "Sheetname" "CARRIER"
+			(at 38.1 189.7884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "carrier.kicad_sch"
+			(at 38.1 219.0246 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "VBRICK_A" passive
+			(at 38.1 193.04 180)
+			(uuid "ed3a476f-7d48-4aab-bb2d-0a621504ad0b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "VBRICK_B" passive
+			(at 38.1 195.58 180)
+			(uuid "c63ee267-844c-45b3-8544-e76d6527dd4b")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "VBRICK_C" passive
+			(at 38.1 198.12 180)
+			(uuid "6bd41309-cdd1-40e1-a503-d4ae5df3f792")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_V_A" input
+			(at 38.1 200.66 180)
+			(uuid "5610cf58-1b63-4bed-979c-ba1763320a73")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_V_B" input
+			(at 38.1 203.2 180)
+			(uuid "09739b6f-d357-40bc-8bc5-63bfd9cd8476")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_V_C" input
+			(at 38.1 205.74 180)
+			(uuid "7102aa20-d683-4ba6-8a6c-24958a0565ae")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_I_A" input
+			(at 38.1 208.28 180)
+			(uuid "1b49b2e6-89b3-46ab-a7bf-bbab2bb2bbb5")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_I_B" input
+			(at 38.1 210.82 180)
+			(uuid "f4a9cad7-a101-4e9b-969b-74e8aab467fc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_I_C" input
+			(at 38.1 213.36 180)
+			(uuid "ee42b987-c608-4313-8000-9209c9a2f050")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "jfox-tmr"
+				(path "/e3d7d19a-c559-49f6-89bb-a0580e4d3523"
+					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 38.1 76.2)
+		(size 55.88 12.7)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "60909698-2b59-4271-80bd-f18b2e4caa80")
+		(property "Sheetname" "FMU-A"
+			(at 38.1 75.4884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch"
+			(at 38.1 89.4846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "VDD_5V_BRICK" passive
+			(at 38.1 78.74 180)
+			(uuid "3f414931-2050-41d9-8ef2-ad27e37b41eb")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_CURRENT_SENS" output
+			(at 38.1 81.28 180)
+			(uuid "ea93d753-657d-4504-a793-4f6ec4fae3a4")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_VOLTAGE_SENS" output
+			(at 38.1 83.82 180)
+			(uuid "4df4049b-66a6-4bed-9a41-30fb145689a3")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "jfox-tmr"
+				(path "/e3d7d19a-c559-49f6-89bb-a0580e4d3523"
+					(page "2")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 215.9 76.2)
+		(size 55.88 12.7)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(stroke
+			(width 0.1524)
+			(type solid)
+		)
+		(fill
+			(color 0 0 0 0)
+		)
+		(uuid "6d56fa4b-6375-4281-bbd8-efc8c79b2927")
+		(property "Sheetname" "FMU-C"
+			(at 215.9 75.4884 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left bottom)
+			)
+		)
+		(property "Sheetfile" "fmu-v2/fmu-v2.kicad_sch"
+			(at 215.9 89.4846 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left top)
+			)
+		)
+		(pin "VDD_5V_BRICK" passive
+			(at 215.9 78.74 180)
+			(uuid "a769dac6-55c5-49bd-98a0-a1cc821731dc")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_CURRENT_SENS" output
+			(at 215.9 81.28 180)
+			(uuid "2d1a9194-e0d9-4cff-8344-a133d991b21a")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(pin "BATT_VOLTAGE_SENS" output
+			(at 215.9 83.82 180)
+			(uuid "ba5b4942-849c-49aa-8f66-cbaa721b2e31")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+		(instances
+			(project "jfox-tmr"
+				(path "/e3d7d19a-c559-49f6-89bb-a0580e4d3523"
+					(page "4")
+				)
+			)
+		)
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
 )

@@ -123,7 +123,12 @@ def rewrite(text, fmu_instances, page_uuid):
         unit = re.search(r'\(unit (\d+)\)', m.group(1))
         if not ref:
             continue
-        base, u = ref.group(1), unit.group(1) if unit else "1"
+        # Strip any suffix a previous run added, or re-running stacks them:
+        # C1102 -> C1102A -> C1102AA -> C1102AAA. Only trailing board letters
+        # directly after a digit are removed, and every designator in this
+        # design ends in a digit before its suffix.
+        base = re.sub(r'(?<=\d)[ABC]+$', "", ref.group(1))
+        u = unit.group(1) if unit else "1"
         block = ['\t\t(instances', '\t\t\t(project "jfox-tmr"']
         for (name, fmu_path), b in zip(fmu_instances, BOARDS):
             block += [f'\t\t\t\t(path "{fmu_path}/{page_uuid}"',

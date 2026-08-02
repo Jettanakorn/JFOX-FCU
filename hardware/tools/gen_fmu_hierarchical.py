@@ -32,8 +32,10 @@ Run (after repair_import_hierarchy.py):
   python hardware/tools/gen_fmu_hierarchical.py
 """
 
+import os
 import re
 import shutil
+import stat
 import sys
 import uuid as _uuid
 from pathlib import Path
@@ -237,7 +239,13 @@ def main():
     single = {n for n, ps in pages.items() if len(ps) == 1 and n not in SHARED}
 
     if DST.exists():
-        shutil.rmtree(DST)
+        # KiCad's Local History feature drops a git repo in the project
+        # directory, and git marks its objects read-only, which makes a plain
+        # rmtree fail with EACCES on Windows. Clear the bit and retry.
+        def force(func, path, _exc):
+            os.chmod(path, stat.S_IWRITE)
+            func(path)
+        shutil.rmtree(DST, onexc=force)
     DST.mkdir(parents=True)
 
     pins_per_page = {p: set() for p in PAGES}

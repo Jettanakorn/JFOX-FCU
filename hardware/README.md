@@ -54,6 +54,22 @@ Order matters: `annotate_tmr_instances.py` reads sheet UUIDs that
 (On this machine `python` on `PATH` is the Microsoft Store stub — use
 `C:\Users\Jetta\AppData\Local\Programs\Python\Python312\python.exe`.)
 
+## Two projects, and why
+
+| Project | What it is | Has a PCB? |
+|---|---|---|
+| `jfox-tmr.kicad_pro` | The **system** schematic — three FMU modules + the carrier, showing how the array is wired | **No, deliberately** |
+| `carrier/carrier.kicad_pro` | The **board** — the only new hardware here | Yes |
+
+Opening `jfox-tmr` and clicking **Switch to PCB Editor** pops up *"file does
+not exist"* and offers to create one. **Say no.** That project has no board on
+purpose: the three FMU modules are separately manufactured hardware, not parts
+to be placed. A board made from that schematic would try to lay out ~885
+components — three copies of a board that already exists. The same warning is
+printed on the schematic's own root sheet.
+
+The PCB is the carrier alone. Open `hardware/carrier/carrier.kicad_pro`.
+
 ## The TMR project
 
 `jfox-tmr.kicad_sch` is the root. It instantiates **one** sheet file
