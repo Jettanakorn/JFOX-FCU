@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e")
+	(uuid "6dc65fd0-2e69-44c8-a8ee-50ac93ad6359")
 	(paper "A2")
 	(lib_symbols
 	(symbol "jfox-fmu:ICM-42688-P"
@@ -1089,14 +1089,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "1ccaa53e-b14e-430f-966f-f3c4d1a3123a")
+		(uuid "1be3bdc1-ed48-408e-8522-c4146c0b61b7")
 	)
 	(symbol
 		(lib_id "jfox-fmu:ICM-42688-P")
 		(at 63.5 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "6196a720-1aba-4cf2-86c1-9f8ee3341b67")
+		(uuid "eba9e54c-7aea-4022-828a-8471aff86093")
 		(property "Reference" "U1"
 			(at 63.5 51.5 0)
 			(effects
@@ -1115,7 +1115,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e"
+				(path "/6dc65fd0-2e69-44c8-a8ee-50ac93ad6359"
 					(reference "U1")
 					(unit 1)
 				)
@@ -1130,7 +1130,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2d5f9f1b-4ea1-4dcc-8ed5-b2d798d9b517")
+		(uuid "b2818d15-e734-4f8e-b57d-1cbb52f9f236")
 	)
 	(global_label "SPI2_SCK"
 		(shape bidirectional)
@@ -1142,7 +1142,7 @@
 			)
 			(justify left)
 		)
-		(uuid "0c1b10c2-297d-46af-89b1-ac762a2488db")
+		(uuid "19dfc723-6bee-4096-9053-406dc9bcd72c")
 	)
 	(wire
 		(pts
@@ -1152,7 +1152,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "691ed23d-b968-4d2a-b0b1-69a2ace174f6")
+		(uuid "1bbab897-4d3f-49a4-82e5-a435d1b64a9a")
 	)
 	(global_label "SPI2_MOSI"
 		(shape bidirectional)
@@ -1164,7 +1164,7 @@
 			)
 			(justify left)
 		)
-		(uuid "dfdd9864-1bf2-4011-9d51-d0c29cf41579")
+		(uuid "7d01f06b-7e47-49f3-a4f1-f656230ced27")
 	)
 	(wire
 		(pts
@@ -1174,7 +1174,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6ad36ac7-785b-48a9-8d9c-2dbb1b4da036")
+		(uuid "e415c988-aaa7-4396-ab2b-fae216e5fa63")
 	)
 	(global_label "IMU2_CS"
 		(shape bidirectional)
@@ -1186,7 +1186,7 @@
 			)
 			(justify left)
 		)
-		(uuid "41ce31dd-c2d6-4f01-81bf-d6ee3ed945cd")
+		(uuid "40c3085f-3aff-48f7-8b03-36d381c4e697")
 	)
 	(wire
 		(pts
@@ -1196,7 +1196,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e0cc1c3b-0d53-40ee-a385-08ecee5249c3")
+		(uuid "cc9f57d9-49aa-47b2-978e-d53173272198")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1208,7 +1208,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4e909415-85d4-4eaf-b887-a9df2e13857e")
+		(uuid "882dcc69-6dd8-4693-b19f-de6c7c69b008")
 	)
 	(wire
 		(pts
@@ -1218,7 +1218,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0f8c2401-6dfe-4a0d-904d-bc380383a022")
+		(uuid "35925277-6f3a-4df7-beaa-3b02b046693f")
 	)
 	(global_label "SPI2_MISO"
 		(shape bidirectional)
@@ -1230,7 +1230,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f3b92da9-1fac-404f-a0af-b1c5c63d06d5")
+		(uuid "2a37028f-9bf1-490e-b86b-7c330c8be32b")
 	)
 	(wire
 		(pts
@@ -1240,7 +1240,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "55003a08-3951-454b-a7f8-efef47f675e5")
+		(uuid "7f72acee-6a49-480f-9c6f-edef834418d5")
 	)
 	(global_label "IMU2_DRDY"
 		(shape bidirectional)
@@ -1252,7 +1252,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ce98134f-9580-430f-beef-e780a919ca96")
+		(uuid "af5b62b0-9791-45be-9644-d62c9a9d00a8")
 	)
 	(wire
 		(pts
@@ -1262,7 +1262,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "249e91d4-4e3f-44ee-ad10-36c664dcc3b1")
+		(uuid "029c50e3-b586-4c52-936a-dc7b856ab6eb")
 	)
 	(global_label "+3V3_IMU2"
 		(shape input)
@@ -1274,7 +1274,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e50dcb0b-baad-4c88-a091-04052a07c6a7")
+		(uuid "43a7c1fd-f8d1-438c-bf55-562d562f4763")
 	)
 	(wire
 		(pts
@@ -1284,7 +1284,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "58d39974-9064-4774-8975-3f0f259f3b90")
+		(uuid "281cfacb-6c3e-49a5-83a6-3238386bc97a")
 	)
 	(global_label "+3V3_IMU2"
 		(shape input)
@@ -1296,7 +1296,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6adb8810-7a66-4a0b-b36e-746b9822727b")
+		(uuid "4bb27605-fb43-453e-a649-81f43ed41f3f")
 	)
 	(wire
 		(pts
@@ -1306,7 +1306,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a52ae618-6a28-46c2-8859-5b105d204b5e")
+		(uuid "d6debf7e-6e29-42ff-b81d-e07f4ba09b69")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1318,7 +1318,7 @@
 			)
 			(justify left)
 		)
-		(uuid "0f0ba54a-11f2-4893-8d5d-9362ca48b0fb")
+		(uuid "901de347-f18d-4f4e-a469-cc7abe7ff955")
 	)
 	(wire
 		(pts
@@ -1328,7 +1328,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8efa99ec-4081-482c-b89c-4107f121612a")
+		(uuid "f7897295-4069-4318-8096-1660d4a7c69e")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1340,7 +1340,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4873a75a-551b-4298-bd40-1c4935fedab2")
+		(uuid "2e2aa254-3b6a-4038-9bf2-0081125cf6ef")
 	)
 	(wire
 		(pts
@@ -1350,7 +1350,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7f3546ec-7d46-4fab-8761-bc8cadb5c246")
+		(uuid "2bb773a5-ecf2-4fa0-903d-597272d2bd9e")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1362,7 +1362,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ce8481df-c1c7-48bc-bbea-1133b48666e8")
+		(uuid "467999b0-7ed4-43d8-b8eb-3702812075dc")
 	)
 	(text "U1  SPI2  rail +3V3_IMU2"
 		(at 51.5 41.5 0)
@@ -1372,14 +1372,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "bc1c046b-37c4-4768-aab3-9c3d29189fa9")
+		(uuid "cb95f86e-d67c-412c-b874-77a5b87fcf07")
 	)
 	(symbol
 		(lib_id "jfox-fmu:ICM-45686")
 		(at 139.7 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "e9336d97-5bbf-4574-8d57-71f4c245be52")
+		(uuid "b90358d9-de00-4e8f-9b9f-1acdd362c13c")
 		(property "Reference" "U2"
 			(at 139.7 127.7 0)
 			(effects
@@ -1398,7 +1398,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e"
+				(path "/6dc65fd0-2e69-44c8-a8ee-50ac93ad6359"
 					(reference "U2")
 					(unit 1)
 				)
@@ -1413,7 +1413,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5447d17d-3223-4a9e-9725-8ed1fe3c1b4c")
+		(uuid "aae76e11-bd84-4293-8d68-8cf79ff1adae")
 	)
 	(global_label "SPI6_SCK"
 		(shape bidirectional)
@@ -1425,7 +1425,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ab7f3378-5305-4bb0-8afb-ec0b66654bad")
+		(uuid "a4bada7d-6344-47fb-9173-d9c141c54873")
 	)
 	(wire
 		(pts
@@ -1435,7 +1435,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b06da815-53b7-4b92-bf37-7d8ecba766e8")
+		(uuid "28cdf536-b911-4c4a-8e81-08fec8505f6a")
 	)
 	(global_label "SPI6_MOSI"
 		(shape bidirectional)
@@ -1447,7 +1447,7 @@
 			)
 			(justify left)
 		)
-		(uuid "196910ca-51ed-4e04-8f06-25c09c01bdc6")
+		(uuid "5bf5c11c-ae9d-411c-be57-439780416ca8")
 	)
 	(wire
 		(pts
@@ -1457,7 +1457,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2ca2edc8-c01d-404f-a383-0e9272523aef")
+		(uuid "a2490952-c954-4fc6-a484-f0718512239d")
 	)
 	(global_label "IMU3_CS"
 		(shape bidirectional)
@@ -1469,7 +1469,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c3ad010c-bbad-49c4-acfc-308449cad473")
+		(uuid "92d810c1-5326-4a41-acfc-1a1f8b69c561")
 	)
 	(wire
 		(pts
@@ -1479,7 +1479,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "93f7d1b9-f428-4273-a6f0-5f85acd39ac7")
+		(uuid "33743781-a07a-433b-af67-31bc31e89996")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1491,7 +1491,7 @@
 			)
 			(justify left)
 		)
-		(uuid "bb24afb3-c223-4e92-8261-0fce699c7bc0")
+		(uuid "acb5037c-cec9-41ba-8e83-de7b2030c9d4")
 	)
 	(wire
 		(pts
@@ -1501,7 +1501,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e1871945-f6d8-42cc-b811-568ccc6a9e64")
+		(uuid "ce252b55-75f8-4e8e-826b-e47539e39b6f")
 	)
 	(global_label "SPI6_MISO"
 		(shape bidirectional)
@@ -1513,7 +1513,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b6b32022-61dc-448a-88ad-7d5cd9695c9c")
+		(uuid "474fb043-aa1a-440a-8c8e-28aeab69cc15")
 	)
 	(wire
 		(pts
@@ -1523,7 +1523,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a411ed74-7395-40cd-8be6-af51db0b1b9a")
+		(uuid "7840beef-27d1-472f-a02c-314289a8dc36")
 	)
 	(global_label "IMU3_DRDY"
 		(shape bidirectional)
@@ -1535,7 +1535,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b3afe8fa-610f-4efa-9cd5-877a0d6306b5")
+		(uuid "87c64802-8a8f-4489-be21-d6e6ea8e811d")
 	)
 	(wire
 		(pts
@@ -1545,7 +1545,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9101f3fb-5fd8-494e-9df2-6fedfd69947c")
+		(uuid "43faac62-e59d-4370-b0c2-f890fe80fadb")
 	)
 	(global_label "+3V3_IMU3"
 		(shape input)
@@ -1557,7 +1557,7 @@
 			)
 			(justify left)
 		)
-		(uuid "fb53151c-e29d-4171-b86c-6e9cbd45e2dd")
+		(uuid "1951822b-f046-4d94-88fb-332a296984f8")
 	)
 	(wire
 		(pts
@@ -1567,7 +1567,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1988810e-e299-4166-93ce-3ad8b3ef1a11")
+		(uuid "e438c5c9-9d5e-49bc-8b42-aa240c4546ed")
 	)
 	(global_label "+3V3_IMU3"
 		(shape input)
@@ -1579,7 +1579,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1c4ad144-ac35-4aa6-9812-fc7750f7308d")
+		(uuid "ec7ed4fa-762b-4c88-822b-9fda88422039")
 	)
 	(wire
 		(pts
@@ -1589,7 +1589,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0c9f1691-428d-406e-acd9-0f3fff250b57")
+		(uuid "0ed26438-1f62-4c40-8320-10446061ee92")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1601,7 +1601,7 @@
 			)
 			(justify left)
 		)
-		(uuid "244546de-ba8a-4b69-bdfc-a77792a5e899")
+		(uuid "2710de15-ac0d-456f-95e1-d18d9ae0d037")
 	)
 	(wire
 		(pts
@@ -1611,7 +1611,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "69adf694-5f54-4a30-b6c6-4f0cf445aeef")
+		(uuid "b1c9ca16-4fee-4d48-b3c2-93628781716c")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1623,7 +1623,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9549cf2e-64f5-4739-8e99-49f52546f02a")
+		(uuid "cca38c16-9c70-48cf-8e8f-b426d1af952b")
 	)
 	(wire
 		(pts
@@ -1633,7 +1633,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7f964be8-752a-419e-a140-c2d1bbc71d78")
+		(uuid "1ba1534f-5f8d-475a-b5b5-e21fc9a52c2d")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1645,7 +1645,7 @@
 			)
 			(justify left)
 		)
-		(uuid "762d387e-603e-4cc6-af54-01fdb08f9f1f")
+		(uuid "845ca425-c5ac-4c00-81da-21f6826ee9eb")
 	)
 	(wire
 		(pts
@@ -1655,7 +1655,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1fb8bb88-7de1-4316-a002-05e8e5224123")
+		(uuid "71e76322-8ae2-472e-8db9-c08fae96b123")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1667,7 +1667,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e0ecb188-f224-4972-a330-aa7b63ea14fb")
+		(uuid "da9d0e23-9bba-4a51-a42e-e6ade661f3d7")
 	)
 	(wire
 		(pts
@@ -1677,7 +1677,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "012254b3-98b5-408c-9caa-6dfe25241d87")
+		(uuid "71b63e70-2ce9-4aa7-847e-565b1028d88d")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1689,7 +1689,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c5053296-e006-4ff8-a8e5-45e477236158")
+		(uuid "09a5a645-38ac-4d1a-98ee-decac1442d40")
 	)
 	(wire
 		(pts
@@ -1699,7 +1699,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2410a6ce-8a27-4cb4-bfd4-d6a3fd7460e3")
+		(uuid "1a6639f3-3563-4502-94b0-c506c6a586ab")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1711,7 +1711,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c56d2eed-c97f-48f9-9ebd-2c46c0169293")
+		(uuid "4d7fdcaa-aaa1-4953-a425-bb2697a77397")
 	)
 	(text "U2  SPI6  rail +3V3_IMU3"
 		(at 127.7 117.7 0)
@@ -1721,14 +1721,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "29179c28-26fb-40a9-bcef-0562842f728d")
+		(uuid "ba33f344-8c21-43ef-b9d8-ea26c1655717")
 	)
 	(symbol
 		(lib_id "jfox-fmu:BMP388")
 		(at 215.9 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ce775cb0-1204-40fb-b7df-a2c99becd62f")
+		(uuid "cc61570e-5db7-4133-91e7-844e8dd6cccc")
 		(property "Reference" "U4"
 			(at 215.9 51.5 0)
 			(effects
@@ -1747,7 +1747,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e"
+				(path "/6dc65fd0-2e69-44c8-a8ee-50ac93ad6359"
 					(reference "U4")
 					(unit 1)
 				)
@@ -1762,7 +1762,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "023498ab-c5d1-4c71-9be2-f9b0f07ccb53")
+		(uuid "944644d0-613c-4983-b613-20df2623754f")
 	)
 	(global_label "I2C1_SCL"
 		(shape bidirectional)
@@ -1774,7 +1774,7 @@
 			)
 			(justify left)
 		)
-		(uuid "84cdb34a-9d4f-46c9-88da-8a3fc579569f")
+		(uuid "08eda379-90cb-4d32-a202-f74200a5b2ff")
 	)
 	(wire
 		(pts
@@ -1784,7 +1784,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1fd418ba-b46e-4328-b99d-a59dd7455e47")
+		(uuid "413416ce-7604-4241-aa34-24bb69ed00ce")
 	)
 	(global_label "I2C1_SDA"
 		(shape bidirectional)
@@ -1796,7 +1796,7 @@
 			)
 			(justify left)
 		)
-		(uuid "12959425-8c16-419e-ae5b-07d27dcf9dcf")
+		(uuid "681c2d7e-fc85-4ac5-8c3b-e1d7ff697e46")
 	)
 	(wire
 		(pts
@@ -1806,7 +1806,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8114f8ce-2b17-49c3-948d-52efea40104d")
+		(uuid "d6928e8d-cfdf-4001-8527-7f0d0187ef7f")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
@@ -1818,7 +1818,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1ed0c3ba-9513-4ba0-942b-7502c8a42248")
+		(uuid "09de6845-0532-4639-a056-7dcc27e8f575")
 	)
 	(wire
 		(pts
@@ -1828,7 +1828,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f1f0c140-b546-4762-b9af-645d788de6e4")
+		(uuid "85109f0c-6606-4b5e-a333-9f96c1e55168")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1840,7 +1840,7 @@
 			)
 			(justify left)
 		)
-		(uuid "bee04aa4-a00d-4d0d-b861-ed87ad2a3394")
+		(uuid "a0c1d2f5-f308-447b-ac79-f62895c7f3bb")
 	)
 	(wire
 		(pts
@@ -1850,7 +1850,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7007e685-f3ae-4a6a-968d-79d0da77fcc8")
+		(uuid "8996cb28-bce0-4576-944f-2217ad9b26b7")
 	)
 	(global_label "BARO1_INT"
 		(shape bidirectional)
@@ -1862,7 +1862,7 @@
 			)
 			(justify left)
 		)
-		(uuid "14546236-1213-4c96-8e5e-1e21fa4e0d17")
+		(uuid "f7cc7822-a147-45a9-bdd8-1cf128d2b016")
 	)
 	(wire
 		(pts
@@ -1872,7 +1872,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3fae327e-f0ef-4d1f-9152-cd312d5ffb22")
+		(uuid "af773f7a-38af-46db-a165-40ff5c630700")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
@@ -1884,7 +1884,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c2037893-b030-4691-9b90-b7b2e3d52d53")
+		(uuid "9971b3c4-5952-45aa-929a-f0bad3f237eb")
 	)
 	(wire
 		(pts
@@ -1894,7 +1894,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6dd8778d-a48c-4e67-a40d-c73b7768ad42")
+		(uuid "3fb2eaa1-9460-44c7-b776-606f0fba8b59")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
@@ -1906,7 +1906,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f58414ab-0ca4-4a97-bec1-f4f6a0a49461")
+		(uuid "4d27b39b-a65b-4629-9f5b-f1c02d86c056")
 	)
 	(wire
 		(pts
@@ -1916,7 +1916,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "67e1f8ca-89c2-44b2-b2cd-e229b5ca52c6")
+		(uuid "d0fb586f-2e82-4135-be67-af0e4141e44f")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1928,7 +1928,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f24f7976-15b0-4177-990e-75b956839b48")
+		(uuid "1c5509ca-c7fc-453a-9e48-c7fe4cb8e977")
 	)
 	(text "U4  I2C1  rail +3V3_SENS"
 		(at 203.9 41.5 0)
@@ -1938,14 +1938,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "bc6b23f9-79b2-4cc9-adaa-add160ef37f8")
+		(uuid "51c35e10-9310-4da7-aaab-d3d2bb22b6f5")
 	)
 	(symbol
 		(lib_id "jfox-fmu:FM25V02A")
 		(at 63.5 139.7 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "43e0483e-0f20-49e6-9899-450ffcf81ec0")
+		(uuid "3172d361-9953-4fb6-9d71-c3b5e6c9947f")
 		(property "Reference" "U5"
 			(at 63.5 127.7 0)
 			(effects
@@ -1964,7 +1964,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e"
+				(path "/6dc65fd0-2e69-44c8-a8ee-50ac93ad6359"
 					(reference "U5")
 					(unit 1)
 				)
@@ -1979,7 +1979,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5b6bfcb7-70c3-4565-86cd-a8ceca258dcb")
+		(uuid "016c29db-5962-40a9-b58e-7e772145138b")
 	)
 	(global_label "SPI4_SCK"
 		(shape bidirectional)
@@ -1991,7 +1991,7 @@
 			)
 			(justify left)
 		)
-		(uuid "72350743-0bdc-45cc-b863-c3821150ea1c")
+		(uuid "54166179-e043-41a3-af2b-6b2bac26b6fd")
 	)
 	(wire
 		(pts
@@ -2001,7 +2001,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8cdeb8cd-360d-41dc-9911-406b4a3a5726")
+		(uuid "c3609739-14b6-4640-bed3-9bb5939ad47b")
 	)
 	(global_label "SPI4_MOSI"
 		(shape bidirectional)
@@ -2013,7 +2013,7 @@
 			)
 			(justify left)
 		)
-		(uuid "60621f7f-6f6b-4804-a17e-fb48e98e3e64")
+		(uuid "c9a541f0-d6d2-4644-b60d-b3717edeb300")
 	)
 	(wire
 		(pts
@@ -2023,7 +2023,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c7d5cb67-2c46-4dd9-a6a4-3c845556779c")
+		(uuid "00f85ddc-18cb-4922-bf2a-7e56461f9041")
 	)
 	(global_label "FRAM_CS"
 		(shape bidirectional)
@@ -2035,7 +2035,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a8490074-be0f-4069-86ac-937be140ee48")
+		(uuid "07f86560-6130-45f3-bd37-c2b6bc4bd70f")
 	)
 	(wire
 		(pts
@@ -2045,7 +2045,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "52680945-47e9-40c7-bda3-655c503aa991")
+		(uuid "4130825f-674d-4b43-989c-611c20ad88f2")
 	)
 	(global_label "+3V3"
 		(shape input)
@@ -2057,7 +2057,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7aef95e7-f171-4a75-a9f5-945ca4099a0c")
+		(uuid "02310e94-b365-4577-a413-b2971f12917e")
 	)
 	(wire
 		(pts
@@ -2067,7 +2067,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7b291cd5-ebb6-4e25-959c-ebb6ce638cdd")
+		(uuid "32fc881f-103d-498f-8166-1f0f7c4179bd")
 	)
 	(global_label "+3V3"
 		(shape input)
@@ -2079,7 +2079,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6814c653-9729-44cd-b730-2cc8661396e3")
+		(uuid "dd8126bc-7889-4065-a807-c0a5807a774f")
 	)
 	(wire
 		(pts
@@ -2089,7 +2089,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "823489c5-9a45-4c7c-958c-b7634d5c5abe")
+		(uuid "118c51d9-a18b-4041-8c1c-52e2ef7b536a")
 	)
 	(global_label "SPI4_MISO"
 		(shape bidirectional)
@@ -2101,7 +2101,7 @@
 			)
 			(justify left)
 		)
-		(uuid "fadad4a3-c9a6-40ef-8839-153440818258")
+		(uuid "6faa93a8-b7e8-4e3c-9a7d-f3d1397515a8")
 	)
 	(wire
 		(pts
@@ -2111,7 +2111,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f43bf399-d900-4d84-80e5-da78ae0ec52d")
+		(uuid "7ce4d55b-0be0-4514-8aac-5f5e28e548d7")
 	)
 	(global_label "+3V3"
 		(shape input)
@@ -2123,7 +2123,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7a1842c0-953b-42b0-8ffa-df6957d90234")
+		(uuid "e6614966-91a2-4e62-b645-efbb692ca74a")
 	)
 	(wire
 		(pts
@@ -2133,7 +2133,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1a52008d-94a7-4eba-aef9-ef5f9a76cf09")
+		(uuid "3ccba11c-eb1f-4cf3-acfa-3fd4b3fad576")
 	)
 	(global_label "GND"
 		(shape input)
@@ -2145,7 +2145,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9411f061-0d93-480f-a6e5-b7506f78fa90")
+		(uuid "c159ed2c-0bf9-491d-b63d-ed4d157910b9")
 	)
 	(text "U5  SPI4  rail +3V3"
 		(at 51.5 117.7 0)
@@ -2155,14 +2155,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "38b71d90-d2c4-4583-b290-8fa08d55a044")
+		(uuid "7d8fdd29-c777-46d5-bdd4-a2fdb4fcba47")
 	)
 	(symbol
 		(lib_id "Sensor_Motion:BMI088")
 		(at 139.7 63.5 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "687957e0-8049-4b71-ab5c-e45fac0bc5cf")
+		(uuid "390da3c9-d2c9-4028-9da2-e33956b6a09e")
 		(property "Reference" "U3"
 			(at 139.7 51.5 0)
 			(effects
@@ -2181,7 +2181,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/d57ad8e2-8ac0-49d7-8a45-3f32ebf6186e"
+				(path "/6dc65fd0-2e69-44c8-a8ee-50ac93ad6359"
 					(reference "U3")
 					(unit 1)
 				)
@@ -2196,7 +2196,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4f5b1c5d-8ab7-43c9-bd8a-880b1150e7cc")
+		(uuid "9ec14b73-bfad-4cd4-92b5-2dbdf41ed326")
 	)
 	(global_label "GND"
 		(shape input)
@@ -2208,7 +2208,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9ee6c40c-8f17-4407-b3f0-1018d079248e")
+		(uuid "386b6eff-2f03-4cf0-bb5a-9eabc6b69f07")
 	)
 	(wire
 		(pts
@@ -2218,7 +2218,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c785ce7b-3e8b-46d1-b08a-1db295d96d22")
+		(uuid "5da010ef-5a14-45af-9e02-d87a7e6a6c3e")
 	)
 	(global_label "+3V3_IMU1"
 		(shape input)
@@ -2230,7 +2230,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e36340dd-1988-4b3e-a3ef-4e659e4a6ed9")
+		(uuid "ccd9ef4c-f57a-4b18-bdde-3fe38958bbf5")
 	)
 	(wire
 		(pts
@@ -2240,7 +2240,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8c846c83-07b6-402f-ad06-cc45a23dda6e")
+		(uuid "ef4cb6c6-08a8-42b2-95e5-27606a92030c")
 	)
 	(global_label "IMU1G_CS"
 		(shape bidirectional)
@@ -2252,7 +2252,7 @@
 			)
 			(justify left)
 		)
-		(uuid "944919d3-0637-42a8-8381-dd4a3a2ddbba")
+		(uuid "75d8f524-a673-4047-b53c-d0da3760bf35")
 	)
 	(wire
 		(pts
@@ -2262,7 +2262,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e0e5464b-c846-4ba2-acaa-2e109463ebd9")
+		(uuid "01cba536-e31d-4020-aa19-a08cecf66d90")
 	)
 	(global_label "GND"
 		(shape input)
@@ -2274,7 +2274,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a4d10bc8-8818-4f6b-a749-166fc7633476")
+		(uuid "b941af18-fcd6-4fa6-adc6-6a77e0d14d4b")
 	)
 	(wire
 		(pts
@@ -2284,7 +2284,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b5c64e54-87e3-49b3-8b4a-192ca79b92f0")
+		(uuid "9509b65f-1cf7-49d5-a175-47449c134524")
 	)
 	(global_label "GND"
 		(shape input)
@@ -2296,7 +2296,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2650a158-5973-47b8-9ae1-88ce68337303")
+		(uuid "28728bd7-1621-416c-85f4-c199c6e1cdce")
 	)
 	(wire
 		(pts
@@ -2306,7 +2306,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fed214ac-efb5-4a1d-867b-278c7a584dbb")
+		(uuid "fb73381c-1a15-47c8-9da6-886210f5c1f5")
 	)
 	(global_label "SPI1_SCK"
 		(shape bidirectional)
@@ -2318,7 +2318,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7af706c1-bdec-4194-8600-1cd3575f1e60")
+		(uuid "91fd9647-90a1-4156-a144-c7b3c0f512df")
 	)
 	(wire
 		(pts
@@ -2328,7 +2328,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2ae4a0d6-69c1-4e41-b345-8ddd911a17eb")
+		(uuid "191e748e-4bb4-4220-bf71-4d87ca4a4649")
 	)
 	(global_label "SPI1_MOSI"
 		(shape bidirectional)
@@ -2340,7 +2340,7 @@
 			)
 			(justify left)
 		)
-		(uuid "82bd3ce1-d878-4b24-8063-b986bcac2ebe")
+		(uuid "7b4d985f-f54d-4953-bd18-7d2d21187aa0")
 	)
 	(wire
 		(pts
@@ -2350,7 +2350,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ac5772df-3577-450b-8bc5-6e0c81e89643")
+		(uuid "84cbe78f-a33c-4610-98fd-c5ca0dd528a4")
 	)
 	(global_label "SPI1_MISO"
 		(shape bidirectional)
@@ -2362,7 +2362,7 @@
 			)
 			(justify left)
 		)
-		(uuid "41273b85-785e-4659-8793-243c07dd93c8")
+		(uuid "e09f0df7-b455-4205-90ce-71e025f73489")
 	)
 	(wire
 		(pts
@@ -2372,7 +2372,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8fcba31e-e3dc-4d9b-b35e-a08f846b675c")
+		(uuid "da958d41-3767-4dc1-bdb5-06aa393ba7e8")
 	)
 	(global_label "+3V3_IMU1"
 		(shape input)
@@ -2384,7 +2384,7 @@
 			)
 			(justify left)
 		)
-		(uuid "304719b6-3f24-4c00-894d-6f961036aacf")
+		(uuid "1c02dbde-241b-4fa6-8204-ee5e4f7993b4")
 	)
 	(wire
 		(pts
@@ -2394,7 +2394,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7a9b1a87-7a99-48c0-9677-64fe6d3ccf70")
+		(uuid "633a66be-baa7-4db0-a5be-c7b7697b5119")
 	)
 	(global_label "IMU1G_DRDY"
 		(shape bidirectional)
@@ -2406,7 +2406,7 @@
 			)
 			(justify left)
 		)
-		(uuid "37d81502-f4ac-4e0f-8017-9607ddf9a8a8")
+		(uuid "6dbf0963-d7c0-4e2f-9082-0560eebca932")
 	)
 	(wire
 		(pts
@@ -2416,7 +2416,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0e8037ce-dac7-47c5-a5ae-4f08f85b7938")
+		(uuid "6f06dd1b-82d7-4386-9cf9-b6a766bbac10")
 	)
 	(global_label "IMU1A_CS"
 		(shape bidirectional)
@@ -2428,7 +2428,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e90dab3b-4ecb-40c9-aa88-d09f44726ba9")
+		(uuid "60edd73c-a76e-48c1-8e5f-caace463038d")
 	)
 	(wire
 		(pts
@@ -2438,7 +2438,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f6c7716f-9259-49bf-92ea-799a60b27ab8")
+		(uuid "fbb2a0f6-74c8-4d24-a477-9bf23330ad5a")
 	)
 	(global_label "SPI1_MISO"
 		(shape bidirectional)
@@ -2450,7 +2450,7 @@
 			)
 			(justify left)
 		)
-		(uuid "615b67a4-26a9-4ccb-adb9-a474c7899a19")
+		(uuid "60998751-7181-4951-a107-58f2cd4116ff")
 	)
 	(wire
 		(pts
@@ -2460,7 +2460,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9d412abd-e91a-4a6a-8fce-af2e07de76f7")
+		(uuid "a8b32b6f-f13c-42da-bafe-c6ab1bea670f")
 	)
 	(global_label "IMU1A_DRDY"
 		(shape bidirectional)
@@ -2472,7 +2472,7 @@
 			)
 			(justify left)
 		)
-		(uuid "cde98aee-c1cb-4b21-b983-f10675ebe9a5")
+		(uuid "880e9560-8809-4303-a37b-28b6ce156328")
 	)
 	(text "U3  SPI1  rail +3V3_IMU1"
 		(at 127.7 41.5 0)
@@ -2482,7 +2482,7 @@
 			)
 			(justify left top)
 		)
-		(uuid "96f84604-819c-42f8-8cad-293eefb300e1")
+		(uuid "60d82ca2-c00d-431d-8a65-9fd5b03689b3")
 	)
 	(sheet_instances
 		(path "/"

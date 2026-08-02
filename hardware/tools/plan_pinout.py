@@ -60,6 +60,19 @@ WANTED = [
     ("PWM 5-8",          "TIM4", ["CH1", "CH2", "CH3", "CH4"]),
 ]
 
+# Plain GPIO - no alternate-function constraint, so these are assigned from
+# whatever the peripherals did not need. Named here because the schematic
+# needs them: chip selects, data-ready interrupts, and the per-bus rail
+# enables that let a wedged sensor be power-cycled.
+GPIO_NETS = [
+    "IMU1A_CS", "IMU1G_CS", "IMU2_CS", "IMU3_CS", "FRAM_CS",
+    "IMU1A_DRDY", "IMU1G_DRDY", "IMU2_DRDY", "IMU3_DRDY",
+    "BARO1_INT", "BARO2_INT", "MAG_DRDY",
+    "EN_3V3_IMU1", "EN_3V3_IMU2", "EN_3V3_IMU3", "EN_3V3_SENS",
+    "LED_R", "LED_G", "LED_B",
+    "SAFETY_SW", "SAFETY_LED", "SD_DETECT", "VBUS_SENSE",
+]
+
 # Pins that must stay free for their dedicated function.
 RESERVED = {
     "PA13": "SWDIO (debug)",
@@ -141,12 +154,27 @@ def allocate(table):
         used[pin] = f"{periph}.{sig}"
         assigned.append((func, periph, sig, pin, af))
 
-    return assigned, used, problems
+    # Plain GPIO last, from whatever is left. Prefer the most contended pins
+    # here - they are the ones no peripheral can use now anyway, and leaving
+    # the uncontended ones free keeps options open for a later revision.
+    all_pins = sorted({p for sigs in table.values() for p, _s, _a in sigs})
+    free = [p for p in all_pins if p not in used]
+    free.sort(key=lambda p: (-contention.get(p, 0), p))
+    gpio = []
+    for net in GPIO_NETS:
+        if not free:
+            problems.append(f"{net}: no GPIO left")
+            continue
+        pin = free.pop(0)
+        used[pin] = net
+        gpio.append((net, pin))
+
+    return assigned, used, problems, gpio
 
 
 def main():
     d, table = load()
-    assigned, used, problems = allocate(table)
+    assigned, used, problems, gpio = allocate(table)
 
     ram = sum(m["size"] for bank in d["memory"] for m in bank
               if m["kind"] == "ram")
@@ -168,18 +196,19 @@ def main():
         for p in problems:
             print("  -", p)
 
-    gpio = sum(1 for pk in d["packages"] if pk["name"].startswith("LQFP")
-               for _ in [0])
+    print(f"\n  plain GPIO ({len(gpio)}):")
+    for net, pin in gpio:
+        print(f"      {net:<13} -> {pin}")
     print(f"\n{len(used)} pins committed ({len(RESERVED)} reserved for debug/clock)")
 
     if "--write" in sys.argv:
-        write_map(d, assigned, used, problems, ram, flash)
+        write_map(d, assigned, used, problems, ram, flash, gpio)
         print(f"wrote {OUT.relative_to(REPO)}")
     if problems:
         raise SystemExit(1)
 
 
-def write_map(d, assigned, used, problems, ram, flash):
+def write_map(d, assigned, used, problems, ram, flash, gpio):
     L = [f"# {d['name']} pin map", "",
          "**Generated** by `hardware/tools/plan_pinout.py` from",
          "`STM32H753II.json` (embassy-rs/stm32-data-generated), which carries the",
@@ -201,12 +230,13 @@ def write_map(d, assigned, used, problems, ram, flash):
     if problems:
         L += ["", "## Unresolved", ""]
         L += [f"- {p}" for p in problems]
-    L += ["", "## Still to allocate as plain GPIO", "",
-          "Chip selects, sensor DRDY interrupts, per-bus power enables, LEDs and",
-          "the safety switch are ordinary GPIO with no AF constraint, so they are",
-          "assigned during schematic capture from whatever remains. The count",
-          "matters: 3 IMUs need 4 CS (BMI088 takes two) plus 4 DRDY plus 3 bus",
-          "power enables.", ""]
+    L += ["", "## Plain GPIO", "",
+          "No alternate-function constraint, so these take whatever the",
+          "peripherals did not need - preferring the most contended pins, since",
+          "those are the ones no peripheral could use anyway.", "",
+          "| Net | Pin |", "|---|---|"]
+    L += [f"| {net} | **{pin}** |" for net, pin in gpio]
+    L += [""]
     OUT.write_text("\n".join(L) + "\n", encoding="utf-8")
 
 

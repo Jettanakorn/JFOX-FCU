@@ -10,9 +10,13 @@ against the datasheets; MCU, power and comms sheets are next.
 | Sheet | State |
 |---|---|
 | `sensors.kicad_sch` | drawn, wiring verified against the datasheets |
-| MCU | next - pin map already allocated in `PINMAP.md` |
+| `mcu.kicad_sch` | drawn, 96 pins wired, all verified against `PINMAP.md` |
 | power | next |
 | comms | next |
+
+`tools/check_fmu_schematic.py` verifies both sheets against their sources -
+sensor nets against the datasheet pin tables, MCU nets against the allocator's
+choice - and is negative-tested.
 
 ## What changes, and why
 

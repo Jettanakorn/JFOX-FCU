@@ -83,6 +83,59 @@ def nets():
     return d
 
 
+def check_mcu(fails):
+    """Every allocated signal must reach the pin the allocator chose.
+
+    The netlist names pins by number; the allocation names them by port (PA9).
+    The symbol carries both, so the mapping is read from it rather than
+    assumed - and that is the whole point, since a schematic with SPI2_SCK on
+    the wrong port pin is electrically valid and completely broken.
+    """
+    sys.path.insert(0, str(Path(__file__).parent))
+    import gen_fmu_schematic as G
+    import plan_pinout as PP
+
+    lib = G.sym_def(G.KICAD_SYMS / "MCU_ST_STM32H7.kicad_sym",
+                    "STM32H753IITx", "MCU_ST_STM32H7")
+    num_of = {}
+    for m in re.finditer(
+            r'\(pin\s+\w+\s+\w+\s*\(at[^)]*\)[\s\S]*?\(name\s+"([^"]+)"'
+            r'[\s\S]*?\(number\s+"([^"]+)"', lib):
+        num_of.setdefault(m.group(1), m.group(2))
+
+    _, table = PP.load()
+    assigned, _used, _probs, gpio = PP.allocate(table)
+
+    out = Path(tempfile.gettempdir()) / "fmu_mcu.net"
+    r = subprocess.run([cli(), "sch", "export", "netlist", "--format",
+                        "kicadsexpr", "--output", str(out),
+                        str(SCH.parent / "mcu.kicad_sch")],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        fails.append("MCU netlist export failed")
+        return 0
+    txt = out.read_text(encoding="utf-8")
+    n = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            n[m.group(1).lstrip("/")] = set(
+                re.findall(r'\(ref "([^"]+)"\)\s*\n\s*\(pin "([^"]+)"\)', blk))
+
+    want = [(f"{p}_{s}", pin) for _f, p, s, pin, _a in assigned]
+    want += [(net, pin) for net, pin in gpio]
+    checked = 0
+    for net, port in want:
+        num = num_of.get(port)
+        if num is None:
+            fails.append(f"symbol has no pin named {port}")
+            continue
+        if ("U10", num) not in n.get(net, set()):
+            fails.append(f"{net} is not on U10 pin {num} ({port})")
+        checked += 1
+    return checked
+
+
 def main():
     n = nets()
     fails = []
@@ -111,6 +164,11 @@ def main():
             fails.append(f"{rail} feeds {refs} - each IMU needs its own rail")
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"each IMU is on its own switchable rail")
+
+    before = len(fails)
+    nchk = check_mcu(fails)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"{nchk} MCU signals reach the pin the allocator chose")
 
     if fails:
         print("\nFAILURES:")

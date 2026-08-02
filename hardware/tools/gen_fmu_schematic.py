@@ -258,6 +258,79 @@ def build_sensors():
     return ru, document(ru, libs, body, paper="A2")
 
 
+# MCU pins whose net is fixed by the part rather than by allocation.
+MCU_FIXED = {
+    "VBAT": "+3V3", "VDDA": "+3V3A", "VREF+": "+3V3A", "VSSA": "GND",
+    "VDD33_USB": "+3V3", "VSS": "GND", "PDR_ON": "+3V3",
+    "NRST": "NRST", "BOOT0": "BOOT0",
+    "PH0": "OSC_IN", "PH1": "OSC_OUT",
+    "PC14": "OSC32_IN", "PC15": "OSC32_OUT",
+    "PA13": "SWDIO", "PA14": "SWCLK", "PB3": "SWO",
+    # VCAP is the internal LDO's output; each needs its own 2.2 uF and they
+    # are NOT a supply rail - shorting them to 3V3 destroys the regulator.
+    "VCAP": "VCAP",
+}
+
+
+def build_mcu():
+    """The STM32H753IIT6, with every allocated pin labelled.
+
+    Net names come straight from plan_pinout's allocation, so this sheet and
+    the pin map cannot disagree: `SPI2.SCK` on PA12 becomes the net `SPI2_SCK`
+    on pin PA12, and the sensor sheet's `SPI2_SCK` finds it.
+    """
+    import plan_pinout as PP
+
+    d, table = PP.load()
+    assigned, used, problems, gpio = PP.allocate(table)
+    if problems:
+        print("  pin allocation problems:", *problems, sep="\n    ")
+
+    netof = {pin: f"{periph}_{sig}" for _f, periph, sig, pin, _af in assigned}
+    netof.update({pin: net for net, pin in gpio})
+
+    ru = uid()
+    lib = sym_def(KICAD_SYMS / "MCU_ST_STM32H7.kicad_sym",
+                  "STM32H753IITx", "MCU_ST_STM32H7")
+    pins = pin_positions(lib)
+
+    px, py = 190.5, 165.1
+    body = [text(
+        "JFOX-FMU v1 - MCU\\n"
+        "STM32H753IIT6, LQFP176. 1 MB RAM, 2 MB flash, Cortex-M7 @480 MHz.\\n"
+        "\\n"
+        "Pin assignment is generated from the part's own alternate-function\\n"
+        "table - see PINMAP.md. Not hand-written: the previous board's hand-\\n"
+        "written map put five of eight PWM channels on top of SPI1 and SPI2.\\n"
+        "\\n"
+        "VCAP1/VCAP2 are the internal LDO's output. Each needs its own 2.2 uF\\n"
+        "close to the pin. They are NOT a supply input - do not tie to +3V3.",
+        20.32, 20.32, 1.6)]
+    body.append(place("MCU_ST_STM32H7:STM32H753IITx", "U10", "STM32H753IIT6",
+                      px, py, ru, []))
+
+    labelled = 0
+    for name, (dx, dy, ang) in pins.items():
+        net = netof.get(name) or MCU_FIXED.get(name)
+        if net is None:
+            if name.startswith("VDD"):
+                net = "+3V3"
+            elif name.startswith("VSS"):
+                net = "GND"
+            else:
+                continue          # unallocated GPIO, left for a later revision
+        ax, ay = round(px + dx, 2), round(py + dy, 2)
+        sx, sy = stub_len(ang)
+        bx, by = round(ax + sx, 2), round(ay + sy, 2)
+        body.append(wire(ax, ay, bx, by))
+        shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
+        body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+        labelled += 1
+
+    print(f"  MCU: {labelled} of {len(pins)} pins wired")
+    return ru, document(ru, [lib], body, paper="A1")
+
+
 def build_stub(title, note):
     ru = uid()
     return ru, document(ru, [], [text(title + "\\n\\n" + note, 25.4, 25.4, 1.6)])
@@ -279,7 +352,9 @@ def main():
         sys.exit("run gen_fmu_symbols.py first")
 
     _, sensors = build_sensors()
-    files = {BOARD / "sensors.kicad_sch": sensors}
+    _, mcu = build_mcu()
+    files = {BOARD / "sensors.kicad_sch": sensors,
+             BOARD / "mcu.kicad_sch": mcu}
 
     (BOARD / f"{PROJECT}.kicad_pro").write_text(
         '{\n  "meta": {"filename": "jfox-fmu.kicad_pro", "version": 1},\n'

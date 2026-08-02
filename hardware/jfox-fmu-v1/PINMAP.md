@@ -81,11 +81,35 @@ by hand and put five of eight PWM channels on top of SPI1 and SPI2.
 | PH0 | OSC_IN (HSE 16 MHz) |
 | PH1 | OSC_OUT (HSE 16 MHz) |
 
-## Still to allocate as plain GPIO
+## Plain GPIO
 
-Chip selects, sensor DRDY interrupts, per-bus power enables, LEDs and
-the safety switch are ordinary GPIO with no AF constraint, so they are
-assigned during schematic capture from whatever remains. The count
-matters: 3 IMUs need 4 CS (BMI088 takes two) plus 4 DRDY plus 3 bus
-power enables.
+No alternate-function constraint, so these take whatever the
+peripherals did not need - preferring the most contended pins, since
+those are the ones no peripheral could use anyway.
+
+| Net | Pin |
+|---|---|
+| IMU1A_CS | **PC1** |
+| IMU1G_CS | **PA6** |
+| IMU2_CS | **PA7** |
+| IMU3_CS | **PB0** |
+| FRAM_CS | **PB5** |
+| IMU1A_DRDY | **PB9** |
+| IMU1G_DRDY | **PA1** |
+| IMU2_DRDY | **PA5** |
+| IMU3_DRDY | **PA0** |
+| BARO1_INT | **PA4** |
+| BARO2_INT | **PB14** |
+| MAG_DRDY | **PC5** |
+| EN_3V3_IMU1 | **PC6** |
+| EN_3V3_IMU2 | **PC7** |
+| EN_3V3_IMU3 | **PD6** |
+| EN_3V3_SENS | **PA15** |
+| LED_R | **PA2** |
+| LED_G | **PA8** |
+| LED_B | **PB10** |
+| SAFETY_SW | **PB2** |
+| SAFETY_LED | **PB4** |
+| SD_DETECT | **PB1** |
+| VBUS_SENSE | **PE4** |
 
