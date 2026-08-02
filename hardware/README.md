@@ -58,14 +58,46 @@ Signal split, which is the load-bearing design decision:
 (the hierarchical pins the root wires to) but not the board's contents. Fill
 it in with:
 
-1. Install KiCad 8 or 9.
+1. Install KiCad (see below).
 2. **File → Import → Non-KiCad Schematic** on `vendor/PX4FMUv2.4.5.sch`.
 3. Attach the imported design's connectors to the hierarchical labels already
    present — the placeholder's on-sheet note lists the exact mapping
    (`CAN_H`/`CAN_L` → J405 pins 2/3, and so on).
 
 This step is manual because `kicad-cli` has **no** schematic import
-subcommand — it exposes only `sch erc` and `sch export`. Import is GUI-only.
+subcommand — verified against the KiCad 10 CLI docs, which document
+`kicad-cli pcb import` but nothing equivalent for schematics. Import is
+GUI-only.
+
+## Installing KiCad
+
+Current stable is **10.0.5** (released 2026-07-22). Install with:
+
+```bash
+winget install -e --id KiCad.KiCad
+```
+
+This is the x86-64 NSIS installer straight from KiCad's GitHub release, and
+it will prompt for UAC elevation. Confirm it landed:
+
+```bash
+kicad-cli version
+```
+
+If that isn't found, `kicad-cli.exe` lives under `C:\Program Files\KiCad\10.0\bin`
+and needs adding to `PATH`.
+
+**Why 10.x**, checked rather than assumed — KiCad 10's own docs list Eagle
+(Autodesk) `.sch` XML, "Eagle version 6.x and later", among the supported
+import formats, and `vendor/PX4FMUv2.4.5.sch` is Eagle 7.1.0. The docs also
+confirm the importer extracts symbols from the file's embedded libraries into
+a generated KiCad symbol library, which matches this file's seven embedded
+libraries (`pixhawk2`, `con-hirose-df13`, `SparkFun`, …).
+
+**Expect one Eagle-specific ERC violation.** KiCad documents a *"Bus Entry
+needed"* error that "only applies to projects imported from EAGLE projects" —
+places where the importer could not add bus entries automatically and you have
+to place them by hand. Post-import cleanup, not a broken import.
 
 **Not yet verified**: no KiCad is installed on this machine, so these files
 have never been opened by KiCad. They pass structural checks built into the
@@ -82,6 +114,12 @@ PCB layout. The netlist, footprint assignment, board outline and routing
 constraints are producible here; component placement and routing are
 interactive work for KiCad's PCB editor. A generated `.kicad_pcb` would open
 to a rat's nest and read as finished work.
+
+Useful for that step when it comes: unlike schematics, **boards** *can* be
+converted from the command line (`kicad-cli pcb import`). Upstream also
+publishes `FMUv2/PX4FMUv2.4.5.brd`, so the module's exact M3 mounting-hole
+coordinates and outline can be lifted from the real board rather than measured
+off a drawing — which is what the carrier's outline has to match.
 
 How three boards' motor outputs arbitrate into one is also unresolved and
 deliberately not committed to copper — `flight::redundancy::TmrVoter` is still
