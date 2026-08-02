@@ -71,20 +71,42 @@ two supply nets, or dropping a module off the bus, both get caught).
 
 ## Status
 
-**`fmu-v2.kicad_sch` is a placeholder.** It defines the correct *interface*
-(the hierarchical pins the root wires to) but not the board's contents. Fill
-it in with:
+**The Eagle import is done** (`PX4FMUv2.4.5/`) — 12 pages, 492 symbol
+placements. Verified complete: the per-page symbol counts match an independent
+parse of the Eagle source exactly, page for page
+(23/36/24/32/49/69/45/49/58/24/49/34), and the exported netlist reproduces
+`CAN_H`, `CAN_L`, `CAN1_TX` and `SAFETY` with the same nodes the Eagle netlist
+has. No "Bus Entry needed" errors appeared.
 
-1. Install KiCad (see below).
-2. **File → Import → Non-KiCad Schematic** on `vendor/PX4FMUv2.4.5.sch`.
-3. Attach the imported design's connectors to the hierarchical labels already
-   present — the placeholder's on-sheet note lists the exact mapping
-   (`CAN_H`/`CAN_L` → J405 pins 2/3, and so on).
+**The import's root had to be repaired.** As it landed on disk, the container
+root that referenced the 12 pages had been overwritten with page 1's own
+content — its symbols carried instance path `/e0a7e50b…`, the UUID
+`.kicad_pro` records as sheet `_1`, which is what a child page saved over its
+parent looks like. KiCad consequently saw a **one-page project**: ERC
+enumerated only `Sheet /`, and a netlist export returned 8 components instead
+of ~292. The other 11 files were on disk, complete, and unreachable.
 
-This step is manual because `kicad-cli` has **no** schematic import
-subcommand — verified against the KiCad 10 CLI docs, which document
-`kicad-cli pcb import` but nothing equivalent for schematics. Import is
-GUI-only.
+`tools/repair_import_hierarchy.py` rebuilds the container (moves page 1 to
+`PX4FMUv2.4.5_1.kicad_sch`, writes a root holding the 12 sheet elements with
+the UUIDs from `.kicad_pro` so existing instance paths still resolve) and then
+verifies the result against the Eagle source. All 13 sheets now enumerate. Run
+it again after any re-import; it is idempotent.
+
+Note for anyone hand-editing these files: **KiCad 10 writes child instance
+paths as `/<sheet-element-uuid>`** — one level, without the root document's
+UUID. KiCad 7 included the root UUID. The two forms are not interchangeable.
+
+**Still open: the import uses global labels for everything.** 136 distinct
+global labels, no internal hierarchy. 123 of them span multiple pages. A
+global label is global across the *whole project*, so instantiating this
+design three times would short all 120 non-shared nets together across
+FMU-A/B/C — every SPI bus, every MCU pin, every internal rail. Only `CAN_H`,
+`CAN_L`, `GND` and `SAFETY` are genuinely shared and may stay global.
+
+So the 3× instantiation needs those 120 nets converted to hierarchical labels
+plus sheet pins first. That conversion will be generated into a separate
+directory rather than applied in place, so `PX4FMUv2.4.5/` stays a pristine,
+re-importable capture of the board.
 
 ## Installing KiCad
 

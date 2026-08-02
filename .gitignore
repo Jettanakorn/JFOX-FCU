@@ -28,3 +28,7 @@ __pycache__/
 *.kicad_prl
 *-backups/
 fp-info-cache
+~*.lck
+# KiCad 10's Local History feature keeps its own nested git repo here, which
+# would otherwise be committed as a broken submodule.
+.history/
