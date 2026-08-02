@@ -26,11 +26,13 @@ rather than transcribed.
 | `jfox-tmr.kicad_pro` / `.kicad_sch` | **Generated.** Root: three FMU instances + carrier. |
 | `fmu-v2.kicad_sch` | **Generated placeholder** — see "Status" below. |
 | `carrier.kicad_sch` | **Generated.** The new carrier/backplane design. |
+| `jfox.kicad_sym` / `sym-lib-table` | **Generated.** Connector symbols, registered as a project library. |
+| `tools/check_tmr_netlist.py` | Asserts the redundancy invariants against KiCad's netlist. |
 
-Regenerate with:
+Regenerate and verify with:
 
 ```bash
-python hardware/tools/extract_eagle_nets.py && python hardware/tools/gen_tmr_schematic.py
+python hardware/tools/extract_eagle_nets.py && python hardware/tools/gen_tmr_schematic.py && python hardware/tools/check_tmr_netlist.py
 ```
 
 (On this machine `python` on `PATH` is the Microsoft Store stub — use
@@ -51,6 +53,21 @@ Signal split, which is the load-bearing design decision:
 - Power and servo signals are **hierarchical pins**, so each board's stay
   separate. That separation is the entire point of board-level redundancy; a
   global label there would silently short all three supplies together.
+
+That second point is the kind of mistake that looks fine in a schematic and
+only shows up when hardware misbehaves, so it is checked mechanically.
+`tools/check_tmr_netlist.py` runs `kicad-cli sch export netlist` and asserts,
+against KiCad's own output:
+
+- the three brick supplies share no node (independent power),
+- `CAN_H`/`CAN_L` reach all three modules (one bus, not three stubs),
+- **no resistor sits on CAN_H/CAN_L on the carrier** — each module already has
+  a fixed 120Ω R409, and a fourth in parallel would make the bus worse,
+- each board's six servo channels reach only its own connector,
+- `GND` is common across all modules.
+
+Currently all five hold. Each check is negative-tested (deliberately merging
+two supply nets, or dropping a module off the bus, both get caught).
 
 ## Status
 
@@ -77,15 +94,18 @@ Current stable is **10.0.5** (released 2026-07-22). Install with:
 winget install -e --id KiCad.KiCad
 ```
 
-This is the x86-64 NSIS installer straight from KiCad's GitHub release, and
-it will prompt for UAC elevation. Confirm it landed:
+This is the x86-64 NSIS installer straight from KiCad's GitHub release.
+Confirm it landed:
 
 ```bash
 kicad-cli version
 ```
 
-If that isn't found, `kicad-cli.exe` lives under `C:\Program Files\KiCad\10.0\bin`
-and needs adding to `PATH`.
+**Note the install location.** winget installs KiCad at *current-user* scope,
+so it lands in `%LOCALAPPDATA%\Programs\KiCad\10.0\bin` — **not**
+`C:\Program Files\KiCad`. Nothing is added to `PATH`, so either add that `bin`
+directory or call the executable by full path.
+`tools/check_tmr_netlist.py` probes both locations plus `PATH`.
 
 **Why 10.x**, checked rather than assumed — KiCad 10's own docs list Eagle
 (Autodesk) `.sch` XML, "Eagle version 6.x and later", among the supported
@@ -99,14 +119,26 @@ needed"* error that "only applies to projects imported from EAGLE projects" —
 places where the importer could not add bus entries automatically and you have
 to place them by hand. Post-import cleanup, not a broken import.
 
-**Not yet verified**: no KiCad is installed on this machine, so these files
-have never been opened by KiCad. They pass structural checks built into the
-generator (balanced parens, unique UUIDs, every sheet pin having a matching
-hierarchical label in its target file — each of which is negative-tested), and
-their syntax was matched against real KiCad-emitted files from the KiCad
-repo's `qa/data/eeschema` test set rather than from the format docs alone.
-That is not the same as KiCad accepting them. Expect to run
-`kicad-cli sch erc jfox-tmr.kicad_sch` first and fix what it reports.
+**Verified with KiCad 10.0.5**: it parses all four files and resolves the
+hierarchy — ERC enumerates `/`, `/FMU-A/`, `/FMU-B/`, `/FMU-C/` and
+`/CARRIER/`, so the three-instance structure works. The netlist exports
+cleanly and the invariants above hold.
+
+ERC reports **94 violations, and that is expected**: 81 `isolated_pin_label`
+warnings and 13 `label_dangling` errors, all of them downstream of
+`fmu-v2.kicad_sch` being an empty placeholder. Labels crossing into it have
+nothing to attach to yet. These want re-judging *after* the Eagle import, not
+before — chasing them against a stub would be wasted work.
+
+Two real defects were caught this way and fixed:
+
+- **Symbol instance paths were wrong.** They used each child file's own UUID
+  instead of `/<root-uuid>/<sheet-element-uuid>`. The files still parsed and
+  the generator's structural checks still passed, but KiCad placed every
+  carrier symbol on the root sheet. Only ERC surfaced it. The generator now
+  checks instance-path rooting directly.
+- **Symbols resolved to no registered library** (10 `lib_symbol_issues`
+  warnings). Fixed by emitting a real `jfox.kicad_sym` plus a `sym-lib-table`.
 
 ## Out of scope
 

@@ -106,12 +106,17 @@ def text_note(body, x, y):
             f'  )')
 
 
-def sheet(name, filename, x, y, w, h, pins, root_uuid, page):
-    """A hierarchical sheet instance. `pins` is [(name, shape)]."""
+def sheet(name, filename, x, y, w, h, pins, root_uuid, page, sheet_uuid):
+    """A hierarchical sheet instance. `pins` is [(name, shape)].
+
+    `sheet_uuid` is allocated by the caller, because symbols living inside the
+    referenced file need it to build their own instance paths - the two have to
+    agree or KiCad cannot place the symbol in the hierarchy.
+    """
     out = [f'  (sheet (at {x} {y}) (size {w} {h}) (fields_autoplaced)',
            '    (stroke (width 0.1524) (type solid))',
            '    (fill (color 0 0 0 0.0000))',
-           f'    (uuid {uid()})',
+           f'    (uuid {sheet_uuid})',
            f'    (property "Sheetname" "{esc(name)}" (at {x} {round(y - 0.7116, 4)} 0)',
            f'      {effects("left bottom")}',
            '    )',
@@ -169,8 +174,13 @@ def conn_symbol_def(npins):
     return name, "\n".join(out)
 
 
-def place_conn(lib_id, ref, value, x, y, npins, root_uuid):
+def place_conn(lib_id, ref, value, x, y, npins, inst_path):
     """Place a connector. Returns (sexpr, [(pin_index, abs_x, abs_y)]).
+
+    `inst_path` is the hierarchy path to the sheet this symbol sits on:
+    "/<root-document-uuid>/<sheet-element-uuid-in-the-root>". Not the
+    containing file's own uuid - that was the first version of this and KiCad
+    responded by attributing every carrier symbol to the root sheet.
 
     Library +Y is up, schematic +Y is down, so library pin y maps to
     schematic y - lib_y. Getting this backwards silently puts every label on
@@ -187,7 +197,7 @@ def place_conn(lib_id, ref, value, x, y, npins, root_uuid):
            '    )',
            '    (instances',
            f'      (project "{PROJECT}"',
-           f'        (path "/{root_uuid}"',
+           f'        (path "{inst_path}"',
            f'          (reference "{esc(ref)}") (unit 1)',
            '        )',
            '      )',
@@ -247,9 +257,10 @@ def build_fmu_sheet():
     return ru, document(ru, [], body, page_one=False)
 
 
-def build_carrier():
+def build_carrier(root_uuid, sheet_uuid):
     """The new design: CAN bus, per-board power entry, servo breakout."""
     ru = uid()
+    inst = f"/{root_uuid}/{sheet_uuid}"
     lib4, def4 = conn_symbol_def(4)
     lib6, def6 = conn_symbol_def(6)
     lib3, def3 = conn_symbol_def(3)
@@ -276,7 +287,7 @@ def build_carrier():
     x = 76.2
     for i, b in enumerate(BOARDS):
         y = 76.2 + i * 30.48
-        s, pts = place_conn(lib4, f"J{i+1}", f"CAN {b} (DF13-4P)", x, y, 4, ru)
+        s, pts = place_conn(lib4, f"J{i+1}", f"CAN {b} (DF13-4P)", x, y, 4, inst)
         body.append(s)
         for idx, px, py in pts:
             net = {1: "CAN_5V_UNUSED", 2: "CAN_H", 3: "CAN_L", 4: "GND"}[idx]
@@ -298,7 +309,7 @@ def build_carrier():
     x = 228.6
     for i, b in enumerate(BOARDS):
         y = 76.2 + i * 30.48
-        s, pts = place_conn(lib6, f"J{i+4}", f"BRICK {b} (DF13-6P)", x, y, 6, ru)
+        s, pts = place_conn(lib6, f"J{i+4}", f"BRICK {b} (DF13-6P)", x, y, 6, inst)
         body.append(s)
         for idx, px, py in pts:
             net = {1: f"VBRICK_{b}", 2: f"VBRICK_{b}", 3: f"BATT_I_{b}",
@@ -322,7 +333,7 @@ def build_carrier():
     x = 76.2
     for i, b in enumerate(BOARDS):
         y = 213.36 + i * 25.4
-        s, pts = place_conn(lib8, f"J{i+7}", f"SERVO {b}", x, y, 8, ru)
+        s, pts = place_conn(lib8, f"J{i+7}", f"SERVO {b}", x, y, 8, inst)
         body.append(s)
         for idx, px, py in pts:
             body.append(wire(px, py, px - 7.62, py))
@@ -342,7 +353,7 @@ def build_carrier():
         "routed to a spare FMU GPIO. Provisioned, not functional.",
         177.8, 175.26))
 
-    s, pts = place_conn(lib3, "J10", "SAFETY SW", 228.6, 213.36, 3, ru)
+    s, pts = place_conn(lib3, "J10", "SAFETY SW", 228.6, 213.36, 3, inst)
     body.append(s)
     for idx, px, py in pts:
         net = {1: "VDD_3V3_SW", 2: "SAFETY_LED", 3: "SAFETY"}[idx]
@@ -355,8 +366,7 @@ def build_carrier():
     return ru, document(ru, [def3, def4, def6, def8], body, page_one=False)
 
 
-def build_root(fmu_pins, carrier_pins):
-    ru = uid()
+def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
     body = []
     body.append(text_note(
         "JFOX-FCU - 3-board TMR system.\\n"
@@ -372,7 +382,8 @@ def build_root(fmu_pins, carrier_pins):
         x = 38.1 + i * 88.9
         y = 76.2
         body.append(sheet(f"FMU-{b}", "fmu-v2.kicad_sch", x, y, 55.88,
-                          MM * (len(fmu_pins) + 2), fmu_pins, ru, page))
+                          MM * (len(fmu_pins) + 2), fmu_pins, ru, page,
+                          fmu_sheet_uuids[i]))
         py = y + MM
         for pname, _shape in fmu_pins:
             body.append(wire(x, py, x - 7.62, py))
@@ -382,14 +393,15 @@ def build_root(fmu_pins, carrier_pins):
 
     y = 190.5
     body.append(sheet("CARRIER", "carrier.kicad_sch", 38.1, y, 76.2,
-                      MM * (len(carrier_pins) + 2), carrier_pins, ru, page))
+                      MM * (len(carrier_pins) + 2), carrier_pins, ru, page,
+                      carrier_sheet_uuid))
     py = y + MM
     for pname, _shape in carrier_pins:
         body.append(wire(38.1, py, 30.48, py))
         body.append(local_label(pname, 30.48, py, 180))
         py += MM
 
-    return ru, document(ru, [], body, page_one=True)
+    return document(ru, [], body, page_one=True)
 
 
 def net_for(pin_name, board):
@@ -419,7 +431,7 @@ def build_pro():
 # structural checks
 # --------------------------------------------------------------------------
 
-def check(files):
+def check(files, root_uuid=None):
     """Structural validation. Not a substitute for KiCad opening the file, but
     it catches the failure modes a generator actually produces."""
     problems = []
@@ -473,32 +485,85 @@ def check(files):
                     problems.append(
                         f"{path.name}: sheet pin {pin!r} has no hierarchical_label "
                         f"in {fm.group(1)}")
+
+    # Every symbol instance path must be rooted at the root document's uuid.
+    # The first version of this generator used each child file's *own* uuid
+    # instead; the files still parsed and the structural checks still passed,
+    # but KiCad placed every carrier symbol on the root sheet. Only ERC caught
+    # it, so it is now checked here.
+    if root_uuid:
+        for path, text in files.items():
+            for p in re.findall(r'\(path "(/[0-9a-f-]{8,}[^"]*)"\s*\n\s*\(reference',
+                                text):
+                if not p.startswith(f"/{root_uuid}"):
+                    problems.append(
+                        f"{path.name}: symbol instance path {p!r} is not rooted "
+                        f"at the root uuid /{root_uuid}")
     return problems
+
+
+def build_sym_lib():
+    """A real jfox.kicad_sym, so the project's symbols resolve to a registered
+    library. Without it KiCad emits a lib_symbol_issues warning per placed
+    symbol ("configuration does not include the symbol library 'jfox'") even
+    though the definitions are cached in the schematic and render fine."""
+    defs = []
+    for n in (3, 4, 6, 8):
+        _, d = conn_symbol_def(n)
+        # In a .kicad_sym the symbol name carries no "lib:" prefix, and the
+        # whole block sits one indent level shallower than in a schematic.
+        d = d.replace(f'(symbol "jfox:Conn_01x{n:02d}"',
+                      f'(symbol "Conn_01x{n:02d}"', 1)
+        defs.append("\n".join(line[2:] for line in d.splitlines()))
+    return ('(kicad_symbol_lib (version 20230819) (generator kicad_symbol_editor)\n'
+            + "\n".join(defs) + "\n)\n")
+
+
+def build_sym_lib_table():
+    return ('(sym_lib_table\n'
+            '  (version 7)\n'
+            '  (lib (name "jfox")(type "KiCad")'
+            '(uri "${KIPRJMOD}/jfox.kicad_sym")(options "")'
+            '(descr "JFOX TMR carrier connectors"))\n'
+            ')\n')
 
 
 def main():
     HW.mkdir(parents=True, exist_ok=True)
+
+    # Allocate the hierarchy up front: a symbol's instance path is
+    # "/<root-uuid>/<sheet-element-uuid>", so the child sheets cannot be built
+    # until those two are known.
+    root_uuid = uid()
+    fmu_sheet_uuids = [uid() for _ in BOARDS]
+    carrier_sheet_uuid = uid()
+
     _, fmu = build_fmu_sheet()
-    _, carrier = build_carrier()
+    _, carrier = build_carrier(root_uuid, carrier_sheet_uuid)
 
     carrier_pins = ([(f"VBRICK_{b}", "passive") for b in BOARDS]
                     + [(f"BATT_V_{b}", "input") for b in BOARDS]
                     + [(f"BATT_I_{b}", "input") for b in BOARDS]
                     + [(f"SRV_{b}_CH{i}", "output")
                        for b in BOARDS for i in range(1, 7)])
-    _, root = build_root(PER_BOARD, carrier_pins)
+    root = build_root(root_uuid, fmu_sheet_uuids, carrier_sheet_uuid,
+                      PER_BOARD, carrier_pins)
 
     files = {
         HW / "fmu-v2.kicad_sch": fmu,
         HW / "carrier.kicad_sch": carrier,
         HW / f"{PROJECT}.kicad_sch": root,
     }
-    problems = check(files)
+    problems = check(files, root_uuid)
     for path, text in files.items():
         path.write_text(text, encoding="utf-8")
     (HW / f"{PROJECT}.kicad_pro").write_text(build_pro(), encoding="utf-8")
+    (HW / "jfox.kicad_sym").write_text(build_sym_lib(), encoding="utf-8")
+    (HW / "sym-lib-table").write_text(build_sym_lib_table(), encoding="utf-8")
 
-    for path in list(files) + [HW / f"{PROJECT}.kicad_pro"]:
+    extra = [HW / f"{PROJECT}.kicad_pro", HW / "jfox.kicad_sym",
+             HW / "sym-lib-table"]
+    for path in list(files) + extra:
         print(f"  wrote {path.relative_to(REPO)} ({path.stat().st_size} bytes)")
     if problems:
         print("\nSTRUCTURAL PROBLEMS:")
