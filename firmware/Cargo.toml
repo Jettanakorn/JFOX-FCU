@@ -12,6 +12,12 @@ test = false
 bench = false
 
 [[bin]]
+name = "jfox-fcu-flight"
+path = "src/main.rs"
+test = false
+bench = false
+
+[[bin]]
 name = "jfox-fcu-usb"
 path = "src/main_usb.rs"
 test = false

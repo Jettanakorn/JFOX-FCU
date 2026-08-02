@@ -6,13 +6,15 @@
 //! - PID controllers for stabilization
 //! - Filters (low-pass, complementary, Kalman)
 
-#![no_std]
+#![cfg_attr(not(feature = "std"), no_std)]
 
 pub mod vector;
 pub mod quaternion;
 pub mod pid;
 pub mod filters;
+pub mod matrix;
 
 pub use vector::Vec3;
 pub use quaternion::Quat;
 pub use pid::PidController;
+pub use matrix::{MatN, Mat3, Mat6};

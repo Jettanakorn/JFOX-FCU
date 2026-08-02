@@ -8,6 +8,7 @@
 
 use math::{Vec3, Quat};
 use libm::sqrtf;
+#[cfg(not(feature = "std"))]
 use defmt::trace;
 
 /// Madgwick AHRS filter
@@ -70,18 +71,14 @@ impl MadgwickFilter {
         let f2 = 2.0 * (q0 * q1 + q2 * q3) - ay;
         let f3 = 2.0 * (0.5 - q1 * q1 - q2 * q2) - az;
 
-        // Jacobian matrix J^T * f
-        let j11_24 = 2.0 * q2;
-        let j12_23 = 2.0 * q3;
-        let j13_22 = 2.0 * q0;
-        let j14_21 = 2.0 * q1;
-        let j32 = 2.0 * j14_21;
-        let j33 = 2.0 * j11_24;
-
-        let s0 = -j13_22 * f2 + j12_23 * f3;
-        let s1 = j14_21 * f1 + j11_24 * f2 - j32 * f3;
-        let s2 = -j14_21 * f2 + j13_22 * f1 - j33 * f3;
-        let s3 = j12_23 * f1 + j11_24 * f2;
+        // Gradient = J^T * f, where J is the 3x4 Jacobian of f w.r.t. (q0,q1,q2,q3):
+        //   J = [ -2q2,  2q3, -2q0,  2q1 ]
+        //       [  2q1,  2q0,  2q3,  2q2 ]
+        //       [   0,  -4q1, -4q2,   0  ]
+        let s0 = -2.0 * q2 * f1 + 2.0 * q1 * f2;
+        let s1 = 2.0 * q3 * f1 + 2.0 * q0 * f2 - 4.0 * q1 * f3;
+        let s2 = -2.0 * q0 * f1 + 2.0 * q3 * f2 - 4.0 * q2 * f3;
+        let s3 = 2.0 * q1 * f1 + 2.0 * q2 * f2;
 
         // Normalize step magnitude
         let norm = sqrtf(s0 * s0 + s1 * s1 + s2 * s2 + s3 * s3);
@@ -115,6 +112,7 @@ impl MadgwickFilter {
         // Normalize quaternion
         self.q.normalize();
 
+        #[cfg(not(feature = "std"))]
         trace!("Madgwick: q=({}, {}, {}, {})",
                self.q.w, self.q.x, self.q.y, self.q.z);
     }
@@ -170,5 +168,171 @@ impl MadgwickFilter {
 impl Default for MadgwickFilter {
     fn default() -> Self {
         Self::new(0.041) // Default beta for ~100Hz update rate
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    const EPS: f32 = 1e-4;
+    const G: f32 = 9.80665;
+
+    fn approx_eq(a: f32, b: f32, tol: f32) -> bool {
+        (a - b).abs() < tol
+    }
+
+    #[test]
+    fn stationary_and_level_stays_at_identity() {
+        let mut filter = MadgwickFilter::new(0.1);
+        for _ in 0..500 {
+            filter.update(Vec3::zero(), Vec3::new(0.0, 0.0, G), 0.01);
+        }
+        let (roll, pitch, yaw) = filter.get_euler();
+        assert!(approx_eq(roll, 0.0, EPS), "roll: {roll}");
+        assert!(approx_eq(pitch, 0.0, EPS), "pitch: {pitch}");
+        assert!(approx_eq(yaw, 0.0, EPS), "yaw: {yaw}");
+    }
+
+    #[test]
+    fn get_euler_matches_get_quaternion_to_euler() {
+        let mut filter = MadgwickFilter::new(0.05);
+        filter.update(Vec3::new(0.1, 0.0, 0.0), Vec3::new(0.0, -1.0, G), 0.01);
+        assert_eq!(filter.get_euler(), filter.get_quaternion().to_euler());
+    }
+
+    #[test]
+    fn accel_only_tilt_converges_toward_the_indicated_attitude() {
+        // Zero gyro (sensor isn't rotating), but the accelerometer indicates
+        // the vehicle is already resting at a ~0.3 rad roll tilt. The
+        // gradient-descent correction should pull the estimate toward that
+        // tilt over time using accel alone - the whole point of fusing accel
+        // in the first place. A larger-than-production beta (still within
+        // the documented 0.01-0.1 "typical" range's order of magnitude) and
+        // a generous tolerance keep this a convergence-property test, not a
+        // brittle exact-tuning test.
+        let true_roll = 0.3f32;
+        let tilted_accel = Vec3::new(0.0, G * libm::sinf(true_roll), G * libm::cosf(true_roll));
+
+        let mut filter = MadgwickFilter::new(0.1);
+        for _ in 0..2000 {
+            filter.update(Vec3::zero(), tilted_accel, 0.01);
+        }
+
+        let (roll, pitch, _) = filter.get_euler();
+        assert!(approx_eq(roll, true_roll, 0.05), "roll: expected ~{true_roll} got {roll}");
+        assert!(approx_eq(pitch, 0.0, 0.05), "pitch: {pitch}");
+    }
+
+    #[test]
+    fn pure_yaw_rotation_integrates_gyro_over_a_short_window() {
+        // Pure rotation about the vertical (yaw) axis with the vehicle level:
+        // gravity's reading in the body frame is unchanged throughout (the
+        // rotation axis coincides with the measurement axis), so accel gives
+        // no yaw correction at all - yaw evolves purely from gyro
+        // integration. Over a short window this should closely match
+        // omega * time, before any numerical drift accumulates meaningfully.
+        let omega = 0.5f32; // rad/s
+        let dt = 0.001f32;
+        let steps = 200; // 0.2s
+        let mut filter = MadgwickFilter::new(0.01);
+        for _ in 0..steps {
+            filter.update(Vec3::new(0.0, 0.0, omega), Vec3::new(0.0, 0.0, G), dt);
+        }
+        let (roll, pitch, yaw) = filter.get_euler();
+        let expected_yaw = omega * (steps as f32) * dt;
+        assert!(approx_eq(yaw, expected_yaw, 0.01), "yaw: expected ~{expected_yaw} got {yaw}");
+        assert!(approx_eq(roll, 0.0, 0.01), "roll: {roll}");
+        assert!(approx_eq(pitch, 0.0, 0.01), "pitch: {pitch}");
+    }
+
+    #[test]
+    fn zero_accel_magnitude_takes_the_gyro_only_fallback_without_diverging() {
+        // accel magnitude < 1e-6 must route to update_gyro_only rather than
+        // dividing by ~zero in the accel-normalization step.
+        let mut filter = MadgwickFilter::new(0.1);
+        for _ in 0..100 {
+            filter.update(Vec3::new(0.2, -0.1, 0.05), Vec3::zero(), 0.01);
+        }
+        let (roll, pitch, yaw) = filter.get_euler();
+        assert!(roll.is_finite() && pitch.is_finite() && yaw.is_finite());
+        // Quaternion must remain normalized even through the fallback path.
+        assert!(approx_eq(filter.get_quaternion().magnitude(), 1.0, 1e-3));
+    }
+
+    #[test]
+    fn zero_beta_disables_the_accel_correction_entirely() {
+        // With beta=0 the feedback term is exactly zero, so with zero gyro
+        // input the estimate must not move at all even though the
+        // accelerometer clearly disagrees with the current (identity)
+        // estimate - proves the correction step is genuinely gated by beta,
+        // not applied unconditionally.
+        let mut filter = MadgwickFilter::new(0.0);
+        let disagreeing_accel = Vec3::new(0.0, G, 0.0); // wildly tilted reading
+        for _ in 0..50 {
+            filter.update(Vec3::zero(), disagreeing_accel, 0.01);
+        }
+        let (roll, pitch, yaw) = filter.get_euler();
+        assert!(approx_eq(roll, 0.0, EPS), "roll: {roll}");
+        assert!(approx_eq(pitch, 0.0, EPS), "pitch: {pitch}");
+        assert!(approx_eq(yaw, 0.0, EPS), "yaw: {yaw}");
+    }
+
+    #[test]
+    fn set_beta_changes_subsequent_convergence_behavior() {
+        let true_roll = 0.3f32;
+        let tilted_accel = Vec3::new(0.0, G * libm::sinf(true_roll), G * libm::cosf(true_roll));
+
+        let mut slow = MadgwickFilter::new(0.0);
+        slow.set_beta(0.1);
+        for _ in 0..2000 {
+            slow.update(Vec3::zero(), tilted_accel, 0.01);
+        }
+        let (roll, _, _) = slow.get_euler();
+        // Same scenario/iteration count as accel_only_tilt_converges...:
+        // after set_beta raises it from 0, convergence should behave the
+        // same as directly constructing with that beta.
+        assert!(approx_eq(roll, true_roll, 0.05), "roll: expected ~{true_roll} got {roll}");
+    }
+
+    #[test]
+    fn reset_returns_to_identity() {
+        let mut filter = MadgwickFilter::new(0.1);
+        filter.update(Vec3::new(0.5, 0.3, 0.1), Vec3::new(0.0, 1.0, 1.0), 0.01);
+        let (roll, _, _) = filter.get_euler();
+        assert!(roll.abs() > EPS, "test setup should have moved the estimate away from identity");
+
+        filter.reset();
+        let (roll, pitch, yaw) = filter.get_euler();
+        assert_eq!(roll, 0.0);
+        assert_eq!(pitch, 0.0);
+        assert_eq!(yaw, 0.0);
+    }
+
+    #[test]
+    fn quaternion_stays_normalized_over_an_extended_varying_run() {
+        let mut filter = MadgwickFilter::new(0.05);
+        for i in 0..5000 {
+            let t = i as f32 * 0.01;
+            let gyro = Vec3::new(0.3 * libm::sinf(t), 0.2 * libm::cosf(t * 0.7), 0.1);
+            let accel = Vec3::new(0.5 * libm::sinf(t * 0.3), 0.3, G);
+            filter.update(gyro, accel, 0.01);
+        }
+        assert!(approx_eq(filter.get_quaternion().magnitude(), 1.0, 1e-3));
+    }
+
+    #[test]
+    fn default_uses_beta_0_041() {
+        // Indirect check (beta is private): a filter constructed via
+        // Default and one constructed with new(0.041) must behave
+        // identically given the same inputs.
+        let mut via_default = MadgwickFilter::default();
+        let mut via_new = MadgwickFilter::new(0.041);
+        let gyro = Vec3::new(0.1, 0.0, 0.0);
+        let accel = Vec3::new(0.0, 0.2, G);
+        for _ in 0..50 {
+            via_default.update(gyro, accel, 0.01);
+            via_new.update(gyro, accel, 0.01);
+        }
+        assert_eq!(via_default.get_euler(), via_new.get_euler());
     }
 }

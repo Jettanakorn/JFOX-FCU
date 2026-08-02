@@ -8,4 +8,8 @@ MEMORY
 
     /* 192KB main SRAM */
     RAM (rwx)   : ORIGIN = 0x20000000, LENGTH = 192K
+
+    /* 64KB core-coupled memory: CPU-only, not reachable by DMA. See ccmram.x
+       for the .ccmram section this region backs. */
+    CCMRAM (rwx) : ORIGIN = 0x10000000, LENGTH = 64K
 }

@@ -1,0 +1,15 @@
+[package]
+name = "sitl"
+version = "0.1.0"
+edition = "2021"
+
+# Deliberately its own standalone workspace (empty [workspace] table below),
+# not a member of the parent JFOX-FCU workspace - see the comment next to
+# `members` in the root Cargo.toml for why. This still lets math/flight/common
+# be pulled in as ordinary path dependencies.
+[workspace]
+
+[dependencies]
+math = { path = "../math", features = ["std"] }
+flight = { path = "../flight", features = ["std"] }
+common = { path = "../common", features = ["std"] }

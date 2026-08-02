@@ -9,8 +9,17 @@
 //! - Programmable sample rate up to 8kHz
 //! - Digital Motion Processor (DMP) - not used in this implementation
 //! - Data ready interrupt
+//!
+//! Takes an explicit chip-select pin and toggles it around every SPI
+//! transaction (matching `drivers::Fm25v01`'s pattern). `hal::spi::Spi`'s
+//! `init_mode3`/`init_mode0` configure software slave management (SSM/SSI),
+//! which deasserts the hardware NSS line entirely - without a
+//! software-controlled CS pin here, this driver had no working chip-select
+//! at all, which only coincidentally works, if at all, with exactly one
+//! device on the bus and breaks the moment a second one is added.
 
 use defmt::{debug, info, warn, trace};
+use embedded_hal::digital::OutputPin;
 use math::Vec3;
 
 // MPU-6000 Register Map
@@ -34,7 +43,7 @@ const MPU6000_USER_CTRL: u8 = 0x6A;
 const MPU6000_WHO_AM_I_VALUE: u8 = 0x68;
 
 /// Gyroscope full-scale range
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum GyroRange {
     Dps250 = 0,  // ±250 °/s
     Dps500 = 1,  // ±500 °/s
@@ -43,7 +52,7 @@ pub enum GyroRange {
 }
 
 /// Accelerometer full-scale range
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum AccelRange {
     G2 = 0,  // ±2g
     G4 = 1,  // ±4g
@@ -52,7 +61,7 @@ pub enum AccelRange {
 }
 
 /// Digital low-pass filter bandwidth
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, defmt::Format)]
 pub enum DlpfBandwidth {
     Hz260 = 0,
     Hz184 = 1,
@@ -72,23 +81,37 @@ pub struct ImuData {
 }
 
 /// MPU-6000 driver
-pub struct Mpu6000<SPI> {
+pub struct Mpu6000<SPI, CS> {
     spi: SPI,
+    cs: CS,
     gyro_scale: f32,
     accel_scale: f32,
 }
 
-impl<SPI> Mpu6000<SPI>
+impl<SPI, CS> Mpu6000<SPI, CS>
 where
     SPI: embedded_hal::spi::SpiBus,
+    CS: OutputPin,
 {
-    /// Create new MPU-6000 driver
-    pub fn new(spi: SPI) -> Self {
+    /// Create new MPU-6000 driver. `cs` is driven high (deasserted) here so
+    /// construction always leaves the device in a known, unselected idle
+    /// state rather than depending on the pin's power-on-reset level.
+    pub fn new(spi: SPI, mut cs: CS) -> Self {
+        let _ = cs.set_high();
         Self {
             spi,
+            cs,
             gyro_scale: 2000.0 / 32768.0,  // Default: ±2000 °/s
             accel_scale: 16.0 / 32768.0,   // Default: ±16g
         }
+    }
+
+    fn select(&mut self) -> Result<(), ()> {
+        self.cs.set_low().map_err(|_| ())
+    }
+
+    fn deselect(&mut self) -> Result<(), ()> {
+        self.cs.set_high().map_err(|_| ())
     }
 
     /// Initialize MPU-6000
@@ -235,14 +258,21 @@ where
         let mut rx = [0u8; 2];
         let tx = [reg | 0x80, 0x00]; // Set MSB for read
 
-        self.spi.transfer(&mut rx, &tx).map_err(|_| ())?;
+        self.select()?;
+        let r = self.spi.transfer(&mut rx, &tx).map_err(|_| ());
+        self.deselect()?;
+        r?;
         Ok(rx[1])
     }
 
     /// Write single register
     fn write_register(&mut self, reg: u8, val: u8) -> Result<(), ()> {
         let tx = [reg & 0x7F, val]; // Clear MSB for write
-        self.spi.write(&tx).map_err(|_| ())
+
+        self.select()?;
+        let r = self.spi.write(&tx).map_err(|_| ());
+        self.deselect()?;
+        r
     }
 
     /// Read multiple registers
@@ -253,7 +283,10 @@ where
         let mut rx = [0u8; 15];
         let len = buf.len() + 1;
 
-        self.spi.transfer(&mut rx[..len], &tx[..len]).map_err(|_| ())?;
+        self.select()?;
+        let r = self.spi.transfer(&mut rx[..len], &tx[..len]).map_err(|_| ());
+        self.deselect()?;
+        r?;
         buf.copy_from_slice(&rx[1..len]);
         Ok(())
     }

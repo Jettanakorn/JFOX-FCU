@@ -20,6 +20,8 @@ pub mod pwm;
 pub mod adc;
 pub mod i2c;
 pub mod dma;
+pub mod dwt;
+pub mod can;
 
 /// Re-export commonly used items
 pub use gpio::*;

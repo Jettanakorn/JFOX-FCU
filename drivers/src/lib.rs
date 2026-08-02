@@ -14,3 +14,4 @@ pub mod ms5611;
 pub mod fm25v01;
 
 pub use mpu6000::Mpu6000;
+pub use fm25v01::Fm25v01;

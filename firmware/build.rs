@@ -12,7 +12,13 @@ fn main() {
     let mut f = File::create(out.join("memory.x")).unwrap();
     f.write_all(memory_x).unwrap();
 
+    // Copy ccmram.x from workspace root (extra section for core-coupled memory)
+    let ccmram_x = include_bytes!("../ccmram.x");
+    let mut f = File::create(out.join("ccmram.x")).unwrap();
+    f.write_all(ccmram_x).unwrap();
+
     println!("cargo:rustc-link-search={}", out.display());
     println!("cargo:rerun-if-changed=../memory.x");
+    println!("cargo:rerun-if-changed=../ccmram.x");
     println!("cargo:rerun-if-changed=build.rs");
 }

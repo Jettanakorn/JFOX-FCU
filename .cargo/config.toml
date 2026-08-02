@@ -6,6 +6,8 @@ rustflags = [
     # Link with cortex-m-rt and defmt linker scripts
     "-C", "link-arg=-Tlink.x",
     "-C", "link-arg=-Tdefmt.x",
+    # Extra section for core-coupled memory (see ccmram.x / memory.x)
+    "-C", "link-arg=-Tccmram.x",
 ]
 
 [build]

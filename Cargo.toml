@@ -9,6 +9,12 @@ members = [
     "telemetry",
     "common",
 ]
+# Deliberately excludes `sitl`: this workspace's .cargo/config.toml pins the
+# default build target to thumbv7em-none-eabihf (embedded), but sitl is a
+# std, host-only binary (file I/O for CSV output) that must build for the
+# host triple. Keeping it out of `members` means `cargo build --workspace`
+# still works as a pure embedded-target command; sitl is built/run from its
+# own directory instead (see sitl/README.md).
 resolver = "2"
 
 [workspace.package]

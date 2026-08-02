@@ -137,6 +137,25 @@ impl<const P: char, const N: u8> Pin<P, N, Output> {
     }
 }
 
+/// Lets an output `Pin` be used generically (e.g. as a chip-select for a
+/// driver written against `embedded_hal::digital::OutputPin` rather than this
+/// crate's concrete type, such as `drivers::Fm25v01`).
+impl<const P: char, const N: u8> embedded_hal::digital::ErrorType for Pin<P, N, Output> {
+    type Error = core::convert::Infallible;
+}
+
+impl<const P: char, const N: u8> embedded_hal::digital::OutputPin for Pin<P, N, Output> {
+    fn set_low(&mut self) -> Result<(), Self::Error> {
+        Pin::set_low(self);
+        Ok(())
+    }
+
+    fn set_high(&mut self) -> Result<(), Self::Error> {
+        Pin::set_high(self);
+        Ok(())
+    }
+}
+
 impl<const P: char, const N: u8, PULL: PullMode> Pin<P, N, Input<PULL>> {
     /// Configure pin as input
     pub unsafe fn into_input(self) -> Self {

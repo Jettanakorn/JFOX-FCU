@@ -52,7 +52,8 @@ fn main() -> ! {
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");
     uart.write_str("[INIT] MPU-6000 IMU...\r\n");
-    let mut mpu6000 = Mpu6000::new(spi1);
+    let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
+    let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
     match mpu6000.init() {
         Ok(()) => {
             info!("MPU-6000 initialized successfully");
