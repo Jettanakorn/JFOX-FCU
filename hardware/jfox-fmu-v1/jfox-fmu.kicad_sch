@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "091b9e38-8612-4a3b-aa40-ea2c03740cd5")
+	(uuid "e3cafe2c-5116-467a-b4ca-5a381e686c9d")
 	(paper "A3")
 	(lib_symbols
 
@@ -15,7 +15,7 @@
 			)
 			(justify left top)
 		)
-		(uuid "f1c81ac8-d412-4de3-8c05-85086d231b0d")
+		(uuid "dfa9bafe-7ba4-4b7b-950c-0ef1271c4c7a")
 	)
 	(sheet
 		(at 38.1 88.9)
@@ -23,7 +23,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "919c121d-e88c-4bbb-a38e-56df9130485b")
+		(uuid "a7d8d2d8-7657-4846-8ebd-443295100181")
 		(property "Sheetname" "MCU"
 			(at 38.1 88.19 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -34,7 +34,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/091b9e38-8612-4a3b-aa40-ea2c03740cd5"
+				(path "/e3cafe2c-5116-467a-b4ca-5a381e686c9d"
 					(page "2")
 				)
 			)
@@ -46,7 +46,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "fde2cc6d-751c-4881-af98-951ecfc3799d")
+		(uuid "88de0131-affc-469d-aa41-36ce84cf7bf7")
 		(property "Sheetname" "SENSORS"
 			(at 38.1 126.29 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -57,7 +57,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/091b9e38-8612-4a3b-aa40-ea2c03740cd5"
+				(path "/e3cafe2c-5116-467a-b4ca-5a381e686c9d"
 					(page "3")
 				)
 			)
@@ -69,7 +69,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "179f2500-2955-48b8-9e50-1c3b441ac6e4")
+		(uuid "49ebac36-bff6-460b-9780-4632b4571597")
 		(property "Sheetname" "POWER"
 			(at 38.1 164.39 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -80,7 +80,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/091b9e38-8612-4a3b-aa40-ea2c03740cd5"
+				(path "/e3cafe2c-5116-467a-b4ca-5a381e686c9d"
 					(page "4")
 				)
 			)
@@ -92,7 +92,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "c1c976d7-5fe4-40b2-a0bf-fefac5abee11")
+		(uuid "e2fd41b8-2591-4c31-8ebf-f46f8d6a7390")
 		(property "Sheetname" "COMMS"
 			(at 38.1 202.49 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -103,8 +103,31 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/091b9e38-8612-4a3b-aa40-ea2c03740cd5"
+				(path "/e3cafe2c-5116-467a-b4ca-5a381e686c9d"
 					(page "5")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 38.1 241.3)
+		(size 60.96 25.4)
+		(fields_autoplaced yes)
+		(stroke (width 0.1524)(type solid))
+		(fill (color 0 0 0 0.0000))
+		(uuid "001b43c4-499d-4b32-9df0-472e8465bf0c")
+		(property "Sheetname" "PASSIVES"
+			(at 38.1 240.59 0)
+			(effects (font (size 1.27 1.27))(justify left bottom))
+		)
+		(property "Sheetfile" "passives.kicad_sch"
+			(at 38.1 267.3 0)
+			(effects (font (size 1.27 1.27))(justify left top))
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/e3cafe2c-5116-467a-b4ca-5a381e686c9d"
+					(page "6")
 				)
 			)
 		)

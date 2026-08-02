@@ -135,6 +135,60 @@ def check_cross_sheet(fails):
     return len(CROSS_SHEET)
 
 
+def check_passives(fails):
+    """The parts whose absence is invisible until the board misbehaves.
+
+    A missing decoupling capacitor does not fail ERC, does not fail DRC, and
+    does not stop a board being fabricated. It shows up as an MCU that resets
+    under load. So the count is asserted, along with the two CAN terminators
+    that existed only as a note on the comms sheet until this sheet was drawn.
+    """
+    out = Path(tempfile.gettempdir()) / "fmu_proj.net"
+    if not out.exists():
+        return
+    txt = out.read_text(encoding="utf-8")
+    comps = dict(re.findall(
+        r'\(comp\s*\n\s*\(ref "([^"]+)"\)\s*\n\s*\(value "([^"]+)"\)', txt))
+
+    caps = [r for r, v in comps.items() if r.startswith("C")]
+    if len(caps) < 20:
+        fails.append(f"only {len(caps)} capacitors - the MCU alone has 14 VDD "
+                     "pins and each wants its own 100n")
+
+    # Keyed by (ref, pin). Comparing bare reference designators gives false
+    # alarms whenever one part sits on both nets - and U10 legitimately has
+    # VCAP pins and VDD pins, so a ref-level comparison "proves" VCAP is
+    # shorted to +3V3 on a perfectly good schematic. This is the second time
+    # that mistake has been made here; compare pins, not parts.
+    nets = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            nets[m.group(1).lstrip("/")] = set(
+                re.findall(r'\(ref "([^"]+)"\)\s*\n\s*\(pin "([^"]+)"\)', blk))
+
+    def refs(net):
+        return {r for r, _ in nets.get(net, set())}
+
+    # VCAP is the internal LDO's output - it needs its own capacitors and
+    # must not share a node with any supply rail.
+    if not {"C18", "C19"} <= refs("VCAP"):
+        fails.append("VCAP is missing its 2.2 uF capacitors (C18/C19)")
+    for rail in ("+3V3", "+5V", "+3V3A"):
+        shared = nets.get("VCAP", set()) & nets.get(rail, set())
+        if shared:
+            fails.append(f"VCAP shares {sorted(shared)} with {rail} - "
+                         "that destroys the internal regulator")
+
+    for term, bus in (("R41", "CAN1_H"), ("R42", "CAN2_H")):
+        if term not in refs(bus):
+            fails.append(f"{bus} has no terminator - {term} missing")
+
+    for xtal, net in (("X1", "OSC_IN"), ("X2", "OSC32_IN")):
+        if xtal not in comps:
+            fails.append(f"{xtal} crystal missing")
+
+
 def check_power(fails):
     """The power tree's load-bearing properties.
 
@@ -275,6 +329,11 @@ def main():
     ncross = check_cross_sheet(fails)
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"{ncross} nets span sheets - the design is one circuit")
+
+    before = len(fails)
+    check_passives(fails)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"decoupling, VCAP caps, crystals and CAN terminators present")
 
     before = len(fails)
     check_power(fails)

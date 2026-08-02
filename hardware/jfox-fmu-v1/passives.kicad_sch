@@ -1,0 +1,4059 @@
+(kicad_sch
+	(version 20260306)
+	(generator "jfox gen_fmu_schematic")
+	(generator_version "10.0")
+	(uuid "6856496d-444a-4789-ba7a-d374b3649975")
+	(paper "A1")
+	(lib_symbols
+	(symbol "Device:R"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "R"
+				(at 2.032 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "R"
+				(at 0 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at -1.778 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "R res resistor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "R_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "R_0_1"
+				(rectangle
+					(start -1.016 -2.54)
+					(end 1.016 2.54)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "R_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Device:C"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "C"
+				(at 0.635 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "C"
+				(at 0.635 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0.9652 -3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Unpolarized capacitor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "cap capacitor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "C_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "C_0_1"
+				(polyline
+					(pts
+						(xy -2.032 0.762) (xy 2.032 0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 -0.762) (xy 2.032 -0.762)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "C_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 2.794)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 2.794)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Device:L"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "L"
+				(at -1.27 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "L"
+				(at 1.905 0 90)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Inductor"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "inductor choke coil reactor magnetic"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Choke_* *Coil* Inductor_* L_*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "L_0_1"
+				(arc
+					(start 0 2.54)
+					(mid 0.6323 1.905)
+					(end 0 1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 1.27)
+					(mid 0.6323 0.635)
+					(end 0 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 0)
+					(mid 0.6323 -0.635)
+					(end 0 -1.27)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(arc
+					(start 0 -1.27)
+					(mid 0.6323 -1.905)
+					(end 0 -2.54)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "L_1_1"
+				(pin passive line
+					(at 0 3.81 270)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -3.81 90)
+					(length 1.27)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Device:Crystal_GND24"
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "Y"
+				(at 3.175 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "Crystal_GND24"
+				(at 3.175 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Four pin crystal, GND on pins 2 and 4"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property private "KLC_S3.3" "The rectangle is not a symbol body but a graphical element"
+				(at 0 -12.7 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property private "KLC_S4.1" "Some pins are on 50mil grid to make the symbol small"
+				(at 0 -15.24 0)
+				(show_name yes)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "quartz ceramic resonator oscillator"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "Crystal*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "Crystal_GND24_0_1"
+				(polyline
+					(pts
+						(xy -2.54 2.286) (xy -2.54 3.556) (xy 2.54 3.556) (xy 2.54 2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 0) (xy -2.032 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.54 -2.286) (xy -2.54 -3.556) (xy 2.54 -3.556) (xy 2.54 -2.286)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -2.032 -1.27) (xy -2.032 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(rectangle
+					(start -1.143 2.54)
+					(end 1.143 -2.54)
+					(stroke
+						(width 0.3048)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 -3.81) (xy 0 -3.556)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 0) (xy 2.54 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.032 -1.27) (xy 2.032 1.27)
+					)
+					(stroke
+						(width 0.508)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "Crystal_GND24_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 1.27)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 1.27)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 1.27)
+					(name "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 0 -5.08 90)
+					(length 1.27)
+					(hide yes)
+					(name "G"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "power:PWR_FLAG"
+			(power global)
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 0)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "#FLG"
+				(at 0 1.905 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "PWR_FLAG"
+				(at 0 3.81 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Special symbol for telling ERC where power comes from"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "flag power"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_0"
+				(pin power_out line
+					(at 0 0 90)
+					(length 0)
+					(name ""
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(symbol "PWR_FLAG_0_1"
+				(polyline
+					(pts
+						(xy 0 0) (xy 0 1.27) (xy -1.016 1.905) (xy 0 2.54) (xy 1.016 1.905) (xy 0 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "JFOX-FMU v1 - PASSIVES AND CLOCKS\n\nDecoupling: one 100n per MCU VDD pin (14), plus 4u7 bulk per rail.\nVCAP1/VCAP2 get 2u2 each - these are the internal LDO's output, not a\nsupply input.\n\n16 MHz HSE divides exactly to 48 MHz for USB. The old board's 24 MHz\ncould not, which left its USB clock at 51.4 MHz and forced a second PLL\nonto an unverifiable register write.\n\nCAN terminators are HERE, in series with the jumpers on the comms\nsheet. Until now they existed only as a note, which is to say not at\nall."
+		(at 20.32 20.32 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left top)
+		)
+		(uuid "06bebc97-6197-48bb-ac11-96aaae763291")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 50.8 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "2b7da60f-c019-45d5-ad6a-9c8811854125")
+		(property "Reference" "C1"
+			(at 50.8 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 50.8 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 72.39) (xy 50.8 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5ce4900d-1443-4405-aad2-81c4f335dadc")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 50.8 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a55de8e5-8877-4ad5-a091-88b25ec6aefd")
+	)
+	(wire
+		(pts
+			(xy 50.8 80.01) (xy 50.8 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "75bbfe17-12d4-4042-bbb2-462a6ea59a08")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 50.8 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e642c34a-2dba-42ef-a922-dedf9488d25f")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 66.03999999999999 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "7ba3d186-18d9-4667-b185-55f3da6e882e")
+		(property "Reference" "C2"
+			(at 66.03999999999999 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 66.03999999999999 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 66.04 72.39) (xy 66.04 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "938b8922-1dc1-42c1-bc51-32f65b9e91c9")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 66.04 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d4dcbb5f-ebfc-432a-ab0f-dfe73a73d86a")
+	)
+	(wire
+		(pts
+			(xy 66.04 80.01) (xy 66.04 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e0c8f774-c238-4b24-9894-1b5b8ab2bb51")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 66.04 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5c62f464-9852-451a-830e-c451cc2fb18c")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 81.27999999999999 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "26a8dd2d-ff27-4969-a0b5-dcdf8254d03a")
+		(property "Reference" "C3"
+			(at 81.27999999999999 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 81.27999999999999 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 81.28 72.39) (xy 81.28 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aba5010f-8700-480b-9784-9548dbad669d")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 81.28 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f46861b7-12d7-4591-9a35-70c8dbbd88ab")
+	)
+	(wire
+		(pts
+			(xy 81.28 80.01) (xy 81.28 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6bc7932a-650d-456a-8600-0c5f93455a15")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 81.28 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "13f31a9f-958e-4530-9e7a-8331b0cc739c")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 96.51999999999998 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "075e17e6-3220-48ff-abb0-c21d3884ee3a")
+		(property "Reference" "C4"
+			(at 96.51999999999998 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 96.51999999999998 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 96.52 72.39) (xy 96.52 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ff493aa8-e6a1-4bf9-b3c5-efa5bff8bc22")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 96.52 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "63e8d7bc-6a1a-4f10-a532-dfb3edd3c772")
+	)
+	(wire
+		(pts
+			(xy 96.52 80.01) (xy 96.52 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58efd382-b226-43cb-bbf6-7900e819ff1b")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 96.52 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "521f4485-5d54-4319-8208-1d36d07b6641")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 111.75999999999998 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "adb96ee0-007e-452d-8913-67e48fc604a2")
+		(property "Reference" "C5"
+			(at 111.75999999999998 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 111.75999999999998 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.76 72.39) (xy 111.76 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4d5836e4-40cf-4688-9ef3-d59bbc7685b3")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 111.76 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e6067eb3-bf14-4af2-b2ed-872f647dba02")
+	)
+	(wire
+		(pts
+			(xy 111.76 80.01) (xy 111.76 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a71394c4-6bf9-41b6-845d-036ae1ec2d7a")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 111.76 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f18331d3-55d4-41b3-82f1-e9a2d1145a34")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 126.99999999999997 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "2b760359-7632-4f58-baa9-dc9fa489d418")
+		(property "Reference" "C6"
+			(at 126.99999999999997 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 126.99999999999997 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 127.0 72.39) (xy 127.0 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7919a6e-82c8-4c0e-aa1f-85109c2053a3")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 127.0 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5d9b9c56-29c3-411e-a95f-3fc975276391")
+	)
+	(wire
+		(pts
+			(xy 127.0 80.01) (xy 127.0 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4f3557e2-36a7-48bb-97bb-9df9bb68e0bd")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 127.0 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f764778a-e2f3-49d2-8e0b-2f3e167769bb")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 142.23999999999998 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "2ece4100-9a96-4fab-b649-026c082fd2df")
+		(property "Reference" "C7"
+			(at 142.23999999999998 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 142.23999999999998 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 72.39) (xy 142.24 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bac12c17-e083-4552-84a5-a1d6391be039")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 142.24 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d308a516-9b48-4345-875a-9b2a9ab64dc9")
+	)
+	(wire
+		(pts
+			(xy 142.24 80.01) (xy 142.24 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "4acca5f7-1eb4-4d15-aac3-555bf535bc9d")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 142.24 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f823bfa8-f1f4-4fdd-a1c7-902591052a1b")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 157.48 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "61995173-0bd8-415f-b71d-8fa9aa79c53a")
+		(property "Reference" "C8"
+			(at 157.48 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 157.48 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C8")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 157.48 72.39) (xy 157.48 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "63b152f6-e71e-4ae7-90c6-331bedbade2a")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 157.48 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "20207462-3cde-401a-993f-3d23ef444b92")
+	)
+	(wire
+		(pts
+			(xy 157.48 80.01) (xy 157.48 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a63b9269-e53e-4baa-93c9-366bed56aa23")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 157.48 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f313041c-530d-4924-82c1-9036132647ff")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 172.72 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "759e2fa6-6923-4e96-8274-a114d442b12b")
+		(property "Reference" "C9"
+			(at 172.72 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 172.72 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C9")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 172.72 72.39) (xy 172.72 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bff8c081-b956-4cef-9fd1-312e1c6c6196")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 172.72 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3c794878-6461-4808-8fa5-ad045ecaa3cf")
+	)
+	(wire
+		(pts
+			(xy 172.72 80.01) (xy 172.72 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b9efd98f-2bce-40ef-ae18-1d8239c4a902")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 172.72 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e1fb8382-d595-48be-afe9-ca89d59d44c3")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 187.96 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "782fefba-1a1d-4eff-aa16-b188fbe07a51")
+		(property "Reference" "C10"
+			(at 187.96 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 187.96 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C10")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 187.96 72.39) (xy 187.96 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "96779f28-fe53-433b-bfbd-89a735561a09")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 187.96 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "49b2826b-2c53-4a9c-851e-ed8be0d76bb0")
+	)
+	(wire
+		(pts
+			(xy 187.96 80.01) (xy 187.96 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c450891-39d7-4eac-9ec4-a8e9bcbf7af7")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 187.96 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "66f18514-3277-44f4-85ee-5c036010fbd3")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 203.20000000000002 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "2491eff3-9dc6-46d8-a08b-3c3e8514662a")
+		(property "Reference" "C11"
+			(at 203.20000000000002 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 203.20000000000002 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C11")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 203.2 72.39) (xy 203.2 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3529996-f315-4187-a043-560c6033ab2f")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 203.2 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fed09939-f42c-4365-83b7-6a5ece7ccde0")
+	)
+	(wire
+		(pts
+			(xy 203.2 80.01) (xy 203.2 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d6a45f57-d50c-4311-ae39-6d44ff14c6a3")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 203.2 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ccbfb278-48a8-4298-9015-e8f797dc4c2e")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 218.44000000000003 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "00d6c71d-9fa0-47f7-acf0-ed4477596dcf")
+		(property "Reference" "C12"
+			(at 218.44000000000003 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 218.44000000000003 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C12")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 218.44 72.39) (xy 218.44 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6588f47-3bfa-470e-87d6-2074d5967a8b")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 218.44 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ed472e7f-4f4f-435a-9a0c-9a9840c8f84e")
+	)
+	(wire
+		(pts
+			(xy 218.44 80.01) (xy 218.44 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9710366c-78d5-4233-ad5a-b58387d12489")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 218.44 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "de2f4e18-acf3-44f0-be5d-0ea3b34f6a03")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 233.68000000000004 76.2 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "425f8f7e-51e5-429f-bba5-8e8ef928c991")
+		(property "Reference" "C13"
+			(at 233.68000000000004 64.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 233.68000000000004 88.2 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C13")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 233.68 72.39) (xy 233.68 64.77)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b4ad2292-90e5-4914-b472-a32254f02dda")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 233.68 64.77 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9355d52a-8c49-400a-ae71-00f3f2030090")
+	)
+	(wire
+		(pts
+			(xy 233.68 80.01) (xy 233.68 87.63)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a837f3bd-6e0a-482e-bdf7-635c9a1121cf")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 233.68 87.63 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f7488c16-ab2b-4755-b4ee-531e73218023")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 50.8 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "fa490030-eba3-49e6-9342-f33a2ba4dea6")
+		(property "Reference" "C14"
+			(at 50.8 94.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 50.8 118.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C14")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 102.87) (xy 50.8 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "aea92916-f51e-4acd-baca-b19b34f2c031")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 50.8 95.25 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d147b52a-ce3e-40f9-a563-4966c3e56d97")
+	)
+	(wire
+		(pts
+			(xy 50.8 110.49) (xy 50.8 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "496a86d9-61f6-4ece-98a1-8c1dff616d7b")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 50.8 118.11 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "44f888cd-a73b-46c7-910e-2b74d09f93d7")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 66.03999999999999 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "c83f703b-0cbf-4bb9-b130-cef24e7ccf50")
+		(property "Reference" "C15"
+			(at 66.03999999999999 94.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "4u7"
+			(at 66.03999999999999 118.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C15")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 66.04 102.87) (xy 66.04 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23c7a7ea-bcc2-4b31-8164-153298360bb4")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 66.04 95.25 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0ba35c76-4e9d-4cff-a030-1cc894480b7f")
+	)
+	(wire
+		(pts
+			(xy 66.04 110.49) (xy 66.04 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "238ce5c0-6ab6-451d-879b-6a9e6d3ec280")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 66.04 118.11 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "32013a32-7bf7-4f30-b304-ad2be2f36386")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 81.27999999999999 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "f01b794c-a612-4929-b3a0-291a4c19140a")
+		(property "Reference" "C16"
+			(at 81.27999999999999 94.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "4u7"
+			(at 81.27999999999999 118.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C16")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 81.28 102.87) (xy 81.28 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0456ac7e-9fdd-453d-a032-a5cb3719a7c6")
+	)
+	(global_label "+3V3A"
+		(shape input)
+		(at 81.28 95.25 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e971f5a6-cd60-49ea-8adb-a816ea0a69e8")
+	)
+	(wire
+		(pts
+			(xy 81.28 110.49) (xy 81.28 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fe0af8c1-dfe1-4d08-bf66-e8f30ac31ca5")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 81.28 118.11 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c18184e1-c5fe-47cf-b8b6-8ed89eed1862")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 96.52 106.68 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "b32246ca-064a-429d-8144-363820a1dcb1")
+		(property "Reference" "C17"
+			(at 96.52 94.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "4u7"
+			(at 96.52 118.68 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 96.52 102.87) (xy 96.52 95.25)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dcc9e10e-48b1-4d89-a581-dd18735a5ccc")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 96.52 95.25 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2d9438fa-b468-4d88-90c8-912fa137d899")
+	)
+	(wire
+		(pts
+			(xy 96.52 110.49) (xy 96.52 118.11)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5d059397-41a9-44ad-b694-a938013ccdc1")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 96.52 118.11 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c8bcd9b7-5fe9-4914-a283-a0e1b15ba121")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 50.8 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "f2a4359e-8180-41c5-b421-c3763fc98f56")
+		(property "Reference" "C18"
+			(at 50.8 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "2u2"
+			(at 50.8 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 133.35) (xy 50.8 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d7559240-81f0-45d7-9e96-a051e8ace0d8")
+	)
+	(global_label "VCAP"
+		(shape bidirectional)
+		(at 50.8 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "348735f8-3d93-4175-88f2-b0e7435d8699")
+	)
+	(wire
+		(pts
+			(xy 50.8 140.97) (xy 50.8 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c7c8a9d5-b114-470a-a101-7d560969eac4")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 50.8 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "70c77ce5-ce47-4170-95f5-22adfba85473")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 66.04 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "18337f4f-d881-4c8f-8aec-e64b01e61941")
+		(property "Reference" "C19"
+			(at 66.04 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "2u2"
+			(at 66.04 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 66.04 133.35) (xy 66.04 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1100cead-0f00-4473-9a14-65d5dd448c8f")
+	)
+	(global_label "VCAP"
+		(shape bidirectional)
+		(at 66.04 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "82b55e07-5045-425c-bee3-aacc3db7f898")
+	)
+	(wire
+		(pts
+			(xy 66.04 140.97) (xy 66.04 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f236faef-0c60-42af-afae-0fe695cf3429")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 66.04 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "4ac30085-70e3-4ce9-987a-3be6c16929cf")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 81.28 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "ede077d8-3d2f-4527-8e2f-6da18a50a6d7")
+		(property "Reference" "C20"
+			(at 81.28 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 81.28 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 81.28 133.35) (xy 81.28 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "db0c9129-8249-44fc-9440-3f07046991cd")
+	)
+	(global_label "VDDA"
+		(shape bidirectional)
+		(at 81.28 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8236dc7c-1371-42d2-8903-e31512c40ad4")
+	)
+	(wire
+		(pts
+			(xy 81.28 140.97) (xy 81.28 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6dd3164f-eaa6-470f-847f-225e3d6af9ef")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 81.28 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cb6eb08e-7145-4737-86bd-3ff249705ebb")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 96.52 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "9bf7022b-a675-4936-abb6-2f9a8f03d33e")
+		(property "Reference" "C21"
+			(at 96.52 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "1u"
+			(at 96.52 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 96.52 133.35) (xy 96.52 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "19c3769e-4854-41b1-b8b4-30cb5e6343e8")
+	)
+	(global_label "+3V3A"
+		(shape input)
+		(at 96.52 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1032ee65-aa5e-40e4-82e8-5b5679da58a8")
+	)
+	(wire
+		(pts
+			(xy 96.52 140.97) (xy 96.52 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c0f0f2bf-d73b-407a-9687-6ff2fedb2b49")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 96.52 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "613fd0a5-3fdb-4f18-b1cf-f86d0005fb3d")
+	)
+	(symbol
+		(lib_id "Device:Crystal_GND24")
+		(at 137.16 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "f8129b53-b937-4e67-8557-5346b9db0265")
+		(property "Reference" "X1"
+			(at 137.16 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "16MHz"
+			(at 137.16 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "X1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(text "X1 16 MHz HSE -> OSC_IN/OSC_OUT, C22/C23 load"
+		(at 121.92 117.16 0)
+		(effects
+			(font
+				(size 1.1 1.1)
+			)
+			(justify left top)
+		)
+		(uuid "616eb7de-7105-42b5-adae-5c2edff93b4b")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 160.02 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "e359871c-3403-4121-8301-ef2885216253")
+		(property "Reference" "C22"
+			(at 160.02 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "12p"
+			(at 160.02 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 160.02 133.35) (xy 160.02 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "334eef19-1971-43dd-8b03-ddda81d39eb1")
+	)
+	(global_label "OSC_IN"
+		(shape bidirectional)
+		(at 160.02 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9570a153-f1e6-4a06-8638-d2f84cbfa221")
+	)
+	(wire
+		(pts
+			(xy 160.02 140.97) (xy 160.02 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e03b110-b2cf-497b-9105-7934276dd0f2")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 160.02 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dd5de2cc-3761-4148-9aea-56274313bae2")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 175.26 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "257c28c6-02f7-409e-a043-2091d9e05b58")
+		(property "Reference" "C23"
+			(at 175.26 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "12p"
+			(at 175.26 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 133.35) (xy 175.26 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94028c24-62d6-45e1-9864-05a21a885126")
+	)
+	(global_label "OSC_OUT"
+		(shape bidirectional)
+		(at 175.26 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2084a578-54ea-45ee-a979-4f911154bc73")
+	)
+	(wire
+		(pts
+			(xy 175.26 140.97) (xy 175.26 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6f2a0c32-b9b5-4bd8-9e65-b51382787a73")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 175.26 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ceadf125-5abb-4101-9d52-2ba5b50d5257")
+	)
+	(symbol
+		(lib_id "Device:Crystal_GND24")
+		(at 205.74 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "8a2daa44-6ec7-4700-855b-3dc2e0fca87b")
+		(property "Reference" "X2"
+			(at 205.74 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "32.768kHz"
+			(at 205.74 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "X2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 228.6 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "67a57142-b2b8-4959-bc10-3ff4803a935b")
+		(property "Reference" "C24"
+			(at 228.6 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "6p8"
+			(at 228.6 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 228.6 133.35) (xy 228.6 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8c5c176c-e1c5-4b3f-a543-68f1c5203f5b")
+	)
+	(global_label "OSC32_IN"
+		(shape bidirectional)
+		(at 228.6 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9fd3594f-1212-49d1-9319-0f974220b3b8")
+	)
+	(wire
+		(pts
+			(xy 228.6 140.97) (xy 228.6 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "147a2bfe-1538-41ae-ab17-611f16895a10")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 228.6 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "621551bb-cb74-4242-8a08-27912f193aaa")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 243.84 137.16 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "57feb840-5295-4c9b-9aba-cea6fad043c5")
+		(property "Reference" "C25"
+			(at 243.84 125.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "6p8"
+			(at 243.84 149.16 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 243.84 133.35) (xy 243.84 125.73)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f6bdc8ae-4b14-495e-a23e-e507b4be2966")
+	)
+	(global_label "OSC32_OUT"
+		(shape bidirectional)
+		(at 243.84 125.73 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "056caeab-ccf4-4efd-ac9b-eea675d372d6")
+	)
+	(wire
+		(pts
+			(xy 243.84 140.97) (xy 243.84 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d3e9f200-4501-4e05-9245-a1674440e643")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 243.84 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2efde96f-5366-43f9-be3d-0c92e4aa4a0b")
+	)
+	(symbol
+		(lib_id "Device:L")
+		(at 50.8 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "f7b13239-62f3-4856-a83c-4e9a59b4280b")
+		(property "Reference" "L1"
+			(at 50.8 163.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "2u2"
+			(at 50.8 187.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "L1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 171.45) (xy 50.8 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3bf58734-7f20-4968-b6e5-35e868cdccac")
+	)
+	(global_label "SW_3V3"
+		(shape bidirectional)
+		(at 50.8 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c7318041-f58f-4816-b2b2-c4960d36f845")
+	)
+	(wire
+		(pts
+			(xy 50.8 179.07) (xy 50.8 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b97b0210-33a1-4c89-a574-864d11f7d5e5")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 50.8 186.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9269eb66-a66c-4028-93fc-e195df944111")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 66.04 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "ec61f2b2-3667-4804-ac68-7c6f79c8902a")
+		(property "Reference" "C26"
+			(at 66.04 163.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "10u"
+			(at 66.04 187.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 66.04 171.45) (xy 66.04 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b3d26dba-1024-486f-be3f-bb78a1abd653")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 66.04 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "57d5a560-0281-457a-beff-bca9350450c9")
+	)
+	(wire
+		(pts
+			(xy 66.04 179.07) (xy 66.04 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "83b342d6-9e98-4ee2-a50c-562bdcf53a97")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 66.04 186.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7de6d747-bcf8-40ce-83e8-c481a605bad6")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 81.28 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "aac87e8a-9f63-4e50-8879-1203b9e02233")
+		(property "Reference" "C27"
+			(at 81.28 163.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "22u"
+			(at 81.28 187.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C27")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 81.28 171.45) (xy 81.28 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "74da0673-8b1c-4acc-967e-2e8b0b33f0b3")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 81.28 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3c88a86e-343a-4941-bc6d-eb5f3402fc3c")
+	)
+	(wire
+		(pts
+			(xy 81.28 179.07) (xy 81.28 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9d96f8da-66b2-437b-8f40-12d9104f808a")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 81.28 186.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "90087b4e-1f2a-40bd-9624-87c1a74aa4ad")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 96.52 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "4b202c9b-3d0e-4742-a54b-148b66a39634")
+		(property "Reference" "R1"
+			(at 96.52 163.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "180k"
+			(at 96.52 187.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "R1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 96.52 171.45) (xy 96.52 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d6fbad71-081d-4e35-a3bc-dd4961e8bcc9")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 96.52 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c00f89cb-c1eb-4da4-9327-6b96493bcdb3")
+	)
+	(wire
+		(pts
+			(xy 96.52 179.07) (xy 96.52 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "43cc2826-4e13-4a78-addf-c3fee533dc32")
+	)
+	(global_label "FB_3V3"
+		(shape bidirectional)
+		(at 96.52 186.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "dcdfa37f-6ba6-4c17-8000-e0ccba503c0b")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 111.76 175.26 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "27144170-e3db-447d-bb91-057a9afb85cc")
+		(property "Reference" "R2"
+			(at 111.76 163.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100k"
+			(at 111.76 187.26 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "R2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.76 171.45) (xy 111.76 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "47aba498-9c46-4b67-b18d-b6dba51989cb")
+	)
+	(global_label "FB_3V3"
+		(shape bidirectional)
+		(at 111.76 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7325d4f7-f33d-4036-8101-28711b01ec74")
+	)
+	(wire
+		(pts
+			(xy 111.76 179.07) (xy 111.76 186.69)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dc9e09fe-566d-4dbe-971b-97daa150d9ee")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 111.76 186.69 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3f95c68e-43ea-4e2e-84a2-ebb9d7dc7315")
+	)
+	(text "L1/C26/C27 + R1/R2 divider set the TPS62130's output.\nValues are a starting point from the datasheet's 3V3 example -\nrecompute against the final load before fabricating."
+		(at 50.8 153.26 0)
+		(effects
+			(font
+				(size 1.1 1.1)
+			)
+			(justify left top)
+		)
+		(uuid "3a1b649a-6b53-490b-900c-2767d1136d77")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 50.8 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "d5c40931-f17c-4d13-a153-a5ecf5744e99")
+		(property "Reference" "R41"
+			(at 50.8 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "120"
+			(at 50.8 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "R41")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 201.93) (xy 50.8 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b6dd3f31-56e7-42cd-a837-c721f5f10790")
+	)
+	(global_label "CAN1_H"
+		(shape bidirectional)
+		(at 50.8 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cb4493e6-8740-4488-8950-2161e183197e")
+	)
+	(wire
+		(pts
+			(xy 50.8 209.55) (xy 50.8 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2060fda8-5cb0-4357-8252-3b6a7129a7c1")
+	)
+	(global_label "CAN1_TERM"
+		(shape bidirectional)
+		(at 50.8 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "727a8c12-55e6-4fc8-8cfa-04cb55c93aee")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 66.04 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "dfa8c9a0-8183-473c-81ad-078fc3905a9a")
+		(property "Reference" "R42"
+			(at 66.04 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "120"
+			(at 66.04 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "R42")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 66.04 201.93) (xy 66.04 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a97c32cc-9f71-4b03-afcc-7534fa461008")
+	)
+	(global_label "CAN2_H"
+		(shape bidirectional)
+		(at 66.04 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f56c433e-4c65-4ead-8c79-c5754c5c57ec")
+	)
+	(wire
+		(pts
+			(xy 66.04 209.55) (xy 66.04 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "07ad639b-701f-4a05-a194-eb37522c7ff9")
+	)
+	(global_label "CAN2_TERM"
+		(shape bidirectional)
+		(at 66.04 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e5f805da-5305-4035-8179-da89c06a674a")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 96.52 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "da9e47f1-997c-48db-8ccb-c2a04a9bc2cd")
+		(property "Reference" "C30"
+			(at 96.52 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 96.52 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C30")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 96.52 201.93) (xy 96.52 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c708df52-0c32-4293-8b39-2584327afc36")
+	)
+	(global_label "+3V3_IMU1"
+		(shape input)
+		(at 96.52 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e05d3819-5244-411f-921a-3849c7b7f02d")
+	)
+	(wire
+		(pts
+			(xy 96.52 209.55) (xy 96.52 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7d323bae-b302-4788-b4a7-16c171eeb513")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 96.52 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "858fab1c-5ae1-4966-8afa-7f122b3406d3")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 111.75999999999999 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "fbba71b6-9f38-4f54-8cca-a2605d11cd9a")
+		(property "Reference" "C31"
+			(at 111.75999999999999 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 111.75999999999999 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C31")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 111.76 201.93) (xy 111.76 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f63e9036-479a-4c92-8ac5-3c7f8d293504")
+	)
+	(global_label "+3V3_IMU2"
+		(shape input)
+		(at 111.76 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8898d0e8-bff4-4c3a-9935-9375deb2a1e5")
+	)
+	(wire
+		(pts
+			(xy 111.76 209.55) (xy 111.76 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "13269447-9b8b-4ef8-854e-67d01fe73127")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 111.76 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "793cbc46-9fb7-4bba-8bc3-0826653a42c6")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 127.0 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "421b482f-f63b-4930-b0bf-4bcde6f7d188")
+		(property "Reference" "C32"
+			(at 127.0 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 127.0 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C32")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 127.0 201.93) (xy 127.0 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6b3eb0c0-0592-4955-8b21-ed9485e1782a")
+	)
+	(global_label "+3V3_IMU3"
+		(shape input)
+		(at 127.0 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "beefdd17-db4c-4e1a-bb66-af9c3d671d1e")
+	)
+	(wire
+		(pts
+			(xy 127.0 209.55) (xy 127.0 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "932bb80e-1804-430f-b1cf-0c2474952bbf")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 127.0 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e4ccf608-fc5a-4ad7-b8d3-f197dc7c69b5")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 142.24 205.73999999999998 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "dd03e3d5-a760-4017-9c4d-b3dc3593c351")
+		(property "Reference" "C33"
+			(at 142.24 193.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "100n"
+			(at 142.24 217.74 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "C33")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 142.24 201.93) (xy 142.24 194.31)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a0c0aa47-2136-42ca-bde3-62e79585d421")
+	)
+	(global_label "+3V3_SENS"
+		(shape input)
+		(at 142.24 194.31 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "95b21e52-8904-4bc5-a940-3accf0088403")
+	)
+	(wire
+		(pts
+			(xy 142.24 209.55) (xy 142.24 217.17)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bb35e996-d79c-4088-ad8e-aa92e863b57e")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 142.24 217.17 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e9dcfbad-b2e4-4561-8eff-9fb52b62e715")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 50.8 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "10a7024d-5c02-46cd-bdac-2144e38a972b")
+		(property "Reference" "#FLG1"
+			(at 50.8 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 50.8 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 50.8 236.22) (xy 50.8 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "eb89faf2-8529-4a28-8f7c-0715c9548405")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 50.8 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "46c102af-f564-415c-ba0f-42147108dd1a")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 76.19999999999999 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "310012e2-4d12-44a0-ab1c-ff4e34964afb")
+		(property "Reference" "#FLG2"
+			(at 76.19999999999999 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 76.19999999999999 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 76.2 236.22) (xy 76.2 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "72465dc1-f940-4469-9cd5-3fa984570816")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 76.2 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e9cb9114-45b7-4e54-b032-398cc3b2a23e")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 101.6 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "2ee8d42e-c7c0-4794-9c31-b41db6ef5b2c")
+		(property "Reference" "#FLG3"
+			(at 101.6 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 101.6 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 101.6 236.22) (xy 101.6 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e25d43c-a3ae-4e69-b325-1ae59c96becd")
+	)
+	(global_label "+3V3A"
+		(shape input)
+		(at 101.6 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "89c6a387-8c53-4067-8535-25ed3c0fd316")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 126.99999999999999 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "83d60aa9-acaa-4969-918c-7a0228434d24")
+		(property "Reference" "#FLG4"
+			(at 126.99999999999999 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 126.99999999999999 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 127.0 236.22) (xy 127.0 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b39298eb-6bd3-4f60-a32f-5b37e9f0117c")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 127.0 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2132baf7-f23b-40d1-9059-3d3ec2d0f626")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 152.39999999999998 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "0820edd5-dd25-4a0c-97ea-ad0feea0afb3")
+		(property "Reference" "#FLG5"
+			(at 152.39999999999998 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 152.39999999999998 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG5")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 152.4 236.22) (xy 152.4 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "165c6e52-d00e-4092-a7b4-6de8f19d3139")
+	)
+	(global_label "VDD_BRICK"
+		(shape input)
+		(at 152.4 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "09236018-2fca-400c-be9c-6f88d1d71126")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 177.8 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "9a63fe8e-27a9-4803-9565-af81f4d175d0")
+		(property "Reference" "#FLG6"
+			(at 177.8 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 177.8 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG6")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 177.8 236.22) (xy 177.8 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d33c2f4-8caa-4628-a619-388692ddc751")
+	)
+	(global_label "VDD_SERVO"
+		(shape input)
+		(at 177.8 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "07da524f-8104-4616-8615-ce968bd3c65c")
+	)
+	(symbol
+		(lib_id "power:PWR_FLAG")
+		(at 203.2 236.21999999999997 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "c526f7b7-6e29-433f-9276-35ee0b0e7508")
+		(property "Reference" "#FLG7"
+			(at 203.2 224.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "PWR_FLAG"
+			(at 203.2 248.22 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/6856496d-444a-4789-ba7a-d374b3649975"
+					(reference "#FLG7")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 203.2 236.22) (xy 203.2 243.84)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7ce51201-069a-4ad3-8b8e-102130cdbf02")
+	)
+	(global_label "VBUS_USB"
+		(shape input)
+		(at 203.2 243.84 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "89bc4794-d807-4764-87da-4bebf22b57d2")
+	)
+	(text "PWR_FLAG marks each rail as driven, so ERC's power-pin check means something."
+		(at 50.8 218.22 0)
+		(effects
+			(font
+				(size 1.1 1.1)
+			)
+			(justify left top)
+		)
+		(uuid "ddb121e9-185f-48c1-8278-085ed16d261c")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)

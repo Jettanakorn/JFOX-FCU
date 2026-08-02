@@ -171,9 +171,26 @@ def pin_positions(sym_block):
     # layout silently returned zero pins for the other.
     for m in re.finditer(
             r'\(pin\s+\w+\s+\w+\s*\(at\s+([-\d.]+)\s+([-\d.]+)\s+(\d+)\)'
-            r'[\s\S]*?\(name\s+"([^"]+)"', sym_block):
+            r'[\s\S]*?\(name\s+"([^"]*)"', sym_block):
         x, y, ang, name = m.groups()
         out.setdefault(name, (float(x), -float(y), int(ang)))
+    return out
+
+
+def pin_list(sym_block):
+    """[(number, name, dx, dy, angle)] - every pin, keyed by nothing.
+
+    `pin_positions` keys by name, which is right for an MCU and wrong for a
+    passive: Device:C and Device:R name both pins "~", so a name-keyed dict
+    keeps one of them and the other silently never gets wired. That produced
+    84 unconnected pins the moment passives were added.
+    """
+    out = []
+    for m in re.finditer(
+            r'\(pin\s+\w+\s+\w+\s*\(at\s+([-\d.]+)\s+([-\d.]+)\s+(\d+)\)'
+            r'[\s\S]*?\(name\s+"([^"]*)"[\s\S]*?\(number\s+"([^"]+)"', sym_block):
+        x, y, ang, name, num = m.groups()
+        out.append((num, name, float(x), -float(y), int(ang)))
     return out
 
 
@@ -503,6 +520,140 @@ def build_power():
     return ru, document(ru, libs, body, paper="A2")
 
 
+def two_pin(ref, lib_id, value, x, y, a_net, b_net, root_uuid, geom, vertical=True):
+    """Place an R/C/L and wire both ends.
+
+    Uses pin_list, not pin_positions: passives name both pins "~", so a
+    name-keyed lookup would wire only one end.
+    """
+    out = [place(lib_id, ref, value, x, y, root_uuid, [])]
+    for _num, _name, dx, dy, ang in geom[lib_id]:
+        net = a_net if dy < 0 else b_net
+        ax, ay = round(x + dx, 2), round(y + dy, 2)
+        sx, sy = stub_len(ang)
+        bx, by = round(ax + sx, 2), round(ay + sy, 2)
+        out.append(wire(ax, ay, bx, by))
+        shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
+        out.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+    return out
+
+
+def build_passives():
+    """The parts a board cannot be built without.
+
+    Decoupling, the LDO's VCAP capacitors, both crystals, the buck's inductor
+    and feedback divider, and the CAN terminators - which until now existed
+    only as text on the comms sheet, which is to say not at all.
+
+    Kept on its own sheet because it is a long list of small things, and
+    burying them among the ICs makes it hard to see whether any are missing.
+    """
+    ru = uid()
+    libs = []
+    for nm in ("R", "C", "L", "Crystal_GND24"):
+        lib = "Device"
+        libs += sym_defs(KICAD_SYMS / f"{lib}.kicad_sym", nm, lib)
+    libs += sym_defs(KICAD_SYMS / "power.kicad_sym", "PWR_FLAG", "power")
+
+    geom = {}
+    for lib in libs:
+        m = re.search(r'\(symbol "([^"]+)"', lib)
+        geom[m.group(1)] = pin_list(lib)
+
+    body = [text(
+        "JFOX-FMU v1 - PASSIVES AND CLOCKS\\n"
+        "\\n"
+        "Decoupling: one 100n per MCU VDD pin (14), plus 4u7 bulk per rail.\\n"
+        "VCAP1/VCAP2 get 2u2 each - these are the internal LDO's output, not a\\n"
+        "supply input.\\n"
+        "\\n"
+        "16 MHz HSE divides exactly to 48 MHz for USB. The old board's 24 MHz\\n"
+        "could not, which left its USB clock at 51.4 MHz and forced a second PLL\\n"
+        "onto an unverifiable register write.\\n"
+        "\\n"
+        "CAN terminators are HERE, in series with the jumpers on the comms\\n"
+        "sheet. Until now they existed only as a note, which is to say not at\\n"
+        "all.",
+        20.32, 20.32, 1.5)]
+
+    n = 0
+    def add(ref, lib, val, x, y, a, b):
+        nonlocal n
+        body.extend(two_pin(ref, lib, val, x, y, a, b, ru, geom))
+        n += 1
+
+    # MCU decoupling - one per VDD pin, plus bulk
+    x, y = 50.8, 76.2
+    for i in range(14):
+        add(f"C{i+1}", "Device:C", "100n", x, y, "+3V3", "GND")
+        x += 15.24
+        if x > 240:
+            x, y = 50.8, y + 30.48
+    add("C15", "Device:C", "4u7", x, y, "+3V3", "GND")
+    add("C16", "Device:C", "4u7", x + 15.24, y, "+3V3A", "GND")
+    add("C17", "Device:C", "4u7", x + 30.48, y, "+5V", "GND")
+
+    # VCAP - the internal LDO's decoupling
+    y += 30.48
+    add("C18", "Device:C", "2u2", 50.8, y, "VCAP", "GND")
+    add("C19", "Device:C", "2u2", 66.04, y, "VCAP", "GND")
+    add("C20", "Device:C", "100n", 81.28, y, "VDDA", "GND")
+    add("C21", "Device:C", "1u", 96.52, y, "+3V3A", "GND")
+
+    # Crystals
+    body.append(place("Device:Crystal_GND24", "X1", "16MHz", 137.16, y, ru, []))
+    body.append(text("X1 16 MHz HSE -> OSC_IN/OSC_OUT, C22/C23 load",
+                     121.92, round(y - 20, 2), 1.1))
+    add("C22", "Device:C", "12p", 160.02, y, "OSC_IN", "GND")
+    add("C23", "Device:C", "12p", 175.26, y, "OSC_OUT", "GND")
+    body.append(place("Device:Crystal_GND24", "X2", "32.768kHz", 205.74, y, ru, []))
+    add("C24", "Device:C", "6p8", 228.6, y, "OSC32_IN", "GND")
+    add("C25", "Device:C", "6p8", 243.84, y, "OSC32_OUT", "GND")
+
+    # Buck: inductor, feedback divider, input and output capacitors
+    y += 38.1
+    add("L1", "Device:L", "2u2", 50.8, y, "SW_3V3", "+3V3")
+    add("C26", "Device:C", "10u", 66.04, y, "+5V", "GND")
+    add("C27", "Device:C", "22u", 81.28, y, "+3V3", "GND")
+    add("R1", "Device:R", "180k", 96.52, y, "+3V3", "FB_3V3")
+    add("R2", "Device:R", "100k", 111.76, y, "FB_3V3", "GND")
+    body.append(text(
+        "L1/C26/C27 + R1/R2 divider set the TPS62130's output.\\n"
+        "Values are a starting point from the datasheet's 3V3 example -\\n"
+        "recompute against the final load before fabricating.",
+        50.8, round(y - 22, 2), 1.1))
+
+    # CAN terminators, in series with JP1/JP2 on the comms sheet
+    y += 30.48
+    add("R41", "Device:R", "120", 50.8, y, "CAN1_H", "CAN1_TERM")
+    add("R42", "Device:R", "120", 66.04, y, "CAN2_H", "CAN2_TERM")
+
+    # Sensor and transceiver decoupling
+    for i, rail in enumerate(("+3V3_IMU1", "+3V3_IMU2", "+3V3_IMU3",
+                              "+3V3_SENS")):
+        add(f"C{30+i}", "Device:C", "100n", 96.52 + i * 15.24, y, rail, "GND")
+
+    # PWR_FLAG so ERC can see the rails as driven
+    y += 30.48
+    for i, rail in enumerate(("+5V", "+3V3", "+3V3A", "GND",
+                              "VDD_BRICK", "VDD_SERVO", "VBUS_USB")):
+        fx = 50.8 + i * 25.4
+        body.append(place("power:PWR_FLAG", f"#FLG{i+1}", "PWR_FLAG",
+                          fx, y, ru, []))
+        for _num, _nm, dx, dy, ang in geom["power:PWR_FLAG"]:
+            ax, ay = round(fx + dx, 2), round(y + dy, 2)
+            sx, sy = stub_len(ang)
+            bx, by = round(ax + sx, 2), round(ay + sy, 2)
+            body.append(wire(ax, ay, bx, by))
+            body.append(glabel(rail, "input", bx, by, 0 if sx < 0 else 180))
+    body.append(text("PWR_FLAG marks each rail as driven, so ERC's "
+                     "power-pin check means something.",
+                     50.8, round(y - 18, 2), 1.1))
+
+    print(f"  passives: {n} two-pin parts, 2 crystals, 7 power flags")
+    return ru, document(ru, libs, body, paper="A1")
+
+
 def build_comms():
     """CAN, USB and the SD card.
 
@@ -636,7 +787,8 @@ def build_root():
     for i, (nm, fn) in enumerate([("MCU", "mcu.kicad_sch"),
                                   ("SENSORS", "sensors.kicad_sch"),
                                   ("POWER", "power.kicad_sch"),
-                                  ("COMMS", "comms.kicad_sch")]):
+                                  ("COMMS", "comms.kicad_sch"),
+                                  ("PASSIVES", "passives.kicad_sch")]):
         body.append(sheet_block(nm, fn, 38.1, 88.9 + i * 38.1, ru, i + 2))
     return ru, document(ru, [], body)
 
@@ -665,8 +817,10 @@ def main():
     _, mcu = build_mcu()
     _, power = build_power()
     _, comms = build_comms()
+    _, passives = build_passives()
     _, root = build_root()
     files = {BOARD / "comms.kicad_sch": comms,
+             BOARD / "passives.kicad_sch": passives,
              BOARD / "sensors.kicad_sch": sensors,
              BOARD / "mcu.kicad_sch": mcu,
              BOARD / "power.kicad_sch": power,
