@@ -1,5 +1,8 @@
 # JFOX FCU Firmware v2.0 - Final Status
 
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> at the repo root for current build/flash instructions and status.
+
 **Date:** 2025-12-30
 **Firmware Version:** v2.0 (LED + UART Debug)
 **Status:** ✓ Successfully Flashed

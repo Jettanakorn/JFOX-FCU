@@ -1,5 +1,8 @@
 # JFOX FCU - Build & Flash Complete! ✓
 
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> at the repo root for current build/flash instructions and status.
+
 ## Summary
 
 Successfully built and flashed bare-metal Rust firmware to JFOX FCU (PX4FMUv2.4.5)!

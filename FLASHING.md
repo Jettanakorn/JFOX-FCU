@@ -1,5 +1,9 @@
 # JFOX FCU Firmware Flashing Guide
 
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> at the repo root for current build/flash instructions. Kept for its
+> protocol reverse-engineering detail.
+
 ## Current Status
 
 ✅ **Firmware Built Successfully**

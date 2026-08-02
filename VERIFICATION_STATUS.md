@@ -1,5 +1,10 @@
 # JFOX FCU Firmware - Verification Status
 
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> at the repo root, which carries forward this file's finding (the `jfox-fcu`
+> binary was successfully flashed and verified running on real hardware) into
+> the current, accurate status table.
+
 ## Current Status: FIRMWARE RUNNING ✓
 
 **Date:** 2025-12-30

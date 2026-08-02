@@ -1,9 +1,16 @@
-//! JFOX FCU v3.0 - USB CDC + MAVLink Compatible Firmware
+//! JFOX FCU - USB CDC + MAVLink bring-up firmware.
 //!
-//! This version implements:
-//! - USB CDC (virtual COM port) for Mission Planner compatibility
-//! - Basic MAVLink heartbeat messages
-//! - Same LED status and IMU functionality as v2.0
+//! Standalone (no RTIC) bring-up binary, not the real flight application
+//! (see `main.rs`/`jfox-fcu-flight` for that): reads the IMU, runs
+//! `MadgwickFilter`, and reports real state over USB CDC as MAVLink v1 -
+//! HEARTBEAT (1Hz, `flight::arming::ArmingFsm`'s real armed state - this
+//! binary has no RC/command-link input so it can never actually arm, and
+//! HEARTBEAT reports that honestly rather than a hardcoded "active"),
+//! SYS_STATUS (1Hz, `flight::bit::BitReport`'s real IMU-init health), and
+//! ATTITUDE (~4Hz, `MadgwickFilter`'s real estimate). See
+//! `telemetry::mavlink` for the encoder, and `BUILD_AND_FLASH.md` for why
+//! this exists as an interim MAVLink bridge rather than the project's
+//! long-term GCS link (JFOXLink, not yet implemented).
 
 #![no_std]
 #![no_main]
@@ -19,39 +26,87 @@ use bsp::clocks::Clocks;
 use hal::{spi::Spi, gpio::*};
 use drivers::Mpu6000;
 use flight::MadgwickFilter;
+use flight::arming::{ArmingFsm, ArmRequest, PreArmChecks};
+use flight::bit::{BitReport, BitTestId};
+use telemetry::mavlink;
 
 // USB imports
 use usb_device::prelude::*;
 use usbd_serial::SerialPort;
-use synopsys_usb_otg::UsbBus;
+use synopsys_usb_otg::{UsbBus, UsbPeripheral};
 
 /// USB device buffer
 static mut EP_MEMORY: [u32; 1024] = [0; 1024];
 
-/// MAVLink heartbeat packet (MAVLink v1 format) - 15 bytes total
-const MAVLINK_HEARTBEAT: [u8; 15] = [
-    0xFE,       // STX (start byte)
-    0x09,       // Length (9 bytes payload)
-    0x00,       // Sequence
-    0x01,       // System ID
-    0x01,       // Component ID
-    0x00,       // Message ID: HEARTBEAT
-    // Payload (9 bytes):
-    0x00, 0x00, 0x00, 0x00,  // custom_mode (u32)
-    0x06,                     // type: MAV_TYPE_GENERIC (6)
-    0x00,                     // autopilot: MAV_AUTOPILOT_GENERIC (0)
-    0x00,                     // base_mode
-    0x04,                     // system_status: MAV_STATE_ACTIVE (4)
-    0x03,                     // mavlink_version (3)
-];
+/// USB OTG FS peripheral descriptor for `synopsys-usb-otg`'s `UsbBus`.
+/// Zero-sized marker type - the register base address is fixed for this MCU
+/// and `enable()` needs no runtime state, so there's nothing to store.
+struct UsbPeripheralImpl;
+
+unsafe impl UsbPeripheral for UsbPeripheralImpl {
+    // Same base address already used elsewhere in this workspace - see
+    // bsp::memory_map::USB_OTG_FS_BASE.
+    const REGISTERS: *const () = bsp::memory_map::USB_OTG_FS_BASE as *const ();
+    const HIGH_SPEED: bool = false; // OTG_FS = Full Speed only, no HS PHY
+    // FIFO depth (32-bit words) and endpoint count for STM32F4's OTG_FS
+    // peripheral - fixed by the silicon, not configurable. These are the
+    // standard values for this IP block, used identically by every STM32F4
+    // OTG_FS driver in the Rust embedded ecosystem (e.g. stm32f4xx-hal's
+    // usb_fs feature).
+    const FIFO_DEPTH_WORDS: usize = 320;
+    const ENDPOINT_COUNT: usize = 4;
+
+    /// Called internally by `synopsys_usb_otg::UsbBus` (see its own
+    /// `UsbBus::enable`) - not something this file calls directly.
+    fn enable() {
+        unsafe {
+            // Enable GPIOA clock, configure PA11/PA12 as AF10 (USB OTG FS),
+            // enable the OTG_FS peripheral clock.
+            let rcc = 0x4002_3800 as *mut u32;
+            let ahb1enr = (rcc as usize + 0x30) as *mut u32;
+            ahb1enr.write_volatile(ahb1enr.read_volatile() | (1 << 0)); // GPIOAEN
+
+            let gpioa = 0x4002_0000 as *mut u32;
+            let moder = (gpioa as usize + 0x00) as *mut u32;
+            let afrh = (gpioa as usize + 0x24) as *mut u32;
+
+            // PA11, PA12: Alternate function mode (10)
+            let mut mode_val = moder.read_volatile();
+            mode_val &= !(0x3 << 22); // Clear PA11
+            mode_val |= 0x2 << 22; // Set PA11 to AF
+            mode_val &= !(0x3 << 24); // Clear PA12
+            mode_val |= 0x2 << 24; // Set PA12 to AF
+            moder.write_volatile(mode_val);
+
+            // PA11, PA12: AF10 (USB OTG FS)
+            let mut afr_val = afrh.read_volatile();
+            afr_val &= !(0xF << 12); // Clear PA11 AF
+            afr_val |= 0xA << 12; // Set PA11 to AF10
+            afr_val &= !(0xF << 16); // Clear PA12 AF
+            afr_val |= 0xA << 16; // Set PA12 to AF10
+            afrh.write_volatile(afr_val);
+
+            // Enable USB OTG FS clock
+            let ahb2enr = (rcc as usize + 0x34) as *mut u32;
+            ahb2enr.write_volatile(ahb2enr.read_volatile() | (1 << 7)); // OTGFSEN
+        }
+    }
+
+    fn ahb_frequency_hz(&self) -> u32 {
+        bsp::clocks::HCLK_FREQ_HZ
+    }
+}
 
 #[entry]
 fn main() -> ! {
     info!("JFOX FCU v3.0 - USB CDC + MAVLink Firmware");
     info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6)");
 
-    // Get peripherals
-    let dp = pac::Peripherals::take().unwrap();
+    // Get peripherals (UsbPeripheralImpl talks to OTG_FS directly by fixed
+    // register address rather than through `dp`, matching this workspace's
+    // raw-register convention - see hal::spi/hal::can - so this binding is
+    // only for the ownership/take-once safety property, not its fields).
+    let _dp = pac::Peripherals::take().unwrap();
 
     // Configure system clocks to 180MHz
     let clocks = unsafe { Clocks::configure() };
@@ -62,49 +117,17 @@ fn main() -> ! {
     let mut led = unsafe { Pin::<'E', 14, Output>::new().into_output() };
     led.set_high(); // Turn on during initialization
 
-    // Initialize USB pins (PA11=DM, PA12=DP) as AF10
-    info!("Configuring USB pins...");
-    unsafe {
-        // Enable GPIOA clock
-        let rcc = 0x4002_3800 as *mut u32;
-        let ahb1enr = (rcc as usize + 0x30) as *mut u32;
-        ahb1enr.write_volatile(ahb1enr.read_volatile() | (1 << 0)); // GPIOAEN
-
-        // Configure PA11 and PA12 as AF10 (USB OTG FS)
-        let gpioa = 0x4002_0000 as *mut u32;
-        let moder = (gpioa as usize + 0x00) as *mut u32;
-        let afrh = (gpioa as usize + 0x24) as *mut u32;
-
-        // PA11, PA12: Alternate function mode (10)
-        let mut mode_val = moder.read_volatile();
-        mode_val &= !(0x3 << 22); // Clear PA11
-        mode_val |= 0x2 << 22;    // Set PA11 to AF
-        mode_val &= !(0x3 << 24); // Clear PA12
-        mode_val |= 0x2 << 24;    // Set PA12 to AF
-        moder.write_volatile(mode_val);
-
-        // PA11, PA12: AF10 (USB OTG FS)
-        let mut afr_val = afrh.read_volatile();
-        afr_val &= !(0xF << 12); // Clear PA11 AF
-        afr_val |= 0xA << 12;    // Set PA11 to AF10
-        afr_val &= !(0xF << 16); // Clear PA12 AF
-        afr_val |= 0xA << 16;    // Set PA12 to AF10
-        afrh.write_volatile(afr_val);
-
-        // Enable USB OTG FS clock
-        let ahb2enr = (rcc as usize + 0x34) as *mut u32;
-        ahb2enr.write_volatile(ahb2enr.read_volatile() | (1 << 7)); // OTGFSEN
-    }
-
-    // Initialize USB peripheral
+    // Initialize USB peripheral - pin config and clock enable happen inside
+    // UsbPeripheralImpl::enable(), called internally by UsbBus.
     info!("Initializing USB OTG FS...");
 
-    let usb_bus = UsbBus::new(dp.OTG_FS_GLOBAL, dp.OTG_FS_DEVICE, dp.OTG_FS_PWRCLK, unsafe { &mut EP_MEMORY });
+    let usb_bus = UsbBus::new(UsbPeripheralImpl, unsafe { &mut *core::ptr::addr_of_mut!(EP_MEMORY) });
 
     let mut serial = SerialPort::new(&usb_bus);
 
     let mut usb_dev = UsbDeviceBuilder::new(&usb_bus, UsbVidPid(0x26AC, 0x0011))
         .max_packet_size_0(64)
+        .expect("64 is a valid max_packet_size_0 value (8/16/32/64)")
         .build();
 
     info!("USB CDC initialized!");
@@ -118,12 +141,15 @@ fn main() -> ! {
     info!("Initializing MPU-6000 IMU...");
     let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
     let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
+    let mut bit_report = BitReport::new();
     match mpu6000.init() {
         Ok(()) => {
             info!("MPU-6000 initialized successfully");
+            bit_report.record(BitTestId::ImuCommunication, true);
         }
         Err(()) => {
             warn!("MPU-6000 initialization failed!");
+            bit_report.record(BitTestId::ImuCommunication, false);
         }
     }
 
@@ -131,29 +157,37 @@ fn main() -> ! {
     let mut madgwick = MadgwickFilter::new(0.01);
     info!("Madgwick filter initialized");
 
-    // Send startup message via USB (buffered)
-    let startup_msg = b"\r\n========================================\r\n\
-JFOX FCU v3.0 - USB CDC + MAVLink\r\n\
-Hardware: STM32F427VIT6 @ 180MHz\r\n\
-========================================\r\n\r\n\
-[OK] USB CDC ready\r\n\
-[OK] MAVLink heartbeat enabled\r\n\
-[OK] Connect with Mission Planner!\r\n\r\n";
+    // Arming FSM: this binary has no RC/command-link input (see
+    // flight::arming's module docs), so it's driven with ArmRequest::None
+    // every tick and can never actually arm - that's an honest reflection
+    // of what this bring-up binary can do, not a placeholder. HEARTBEAT's
+    // armed flag genuinely always reads false here, rather than the
+    // previous hardcoded "active" claim regardless of real state.
+    let mut arming = ArmingFsm::new();
 
     led.set_low(); // Turn off LED to indicate init complete
     info!("Entering main loop...");
 
     let mut count = 0u32;
     let mut led_state = false;
-    let mut loop_count = 0u32;
-    let mut usb_count = 0u32;
-    let mut heartbeat_seq = 0u8;
+    let mut attitude_send_count = 0u32;
+    let mut mav_seq = 0u8;
     let mut startup_sent = false;
+    const IMU_DT_S: f32 = 0.001; // 1kHz main loop
+
+    let startup_msg = b"\r\n========================================\r\n\
+JFOX FCU v3.0 - USB CDC + real MAVLink\r\n\
+Hardware: STM32F427VIT6 @ 180MHz\r\n\
+========================================\r\n\r\n\
+[OK] USB CDC ready\r\n\
+[OK] MAVLink HEARTBEAT/SYS_STATUS/ATTITUDE enabled\r\n\r\n";
+
+    let mut time_boot_ms: u32 = 0;
+    let mut last_gyro = math::Vec3::zero();
 
     loop {
         // Poll USB - CRITICAL for USB operation!
         if usb_dev.poll(&mut [&mut serial]) {
-            // USB activity detected
             if !startup_sent {
                 let _ = serial.write(startup_msg);
                 startup_sent = true;
@@ -161,73 +195,64 @@ Hardware: STM32F427VIT6 @ 180MHz\r\n\
         }
 
         // Read IMU data
-        if let Ok(imu_data) = mpu6000.read_data() {
-            // Update Madgwick filter
-            madgwick.update(
-                imu_data.gyro,
-                imu_data.accel,
-                0.001, // 1kHz = 1ms = 0.001s
-            );
-
-            // Update every 1000 samples (1Hz at 1kHz sample rate)
-            count += 1;
-            if count >= 1000 {
-                // Toggle LED
-                led_state = !led_state;
-                if led_state {
-                    led.set_high();
-                } else {
-                    led.set_low();
-                }
-
-                // Get attitude
-                let (roll, pitch, yaw) = madgwick.get_euler();
-                loop_count += 1;
-
-                // Log to RTT (requires ST-Link)
-                info!(
-                    "Attitude: roll={} pitch={} yaw={} temp={}",
-                    roll.to_degrees() as i32,
-                    pitch.to_degrees() as i32,
-                    yaw.to_degrees() as i32,
-                    imu_data.temp as i32
-                );
-
-                // Send MAVLink heartbeat (1Hz)
-                let mut heartbeat = MAVLINK_HEARTBEAT;
-                heartbeat[2] = heartbeat_seq; // Update sequence
-                heartbeat_seq = heartbeat_seq.wrapping_add(1);
-
-                // Send heartbeat packet
-                let _ = serial.write(&heartbeat);
-
-                // Also send human-readable status (simple format)
-                let msg = if led_state {
-                    b"[IMU] OK LED:ON\r\n"
-                } else {
-                    b"[IMU] OK LED:OFF\r\n"
-                };
-                let _ = serial.write(msg);
-
-                count = 0;
-            }
+        let imu_ok = if let Ok(imu_data) = mpu6000.read_data() {
+            madgwick.update(imu_data.gyro, imu_data.accel, IMU_DT_S);
+            last_gyro = imu_data.gyro;
+            true
         } else {
-            // IMU read failed
             if count == 0 {
                 warn!("Failed to read IMU data");
-                let _ = serial.write(b"[ERROR] IMU read failed\r\n");
             }
+            false
+        };
+
+        // Arming FSM: no command-link input yet (see the local comment
+        // above where `arming` is constructed), so this genuinely never
+        // arms - still real state, driven every tick like the real
+        // control_task will be.
+        let checks = PreArmChecks { bit_passed: bit_report.all_passed(), attitude_valid: imu_ok };
+        arming.update(ArmRequest::None, checks, IMU_DT_S);
+
+        // ATTITUDE @ ~4Hz (every 250 ticks of this 1kHz loop).
+        attitude_send_count += 1;
+        if attitude_send_count >= 250 {
+            attitude_send_count = 0;
+            let (roll, pitch, yaw) = madgwick.get_euler();
+            let frame = mavlink::encode_attitude(mav_seq, time_boot_ms, roll, pitch, yaw, last_gyro.x, last_gyro.y, last_gyro.z);
+            mav_seq = mav_seq.wrapping_add(1);
+            let _ = serial.write(&frame);
         }
 
-        // Send periodic heartbeat even if IMU fails (every ~100ms)
-        usb_count += 1;
-        if usb_count >= 100 {
-            let mut heartbeat = MAVLINK_HEARTBEAT;
-            heartbeat[2] = heartbeat_seq;
-            heartbeat_seq = heartbeat_seq.wrapping_add(1);
-            let _ = serial.write(&heartbeat);
-            usb_count = 0;
+        // HEARTBEAT + SYS_STATUS @ 1Hz (every 1000 ticks).
+        count += 1;
+        if count >= 1000 {
+            count = 0;
+            led_state = !led_state;
+            if led_state {
+                led.set_high();
+            } else {
+                led.set_low();
+            }
+
+            let (roll, pitch, yaw) = madgwick.get_euler();
+            info!(
+                "Attitude: roll={} pitch={} yaw={} armed={}",
+                (roll * 180.0 / core::f32::consts::PI) as i32,
+                (pitch * 180.0 / core::f32::consts::PI) as i32,
+                (yaw * 180.0 / core::f32::consts::PI) as i32,
+                arming.output_allowed()
+            );
+
+            let hb = mavlink::encode_heartbeat(mav_seq, arming.output_allowed());
+            mav_seq = mav_seq.wrapping_add(1);
+            let _ = serial.write(&hb);
+
+            let sys_status = mavlink::encode_sys_status(mav_seq, bit_report.all_passed());
+            mav_seq = mav_seq.wrapping_add(1);
+            let _ = serial.write(&sys_status);
         }
+
+        time_boot_ms = time_boot_ms.wrapping_add(1);
 
         // Simple delay (~1ms at 180MHz)
         delay_cycles(180_000);

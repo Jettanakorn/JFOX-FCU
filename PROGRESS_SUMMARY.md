@@ -1,5 +1,11 @@
 # JFOX FCU Development Progress Summary
 
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> at the repo root. Note: the USB-CDC build issue this file flags as
+> unresolved ("PAC compatibility issues" with `synopsys-usb-otg`'s
+> `UsbPeripheral` trait) has since been fixed - see `firmware/src/main_usb.rs`
+> and `BUILD_AND_FLASH.md`'s MAVLink/GCS section.
+
 **Date:** 2025-12-30
 **Status:** Firmware v2.0 Successfully Flashed, v3.0 USB CDC In Progress
 

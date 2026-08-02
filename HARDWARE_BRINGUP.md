@@ -1,20 +1,28 @@
 # Hardware bring-up runbook: single board → 2-board CAN → 3-board TMR
 
-This is a procedure document, not something that could be executed or
-verified in the session that wrote it — none of the phases below have real
-Pixhawk 2.4.8 hardware, a CAN transceiver, or a bench available. Everything
-up to this point (Phases 0-4 of the implementation plan) has been verified by
-compiling for the real embedded target, host-run unit tests, and the SITL
-simulator (`sitl/`, see its README). This document is what to actually do
-once hardware is on the bench, in the order the original plan specified:
-single board first, then 2-board CAN, then 3-board full TMR — do not skip
-ahead.
+**Correction**: an earlier version of this file claimed no real hardware had
+ever been available. That was wrong - a single PX4FMUv2.4.5 board was
+flashed and verified running real firmware on 2025-12-30, predating the
+session that wrote this file's original text (see `BUILD_AND_FLASH.md`'s
+status table and `VERIFICATION_STATUS.md`/`V2_STATUS.md` for that record).
+What's actually true: that verification was of `jfox-fcu` (`main_simple.rs`,
+IMU read + Madgwick fusion only) - **`jfox-fcu-flight`, the real flight
+application this runbook's Stage 1 is about, has never been flashed to real
+hardware.** The gap this file exists to close is real, just narrower than
+originally stated.
+
+Everything up to this point (Phases 0-4 of the implementation plan) has been
+verified by compiling for the real embedded target, host-run unit tests, and
+the SITL simulator (`sitl/`, see its README). This document is what to
+actually do once `jfox-fcu-flight` is on the bench, in the order the
+original plan specified: single board first, then 2-board CAN, then 3-board
+full TMR — do not skip ahead.
 
 ## Prerequisites
 
 - ST-Link (or equivalent SWD probe) + `probe-rs` installed (`cargo install
-  probe-rs`), or the PX4-bootloader USB flashing path already documented in
-  `FLASHING.md`.
+  probe-rs`), or the PX4-bootloader USB flashing path documented in
+  `BUILD_AND_FLASH.md`.
 - `defmt-rtt` log viewing via `probe-rs run` (the `jfox-fcu-flight` binary
   already links `defmt-rtt`/`panic-probe` and logs at `info` level by
   default — see `.cargo/config.toml`'s `DEFMT_LOG` env var).

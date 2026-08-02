@@ -5,6 +5,9 @@ authors.workspace = true
 edition.workspace = true
 license.workspace = true
 
+[features]
+std = []
+
 [dependencies]
 defmt = { workspace = true }
 heapless = { workspace = true }

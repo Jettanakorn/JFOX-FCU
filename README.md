@@ -68,6 +68,12 @@ probe-rs run --chip STM32F427VITx \
 cargo rr
 ```
 
+This project has more than one firmware binary (see `firmware/Cargo.toml`'s
+`[[bin]]` entries) and a second flashing path (the board's built-in PX4
+bootloader over USB, no debug probe needed) - see **[`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)**
+for the full picture, including current build/flash status per binary and
+how to connect Mission Planner/QGroundControl.
+
 ## Task Architecture
 
 | Task | Rate | Priority | Description |
@@ -114,6 +120,8 @@ cargo rr
 - [x] Madgwick AHRS sensor fusion
 - [x] PID controller implementation
 - [x] RTIC application with task scheduling
+- [x] MAVLink v1 telemetry (`jfox-fcu-usb`: HEARTBEAT/SYS_STATUS/ATTITUDE,
+      interim GCS bridge - see `BUILD_AND_FLASH.md`)
 
 ### 🚧 In Progress
 - [ ] UART HAL for telemetry/GPS
@@ -123,7 +131,6 @@ cargo rr
 
 ### 📋 Planned
 - [ ] MS5611 barometer driver
-- [ ] MAVLink telemetry protocol
 - [ ] GPS integration (NMEA/UBX)
 - [ ] Position hold and navigation
 - [ ] DMA for efficient I/O
