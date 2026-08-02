@@ -37,7 +37,7 @@ cargo build --release --bin jfox-fcu-flight   # just one
 | `jfox-fcu-usb` | Builds clean, has a real (CRC-correct, pymavlink-cross-checked) MAVLink v1 implementation - see below. **Never yet connected to a real GCS on real hardware** - the USB-clock fix it depends on (see below) is itself unverified on real silicon. |
 | `jfox-fcu-minimal` | Builds clean; used historically to recover a board stuck in bootloader mode. |
 
-## Flashing: two real, working paths
+## Flashing: three paths
 
 ### Path 1: SWD via a debug probe (ST-Link, J-Link)
 
@@ -78,15 +78,80 @@ cd ..
 python px4_flash_complete.py COM3 target/thumbv7em-none-eabihf/release/jfox-fcu-flight.bin
 ```
 
-### What was not attempted: Mission Planner's/QGroundControl's own firmware uploader
+### Path 3: QGroundControl's own Firmware Upgrade screen
 
-Both GCS applications have a built-in "Firmware Upgrade" screen that talks
-the same PX4-bootloader protocol as `px4_flash_complete.py`. **This has
-never been tried against this project's custom firmware.** It would very
-likely require wrapping the raw `.bin` into the GCS's expected manifest
-format (`.apj` for Mission Planner/ArduPilot, `.px4` for QGroundControl/PX4)
-with a `board_id` the GCS recognizes - not just renaming the file. Treat
-this as a possible future convenience, not a documented working path.
+QGroundControl's built-in uploader talks the same PX4-bootloader protocol
+as `px4_flash_complete.py`, but it doesn't accept a raw `.bin` - it needs
+the PX4 `.px4` firmware-package format (JSON metadata + zlib-compressed,
+base64-encoded image), and it validates the package's `board_id` against
+what the bootloader reports before it will flash. This section documents
+what's actually been built and verified, and what hasn't.
+
+**Verified in this environment** (no hardware, so this is as far as
+verification could go without a board attached):
+
+- `board_id = 9` is the correct value for PX4FMUv2 (this board's family) -
+  confirmed against PX4-Autopilot's own `boards/px4/fmu-v2/firmware.prototype`
+  at the source, not recalled from memory.
+- `px_mkfw.py` (vendored unmodified at the repo root from
+  `PX4/PX4-Autopilot/Tools/px_mkfw.py` - see the attribution comment at its
+  top) was run against a real release build of `jfox-fcu-flight` and
+  produced a `.px4` file whose embedded image was decompressed and compared
+  byte-for-byte (SHA-256) against the original `.bin` - identical.
+- QGroundControl's own documentation
+  (`docs/en/qgc-user-guide/setup_view/firmware.md` in the `qgroundcontrol`
+  repo) confirms the relevant UI path: "Check **Advanced settings** to
+  select specific developer releases or install firmware from your local
+  file system."
+
+**Not verified** (needs real hardware): that QGC actually accepts this
+`.px4` file and completes a real flash. `jfox-fcu-flight` has never been
+flashed by *any* method yet (see the status table above) - using QGC's
+uploader would be the first attempt by this path specifically, stacked on
+top of that. If you want the lowest-risk first flash, use Path 2
+(`px4_flash_complete.py`) first to confirm the board and binary work at
+all, then treat this path as a convenience once that's established -
+don't make this the first time you're finding out both things at once.
+
+**Steps**:
+
+```bash
+# 1. Build and convert to a raw binary (same as Path 2, step 1):
+cd firmware
+cargo build --release --bin jfox-fcu-flight
+cargo objcopy --release --bin jfox-fcu-flight -- -O binary ../target/thumbv7em-none-eabihf/release/jfox-fcu-flight.bin
+cd ..
+
+# 2. Package into .px4 (run from a POSIX-style shell, e.g. git-bash - a
+#    plain PowerShell `>` redirect adds a UTF-8 BOM that breaks the JSON
+#    parser reading this file back; git-bash's `>` does not):
+python px_mkfw.py --board_id 9 --version "0.1.0" \
+  --summary "JFOX-FCU jfox-fcu-flight" \
+  --image target/thumbv7em-none-eabihf/release/jfox-fcu-flight.bin \
+  > jfox-fcu-flight.px4
+```
+
+Requires Python 3 (`python --version` to check; `winget install -e --id
+Python.Python.3.12` if missing). No other dependencies - `px_mkfw.py` only
+uses the standard library.
+
+3. **Disconnect the board from USB entirely** (QGC's own docs are explicit
+   about this - don't have it connected when you open the Firmware page).
+4. Open QGroundControl → **Gear icon** (Vehicle Setup) → **Firmware** in
+   the sidebar.
+5. Connect the board via USB (directly to the machine, not through a hub).
+6. Check **Advanced settings**. This reveals the option to select a
+   firmware file from your local filesystem instead of the auto-downloaded
+   list - browse to `jfox-fcu-flight.px4`.
+7. Click **OK** and watch the progress bar. If `board_id` didn't match what
+   the bootloader reports, QGC will refuse before writing anything (a safe
+   failure, not a bricked board) - if that happens, the board's actual
+   reported ID differs from `9` and needs checking against a real RM0090 or
+   a bootloader `GET_DEVICE` query, not assumed.
+
+Same caveats as `jfox-fcu-usb` apply if you're packaging that binary
+instead of `jfox-fcu-flight`: see the USB-clock note below before trusting
+GCS connectivity once it boots.
 
 ## MAVLink / GCS connectivity (`jfox-fcu-usb`)
 

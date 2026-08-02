@@ -1,0 +1,336 @@
+#!/usr/bin/env python3
+"""Derive a connector/net reference for PX4FMUv2.4.5 from its Eagle source.
+
+Reads hardware/vendor/PX4FMUv2.4.5.sch (Eagle 7.1.0 XML, fetched from
+PX4/Hardware, CC BY-SA 3.0) and emits hardware/PX4FMUv2.4.5_NETS.md.
+
+This exists because the only copy of this schematic previously in the repo
+was docs/PX4FMUv2.4.5.pdf, which carries no extractable text - every fact
+taken from it had to be read off rendered images by eye. The Eagle source is
+the same design in machine-readable form, so connector pinouts and net
+membership can be derived instead of transcribed.
+
+Run:
+  python hardware/tools/extract_eagle_nets.py
+"""
+
+import sys
+import xml.etree.ElementTree as ET
+from collections import defaultdict
+from pathlib import Path
+
+REPO = Path(__file__).resolve().parents[2]
+SCH = REPO / "hardware" / "vendor" / "PX4FMUv2.4.5.sch"
+OUT = REPO / "hardware" / "PX4FMUv2.4.5_NETS.md"
+
+# Connectors the TMR carrier has to mate with, and why each matters. The
+# descriptions are checked against the derived nets - if one disagrees with the
+# netlist, the netlist is right and the label here is the thing to fix.
+CARRIER_RELEVANT = {
+    "J405": "CAN1 bus (MAX3051 transceiver U401) - the TMR voting bus",
+    "J601": "Brick power input - independent power source per board",
+    "J901": "Servo/PWM output header",
+    "J702": "Safety switch (IO co-processor domain)",
+    "J201": "SERIAL1 / telemetry",
+    "J202": "SERIAL2 / telemetry",
+    "J701": "Buzzer",
+}
+
+
+def load():
+    if not SCH.exists():
+        sys.exit(
+            f"missing {SCH}\n"
+            "fetch it from "
+            "https://raw.githubusercontent.com/PX4/Hardware/master/FMUv2/PX4FMUv2.4.5.sch"
+        )
+    schematic = ET.parse(SCH).getroot().find("drawing").find("schematic")
+    return schematic
+
+
+def natkey(s):
+    """Sort '-2' before '-10'; Eagle gate/pin names are numeric strings."""
+    out, num = [], ""
+    for ch in s or "":
+        if ch.isdigit():
+            num += ch
+        else:
+            if num:
+                out.append((1, int(num), ""))
+                num = ""
+            out.append((0, 0, ch))
+    if num:
+        out.append((1, int(num), ""))
+    return out
+
+
+def part_index(schematic):
+    parts = {}
+    for p in schematic.find("parts"):
+        attrs = {a.get("name"): a.get("value") for a in p.findall("attribute")}
+        parts[p.get("name")] = {
+            "library": p.get("library"),
+            "deviceset": p.get("deviceset"),
+            "device": p.get("device") or "",
+            "value": p.get("value") or "",
+            "partno": attrs.get("PARTNO", ""),
+        }
+    return parts
+
+
+def net_index(schematic):
+    """net name -> {(part, gate, pin)}; and (part, gate, pin) -> net name.
+
+    The gate must be part of the key. Multi-gate parts (J901's 3x16 header,
+    the STM32) reuse pin names across gates, so keying on (part, pin) alone
+    silently collapses them - that dropped 18 of J901's 19 pins on the first
+    run of this script.
+    """
+    net_to_pins = defaultdict(set)
+    pin_to_net = {}
+    net_sheet = {}
+    for sheet_no, sheet in enumerate(schematic.find("sheets"), start=1):
+        nets = sheet.find("nets")
+        if nets is None:
+            continue
+        for net in nets:
+            name = net.get("name")
+            net_sheet.setdefault(name, set()).add(sheet_no)
+            for seg in net.findall("segment"):
+                for pr in seg.findall("pinref"):
+                    key = (pr.get("part"), pr.get("gate"), pr.get("pin"))
+                    net_to_pins[name].add(key)
+                    pin_to_net[key] = name
+    part_pins = defaultdict(dict)
+    for (part, gate, pin), name in pin_to_net.items():
+        part_pins[part][(gate, pin)] = name
+    return net_to_pins, pin_to_net, net_sheet, part_pins
+
+
+def pin_count(schematic, part):
+    """Number of pins on a part's gate, from its library deviceset symbol."""
+    for lib in schematic.find("libraries"):
+        if lib.get("name") != part["library"]:
+            continue
+        devsets = lib.find("devicesets")
+        if devsets is None:
+            continue
+        for ds in devsets:
+            if ds.get("name") != part["deviceset"]:
+                continue
+            symbols = {s.get("name"): s for s in lib.find("symbols")}
+            total = 0
+            for gate in ds.find("gates"):
+                sym = symbols.get(gate.get("symbol"))
+                if sym is not None:
+                    total += len(sym.findall("pin"))
+            return total
+    return None
+
+
+def main():
+    schematic = load()
+    parts = part_index(schematic)
+    net_to_pins, pin_to_net, net_sheet, part_pins = net_index(schematic)
+
+    connectors = sorted(
+        n for n, p in parts.items()
+        if p["library"] == "con-hirose-df13"
+        or n in ("J901", "J301", "J801", "JX801")
+    )
+
+    lines = []
+    w = lines.append
+    w("# PX4FMUv2.4.5 — connector and net reference")
+    w("")
+    w("**Derived, not transcribed.** Generated by")
+    w("`hardware/tools/extract_eagle_nets.py` from `hardware/vendor/PX4FMUv2.4.5.sch`")
+    w("(Eagle 7.1.0 XML, from [PX4/Hardware](https://github.com/PX4/Hardware),")
+    w("CC BY-SA 3.0). Every pin/net pair below comes from the schematic's own")
+    w("netlist. Do not hand-edit — re-run the script.")
+    w("")
+    w(f"Source design: {len(parts)} parts, {len(schematic.find('sheets'))} sheets, "
+      f"{len(net_to_pins)} named nets.")
+    w("")
+
+    w("## Connectors relevant to the TMR carrier")
+    w("")
+    for ref in [r for r in connectors if r in CARRIER_RELEVANT]:
+        emit_connector(w, ref, parts, net_to_pins, pin_to_net, part_pins, schematic,
+                       note=CARRIER_RELEVANT[ref])
+    w("## Other connectors")
+    w("")
+    for ref in [r for r in connectors if r not in CARRIER_RELEVANT]:
+        emit_connector(w, ref, parts, net_to_pins, pin_to_net, part_pins, schematic)
+
+    w("## CAN1 net trace")
+    w("")
+    emit_net_trace(w, ["CAN_H", "CAN_L", "CAN1_TX", "CAN1_RX", "CANH", "CANL"],
+                   net_to_pins, parts)
+
+    w("## CAN2 net trace")
+    w("")
+    emit_net_trace(w, ["CAN2_TX", "CAN2_RX"], net_to_pins, parts)
+
+    emit_key_facts(w, parts, net_to_pins, part_pins)
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    print(f"wrote {OUT} ({len(lines)} lines)")
+
+
+def emit_connector(w, ref, parts, net_to_pins, pin_to_net, part_pins, schematic,
+                   note=None):
+    p = parts[ref]
+    npins = pin_count(schematic, p)
+    w(f"### {ref} — {p['value'] or p['deviceset']}")
+    w("")
+    if note:
+        w(f"*{note}*")
+        w("")
+    w(f"- Library device: `{p['library']}/{p['deviceset']}{p['device']}`")
+    if p["partno"]:
+        w(f"- Part number: `{p['partno']}`")
+    if npins:
+        w(f"- Pins: {npins}")
+    w("")
+    mine = sorted(
+        ((gate, pin, net) for (part, gate, pin), net in pin_to_net.items()
+         if part == ref),
+        key=lambda t: (natkey(t[0]), natkey(t[1])),
+    )
+    if mine:
+        multigate = len({g for g, _, _ in mine}) > 1
+        w("| Gate | Pin | Net | Also on net |" if multigate else "| Pin | Net | Also on net |")
+        w("|---|---|---|---|" if multigate else "|---|---|---|")
+        for gate, pin, net in mine:
+            alias = resolve_alias(net, net_to_pins, parts, pin_to_net, ref,
+                                  part_pins)
+            shown = f"`{net}` → **{alias}**" if alias else f"`{net}`"
+            others = describe_net_peers(net, net_to_pins, parts, exclude=ref)
+            row = f"| {pin} | {shown} | {others} |"
+            if multigate:
+                row = f"| {gate} " + row
+            w(row)
+    else:
+        w("*(no netlist entries — check the source)*")
+    w("")
+
+
+TWO_TERMINAL = {"RESISTOR", "INDUCTOR", "FERRITE", "FERRITE-BEAD", "CAP"}
+
+
+def describe_net_peers(net, net_to_pins, parts, exclude, pin_to_net=None):
+    """What else sits on this net - the only way to read an unnamed N$ net."""
+    peers = sorted(
+        f"{p}.{pin}" for (p, _g, pin) in net_to_pins.get(net, ())
+        if p != exclude and not p.startswith(("GND", "SUPPLY"))
+    )
+    if not peers:
+        return "—"
+    shown = peers[:4]
+    more = f" +{len(peers) - 4}" if len(peers) > 4 else ""
+    return ", ".join(shown) + more
+
+
+def resolve_alias(net, net_to_pins, parts, pin_to_net, exclude, part_pins):
+    """Walk an unnamed N$ net through series passives to the nearest IC pin.
+
+    Every servo-header channel sits behind a series protection resistor whose
+    far side is *also* an unnamed net, so the raw netlist reads as
+    N$71/N$72/... A single hop resolves nothing. What actually matters for the
+    carrier is which MCU pin drives the channel - U101 (STM32F427, the FMU) or
+    U801 (the IO co-processor) - so walk until an IC pin turns up.
+    """
+    if not net.startswith("N$"):
+        return None
+    seen, queue = {net}, [(net, [])]
+    while queue:
+        cur, via = queue.pop(0)
+        if len(via) > 4:
+            continue
+        for part, _gate, pin in sorted(net_to_pins.get(cur, ())):
+            if part == exclude:
+                continue
+            info = parts.get(part, {})
+            if part.startswith("U"):
+                trail = f" via {'/'.join(via)}" if via else ""
+                return f"{part}.{pin}{trail}"
+            if info.get("deviceset") not in TWO_TERMINAL:
+                continue
+            for (g2, pin2), n2 in part_pins.get(part, {}).items():
+                if pin2 != pin and n2 not in seen:
+                    seen.add(n2)
+                    label = f"{part} {info.get('value', '')}".strip()
+                    queue.append((n2, via + [label]))
+    return None
+
+
+def emit_key_facts(w, parts, net_to_pins, part_pins):
+    """Facts the TMR/carrier work depends on, computed rather than asserted.
+
+    Each of these was previously read off a rendered page of
+    docs/PX4FMUv2.4.5.pdf by eye. Deriving them here means a re-run re-checks
+    them instead of trusting a transcription.
+    """
+    w("## Key facts for the TMR build")
+    w("")
+
+    r409 = parts.get("R409", {})
+    nets409 = part_pins.get("R409", {})
+    w(f"- **CAN1 termination**: `R409` = `{r409.get('value')}` "
+      f"({r409.get('device')}, `{r409.get('partno')}`), across "
+      + " / ".join(f"`{n}`" for n in sorted(set(nets409.values())))
+      + ". A plain resistor — no jumper, no depopulate option. Three "
+        "unmodified boards on one bus put three of these in parallel.")
+
+    can2 = {n: net_to_pins[n] for n in net_to_pins if n in ("CAN2_TX", "CAN2_RX")}
+    if can2:
+        detail = "; ".join(
+            f"`{n}` → " + ", ".join(f"{p}.{pin}" for p, _g, pin in sorted(pins))
+            for n, pins in sorted(can2.items())
+        )
+        w(f"- **CAN2 has no transceiver**: {detail}. Only series resistors — "
+          "the MCU's raw logic-level pins, not a differential bus.")
+
+    imus = {n: p for n, p in parts.items()
+            if any(k in (p['deviceset'] or '') for k in
+                   ("MPU-6000", "L3G", "LSM303", "MS5611"))}
+    if imus:
+        w("- **Sensor stuff options present in the design**: "
+          + ", ".join(f"`{n}` {p['deviceset']}" for n, p in sorted(imus.items()))
+          + ". Which are actually populated is a per-unit build option — verify "
+            "on each physical board rather than assuming MPU-6000.")
+
+    sel = [f"`{n}` {p['value'] or p['deviceset']}" for n, p in sorted(parts.items())
+           if "LTC44" in (p['deviceset'] or '') + (p['value'] or '')]
+    if sel:
+        w(f"- **Power-source selector**: {', '.join(sel)} plus dual P-channel "
+          "MOSFETs — each board independently arbitrates its own power inputs.")
+
+    mounts = sorted(n for n in parts if "MOUNT" in n.upper())
+    if mounts:
+        w(f"- **Mounting**: {len(mounts)} × {parts[mounts[0]]['device']} holes "
+          f"({', '.join(mounts)}) — the stacking provision for a multi-board array.")
+    w("")
+
+
+def emit_net_trace(w, candidates, net_to_pins, parts):
+    found = [n for n in net_to_pins if any(c.lower() in n.lower() for c in candidates)]
+    if not found:
+        w("*(no matching nets)*")
+        w("")
+        return
+    for name in sorted(found):
+        w(f"### `{name}`")
+        w("")
+        w("| Part | Pin | Device | Value |")
+        w("|---|---|---|---|")
+        for part, _gate, pin in sorted(net_to_pins[name]):
+            info = parts.get(part, {})
+            w(f"| {part} | {pin} | `{info.get('deviceset','?')}` | {info.get('value','')} |")
+        w("")
+
+
+if __name__ == "__main__":
+    main()

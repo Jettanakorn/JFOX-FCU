@@ -13,6 +13,11 @@ A bare-metal Rust firmware for the JFOX Flight Control Unit based on PX4FMUv2.4.
 - **Communication**: 4x UART, USB, CAN, I2C, SPI
 - **I/O**: 8x PWM outputs
 
+Schematic-level detail (connector pinouts, net traces) is in
+**[`hardware/PX4FMUv2.4.5_NETS.md`](hardware/PX4FMUv2.4.5_NETS.md)**, derived
+from the board's own Eagle netlist. The 3-board TMR array's KiCad project
+lives in **[`hardware/`](hardware/README.md)**.
+
 ## Architecture
 
 ### Project Structure

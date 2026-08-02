@@ -18,3 +18,13 @@ Thumbs.db
 *.elf
 *.bin
 *.hex
+*.px4
+
+# Python (hardware/tools)
+__pycache__/
+*.pyc
+
+# KiCad local/derived state (hardware/)
+*.kicad_prl
+*-backups/
+fp-info-cache

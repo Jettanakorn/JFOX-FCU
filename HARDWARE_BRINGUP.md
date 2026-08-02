@@ -32,6 +32,38 @@ full TMR — do not skip ahead.
   `firmware/src/main.rs::control_task`), so motors cannot spin under normal
   operation, but do not rely on that as a safety measure while bringing up
   new hardware/firmware paths.
+- **Confirm each of the 3 physical boards actually has the MPU-6000
+  populated** before assuming `drivers::Mpu6000` will detect anything. The
+  design carries all of `U501` L3G4200DH, `U502` L3GD20H, `U504` LSM303D,
+  `U505` MPU-6000 and `U506` MS5611 as alternatives; sheet 5/12 documents
+  5 valid "stuff option" combos - MPU-6000 alone (option 5, what this codebase's
+  driver targets), a legacy L3GD20+LSM303D combo (options 1/2+4), or fully
+  offboard sensors (option 3). Not every physical unit necessarily has the
+  same option populated; a board with the legacy combo will read as "IMU
+  initialization failed" with this firmware, not a wiring problem.
+- **Each board should have its own independent power source** (battery/power
+  module on its own J601 "Brick" connector) for the TMR array's redundancy
+  to mean anything at board level - don't power all 3 from one shared
+  supply. Each board already internally auto-selects among its power sources
+  via an **LTC4417** prioritized-ORing controller (U1101) driving three dual
+  P-channel MOSFETs, with no modification needed; the redundancy gap to close
+  is at the system level (independent sources per board), not the board's own
+  power path. An earlier version of this file attributed that selector to the
+  BQ24315 - wrong; those (U601/U602) are separate overvoltage-protection
+  parts. See `hardware/PX4FMUv2.4.5_NETS.md`, which is derived from the
+  schematic's netlist rather than read off the PDF's page images.
+- **Physical stacking is a documented, intended assembly method** for this
+  board, not something to improvise: sheet 12/12 specifies M3 mounting holes
+  with Richco R908-5 spacers (7.95mm) "to stack with other PX4 series
+  boards" - worth using for a compact 3-board mechanical layout rather than
+  designing a custom mount from scratch.
+- **The physical SAFETY switch connector (J702) will not work with this
+  firmware as-is.** The netlist confirms its `SAFETY` pin lands on
+  `U801.PB5` - the IO co-processor (an STM32F103-class MCU on this board),
+  which this project's FMU-only firmware architecture does not initialize or
+  run code on. If a physical arm/safety switch visible across the 3-board array is
+  wanted, it needs its own GPIO wiring into the FMU side (or the IO chip
+  needs to be brought into scope), not just plugging into J702.
 
 ## Stage 1 — Single board bench test
 
@@ -96,9 +128,17 @@ a real bus, before trusting them as part of a voting quorum.
    computed from the 45MHz APB1 clock) against a real bus for the first time
    - it was only checked by inspection, never against an oscilloscope or a
      second node.
-2. **2-board exchange**: connect two boards' CAN1 (with proper termination -
-   120 ohm at each physical bus end, not per-node) over CAN_H/CAN_L. Each
-   board transmits a `common::can_frames::CommandVoteFrame` with its own
+2. **2-board exchange**: connect two boards' CAN1 over CAN_H/CAN_L via each
+   board's J405 connector (4-pin DF13C-4P-1.25V, driven by the onboard
+   MAX3051 transceiver U401). **Termination note, resolved from the
+   schematic (this was previously an open question here)**: every board
+   ships with R409, a 120 ohm resistor (`RC0402FR-07120RL`) fixed directly
+   across CAN_H/CAN_L with no disable jumper. Both facts are derived from
+   the schematic's own netlist - see `hardware/PX4FMUv2.4.5_NETS.md`, which
+   also gives J405's full pinout. For exactly 2
+   boards this is actually correct by luck (one terminator at each end), but
+   it does **not** generalize to Stage 3 - see that stage's note. Each board
+   transmits a `common::can_frames::CommandVoteFrame` with its own
    `board_id` at the control rate; confirm each board receives the other's
    frame and `common::can_frames::CommandVoteFrame::from_can_bytes` decodes
    it correctly (cross-check against what the transmitting board logged
@@ -134,8 +174,16 @@ Stage 2 is solid on 2 boards.
 
 1. Bring up the third board identically to Stage 1 (single-board checks
    pass independently on all three boards before connecting them).
-2. Connect all three CAN1 buses together (proper multi-drop termination -
-   120 ohm at the two physical ends of the bus, none at the middle node).
+2. Connect all three CAN1 buses together. **Hardware modification required
+   first**: every board ships with R409, a 120 ohm CANH/CANL termination
+   resistor with no disable jumper (see Stage 2's note) - with 3 boards
+   unmodified, that's three parallel terminators (~40 ohm effective) instead
+   of two in series (~60 ohm), a real signal-integrity fault. Before this
+   step, physically desolder R409 from whichever board will sit electrically
+   in the middle of the chain, leaving it populated only on the two boards
+   at the physical bus ends. Verify with a multimeter (resistance across
+   CANH/CANL with the bus unpowered) before trusting it, not just by
+   inspection.
 3. Confirm all three boards' `TmrVoter::vote_command` reach `VoteResult::
    Agreed` under normal operation (all three command outputs within
    tolerance of each other, since all three should be running the same
