@@ -4,7 +4,15 @@ A ground-up flight controller to replace the PX4FMUv2.4.5 modules. That board
 is a **guideline only**: its proven ideas are kept (prioritised power ORing,
 stacking, CAN voting bus) and its limitations are not.
 
-Status: **specification**. No schematic captured yet.
+Status: **capture in progress**. The sensor sheet is drawn and checked
+against the datasheets; MCU, power and comms sheets are next.
+
+| Sheet | State |
+|---|---|
+| `sensors.kicad_sch` | drawn, wiring verified against the datasheets |
+| MCU | next - pin map already allocated in `PINMAP.md` |
+| power | next |
+| comms | next |
 
 ## What changes, and why
 
