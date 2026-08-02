@@ -24,14 +24,14 @@ rather than transcribed.
 | `PX4FMUv2.4.5_NETS.md` | **Generated.** Connector/net reference. Do not hand-edit. |
 | `tools/gen_tmr_schematic.py` | Emits the KiCad project below. |
 | `jfox-tmr.kicad_pro` / `.kicad_sch` | **Generated.** Root: three FMU instances + carrier. |
-| `fmu-v2.kicad_sch` | **Generated placeholder** — see "Status" below. |
+| `fmu-v2/` | **Generated.** The real board, safe to instantiate 3x. |
 | `carrier.kicad_sch` | **Generated.** The new carrier/backplane design. |
 | `jfox.kicad_sym` / `sym-lib-table` | **Generated.** Connector symbols, registered as a project library. |
 | `tools/check_tmr_netlist.py` | Asserts the redundancy invariants against KiCad's netlist. |
-
 | `tools/gen_fmu_hierarchical.py` | Converts the import for safe 3× instantiation → `fmu-v2/`. |
 | `tools/annotate_tmr_instances.py` | Gives each FMU instance its own reference designators. |
 | `tools/check_fmu_conversion.py` | Proves the conversion changed no connectivity. |
+| `tools/route_carrier.py` | Places the connectors and routes the carrier board. |
 
 Full pipeline — regenerate and verify everything:
 
@@ -42,6 +42,8 @@ python hardware/tools/gen_fmu_hierarchical.py
 python hardware/tools/gen_tmr_schematic.py
 python hardware/tools/annotate_tmr_instances.py
 python hardware/tools/gen_carrier_pcb.py
+#   ... then F8 in KiCad to load the netlist onto the board ...
+python hardware/tools/route_carrier.py
 python hardware/tools/check_fmu_conversion.py
 python hardware/tools/check_tmr_netlist.py
 ```
@@ -55,7 +57,7 @@ Order matters: `annotate_tmr_instances.py` reads sheet UUIDs that
 ## The TMR project
 
 `jfox-tmr.kicad_sch` is the root. It instantiates **one** sheet file
-(`fmu-v2.kicad_sch`) three times as FMU-A/B/C — that is KiCad's own idiom for
+(`fmu-v2/fmu-v2.kicad_sch`) three times as FMU-A/B/C — that is KiCad's own idiom for
 identical repeated blocks, and it means editing the board design once edits
 all three while KiCad still keeps their reference designators distinct via
 per-instance paths.
@@ -64,7 +66,7 @@ Signal split, which is the load-bearing design decision:
 
 - `CAN_H`, `CAN_L`, `GND`, `SAFETY` are **global labels** — correct precisely
   because all three boards genuinely share those nets.
-- Power and servo signals are **hierarchical pins**, so each board's stay
+- Power signals are **hierarchical pins**, so each board's stay
   separate. That separation is the entire point of board-level redundancy; a
   global label there would silently short all three supplies together.
 
@@ -77,7 +79,7 @@ against KiCad's own output:
 - `CAN_H`/`CAN_L` reach all three modules (one bus, not three stubs),
 - **no resistor sits on CAN_H/CAN_L on the carrier** — each module already has
   a fixed 120Ω R409, and a fourth in parallel would make the bus worse,
-- each board's six servo channels reach only its own connector,
+- no net terminates on a single pin,
 - `GND` is common across all modules.
 
 Currently all five hold. Each check is negative-tested (deliberately merging
@@ -106,9 +108,12 @@ the UUIDs from `.kicad_pro` so existing instance paths still resolve) and then
 verifies the result against the Eagle source. All 13 sheets now enumerate. Run
 it again after any re-import; it is idempotent.
 
-Note for anyone hand-editing these files: **KiCad 10 writes child instance
-paths as `/<sheet-element-uuid>`** — one level, without the root document's
-UUID. KiCad 7 included the root UUID. The two forms are not interchangeable.
+Note for anyone hand-editing these files: **instance-path forms differ between
+KiCad versions and between these files.** KiCad 10 roots symbol paths at the
+root document's UUID; KiCad 7 did not; the imported pages use a third form.
+`annotate_tmr_instances.py` derives the prefix from the files rather than
+assuming - assuming any one of them silently gave all three boards the same
+reference designators.
 
 ### The global-label problem, and how it was fixed
 
@@ -183,11 +188,9 @@ hierarchy — ERC enumerates `/`, `/FMU-A/`, `/FMU-B/`, `/FMU-C/` and
 `/CARRIER/`, so the three-instance structure works. The netlist exports
 cleanly and the invariants above hold.
 
-ERC reports **94 violations, and that is expected**: 81 `isolated_pin_label`
-warnings and 13 `label_dangling` errors, all of them downstream of
-`fmu-v2.kicad_sch` being an empty placeholder. Labels crossing into it have
-nothing to attach to yet. These want re-judging *after* the Eagle import, not
-before — chasing them against a stub would be wasted work.
+ERC on the carrier reports **0 violations**. On the full TMR system it
+reports 433, all inherited from the upstream board and its import - see
+"System verification" above.
 
 Two real defects were caught this way and fixed:
 
@@ -278,31 +281,55 @@ kicad-cli pcb export gerbers --output fab/ carrier.kicad_pcb
 kicad-cli pcb export drill   --output fab/ carrier.kicad_pcb
 ```
 
-### To finish the board
+### Placement and routing
 
-Two steps remain, and the first is GUI-only:
+Done, by `tools/route_carrier.py`. **DRC: 0 violations, 0 unconnected.**
 
-1. Open `carrier/carrier.kicad_pro` and press **F8** (*Tools → Update PCB
-   from Schematic*) to place the nine connectors. `kicad-cli pcb` has
-   `drc`, `export`, `import`, `render` and `upgrade` — nothing that loads a
-   netlist into a board, so this cannot be scripted.
-2. Route it. Placement and routing are left interactive on purpose:
-   generated copper on flight hardware needs reviewing trace by trace, which
-   is more work than routing it properly once. The layout is small — the CAN
-   pair daisy-chains down a column of three connectors, and each board's
-   power is a short parallel run from its in-connector to its out-connector.
+Loading the netlist into the board is the one GUI step —
+**Tools → Update PCB from Schematic** (F8); `kicad-cli pcb` offers `drc`,
+`export`, `import`, `render` and `upgrade` but nothing that updates a board
+from a schematic. KiCad then drops the nine connectors in a heap wherever
+there is room, which happens to be on top of the mounting holes, so the script
+places them and lays the copper.
 
-Constraints to route to:
+The layout is arranged so the routing is trivially correct rather than merely
+DRC-clean:
 
-- **CAN_H/CAN_L are a differential pair.** Keep them adjacent and equal
-  length; keep stubs off the bus short (it is a daisy chain, not a star).
-- **No termination on this board** — see the CAN note above; it is also on
-  the silkscreen.
-- **Keep the three power paths physically separate.** They are electrically
-  independent by design; running them as one bundle re-introduces a common
-  failure the netlist cannot see.
-- `VBRICK_*` carries the module supply — widen it relative to the sense
-  signals.
+- **The three CAN connectors sit in a column at the same x**, so their pin 2s
+  line up and `CAN_H` is one straight trace down the board with `CAN_L`
+  parallel 1.25 mm away. A real daisy chain, no stubs, pair stays tight.
+  **No termination is placed** — each module carries a fixed 120 Ω R409.
+- **Power runs left to right**, brick in on one column, out to the module on
+  another, at matching pin positions. Routed straight across at pin height the
+  three signals per board would collide, so each drops to the back layer at
+  its own offset and comes back up: three parallel runs, no crossings, and no
+  copper shared between boards.
+- **Ground is routed explicitly**, not left to the pours. A zone that fails to
+  fill conducts nothing while still looking poured on screen; the board is
+  correct by copper and the two planes are a bonus. Ground runs as three
+  vertical trunks joined by one horizontal link — a horizontal at pin height
+  would cross the power stubs, and one at row+3 would land inside an M3
+  keepout.
+
+Two things worth knowing if you edit the zones: KiCad 10 names the net
+(`(net "GND")`) where KiCad 7 used an index plus `net_name`, and the fill has
+to be enabled explicitly with `(fill yes ...)`. Get either wrong and DRC
+reports every ground pad unconnected.
+
+### Fabrication outputs
+
+```bash
+cd hardware/carrier
+kicad-cli pcb drc            carrier.kicad_pcb
+kicad-cli pcb export gerbers --output fab/ carrier.kicad_pcb
+kicad-cli pcb export drill   --output fab/ carrier.kicad_pcb
+kicad-cli pcb export pos     --output fab/carrier-pos.csv --format csv --units mm carrier.kicad_pcb
+kicad-cli sch export bom     --output fab/carrier-bom.csv carrier.kicad_sch
+```
+
+That produces a complete 24-file set — gerbers, drill, job file, placement,
+and a 9-line BOM of Hirose DF13 parts. Nothing is left to interpret at the
+fab house.
 
 ## Out of scope
 
