@@ -43,14 +43,29 @@ def uid():
 # pulling symbol definitions into a schematic's lib_symbols cache
 # --------------------------------------------------------------------------
 
-def sym_def(lib_path, name, lib_nick):
-    """Lift one symbol's definition out of a .kicad_sym for embedding.
+def sym_defs(lib_path, name, lib_nick):
+    """A symbol's cache entry, plus its parent if it derives from one.
 
-    A schematic caches every symbol it places; without the cache KiCad draws a
-    question mark. The only transforms needed are renaming to "Lib:Name" and
-    re-indenting one level deeper.
+    Many KiCad symbols are `(extends ...)` a base part - AP2112K-3.3 extends
+    AP2204K-1.5, AP22804AW5 extends AP2171W - and carry no geometry of their
+    own. Embedding only the derived symbol leaves KiCad with nothing to draw
+    and reports lib_symbol_mismatch; embedding only the parent silently
+    substitutes the wrong part number. Both are needed.
     """
     s = lib_path.read_text(encoding="utf-8")
+    blk = _one_sym(s, name, lib_nick)
+    m = re.search(r'\(extends "([^"]+)"', blk)
+    if not m:
+        return [blk]
+    return [_one_sym(s, m.group(1), lib_nick), blk]
+
+
+def sym_def(lib_path, name, lib_nick):
+    """Single-block form, for symbols known not to derive from another."""
+    return sym_defs(lib_path, name, lib_nick)[-1]
+
+
+def _one_sym(s, name, lib_nick):
     i = s.index(f'(symbol "{name}"')
     depth, j, instr, esc = 0, i, False, False
     while j < len(s):
@@ -331,6 +346,119 @@ def build_mcu():
     return ru, document(ru, [lib], body, paper="A1")
 
 
+# Power chain. Each entry places one part and names the net on every pin, so
+# nothing is left to be inferred from position.
+POWER = [
+    # Prioritised ORing between the three sources, keeping v2.4.5's best idea.
+    # V1/V2/V3 are the inputs in priority order; VS1..3 sense, G1..3 drive the
+    # external PMOS pass devices.
+    dict(ref="U20", lib="Power_Management:LTC4417CGN", val="LTC4417CGN",
+         x=76.2, y=88.9,
+         nets={"V1": "VDD_BRICK", "V2": "VDD_SERVO", "V3": "VBUS_USB",
+               "VS1": "VDD_BRICK", "VS2": "VDD_SERVO", "VS3": "VBUS_USB",
+               "G1": "PGATE1", "G2": "PGATE2", "G3": "PGATE3",
+               "VOUT": "+5V", "GND": "GND", "EN": "+5V",
+               "~{SHDN}": "+5V", "HYS": "GND", "CAS": "GND",
+               "UV1": "UV1_SET", "OV1": "OV1_SET",
+               "UV2": "UV2_SET", "OV2": "OV2_SET",
+               "UV3": "UV3_SET", "OV3": "OV3_SET",
+               "~{VALID1}": "BRICK_VALID", "~{VALID2}": "SERVO_VALID",
+               "~{VALID3}": "USB_VALID"}),
+    # Main 3V3. See the note on the sheet about dissipation.
+    dict(ref="U21", lib="Regulator_Linear:AP2112K-3.3", val="AP2112K-3.3",
+         x=177.8, y=63.5,
+         nets={"VIN": "+5V", "VOUT": "+3V3", "GND": "GND", "EN": "+5V",
+               "NC": "NC"}),
+    # Separate quiet rail for VDDA/VREF+, fed from +3V3 so it cannot pull the
+    # digital rail around.
+    dict(ref="U22", lib="Regulator_Linear:AP2112K-3.3", val="AP2112K-3.3",
+         x=177.8, y=114.3,
+         nets={"VIN": "+3V3", "VOUT": "+3V3A", "GND": "GND", "EN": "+5V",
+               "NC": "NC"}),
+]
+
+# One load switch per sensor bus. This is what makes a wedged IMU
+# recoverable - and what the firmware must sequence carefully, because
+# holding interface pins high with the rail down destroys these parts.
+RAIL_SWITCHES = [
+    ("U23", "+3V3_IMU1", "EN_3V3_IMU1"),
+    ("U24", "+3V3_IMU2", "EN_3V3_IMU2"),
+    ("U25", "+3V3_IMU3", "EN_3V3_IMU3"),
+    ("U26", "+3V3_SENS", "EN_3V3_SENS"),
+]
+
+
+def build_power():
+    ru = uid()
+    libs, seen = [], set()
+    for p in POWER:
+        lib_nick, name = p["lib"].split(":")
+        if p["lib"] not in seen:
+            seen.add(p["lib"])
+            libs += sym_defs(KICAD_SYMS / f"{lib_nick}.kicad_sym", name, lib_nick)
+    libs += sym_defs(KICAD_SYMS / "Power_Management.kicad_sym",
+                     "AP22804AW5", "Power_Management")
+
+    geom, parent_geom = {}, {}
+    for lib in libs:
+        m = re.search(r'\(symbol "([^"]+)"', lib)
+        pp = pin_positions(lib)
+        ext = re.search(r'\(extends "([^"]+)"', lib)
+        if ext:
+            # a derived symbol inherits its parent's pins
+            pp = parent_geom.get(f"{m.group(1).split(':')[0]}:{ext.group(1)}", {})
+        else:
+            parent_geom[m.group(1)] = pp
+        geom[m.group(1)] = pp
+
+    body = [text(
+        "JFOX-FMU v1 - POWER\\n"
+        "\\n"
+        "LTC4417 prioritised ORing: brick > servo rail > USB, with under- and\\n"
+        "over-voltage lockout per input. This is v2.4.5's arrangement kept,\\n"
+        "correctly identified - that board's docs called it a BQ24315 until the\\n"
+        "netlist proved otherwise.\\n"
+        "\\n"
+        "One load switch per sensor bus, so a wedged IMU can be power-cycled\\n"
+        "without disturbing the other two.\\n"
+        "\\n"
+        "WARNING - firmware must drive a bus's SCK/MOSI/CS low BEFORE clearing\\n"
+        "its EN_3V3_* line. Interface pins held high with the rail down destroy\\n"
+        "these sensors through their ESD diodes (BMP388 datasheet 3.2).\\n"
+        "\\n"
+        "OPEN: dissipation in U21. At 5V in, 3V3 out and ~500 mA the drop burns\\n"
+        "0.85 W, which an SOT-25 will not shed. Either budget the real current\\n"
+        "and size the package, or make U21 a buck. Do not fabricate before this\\n"
+        "is settled.",
+        20.32, 20.32, 1.5)]
+
+    def wire_part(ref, lib_id, val, x, y, nets):
+        body.append(place(lib_id, ref, val, x, y, ru, []))
+        for name, (dx, dy, ang) in geom[lib_id].items():
+            net = nets.get(name)
+            if net in (None, "NC"):
+                continue
+            ax, ay = round(x + dx, 2), round(y + dy, 2)
+            sx, sy = stub_len(ang)
+            bx, by = round(ax + sx, 2), round(ay + sy, 2)
+            body.append(wire(ax, ay, bx, by))
+            shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
+            body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    for p in POWER:
+        wire_part(p["ref"], p["lib"], p["val"], p["x"], p["y"], p["nets"])
+
+    x = 76.2
+    for ref, rail, en in RAIL_SWITCHES:
+        wire_part(ref, "Power_Management:AP22804AW5", "AP22804AW5", x, 190.5,
+                  {"IN": "+3V3", "OUT": rail, "EN": en, "GND": "GND",
+                   "~{FLG}": f"{rail}_FLG"})
+        body.append(text(f"{ref}: {rail}", round(x - 10, 2), 168, 1.2))
+        x += 50.8
+
+    return ru, document(ru, libs, body, paper="A2")
+
+
 def build_stub(title, note):
     ru = uid()
     return ru, document(ru, [], [text(title + "\\n\\n" + note, 25.4, 25.4, 1.6)])
@@ -353,8 +481,10 @@ def main():
 
     _, sensors = build_sensors()
     _, mcu = build_mcu()
+    _, power = build_power()
     files = {BOARD / "sensors.kicad_sch": sensors,
-             BOARD / "mcu.kicad_sch": mcu}
+             BOARD / "mcu.kicad_sch": mcu,
+             BOARD / "power.kicad_sch": power}
 
     (BOARD / f"{PROJECT}.kicad_pro").write_text(
         '{\n  "meta": {"filename": "jfox-fmu.kicad_pro", "version": 1},\n'

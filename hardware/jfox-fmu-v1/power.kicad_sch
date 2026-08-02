@@ -1,0 +1,2506 @@
+(kicad_sch
+	(version 20260306)
+	(generator "jfox gen_fmu_schematic")
+	(generator_version "10.0")
+	(uuid "b6c9b46f-eb78-4010-a417-3db569aedb31")
+	(paper "A2")
+	(lib_symbols
+	(symbol "Power_Management:LTC4417CGN"
+			(pin_names
+				(offset 0.762)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at 0 26.035 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LTC4417CGN"
+				(at 0 24.13 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" "Package_SO:SSOP-24_3.9x8.7mm_P0.635mm"
+				(at 1.27 -24.13 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Datasheet" "https://www.analog.com/media/en/technical-documentation/data-sheets/4417f.pdf"
+				(at 17.78 -29.21 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Prioritized PowerPath Controller, Selects Highest Priority Supply from Three Inputs, SSOP"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "switch power FET sequence"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SSOP-24*3.9x8.7mm*P0.635mm*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "LTC4417CGN_0_1"
+				(rectangle
+					(start -10.16 22.86)
+					(end 10.16 -22.86)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "LTC4417CGN_1_1"
+				(pin input line
+					(at -12.7 -12.7 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -10.16 0)
+					(length 2.54)
+					(name "~{SHDN}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -15.24 0)
+					(length 2.54)
+					(name "HYS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 17.78 0)
+					(length 2.54)
+					(name "UV1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 15.24 0)
+					(length 2.54)
+					(name "OV1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 7.62 0)
+					(length 2.54)
+					(name "UV2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "6"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 5.08 0)
+					(length 2.54)
+					(name "OV2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "7"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -2.54 0)
+					(length 2.54)
+					(name "UV3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "8"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 -5.08 0)
+					(length 2.54)
+					(name "OV3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "9"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 12.7 -10.16 180)
+					(length 2.54)
+					(name "~{VALID1}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "10"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 12.7 -12.7 180)
+					(length 2.54)
+					(name "~{VALID2}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "11"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 12.7 -15.24 180)
+					(length 2.54)
+					(name "~{VALID3}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "12"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -25.4 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "13"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 -17.78 180)
+					(length 2.54)
+					(name "CAS"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "14"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 -7.62 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "15"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 0 180)
+					(length 2.54)
+					(name "G3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "16"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 -2.54 180)
+					(length 2.54)
+					(name "VS3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "17"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 10.16 180)
+					(length 2.54)
+					(name "G2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "18"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 7.62 180)
+					(length 2.54)
+					(name "VS2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "19"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 20.32 180)
+					(length 2.54)
+					(name "G1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "20"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 12.7 17.78 180)
+					(length 2.54)
+					(name "VS1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "21"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 0 0)
+					(length 2.54)
+					(name "V3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "22"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 10.16 0)
+					(length 2.54)
+					(name "V2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "23"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -12.7 20.32 0)
+					(length 2.54)
+					(name "V1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "24"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Regulator_Linear:AP2204K-1.5"
+			(pin_names
+				(offset 0.254)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -5.08 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AP2204K-1.5"
+				(at 0 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 8.255 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2204.pdf"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "150mA low dropout linear regulator, wide input voltage range, 1.5V fixed positive output, SOT-23-5"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "linear regulator ldo fixed positive"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23?5*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "AP2204K-1.5_0_1"
+				(rectangle
+					(start -5.08 4.445)
+					(end 5.08 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "AP2204K-1.5_1_1"
+				(pin power_in line
+					(at -7.62 2.54 0)
+					(length 2.54)
+					(name "VIN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -7.62 0 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin no_connect line
+					(at 5.08 0 180)
+					(length 2.54)
+					(hide yes)
+					(name "NC"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_out line
+					(at 7.62 2.54 180)
+					(length 2.54)
+					(name "VOUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Regulator_Linear:AP2112K-3.3"
+			(extends "AP2204K-1.5")
+			(property "Reference" "U"
+				(at -5.08 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AP2112K-3.3"
+				(at 0 5.715 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 8.255 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2112.pdf"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "600mA low dropout linear regulator, with enable pin, 3.8V-6V input voltage range, 3.3V fixed positive output, SOT-23-5"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "linear regulator ldo fixed positive"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23?5*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Power_Management:AP2171W"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "U"
+				(at -7.62 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AP2171W"
+				(at -7.62 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP2161.pdf"
+				(at 0 1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Current limited power switch, single channel, SOT-23-5"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Limit USB Active High"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "AP2171W_0_1"
+				(rectangle
+					(start -7.62 5.08)
+					(end 7.62 -5.08)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type background)
+					)
+				)
+			)
+			(symbol "AP2171W_1_1"
+				(pin power_out line
+					(at 10.16 2.54 180)
+					(length 2.54)
+					(name "OUT"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at 0 -7.62 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin open_collector line
+					(at 10.16 -2.54 180)
+					(length 2.54)
+					(name "~{FLG}"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "3"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -10.16 -2.54 0)
+					(length 2.54)
+					(name "EN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "4"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin power_in line
+					(at -10.16 2.54 0)
+					(length 2.54)
+					(name "IN"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "5"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	(symbol "Power_Management:AP22804AW5"
+			(extends "AP2171W")
+			(property "Reference" "U"
+				(at -7.62 -6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "AP22804AW5"
+				(at -7.62 6.35 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Footprint" "Package_TO_SOT_SMD:SOT-23-5"
+				(at 0 -10.16 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" "https://www.diodes.com/assets/Datasheets/AP22804_14.pdf"
+				(at 0 1.27 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Current limited 2.5A power switch, single channel, SOT-23-5"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "Limit USB Active High"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "SOT?23*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
+	)
+	(text "JFOX-FMU v1 - POWER\n\nLTC4417 prioritised ORing: brick > servo rail > USB, with under- and\nover-voltage lockout per input. This is v2.4.5's arrangement kept,\ncorrectly identified - that board's docs called it a BQ24315 until the\nnetlist proved otherwise.\n\nOne load switch per sensor bus, so a wedged IMU can be power-cycled\nwithout disturbing the other two.\n\nWARNING - firmware must drive a bus's SCK/MOSI/CS low BEFORE clearing\nits EN_3V3_* line. Interface pins held high with the rail down destroy\nthese sensors through their ESD diodes (BMP388 datasheet 3.2).\n\nOPEN: dissipation in U21. At 5V in, 3V3 out and ~500 mA the drop burns\n0.85 W, which an SOT-25 will not shed. Either budget the real current\nand size the package, or make U21 a buck. Do not fabricate before this\nis settled."
+		(at 20.32 20.32 0)
+		(effects
+			(font
+				(size 1.5 1.5)
+			)
+			(justify left top)
+		)
+		(uuid "3251797a-688d-46df-9705-c314f11feddb")
+	)
+	(symbol
+		(lib_id "Power_Management:LTC4417CGN")
+		(at 76.2 88.9 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "106444bb-2993-466c-9395-af490fc5cac6")
+		(property "Reference" "U20"
+			(at 76.2 76.9 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "LTC4417CGN"
+			(at 76.2 100.9 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U20")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 63.5 101.6) (xy 55.88 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9b0c8c18-70b1-4f1e-834b-7e7bdf8199cb")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 55.88 101.6 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9116efe3-2c21-4992-b5d4-8c153eb5c662")
+	)
+	(wire
+		(pts
+			(xy 63.5 99.06) (xy 55.88 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "bac1241b-4519-4ae1-888d-fb1581fe1316")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 55.88 99.06 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "74e5fc27-75fe-452f-adec-505aa8b362fe")
+	)
+	(wire
+		(pts
+			(xy 63.5 104.14) (xy 55.88 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8e8f6e1d-2f24-4dda-8685-5423a22d36c0")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 55.88 104.14 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9adf8445-ca8a-4d7c-9a7e-57c4cee9f0aa")
+	)
+	(wire
+		(pts
+			(xy 63.5 71.12) (xy 55.88 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "246f9807-e5c5-44a0-9090-6a12d20cca05")
+	)
+	(global_label "UV1_SET"
+		(shape bidirectional)
+		(at 55.88 71.12 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1d6b7349-5e7e-49e4-8926-bfb7c1597431")
+	)
+	(wire
+		(pts
+			(xy 63.5 73.66) (xy 55.88 73.66)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a71bc148-e146-4dcb-9c10-176f1ac5abfb")
+	)
+	(global_label "OV1_SET"
+		(shape bidirectional)
+		(at 55.88 73.66 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0828921c-15c9-4046-9fe4-f94704340425")
+	)
+	(wire
+		(pts
+			(xy 63.5 81.28) (xy 55.88 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "317f23fa-5dd6-41c4-a6d4-09b1a9637481")
+	)
+	(global_label "UV2_SET"
+		(shape bidirectional)
+		(at 55.88 81.28 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "b4c38b82-46c0-495d-8031-e2c24eb3720d")
+	)
+	(wire
+		(pts
+			(xy 63.5 83.82) (xy 55.88 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1d52225b-f317-42f2-b112-cd9505329712")
+	)
+	(global_label "OV2_SET"
+		(shape bidirectional)
+		(at 55.88 83.82 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c74b2aa7-4c28-4ecb-9430-e6d18d248cd4")
+	)
+	(wire
+		(pts
+			(xy 63.5 91.44) (xy 55.88 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "10ef94df-321e-49a2-abf7-7d89a36a0ccb")
+	)
+	(global_label "UV3_SET"
+		(shape bidirectional)
+		(at 55.88 91.44 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "00e65580-6af6-4787-b04c-f7299a06a6cb")
+	)
+	(wire
+		(pts
+			(xy 63.5 93.98) (xy 55.88 93.98)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "37417354-89fd-4400-a020-9cfb88766e10")
+	)
+	(global_label "OV3_SET"
+		(shape bidirectional)
+		(at 55.88 93.98 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ad08252a-220c-4603-a5de-86558ad22168")
+	)
+	(wire
+		(pts
+			(xy 88.9 99.06) (xy 96.52 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "60ba3634-7d8e-4a3a-abc4-0d11954d6864")
+	)
+	(global_label "BRICK_VALID"
+		(shape bidirectional)
+		(at 96.52 99.06 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9fa19594-8312-42e5-9042-1224bb6f95cc")
+	)
+	(wire
+		(pts
+			(xy 88.9 101.6) (xy 96.52 101.6)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a7087e45-44c3-4af5-8d94-5015f571e3fe")
+	)
+	(global_label "SERVO_VALID"
+		(shape bidirectional)
+		(at 96.52 101.6 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3b923135-ead0-4dd5-9bb0-d7c9a12c2f2e")
+	)
+	(wire
+		(pts
+			(xy 88.9 104.14) (xy 96.52 104.14)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2d63d31f-6334-4cb6-8b37-35fa573df817")
+	)
+	(global_label "USB_VALID"
+		(shape bidirectional)
+		(at 96.52 104.14 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "48b7136e-c1b7-4ad8-b0a4-9fa45708caf9")
+	)
+	(wire
+		(pts
+			(xy 76.2 114.3) (xy 76.2 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "38023ada-8bba-4857-a3f3-f6bfd4565828")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 76.2 121.92 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a042f587-ab10-4be5-a10e-8940ce3891b0")
+	)
+	(wire
+		(pts
+			(xy 88.9 106.68) (xy 96.52 106.68)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "44f98fc6-747b-4a6e-9ed3-164f291487aa")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 96.52 106.68 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "04f3b316-68f5-4384-bfa8-72439447c3ef")
+	)
+	(wire
+		(pts
+			(xy 88.9 96.52) (xy 96.52 96.52)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e3bd8e52-e224-4d22-be90-cf87ffb86ee3")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 96.52 96.52 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f23f22ec-d325-4d53-91e6-5e2566ddea27")
+	)
+	(wire
+		(pts
+			(xy 88.9 88.9) (xy 96.52 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f3dab3e7-9aa1-457c-ac47-9a40262dc4d1")
+	)
+	(global_label "PGATE3"
+		(shape bidirectional)
+		(at 96.52 88.9 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "257c0e27-f49c-4536-a107-e0d1a600bdce")
+	)
+	(wire
+		(pts
+			(xy 88.9 91.44) (xy 96.52 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6a6e61fe-dc56-49c6-bb55-fd5931a7c834")
+	)
+	(global_label "VBUS_USB"
+		(shape bidirectional)
+		(at 96.52 91.44 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9f130ed0-e35e-4e00-afbb-78debd569ee1")
+	)
+	(wire
+		(pts
+			(xy 88.9 78.74) (xy 96.52 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "7e8e0b2d-9a17-46e4-967e-4794c85995b2")
+	)
+	(global_label "PGATE2"
+		(shape bidirectional)
+		(at 96.52 78.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9f2159e9-8bb4-4009-a2b7-d6c4778f4d14")
+	)
+	(wire
+		(pts
+			(xy 88.9 81.28) (xy 96.52 81.28)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "64c3a919-dd67-4d54-b73a-21be5c6b1b85")
+	)
+	(global_label "VDD_SERVO"
+		(shape bidirectional)
+		(at 96.52 81.28 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "50c73900-5c22-4c56-b290-100d7050e978")
+	)
+	(wire
+		(pts
+			(xy 88.9 68.58) (xy 96.52 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d5eaabe5-69d1-4e9b-9d1b-edbd2bf004f2")
+	)
+	(global_label "PGATE1"
+		(shape bidirectional)
+		(at 96.52 68.58 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "d1bb6010-165a-4dba-a6f0-56be58aa129c")
+	)
+	(wire
+		(pts
+			(xy 88.9 71.12) (xy 96.52 71.12)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "268c6fc6-923f-44bd-b354-03af17f4955d")
+	)
+	(global_label "VDD_BRICK"
+		(shape bidirectional)
+		(at 96.52 71.12 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fba79702-f763-4d0d-84c0-9def33aee3fa")
+	)
+	(wire
+		(pts
+			(xy 63.5 88.9) (xy 55.88 88.9)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b2676728-68de-4d72-8599-af495ffcbc86")
+	)
+	(global_label "VBUS_USB"
+		(shape bidirectional)
+		(at 55.88 88.9 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "72474fc1-6acb-442b-9ea9-31994aa2e955")
+	)
+	(wire
+		(pts
+			(xy 63.5 78.74) (xy 55.88 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4c8029d-75e5-47e4-b0af-fe4f3c2b9812")
+	)
+	(global_label "VDD_SERVO"
+		(shape bidirectional)
+		(at 55.88 78.74 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "34d3d513-fe82-4894-9dfd-d60a5144814d")
+	)
+	(wire
+		(pts
+			(xy 63.5 68.58) (xy 55.88 68.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a43cd688-3ab7-49d1-a954-8494dfccf9ba")
+	)
+	(global_label "VDD_BRICK"
+		(shape bidirectional)
+		(at 55.88 68.58 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2a7c2e8e-66d7-49e1-a83a-0315aa9ea0fe")
+	)
+	(symbol
+		(lib_id "Regulator_Linear:AP2112K-3.3")
+		(at 177.8 63.5 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "1ea3b321-12d0-46eb-b94e-1cd0c4602f0d")
+		(property "Reference" "U21"
+			(at 177.8 51.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP2112K-3.3"
+			(at 177.8 75.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U21")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 170.18 60.96) (xy 162.56 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1fd47d80-58c0-439a-a6f3-01939a16a3ce")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 162.56 60.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ea843fad-6767-4f78-9375-9cf7ccd9d51c")
+	)
+	(wire
+		(pts
+			(xy 177.8 71.12) (xy 177.8 78.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "fefded31-73bb-4f6d-814a-e0bdbe92ed46")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 177.8 78.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "69eca152-11ef-424a-84d9-aba5cce0c0fc")
+	)
+	(wire
+		(pts
+			(xy 170.18 63.5) (xy 162.56 63.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "553979d4-d650-4f03-acaf-69738430703b")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 162.56 63.5 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "512f6a24-e1ef-418b-b59e-0a1581ca5087")
+	)
+	(wire
+		(pts
+			(xy 185.42 60.96) (xy 193.04 60.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f07dd16e-b0a2-409f-b89a-6edb78a2bb15")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 193.04 60.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "e7052d29-b9c5-470e-9be9-b445f87d87f4")
+	)
+	(symbol
+		(lib_id "Regulator_Linear:AP2112K-3.3")
+		(at 177.8 114.3 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "80b3d5c7-2a17-4aad-92e6-8ca7fdf6744e")
+		(property "Reference" "U22"
+			(at 177.8 102.3 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP2112K-3.3"
+			(at 177.8 126.3 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 170.18 111.76) (xy 162.56 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f54a3771-a26b-443c-83e8-2d35b1ed84b2")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 162.56 111.76 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9ced5b40-482f-4ebd-ac4b-5baed7456cfd")
+	)
+	(wire
+		(pts
+			(xy 177.8 121.92) (xy 177.8 129.54)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1630c65f-3878-457c-ae5e-42d65e915c22")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 177.8 129.54 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9789db0c-7c70-4e05-a5d6-de0f324f3ffb")
+	)
+	(wire
+		(pts
+			(xy 170.18 114.3) (xy 162.56 114.3)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1ad98771-bb1a-4829-b044-e4f20d497c8b")
+	)
+	(global_label "+5V"
+		(shape input)
+		(at 162.56 114.3 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "edcd61a2-a36d-4eca-9fe6-0f3d7321b1cf")
+	)
+	(wire
+		(pts
+			(xy 185.42 111.76) (xy 193.04 111.76)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "82f24562-802b-421d-a5df-e3e5bfdb3100")
+	)
+	(global_label "+3V3A"
+		(shape input)
+		(at 193.04 111.76 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "084a455a-6f3e-432d-9447-55272ec3a81a")
+	)
+	(symbol
+		(lib_id "Power_Management:AP22804AW5")
+		(at 76.2 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "00e1b67e-00ac-49b6-975c-8c35c23cba6c")
+		(property "Reference" "U23"
+			(at 76.2 178.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP22804AW5"
+			(at 76.2 202.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U23")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 86.36 187.96) (xy 93.98 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "af790673-f76d-4c84-8032-756cb44808a7")
+	)
+	(global_label "+3V3_IMU1"
+		(shape input)
+		(at 93.98 187.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "71264ada-f932-4e56-8e87-0b83ed736e4c")
+	)
+	(wire
+		(pts
+			(xy 76.2 198.12) (xy 76.2 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "a5745de4-ddab-4f8c-be12-e8bdc7181b4a")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 76.2 205.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "a5f90555-67cc-4b8c-8f2e-e6208c96e3fb")
+	)
+	(wire
+		(pts
+			(xy 86.36 193.04) (xy 93.98 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "854cf0e2-9ee6-4a6c-a61f-cf8f9cc8da01")
+	)
+	(global_label "+3V3_IMU1_FLG"
+		(shape input)
+		(at 93.98 193.04 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7bebf2d0-4ebd-4635-85be-d6af5ef5962b")
+	)
+	(wire
+		(pts
+			(xy 66.04 193.04) (xy 58.42 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1054472-cb53-4c17-8d7d-08e1b6912fc6")
+	)
+	(global_label "EN_3V3_IMU1"
+		(shape bidirectional)
+		(at 58.42 193.04 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "80a7c48b-a752-4a9d-95b3-eb3ba8d6ad1e")
+	)
+	(wire
+		(pts
+			(xy 66.04 187.96) (xy 58.42 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d9fe2d2f-73b2-4f58-b861-b5bb078e05bc")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 58.42 187.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fcca14fe-6ff4-4da6-aa94-0d4caecc9cef")
+	)
+	(text "U23: +3V3_IMU1"
+		(at 66.2 168 0)
+		(effects
+			(font
+				(size 1.2 1.2)
+			)
+			(justify left top)
+		)
+		(uuid "34d778a5-c911-4caf-9913-2f381ab097aa")
+	)
+	(symbol
+		(lib_id "Power_Management:AP22804AW5")
+		(at 127.0 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "348d4497-d409-476f-9a64-3fde227c0e3f")
+		(property "Reference" "U24"
+			(at 127.0 178.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP22804AW5"
+			(at 127.0 202.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U24")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 137.16 187.96) (xy 144.78 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0f03a232-2df6-4acb-8f2a-d9f21f240085")
+	)
+	(global_label "+3V3_IMU2"
+		(shape input)
+		(at 144.78 187.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "9c544ea8-4e76-48f2-a274-774947f49621")
+	)
+	(wire
+		(pts
+			(xy 127.0 198.12) (xy 127.0 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "84bfa9e4-4865-4cc5-ac1b-57a9d5301cbb")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 127.0 205.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ee7611e8-8428-4173-9c38-6ae4bd1756c9")
+	)
+	(wire
+		(pts
+			(xy 137.16 193.04) (xy 144.78 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f1f321ba-cfe2-4bc6-8fea-876431ecb444")
+	)
+	(global_label "+3V3_IMU2_FLG"
+		(shape input)
+		(at 144.78 193.04 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "52c7cf7c-8df2-4ca6-a9f6-bbb7bdb54414")
+	)
+	(wire
+		(pts
+			(xy 116.84 193.04) (xy 109.22 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "58b152de-295a-4ca8-a2ad-338849992d02")
+	)
+	(global_label "EN_3V3_IMU2"
+		(shape bidirectional)
+		(at 109.22 193.04 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6e033007-b5a4-421f-84c3-774d77d327c6")
+	)
+	(wire
+		(pts
+			(xy 116.84 187.96) (xy 109.22 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9b809cbc-c7a6-4c3c-a331-895f669df100")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 109.22 187.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "0c86fd94-5e14-46cb-bfa7-6e397076806f")
+	)
+	(text "U24: +3V3_IMU2"
+		(at 117.0 168 0)
+		(effects
+			(font
+				(size 1.2 1.2)
+			)
+			(justify left top)
+		)
+		(uuid "b24e4372-84db-4e1b-a468-97a1f704258e")
+	)
+	(symbol
+		(lib_id "Power_Management:AP22804AW5")
+		(at 177.8 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "7b324818-e09a-4841-9d76-66fec49fdb3e")
+		(property "Reference" "U25"
+			(at 177.8 178.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP22804AW5"
+			(at 177.8 202.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U25")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 187.96 187.96) (xy 195.58 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "48935cc2-36d1-4231-87d1-86ef8b3bf53b")
+	)
+	(global_label "+3V3_IMU3"
+		(shape input)
+		(at 195.58 187.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5bbead8b-ab03-4650-a11b-0bc9edb44220")
+	)
+	(wire
+		(pts
+			(xy 177.8 198.12) (xy 177.8 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "6c3c7d30-edb3-4681-acfe-71a41db77c36")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 177.8 205.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "db7c1d58-4de7-457d-bd8c-c4a5c724b208")
+	)
+	(wire
+		(pts
+			(xy 187.96 193.04) (xy 195.58 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "8662c204-4b48-422e-8dcf-2ae617946014")
+	)
+	(global_label "+3V3_IMU3_FLG"
+		(shape input)
+		(at 195.58 193.04 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2d6bd0d4-ec43-4af5-bc02-3c44d3292bf9")
+	)
+	(wire
+		(pts
+			(xy 167.64 193.04) (xy 160.02 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "53c61605-2ad9-4784-8697-fc223be845dc")
+	)
+	(global_label "EN_3V3_IMU3"
+		(shape bidirectional)
+		(at 160.02 193.04 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3c8a3887-32ca-471b-905f-6ff40bb2e1f5")
+	)
+	(wire
+		(pts
+			(xy 167.64 187.96) (xy 160.02 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d8cb7a3b-6cd2-4392-9501-e252f98568a2")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 160.02 187.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cd8d6b97-6451-40bf-8a2a-7c0eeb229e4d")
+	)
+	(text "U25: +3V3_IMU3"
+		(at 167.8 168 0)
+		(effects
+			(font
+				(size 1.2 1.2)
+			)
+			(justify left top)
+		)
+		(uuid "04980d66-8f8e-479e-8152-86e4a23538a0")
+	)
+	(symbol
+		(lib_id "Power_Management:AP22804AW5")
+		(at 228.60000000000002 190.5 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "b13a244d-0df3-4019-a4ad-93eba2b3653e")
+		(property "Reference" "U26"
+			(at 228.60000000000002 178.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "AP22804AW5"
+			(at 228.60000000000002 202.5 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/b6c9b46f-eb78-4010-a417-3db569aedb31"
+					(reference "U26")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 238.76 187.96) (xy 246.38 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4c87e1e-4230-4759-b1f6-295d97bb5c78")
+	)
+	(global_label "+3V3_SENS"
+		(shape input)
+		(at 246.38 187.96 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "00c649e6-61ea-4432-be95-cda69f3e5bd7")
+	)
+	(wire
+		(pts
+			(xy 228.6 198.12) (xy 228.6 205.74)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "55dfd155-2ea0-44c5-bfe8-cad5842dee35")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 228.6 205.74 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "aafcf07d-975f-495d-99cb-95fc12f5c9a0")
+	)
+	(wire
+		(pts
+			(xy 238.76 193.04) (xy 246.38 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "9e8b2fe4-9326-4d0a-b617-bb9a5b580c6f")
+	)
+	(global_label "+3V3_SENS_FLG"
+		(shape input)
+		(at 246.38 193.04 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "f12374fb-0de3-4ddb-913f-c7e907213535")
+	)
+	(wire
+		(pts
+			(xy 218.44 193.04) (xy 210.82 193.04)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "d1b7dc6f-b118-496a-8550-e0879197bc22")
+	)
+	(global_label "EN_3V3_SENS"
+		(shape bidirectional)
+		(at 210.82 193.04 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "902cb730-cae6-4891-893e-a0cc61fc592c")
+	)
+	(wire
+		(pts
+			(xy 218.44 187.96) (xy 210.82 187.96)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "dfdf5992-f266-4200-86fe-334a1b3e19c4")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 210.82 187.96 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5b152b75-f435-4816-a928-9adc99657dc7")
+	)
+	(text "U26: +3V3_SENS"
+		(at 218.6 168 0)
+		(effects
+			(font
+				(size 1.2 1.2)
+			)
+			(justify left top)
+		)
+		(uuid "d745c1c6-5a11-4efa-8e42-b902ebf9e888")
+	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
+)
