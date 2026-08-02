@@ -1,6 +1,6 @@
 # JFOX FCU - Build & Flash Complete! ✓
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root for current build/flash instructions and status.
 
 ## Summary
@@ -365,8 +365,8 @@ probe-rs run --chip STM32F427VITx target/thumbv7em-none-eabihf/release/jfox-fcu
 
 - [FLASHING.md](FLASHING.md) - Detailed flashing guide
 - [FLASH_INSTRUCTIONS.txt](FLASH_INSTRUCTIONS.txt) - Bootloader entry methods
-- [memory.x](memory.x) - Memory layout configuration
-- [.cargo/config.toml](.cargo/config.toml) - Build settings
+- [memory.x](../../memory.x) - Memory layout configuration
+- [.cargo/config.toml](../../.cargo/config.toml) - Build settings
 
 ### Hardware References
 

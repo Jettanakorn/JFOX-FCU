@@ -1,6 +1,6 @@
 # JFOX FCU Development Progress Summary
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root. Note: the USB-CDC build issue this file flags as
 > unresolved ("PAC compatibility issues" with `synopsys-usb-otg`'s
 > `UsbPeripheral` trait) has since been fixed - see `firmware/src/main_usb.rs`
@@ -15,7 +15,7 @@
 
 ### 1. Complete PX4 Bootloader Flash Tool ✓
 
-**Created:** [px4_flash_complete.py](px4_flash_complete.py)
+**Created:** [px4_flash_complete.py](../../px4_flash_complete.py)
 
 **Improvements over original:**
 - ✓ Added GET_DEVICE command (0x22)
@@ -194,23 +194,23 @@ The `synopsys-usb-otg` crate requires implementing `UsbPeripheral` trait, which 
 ## 📁 Files Created
 
 ### Flash Tools
-- [px4_flash_complete.py](px4_flash_complete.py) - Complete protocol flash tool ✓
+- [px4_flash_complete.py](../../px4_flash_complete.py) - Complete protocol flash tool ✓
 - [px4_flash_simple.py](px4_flash_simple.py) - Original simplified version
 
 ### Firmware
-- [firmware/src/main_simple.rs](firmware/src/main_simple.rs) - v2.0 (LED + UART) ✓
-- [firmware/src/main_usb.rs](firmware/src/main_usb.rs) - v3.0 (USB CDC) - needs fixing
+- [firmware/src/main_simple.rs](../../firmware/src/main_simple.rs) - v2.0 (LED + UART) ✓
+- [firmware/src/main_usb.rs](../../firmware/src/main_usb.rs) - v3.0 (USB CDC) - needs fixing
 
 ### Documentation
-- [MISSION_PLANNER_ANALYSIS.md](MISSION_PLANNER_ANALYSIS.md) - Complete Mission Planner research
+- [MISSION_PLANNER_ANALYSIS.md](../MISSION_PLANNER_ANALYSIS.md) - Complete Mission Planner research
 - [QUICK_FIX_GUIDE.md](QUICK_FIX_GUIDE.md) - Step-by-step testing guide
 - [V2_STATUS.md](V2_STATUS.md) - v2.0 firmware status report
 - [FLASH_V2_INSTRUCTIONS.txt](FLASH_V2_INSTRUCTIONS.txt) - Flashing instructions
 
 ### HAL Implementation
-- [hal/src/uart.rs](hal/src/uart.rs) - UART HAL (143 lines) ✓
-- [hal/src/gpio.rs](hal/src/gpio.rs) - Type-safe GPIO ✓
-- [hal/src/spi.rs](hal/src/spi.rs) - SPI HAL ✓
+- [hal/src/uart.rs](../../hal/src/uart.rs) - UART HAL (143 lines) ✓
+- [hal/src/gpio.rs](../../hal/src/gpio.rs) - Type-safe GPIO ✓
+- [hal/src/spi.rs](../../hal/src/spi.rs) - SPI HAL ✓
 
 ---
 

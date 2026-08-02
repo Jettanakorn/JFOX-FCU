@@ -1,6 +1,6 @@
 # JFOX FCU Firmware - Verification Status
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root, which carries forward this file's finding (the `jfox-fcu`
 > binary was successfully flashed and verified running on real hardware) into
 > the current, accurate status table.
@@ -317,12 +317,12 @@ The original firmware was overwritten. To restore:
 
 ## Files Reference
 
-- **Firmware source:** [firmware/src/main_simple.rs](firmware/src/main_simple.rs)
+- **Firmware source:** [firmware/src/main_simple.rs](../../firmware/src/main_simple.rs)
 - **Binary:** [target/thumbv7em-none-eabihf/release/jfox-fcu.bin](target/thumbv7em-none-eabihf/release/jfox-fcu.bin)
 - **Flash tool:** [px4_flash_simple.py](px4_flash_simple.py)
 - **Complete guide:** [BUILD_AND_FLASH_SUCCESS.md](BUILD_AND_FLASH_SUCCESS.md)
-- **Pin definitions:** [bsp/src/pins.rs](bsp/src/pins.rs)
-- **Memory layout:** [memory.x](memory.x)
+- **Pin definitions:** [bsp/src/pins.rs](../../bsp/src/pins.rs)
+- **Memory layout:** [memory.x](../../memory.x)
 
 ---
 

@@ -1,6 +1,6 @@
 # Quick Fix Guide - Mission Planner Compatible Firmware
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root - USB CDC + real (CRC-correct) MAVLink is now implemented
 > in `jfox-fcu-usb`, addressing what this file identified as missing.
 

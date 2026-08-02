@@ -1,6 +1,6 @@
 # JFOX FCU Firmware Flashing Guide
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root for current build/flash instructions. Kept for its
 > protocol reverse-engineering detail.
 
@@ -182,7 +182,7 @@ for baud in [115200, 57600, 38400, 9600]:
 **Build Configuration:**
 - Target: thumbv7em-none-eabihf
 - Optimization: release (--release)
-- Linker script: [memory.x](memory.x)
+- Linker script: [memory.x](../../memory.x)
 
 ---
 

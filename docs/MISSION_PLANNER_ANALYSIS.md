@@ -115,7 +115,7 @@ From [ArduPilot forums](https://discuss.ardupilot.org/t/apm-copter-3-0-1-cannot-
 
 ### 3. Why Our Firmware Doesn't Work with Mission Planner ❌
 
-**Our current firmware ([main_simple.rs](firmware/src/main_simple.rs)):**
+**Our current firmware ([main_simple.rs](../firmware/src/main_simple.rs)):**
 
 ```rust
 // Initialize UART1 for debug output (TX=PA9, RX=PA10)
@@ -193,7 +193,7 @@ After flash:
 
 ### Solution 1: Fix Flash Script ✓ DONE
 
-**Created:** [px4_flash_complete.py](px4_flash_complete.py)
+**Created:** [px4_flash_complete.py](../px4_flash_complete.py)
 
 **Changes:**
 - ✓ Added GET_DEVICE (0x22) command

@@ -2,12 +2,12 @@
 
 The single authoritative source for how to build each firmware binary and
 get it onto real PX4FMUv2.4.5 hardware. Supersedes the scattered, partly
-outdated 2025-12-30 documents at the repo root (`FLASHING.md`,
-`VERIFICATION_STATUS.md`, `V2_STATUS.md`, `PROGRESS_SUMMARY.md`,
-`QUICK_FIX_GUIDE.md`, `BUILD_AND_FLASH_SUCCESS.md`,
-`FLASH_INSTRUCTIONS.txt`, `FLASH_V2_INSTRUCTIONS.txt`) - those are kept for
+outdated 2025-12-30 documents at the repo root (`docs/historical/FLASHING.md`,
+`docs/historical/VERIFICATION_STATUS.md`, `docs/historical/V2_STATUS.md`, `docs/historical/PROGRESS_SUMMARY.md`,
+`docs/historical/QUICK_FIX_GUIDE.md`, `docs/historical/BUILD_AND_FLASH_SUCCESS.md`,
+`docs/historical/FLASH_INSTRUCTIONS.txt`, `docs/historical/FLASH_V2_INSTRUCTIONS.txt`) - those are kept for
 their protocol reverse-engineering detail (especially
-`MISSION_PLANNER_ANALYSIS.md`, left as reference material, not a status doc)
+`docs/MISSION_PLANNER_ANALYSIS.md`, left as reference material, not a status doc)
 but are no longer the current build/flash instructions.
 
 ## The four firmware binaries
@@ -32,7 +32,7 @@ cargo build --release --bin jfox-fcu-flight   # just one
 
 | Binary | Status |
 |---|---|
-| `jfox-fcu` | **Verified flashed and running on real PX4FMUv2.4.5 hardware** (2025-12-30, via the PX4-bootloader path below - see `VERIFICATION_STATUS.md`/`V2_STATUS.md` for the original verification record). |
+| `jfox-fcu` | **Verified flashed and running on real PX4FMUv2.4.5 hardware** (2025-12-30, via the PX4-bootloader path below - see `docs/historical/VERIFICATION_STATUS.md`/`docs/historical/V2_STATUS.md` for the original verification record). |
 | `jfox-fcu-flight` | Builds clean and passes SITL (`sitl/`), but **has never been flashed to real hardware** - `HARDWARE_BRINGUP.md`'s Stage 1 is the runbook for actually doing that, and hasn't been executed yet. |
 | `jfox-fcu-usb` | Builds clean, has a real (CRC-correct, pymavlink-cross-checked) MAVLink v1 implementation - see below. **Never yet connected to a real GCS on real hardware** - the USB-clock fix it depends on (see below) is itself unverified on real silicon. |
 | `jfox-fcu-minimal` | Builds clean; used historically to recover a board stuck in bootloader mode. |
@@ -156,7 +156,7 @@ GCS connectivity once it boots.
 ## MAVLink / GCS connectivity (`jfox-fcu-usb`)
 
 `jfox-fcu-usb` implements USB CDC (a real virtual COM port, not the raw
-UART pins - see `MISSION_PLANNER_ANALYSIS.md` for why that distinction
+UART pins - see `docs/MISSION_PLANNER_ANALYSIS.md` for why that distinction
 matters) and sends real MAVLink v1: HEARTBEAT (1Hz, reflects
 `flight::arming::ArmingFsm`'s actual armed state - always `false` here,
 since this binary has no RC/command-link input and can never actually

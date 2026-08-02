@@ -18,21 +18,45 @@ Schematic-level detail (connector pinouts, net traces) is in
 from the board's own Eagle netlist. The 3-board TMR array's KiCad project
 lives in **[`hardware/`](hardware/README.md)**.
 
-## Architecture
+## Where things are
 
-### Project Structure
+**Start here, depending on what you want to do:**
+
+| I want to… | Read |
+|---|---|
+| Build firmware and get it onto a board | [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md) |
+| Bring up real hardware, 1 board → 3-board TMR | [`HARDWARE_BRINGUP.md`](HARDWARE_BRINGUP.md) |
+| Work on the TMR schematic or carrier PCB | [`hardware/README.md`](hardware/README.md) |
+| Understand the control law and its verification | [`docs/do178c/`](docs/do178c/) |
+| Run the simulator | [`sitl/README.md`](sitl/README.md) |
+| Know where a custom datalink would fit | [`JFOXGROUNDCONTROL_ROADMAP.md`](JFOXGROUNDCONTROL_ROADMAP.md) |
+
+### Repository layout
 
 ```
 jfox-fcu/
-├── firmware/       # Main RTIC application
-├── bsp/            # Board Support Package (pins, clocks)
-├── hal/            # Hardware Abstraction Layer (GPIO, SPI, UART)
-├── drivers/        # Sensor drivers (MPU6000, MS5611, etc.)
-├── math/           # Math library (vector, quaternion, PID)
-├── flight/         # Flight control (sensor fusion, stabilization)
-├── telemetry/      # Communication protocols
-└── common/         # Shared utilities
+├── firmware/       # RTIC application - four [[bin]] targets, see BUILD_AND_FLASH.md
+├── bsp/            # Board support: pin map, clock tree
+├── hal/            # Register-level drivers: GPIO, SPI, UART, PWM, CAN, DWT
+├── drivers/        # Sensors and storage: MPU-6000, FM25V01 FRAM
+├── math/           # Vectors, quaternions, matrices, PID, filters
+├── flight/         # Control law: fusion, stabilize, MPC, adaptive, redundancy, arming, BIT
+├── telemetry/      # MAVLink v1 encoder
+├── common/         # Types shared across crates without a dependency cycle
+├── sitl/           # Host simulator - the real control chain against a 6-DOF plant
+├── hardware/       # TMR schematic + carrier PCB (KiCad). Not built by cargo.
+└── docs/
+    ├── do178c/     # Requirements, traceability, coverage, coding standard
+    ├── historical/ # Superseded 2025-12-30 docs and scripts - do not follow
+    └── board-photos/
 ```
+
+Two scripts live at the root because the flashing instructions call them
+directly: `px4_flash_complete.py` (PX4-bootloader upload — the one with the
+`GET_CRC` step the bootloader requires) and `px_mkfw.py` (vendored from PX4,
+packages a `.bin` into the `.px4` format QGroundControl expects).
+
+`memory.x` and `ccmram.x` are linker scripts; `Cargo.toml` is the workspace.
 
 ### Key Features
 

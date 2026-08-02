@@ -1,6 +1,6 @@
 # JFOX FCU Firmware v2.0 - Final Status
 
-> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](BUILD_AND_FLASH.md)
+> **Historical (2025-12-30).** Superseded by [`BUILD_AND_FLASH.md`](../../BUILD_AND_FLASH.md)
 > at the repo root for current build/flash instructions and status.
 
 **Date:** 2025-12-30
@@ -17,7 +17,7 @@
    - Complete UART driver with register-level access
    - Support for UART1-4 @ configurable baud rates
    - Formatted output using `core::fmt::Write`
-   - Located: [hal/src/uart.rs](hal/src/uart.rs)
+   - Located: [hal/src/uart.rs](../../hal/src/uart.rs)
 
 2. **LED Status Indicator**
    - Blinks at 1Hz on PE14
@@ -146,12 +146,12 @@ This shows defmt/RTT output with detailed logs.
 ## Files Created/Modified
 
 ### New Files
-- [hal/src/uart.rs](hal/src/uart.rs) - Complete UART HAL (143 lines)
+- [hal/src/uart.rs](../../hal/src/uart.rs) - Complete UART HAL (143 lines)
 - [FLASH_V2_INSTRUCTIONS.txt](FLASH_V2_INSTRUCTIONS.txt) - Flashing guide
 - [V2_STATUS.md](V2_STATUS.md) - This file
 
 ### Modified Files
-- [firmware/src/main_simple.rs](firmware/src/main_simple.rs) - Added LED + UART (149 lines)
+- [firmware/src/main_simple.rs](../../firmware/src/main_simple.rs) - Added LED + UART (149 lines)
   - LED blink on PE14
   - UART1 initialization
   - Formatted debug output

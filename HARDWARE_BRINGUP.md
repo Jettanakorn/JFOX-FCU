@@ -4,7 +4,7 @@
 ever been available. That was wrong - a single PX4FMUv2.4.5 board was
 flashed and verified running real firmware on 2025-12-30, predating the
 session that wrote this file's original text (see `BUILD_AND_FLASH.md`'s
-status table and `VERIFICATION_STATUS.md`/`V2_STATUS.md` for that record).
+status table and `docs/historical/VERIFICATION_STATUS.md`/`docs/historical/V2_STATUS.md` for that record).
 What's actually true: that verification was of `jfox-fcu` (`main_simple.rs`,
 IMU read + Madgwick fusion only) - **`jfox-fcu-flight`, the real flight
 application this runbook's Stage 1 is about, has never been flashed to real
