@@ -183,15 +183,15 @@ mid-capture:
 | BMI088 | stock — `Sensor_Motion` |
 | BMM150 | stock — `Sensor_Magnetic` |
 | LTC4417 | stock — `Power_Management` |
-| ICM-42688-P | **draw** |
-| ICM-45686 | **draw** |
-| BMP388 | **draw** |
-| FM25V02 | **draw** |
+| ICM-42688-P | **draw** — pinout verified, see `PINOUTS.md` |
+| ICM-45686 | **draw** — pinout verified |
+| BMP388 | **draw** — pinout verified |
+| FM25V02A | **draw** — pinout verified |
 
-Four custom symbols, all small parts (14–16 pin LGA or SOIC-8). Their pinouts
-come from the manufacturers' datasheets — the one place in this design where
-getting a number wrong is silently fatal, so each gets checked against the
-datasheet and not against a distributor page or a hobby schematic.
+Four custom symbols, all small parts (14-pin LGA or 8-pin SOIC/DFN). **All
+four pinouts are now verified** against the manufacturers' own datasheets and
+recorded with provenance in `PINOUTS.md` - the one place in this design where
+getting a number wrong is silently fatal. Nothing blocks schematic capture.
 
 ## Open, before schematic capture
 
