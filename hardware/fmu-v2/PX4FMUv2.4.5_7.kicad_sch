@@ -4955,6 +4955,30 @@
 		)
 		(uuid "fe9bff15-800c-41ff-ac1f-cc8cb985c2ad")
 	)
+	(global_label "SAFETY"
+		(shape bidirectional)
+		(at 218.44 175.26 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 0.889 0.889)
+			)
+			(justify right)
+		)
+		(uuid "353ec6ca-fb0c-4ab4-a407-724ba0c83b98")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 210.9583 175.26 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify right)
+			)
+		)
+	)
 	(hierarchical_label "ALARM"
 		(shape bidirectional)
 		(at 50.8 182.88 180)
@@ -4998,30 +5022,6 @@
 			(justify right)
 		)
 		(uuid "23006a7d-f43f-49c1-9b5c-3a962d715045")
-	)
-	(global_label "SAFETY"
-		(shape bidirectional)
-		(at 218.44 175.26 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 0.889 0.889)
-			)
-			(justify right)
-		)
-		(uuid "353ec6ca-fb0c-4ab4-a407-724ba0c83b98")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 210.9583 175.26 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify right)
-			)
-		)
 	)
 	(hierarchical_label "FMU-VDD_3V3"
 		(shape bidirectional)
@@ -5144,7 +5144,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0baebd04-0dbb-4170-a5cb-3b3461e251bf")
-		(property "Reference" "#GND14"
+		(property "Reference" "#GND14A01"
 			(at 233.68 93.98 0)
 			(hide yes)
 			(show_name no)
@@ -5217,6 +5217,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND14A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5230,7 +5236,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0cc24676-25e8-4d74-815f-ca392c9e35cb")
-		(property "Reference" "R703"
+		(property "Reference" "R703A1"
 			(at 97.79 204.6986 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5318,6 +5324,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R703A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5331,7 +5343,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "0d7eb4d2-5be9-4b9d-845b-04c67675a8a2")
-		(property "Reference" "R711"
+		(property "Reference" "R711A1"
 			(at 232.1814 80.01 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5419,6 +5431,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R711A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5432,7 +5450,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "129e6097-3966-4b29-9fc5-dcb490af9b6d")
-		(property "Reference" "R708"
+		(property "Reference" "R708A1"
 			(at 201.7014 128.27 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5520,6 +5538,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R708A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5533,7 +5557,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "197d2ca2-daac-48d3-b3cc-96656124f52a")
-		(property "Reference" "R705"
+		(property "Reference" "R705A1"
 			(at 115.57 166.1414 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5621,6 +5645,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R705A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5634,7 +5664,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1de6805f-dc73-42d7-af6e-72c66d854dfe")
-		(property "Reference" "R706"
+		(property "Reference" "R706A1"
 			(at 130.81 176.3014 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5722,6 +5752,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R706A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5735,7 +5771,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "21849eb0-2300-4796-b7d1-e40bc355a1e2")
-		(property "Reference" "R701"
+		(property "Reference" "R701A1"
 			(at 69.85 184.3786 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5823,6 +5859,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5836,7 +5878,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "254b2803-37c0-4f35-b7c3-c70f79037d91")
-		(property "Reference" "LED704"
+		(property "Reference" "LED704A1"
 			(at 237.236 62.992 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -5924,6 +5966,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "LED704A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -5937,7 +5985,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2921f11b-97a6-4da0-b673-748aee9cbaf6")
-		(property "Reference" "R736"
+		(property "Reference" "R736A1"
 			(at 216.9414 128.27 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6025,6 +6073,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R736A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6038,7 +6092,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2cc41926-b1f9-48ec-9c53-6cb2d5120ba2")
-		(property "Reference" "C704"
+		(property "Reference" "C704A1"
 			(at 148.844 172.339 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6126,6 +6180,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "C704A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6139,7 +6199,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "33dc80f5-db34-414b-bb0b-56ca04f01c99")
-		(property "Reference" "LED705"
+		(property "Reference" "LED705A1"
 			(at 237.236 116.332 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6227,6 +6287,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "LED705A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6240,7 +6306,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "40457184-ebc4-4983-85be-77e8bdbf7ef0")
-		(property "Reference" "#GND108"
+		(property "Reference" "#GND108A01"
 			(at 48.26 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -6313,6 +6379,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND108A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6326,7 +6398,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "45523c3e-09fe-4c70-9813-2892afd8dc0a")
-		(property "Reference" "U703"
+		(property "Reference" "U703A1"
 			(at 109.728 67.056 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6426,6 +6498,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "U703A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6439,7 +6517,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4a7c1727-90f8-444d-acaf-8992f27788c0")
-		(property "Reference" "R704"
+		(property "Reference" "R704A1"
 			(at 95.0214 125.73 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6527,6 +6605,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R704A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6540,7 +6624,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4aea2eee-c77a-4df1-9d81-3396a204f3fb")
-		(property "Reference" "R709"
+		(property "Reference" "R709A1"
 			(at 216.9414 140.97 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6628,6 +6712,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R709A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6641,7 +6731,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "566b5113-dd79-42f7-af04-53fc69233916")
-		(property "Reference" "R735"
+		(property "Reference" "R735A1"
 			(at 201.7014 74.93 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6729,6 +6819,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R735A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6742,7 +6838,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "59371b04-13a7-431b-8345-e82d65ae2e74")
-		(property "Reference" "#GND47"
+		(property "Reference" "#GND47A01"
 			(at 147.32 187.96 0)
 			(hide yes)
 			(show_name no)
@@ -6815,6 +6911,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND47A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6828,7 +6930,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "5dedf583-4329-4bb2-8dc9-92e0b26b4fd1")
-		(property "Reference" "L701"
+		(property "Reference" "L701A1"
 			(at 68.58 157.48 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6916,6 +7018,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "L701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6929,7 +7037,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6d08517e-3c36-4429-a56a-07b626657cac")
-		(property "Reference" "R710"
+		(property "Reference" "R710A1"
 			(at 232.41 169.1386 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7017,6 +7125,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R710A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7030,7 +7144,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7059508a-b722-485c-bbea-e60620a089d9")
-		(property "Reference" "J702"
+		(property "Reference" "J702A1"
 			(at 244.475 162.56 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7121,6 +7235,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "J702A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7134,7 +7254,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "722fb137-7125-4cad-b654-bbb1a186a6da")
-		(property "Reference" "U702"
+		(property "Reference" "U702A1"
 			(at 83.82 154.94 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7240,6 +7360,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "U702A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7253,7 +7379,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "776b7f17-e425-4d20-91df-b052491a767b")
-		(property "Reference" "D701"
+		(property "Reference" "D701A1"
 			(at 218.44 180.34 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7341,6 +7467,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "D701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7354,7 +7486,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "78fe50ff-2ef3-4382-93be-248ef4111d84")
-		(property "Reference" "#FRAME7"
+		(property "Reference" "#FRAME7A1"
 			(at 17.78 223.52 0)
 			(hide yes)
 			(show_name no)
@@ -7457,6 +7589,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#FRAME7A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7470,7 +7608,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7c0a17fc-9780-4f74-bb6f-ac649f92ba99")
-		(property "Reference" "R712"
+		(property "Reference" "R712A1"
 			(at 232.1814 143.51 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7558,6 +7696,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R712A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7571,7 +7715,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "7d07deeb-06ee-461c-9cec-c9de0982d4f8")
-		(property "Reference" "C702"
+		(property "Reference" "C702A1"
 			(at 54.864 164.719 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7659,6 +7803,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "C702A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7672,7 +7822,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "817b4ad4-b818-4d0b-8eca-a0910541b436")
-		(property "Reference" "LED703"
+		(property "Reference" "LED703A1"
 			(at 221.996 116.332 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7760,6 +7910,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "LED703A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7773,7 +7929,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8c6ffddf-23ba-4f1d-ac29-943ccc7a8b36")
-		(property "Reference" "#GND53"
+		(property "Reference" "#GND53A01"
 			(at 53.34 175.26 0)
 			(hide yes)
 			(show_name no)
@@ -7846,6 +8002,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND53A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7859,7 +8021,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "92dd0cda-6f5c-463a-a9ab-208c9dc70937")
-		(property "Reference" "#GND58"
+		(property "Reference" "#GND58A01"
 			(at 96.52 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -7932,6 +8094,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND58A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7945,7 +8113,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9425e327-a783-47e2-967a-958ddd85448a")
-		(property "Reference" "#GND107"
+		(property "Reference" "#GND107A01"
 			(at 58.42 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -8018,6 +8186,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND107A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8031,7 +8205,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "9805b036-ba7b-4871-8451-8723a2d57699")
-		(property "Reference" "LED701"
+		(property "Reference" "LED701A1"
 			(at 206.756 62.992 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8119,6 +8293,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "LED701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8132,7 +8312,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "a0637473-0465-4732-bd78-b951b0e8ead1")
-		(property "Reference" "R707"
+		(property "Reference" "R707A1"
 			(at 201.7014 87.63 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8220,6 +8400,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R707A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8233,7 +8419,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ad726c6f-1a41-4ec8-8b31-065aab79ba2c")
-		(property "Reference" "U703"
+		(property "Reference" "U703A1"
 			(at 135.128 82.296 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8331,6 +8517,12 @@
 					(unit 3)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "U703A1")
+					(unit 3)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8344,7 +8536,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b7db207d-8f64-451c-8a29-2207e032cf01")
-		(property "Reference" "#GND57"
+		(property "Reference" "#GND57A01"
 			(at 116.84 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -8417,6 +8609,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND57A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8430,7 +8628,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ba7e6dda-39ea-488d-8755-a6e0fbd696bd")
-		(property "Reference" "U703"
+		(property "Reference" "U703A1"
 			(at 122.428 74.676 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8528,6 +8726,12 @@
 					(unit 2)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "U703A1")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8541,7 +8745,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c1d11841-0d6b-421f-8154-fe7a8cc2a5bf")
-		(property "Reference" "R702"
+		(property "Reference" "R702A1"
 			(at 69.85 204.6986 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8629,6 +8833,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R702A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8642,7 +8852,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c35b681d-d2c7-4a8e-bcf3-f658bbc08799")
-		(property "Reference" "C701"
+		(property "Reference" "C701A1"
 			(at 49.784 118.999 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8730,6 +8940,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "C701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8743,7 +8959,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c848771d-f087-4c20-989f-3507a42e9543")
-		(property "Reference" "#GND49"
+		(property "Reference" "#GND49A01"
 			(at 53.34 210.82 0)
 			(hide yes)
 			(show_name no)
@@ -8816,6 +9032,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND49A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8829,7 +9051,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "cd17ef0f-3923-4991-b6f3-e7bad0f09b76")
-		(property "Reference" "#GND66"
+		(property "Reference" "#GND66A01"
 			(at 238.76 195.58 0)
 			(hide yes)
 			(show_name no)
@@ -8902,6 +9124,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND66A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8915,7 +9143,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "db2a3e58-1c7a-4f3e-9b8f-a2219b463c40")
-		(property "Reference" "#GND48"
+		(property "Reference" "#GND48A01"
 			(at 127 213.36 0)
 			(hide yes)
 			(show_name no)
@@ -8988,6 +9216,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND48A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9001,7 +9235,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e8215596-e52e-4506-9873-08e885a7ec8a")
-		(property "Reference" "C703"
+		(property "Reference" "C703A1"
 			(at 118.364 197.739 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9089,6 +9323,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "C703A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9102,7 +9342,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f2f1ce4c-6021-4aae-83f5-6ea6b90d0e49")
-		(property "Reference" "J701"
+		(property "Reference" "J701A1"
 			(at 135.255 190.5 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9190,6 +9430,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "J701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9203,7 +9449,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f6e2b0dd-c8a7-471d-8046-a60e021451ad")
-		(property "Reference" "R713"
+		(property "Reference" "R713A1"
 			(at 235.1786 181.61 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9291,6 +9537,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "R713A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9304,7 +9556,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f90951fa-7fcc-4bae-a30f-1f6b5b46df7f")
-		(property "Reference" "#GND24"
+		(property "Reference" "#GND24A01"
 			(at 203.2 134.62 0)
 			(hide yes)
 			(show_name no)
@@ -9377,6 +9629,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "#GND24A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9390,7 +9648,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "fa993361-78ca-4c08-87b9-0f601573c9e1")
-		(property "Reference" "U701"
+		(property "Reference" "U701A1"
 			(at 66.04 86.36 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9502,6 +9760,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "U701A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9515,7 +9779,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "fcdf8909-935f-4c56-b446-f1b3a48321c9")
-		(property "Reference" "LED702"
+		(property "Reference" "LED702A1"
 			(at 206.756 116.332 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9600,6 +9864,12 @@
 				)
 				(path "/5028fc7f-8ac1-4cf0-b288-6a6b33b6ad17/7a0defd5-f75a-4a77-bf7e-6ac41d843bc9/03629b40-6666-4133-b31f-d92eec732ad1"
 					(reference "LED702C")
+					(unit 1)
+				)
+			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/03629b40-6666-4133-b31f-d92eec732ad1"
+					(reference "LED702A1")
 					(unit 1)
 				)
 			)

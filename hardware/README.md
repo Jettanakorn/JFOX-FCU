@@ -107,6 +107,20 @@ In the TMR schematic, open the hierarchy navigator to move between `FMU-A`,
 `FMU-B`, `FMU-C` and `CARRIER`. The three FMU sheets are the *same file* — a
 change to one is a change to all three, which is the point.
 
+## New board: JFOX-FMU v1
+
+A ground-up replacement for the PX4FMUv2.4.5 modules - STM32H753 (Cortex-M7
+@480 MHz, **1 MB RAM**), three IMUs per board, switchable CAN termination.
+The v2.4.5 is a guideline only.
+
+Specification: [`jfox-fmu-v1/ARCHITECTURE.md`](jfox-fmu-v1/ARCHITECTURE.md).
+No schematic captured yet.
+
+Note that the existing carrier PCB is built for v2.4.5's DF13 pinout and will
+not fit the new module; it needs a redesign alongside. Its verified content -
+CAN daisy chain, independent per-board power, no on-carrier termination -
+carries over unchanged.
+
 ## Two projects, and why
 
 | Project | What it is | Has a PCB? |

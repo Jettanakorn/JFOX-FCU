@@ -6531,7 +6531,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "06597a1b-1881-428d-989e-bdd4859a3cf3")
-		(property "Reference" "R1103"
+		(property "Reference" "R1103A1"
 			(at 29.4386 133.35 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6619,6 +6619,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1103A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6632,7 +6638,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "10ea9229-b5a6-4b64-9d6a-2af687b50680")
-		(property "Reference" "L1102"
+		(property "Reference" "L1102A1"
 			(at 45.72 106.68 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6729,6 +6735,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "L1102A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6743,7 +6755,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1d2ce3d9-1cf0-45a8-8799-5d60cab9e698")
-		(property "Reference" "U1102"
+		(property "Reference" "U1102A1"
 			(at 175.26 25.4 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -6847,6 +6859,12 @@
 					(unit 2)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1102A1")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6860,7 +6878,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "1f8cf943-7619-428d-ad66-b94c9e0dabf7")
-		(property "Reference" "#GND73"
+		(property "Reference" "#GND73A01"
 			(at 160.02 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -6933,6 +6951,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND73A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -6946,7 +6970,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "203fe9dc-5009-4bf0-909f-8d36479fde89")
-		(property "Reference" "#GND5"
+		(property "Reference" "#GND5A01"
 			(at 27.94 149.86 0)
 			(hide yes)
 			(show_name no)
@@ -7019,6 +7043,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND5A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7032,7 +7062,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "25e4a7dc-23c0-4ccc-9939-7532e695b2db")
-		(property "Reference" "#GND80"
+		(property "Reference" "#GND80A01"
 			(at 195.58 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -7105,6 +7135,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND80A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7118,7 +7154,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2a0b42cc-64fe-43eb-ab4f-6983d0ad3c0e")
-		(property "Reference" "C1104"
+		(property "Reference" "C1104A1"
 			(at 245.364 37.719 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7206,6 +7242,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1104A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7219,7 +7261,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "2f894c91-7907-49e9-a121-cd43d51f8ab4")
-		(property "Reference" "#GND17"
+		(property "Reference" "#GND17A01"
 			(at 129.54 180.34 0)
 			(hide yes)
 			(show_name no)
@@ -7292,6 +7334,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND17A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7305,7 +7353,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3763bcf9-ec61-4a14-b418-a18f837eac84")
-		(property "Reference" "R1105"
+		(property "Reference" "R1105A1"
 			(at 113.2586 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7393,6 +7441,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1105A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7406,7 +7460,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3c8f89da-0537-44eb-8859-7cdd9dbc02a9")
-		(property "Reference" "RN1101"
+		(property "Reference" "RN1101A1"
 			(at 236.728 99.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7532,6 +7586,12 @@
 					(unit 2)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "RN1101A1")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7545,7 +7605,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "3d43d066-ea9c-4800-8564-b0c2e2b9e964")
-		(property "Reference" "#GND79"
+		(property "Reference" "#GND79A01"
 			(at 182.88 86.36 0)
 			(hide yes)
 			(show_name no)
@@ -7618,6 +7678,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND79A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7631,7 +7697,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "439cbd55-6bd6-45ae-9445-ddd55916ef25")
-		(property "Reference" "C1107"
+		(property "Reference" "C1107A1"
 			(at 197.104 75.819 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7719,6 +7785,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1107A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7732,7 +7804,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4432c236-2771-45a8-973d-7b405a8d6ecf")
-		(property "Reference" "#GND30"
+		(property "Reference" "#GND30A01"
 			(at 127 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -7805,6 +7877,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND30A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7819,7 +7897,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "4795ebfb-2250-48ff-9c28-60d4fcef344b")
-		(property "Reference" "U1104"
+		(property "Reference" "U1104A1"
 			(at 226.06 55.88 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -7923,6 +8001,12 @@
 					(unit 2)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1104A1")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -7936,7 +8020,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "66b80a03-c0df-4541-a8e3-169a3dc39ca0")
-		(property "Reference" "U1102"
+		(property "Reference" "U1102A1"
 			(at 134.62 25.4 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8042,6 +8126,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1102A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8055,7 +8145,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6782bfdd-69bb-444c-a2aa-d72dcd195bfa")
-		(property "Reference" "R1101"
+		(property "Reference" "R1101A1"
 			(at 64.77 110.7186 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8143,6 +8233,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1101A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8156,7 +8252,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "696eefe7-f331-4189-9624-93f97c3c73a7")
-		(property "Reference" "C1102"
+		(property "Reference" "C1102A1"
 			(at 108.204 52.959 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8244,6 +8340,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1102A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8257,7 +8359,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6cb3db8d-94ac-4cd8-80a3-ca712019d86c")
-		(property "Reference" "R1110"
+		(property "Reference" "R1110A1"
 			(at 131.0386 130.81 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8345,6 +8447,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1110A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8358,7 +8466,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6d015723-0f07-48c9-8dd9-04aedbc5bfd3")
-		(property "Reference" "U1101"
+		(property "Reference" "U1101A1"
 			(at 190.5 116.84 0)
 			(hide yes)
 			(show_name no)
@@ -8515,6 +8623,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1101A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8528,7 +8642,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "6fd80767-316a-4d59-9eb8-f5de8fda49b2")
-		(property "Reference" "C1103"
+		(property "Reference" "C1103A1"
 			(at 128.524 70.739 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8616,6 +8730,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1103A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8629,7 +8749,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "74b661fb-0714-4209-a026-0b673a56884b")
-		(property "Reference" "#GND21"
+		(property "Reference" "#GND21A01"
 			(at 190.5 154.94 0)
 			(hide yes)
 			(show_name no)
@@ -8702,6 +8822,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND21A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8715,7 +8841,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "77b66f4a-6951-42ee-9610-a6a7f5db4032")
-		(property "Reference" "R1109"
+		(property "Reference" "R1109A1"
 			(at 131.0386 115.57 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8803,6 +8929,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1109A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8816,7 +8948,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "83ddc815-b914-4462-936f-ee2b45ef7bc9")
-		(property "Reference" "RN1101"
+		(property "Reference" "RN1101A1"
 			(at 246.888 99.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -8944,6 +9076,12 @@
 					(unit 4)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "RN1101A1")
+					(unit 4)
+				)
+			)
 		)
 	)
 	(symbol
@@ -8957,7 +9095,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8a0372e0-7b6f-4548-857b-277e544b891a")
-		(property "Reference" "#GND12"
+		(property "Reference" "#GND12A01"
 			(at 106.68 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -9030,6 +9168,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND12A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9043,7 +9187,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8b9538c2-773f-4fb8-bec0-3a303f931a0a")
-		(property "Reference" "U1103"
+		(property "Reference" "U1103A1"
 			(at 177.8 43.18 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9149,6 +9293,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1103A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9162,7 +9312,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8cf9b797-3252-4d96-8148-b5cfdf0a9233")
-		(property "Reference" "C1109"
+		(property "Reference" "C1109A1"
 			(at 120.904 157.099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9250,6 +9400,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1109A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9263,7 +9419,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "8ed78df1-0b83-46e9-a568-1f5272be9b73")
-		(property "Reference" "R1104"
+		(property "Reference" "R1104A1"
 			(at 37.0586 133.35 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9351,6 +9507,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1104A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9364,7 +9526,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "92e9c2ba-c7c0-45ce-916f-2d2e616e078b")
-		(property "Reference" "#GND59"
+		(property "Reference" "#GND59A01"
 			(at 78.74 81.28 0)
 			(hide yes)
 			(show_name no)
@@ -9437,6 +9599,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND59A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9450,7 +9618,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "977dfa20-5c51-414b-9701-b9ef732f0b7a")
-		(property "Reference" "C1105"
+		(property "Reference" "C1105A1"
 			(at 161.544 75.819 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9538,6 +9706,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1105A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9551,7 +9725,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "addac03e-d34f-4c79-8587-a6f5ea0bd978")
-		(property "Reference" "L1101"
+		(property "Reference" "L1101A1"
 			(at 35.56 104.14 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9648,6 +9822,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "L1101A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9662,7 +9842,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b18e48ec-450b-49f9-8f94-b3b516090c1b")
-		(property "Reference" "U1103"
+		(property "Reference" "U1103A1"
 			(at 203.2 43.18 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9766,6 +9946,12 @@
 					(unit 2)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1103A1")
+					(unit 2)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9779,7 +9965,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b3475f08-a099-4dee-8127-8af574fc43e4")
-		(property "Reference" "R1115"
+		(property "Reference" "R1115A1"
 			(at 229.6414 146.05 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -9867,6 +10053,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1115A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9880,7 +10072,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "b3d4f3a4-2536-42d9-a18e-ef02217df456")
-		(property "Reference" "#GND65"
+		(property "Reference" "#GND65A01"
 			(at 43.18 149.86 0)
 			(hide yes)
 			(show_name no)
@@ -9953,6 +10145,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND65A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -9966,7 +10164,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bad0a384-d913-44c3-963b-7841168c434b")
-		(property "Reference" "R1107"
+		(property "Reference" "R1107A1"
 			(at 113.2586 128.27 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10054,6 +10252,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1107A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10067,7 +10271,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "bca4fe3c-5877-4efb-9eef-5daae5d888df")
-		(property "Reference" "C1110"
+		(property "Reference" "C1110A1"
 			(at 138.684 157.099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10155,6 +10359,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1110A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10168,7 +10378,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "c226f780-cbf0-4c6e-9e92-0b05a7bc16a3")
-		(property "Reference" "C1101"
+		(property "Reference" "C1101A1"
 			(at 80.264 35.179 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10256,6 +10466,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1101A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10270,7 +10486,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ca57f2ad-269a-4c6e-8a16-89b248a2bf31")
-		(property "Reference" "J601"
+		(property "Reference" "J601A1"
 			(at 32.385 33.02 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10370,6 +10586,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "J601A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10383,7 +10605,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "cc29ca62-4d40-4603-9d9e-622e5b87889a")
-		(property "Reference" "R1112"
+		(property "Reference" "R1112A1"
 			(at 151.3586 133.35 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10471,6 +10693,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1112A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10484,7 +10712,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "cd4093ec-71dd-4151-bd5b-19798ae03f5a")
-		(property "Reference" "R1106"
+		(property "Reference" "R1106A1"
 			(at 113.2586 113.03 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10572,6 +10800,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1106A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10585,7 +10819,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ceb63ddc-5980-41ff-bcd7-aa42c664a2aa")
-		(property "Reference" "R1113"
+		(property "Reference" "R1113A1"
 			(at 151.3586 148.59 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10673,6 +10907,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1113A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10686,7 +10926,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d2cd2835-9874-494e-9bd9-190c62efa1e8")
-		(property "Reference" "R1111"
+		(property "Reference" "R1111A1"
 			(at 131.0386 146.05 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10774,6 +11014,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1111A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10787,7 +11033,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "d517f824-51e7-4f3b-853e-62d7c4cc3e40")
-		(property "Reference" "C1106"
+		(property "Reference" "C1106A1"
 			(at 184.404 75.819 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -10875,6 +11121,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1106A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10888,7 +11140,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "db4b6fc2-ea0f-43f7-8640-6331c666e8b7")
-		(property "Reference" "#GND60"
+		(property "Reference" "#GND60A01"
 			(at 243.84 48.26 0)
 			(hide yes)
 			(show_name no)
@@ -10961,6 +11213,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#GND60A01")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -10974,7 +11232,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "ddbc5727-b3fe-4bc9-91f5-6ff55bea666a")
-		(property "Reference" "RN1101"
+		(property "Reference" "RN1101A1"
 			(at 241.808 99.06 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11100,6 +11358,12 @@
 					(unit 3)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "RN1101A1")
+					(unit 3)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11113,7 +11377,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e092fb4e-3931-4fd0-a4a7-0793ea79a0a0")
-		(property "Reference" "U1104"
+		(property "Reference" "U1104A1"
 			(at 200.66 55.88 90)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11219,6 +11483,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "U1104A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11232,7 +11502,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "e86b3b59-1f7f-4139-b899-ffefd9ffe605")
-		(property "Reference" "R1102"
+		(property "Reference" "R1102A1"
 			(at 64.77 118.3386 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11320,6 +11590,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1102A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11333,7 +11609,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "eebc0025-b0b1-4d66-b4f1-6dfe0b4dafb0")
-		(property "Reference" "R1114"
+		(property "Reference" "R1114A1"
 			(at 151.3586 163.83 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11421,6 +11697,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "R1114A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11434,7 +11716,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f5b57b67-ceb9-4a21-ba2b-feddc784b321")
-		(property "Reference" "C1108"
+		(property "Reference" "C1108A1"
 			(at 103.124 157.099 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -11522,6 +11804,12 @@
 					(unit 1)
 				)
 			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "C1108A1")
+					(unit 1)
+				)
+			)
 		)
 	)
 	(symbol
@@ -11535,7 +11823,7 @@
 		(in_pos_files yes)
 		(dnp no)
 		(uuid "f7dd3b2f-9d05-4c21-85e0-596d53ca733d")
-		(property "Reference" "#FRAME11"
+		(property "Reference" "#FRAME11A1"
 			(at 17.78 198.12 0)
 			(hide yes)
 			(show_name no)
@@ -11635,6 +11923,12 @@
 				)
 				(path "/5028fc7f-8ac1-4cf0-b288-6a6b33b6ad17/7a0defd5-f75a-4a77-bf7e-6ac41d843bc9/83520d77-2473-433d-b8f2-a2d205667aac"
 					(reference "#FRAME11C")
+					(unit 1)
+				)
+			)
+			(project "fmu-v2"
+				(path "/c80f4f70-3af8-4445-8306-d15a51f9ca70/83520d77-2473-433d-b8f2-a2d205667aac"
+					(reference "#FRAME11A1")
 					(unit 1)
 				)
 			)

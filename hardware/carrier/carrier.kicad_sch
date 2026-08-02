@@ -1667,7 +1667,14 @@
 		(pin "1"
 			(uuid "5c716633-8adb-4113-b965-4323ee12fe6b")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J2")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -1752,7 +1759,14 @@
 		(pin "6"
 			(uuid "03a8392b-20ee-4e09-b7cc-249671b21dc0")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J9")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -1837,7 +1851,14 @@
 		(pin "6"
 			(uuid "77c969ad-a506-46a6-aca0-5180a3d023af")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J8")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x04")
@@ -1916,7 +1937,14 @@
 		(pin "1"
 			(uuid "f5909e22-86a1-4ae0-9f34-77edb69ab95f")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J3")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x04")
@@ -1995,7 +2023,14 @@
 		(pin "4"
 			(uuid "ed8ccd3e-435e-40f3-852a-136f232334b2")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J1")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -2080,7 +2115,14 @@
 		(pin "2"
 			(uuid "e1c48a43-1c75-444c-a792-743cfb70968e")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J7")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -2165,7 +2207,14 @@
 		(pin "3"
 			(uuid "834bb546-a55e-437c-8aa3-31a3155fdf5d")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J6")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -2250,7 +2299,14 @@
 		(pin "4"
 			(uuid "d62b8fed-3fe2-4599-97fe-07065b17d259")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J4")
+					(unit 1)
+				)
+			)
+		)
 	)
 	(symbol
 		(lib_id "jfox:Conn_01x06")
@@ -2335,6 +2391,19 @@
 		(pin "4"
 			(uuid "559f4eff-4f19-41c5-9a09-dcf3ccb53b73")
 		)
-		(instances)
+		(instances
+			(project "carrier"
+				(path "/c057e3ee-0da7-4b58-b96b-0600bae1b4d5"
+					(reference "J5")
+					(unit 1)
+				)
+			)
+		)
 	)
+	(sheet_instances
+		(path "/"
+			(page "1")
+		)
+	)
+	(embedded_fonts no)
 )
