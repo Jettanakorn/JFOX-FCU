@@ -39,7 +39,8 @@ BOARDS = ["A", "B", "C"]
 # so they cross the sheet boundary as hierarchical pins.
 PER_BOARD = (
     [("VDD_5V_BRICK", "passive"), ("BATT_V_SENS", "output"), ("BATT_I_SENS", "output")]
-    + [(f"FMU_CH{i}", "output") for i in range(1, 7)]
+    # FMU_CH* deliberately absent: motor-output arbitration is unresolved
+    # (TmrVoter is not wired into motor_task), so it is not committed to copper.
 )
 
 # Genuinely shared across all three boards - these ride global labels, which is
@@ -90,6 +91,11 @@ def local_label(name, x, y, angle=0):
             f'    {effects("left bottom")}\n'
             f'    (uuid {uid()})\n'
             f'  )')
+
+
+def no_connect(x, y):
+    """Marks a pin as deliberately unused, so ERC does not report it."""
+    return f'  (no_connect (at {x} {y}) (uuid {uid()}))'
 
 
 def wire(x1, y1, x2, y2):
@@ -174,7 +180,19 @@ def conn_symbol_def(npins):
     return name, "\n".join(out)
 
 
-def place_conn(lib_id, ref, value, x, y, npins, inst_path):
+# Real KiCad footprints, so the carrier can go straight to a board. The DF13
+# parts match what the FMU modules actually carry (see
+# PX4FMUv2.4.5_NETS.md); the servo breakout is plain 0.1" header, which is
+# what RC servo/ESC leads plug into.
+FOOTPRINTS = {
+    3: "Connector_Hirose:Hirose_DF13-03P-1.25DSA_1x03_P1.25mm_Vertical",
+    4: "Connector_Hirose:Hirose_DF13-04P-1.25DSA_1x04_P1.25mm_Vertical",
+    6: "Connector_Hirose:Hirose_DF13-06P-1.25DSA_1x06_P1.25mm_Vertical",
+    8: "Connector_PinHeader_2.54mm:PinHeader_1x08_P2.54mm_Vertical",
+}
+
+
+def place_conn(lib_id, ref, value, x, y, npins, inst_path, project=None):
     """Place a connector. Returns (sexpr, [(pin_index, abs_x, abs_y)]).
 
     `inst_path` is the hierarchy path to the sheet this symbol sits on:
@@ -195,8 +213,11 @@ def place_conn(lib_id, ref, value, x, y, npins, inst_path):
            f'    (property "Value" "{esc(value)}" (at {round(x + 2.54, 4)} {round(y, 4)} 0)',
            f'      {effects("left")}',
            '    )',
+           f'    (property "Footprint" "{esc(FOOTPRINTS[npins])}" (at {x} {y} 0)',
+           f'      {effects(hide=True)}',
+           '    )',
            '    (instances',
-           f'      (project "{PROJECT}"',
+           f'      (project "{project or PROJECT}"',
            f'        (path "{inst_path}"',
            f'          (reference "{esc(ref)}") (unit 1)',
            '        )',
@@ -242,7 +263,7 @@ def build_fmu_sheet():
         "then attach the hierarchical labels below to the matching connectors:\\n"
         "  CAN_H/CAN_L -> J405 pins 2/3   VDD_5V_BRICK -> J601 pins 1/2\\n"
         "  BATT_V_SENS -> J601 pin 4      BATT_I_SENS  -> J601 pin 3\\n"
-        "  SAFETY      -> J702 pin 3      FMU_CH1..6   -> J901 (via U901)\\n"
+        "  SAFETY      -> J702 pin 3\\n"
         "This sheet is instantiated three times; edit it once.",
         25.4, 25.4))
 
@@ -257,20 +278,53 @@ def build_fmu_sheet():
     return ru, document(ru, [], body, page_one=False)
 
 
-def build_carrier(root_uuid, sheet_uuid):
-    """The new design: CAN bus, per-board power entry, servo breakout."""
+def build_carrier(root_uuid, sheet_uuid, standalone=False):
+    """The carrier: CAN bus hub + per-board power pass-through.
+
+    Two outputs from one definition:
+
+    * as a child sheet of jfox-tmr (standalone=False) - the system view, where
+      signals leaving the carrier are hierarchical labels wired to the FMU
+      sheets;
+    * as its own project root (standalone=True) - the *board*. The three FMU
+      modules are separately manufactured hardware, not parts on this PCB, so
+      the carrier has to be its own project, or a board netlist would try to
+      place 421 module components on the carrier.
+
+    Design note - why every signal has an IN and an OUT connector:
+    the first version of this gave each board a single power connector, which
+    read fine as a system sheet (the net continued into the FMU sheet) but left
+    28 nets terminating on one pin once the carrier stood alone. A pass-through
+    carrier is exactly that - a path - so brick power enters on one connector
+    and leaves for the module on another.
+
+    Deliberately NOT on this board:
+
+    * Servo/PWM breakout. How three boards' motor commands arbitrate into one
+      output is unresolved - flight::redundancy::TmrVoter is still not wired
+      into motor_task. Committing a guess to copper is worse than leaving each
+      module's J901 cabled straight to its ESCs.
+    * The safety switch. J702's SAFETY lands on U801.PB5, the IO co-processor,
+      which this project's FMU-only firmware never runs; and neither J405 nor
+      J601 carries a pin to route it through. It would be decorative.
+    """
     ru = uid()
-    inst = f"/{root_uuid}/{sheet_uuid}"
+    inst = "/" if standalone else f"/{root_uuid}/{sheet_uuid}"
+    proj = "carrier" if standalone else PROJECT
+
+    def boundary(name, shape, x, y, angle=0):
+        return (local_label(name, x, y, angle) if standalone
+                else hier_label(name, shape, x, y, angle))
+
     lib4, def4 = conn_symbol_def(4)
     lib6, def6 = conn_symbol_def(6)
-    lib3, def3 = conn_symbol_def(3)
-    lib8, def8 = conn_symbol_def(8)
     body = []
 
     body.append(text_note(
-        "JFOX TMR carrier / backplane.\\n"
+        "JFOX TMR carrier.\\n"
         "Three PX4FMUv2.4.5 modules stacked on M3 + Richco R908-5 (7.95mm) spacers,\\n"
-        "cabled to this board through their existing DF13 connectors.",
+        "cabled to this board through their existing DF13 connectors.\\n"
+        "Mounting pattern is 30.0 x 30.0 mm, taken from the module's own .brd file.",
         25.4, 20.32))
 
     # --- CAN bus -----------------------------------------------------------
@@ -282,89 +336,52 @@ def build_carrier(root_uuid, sheet_uuid):
         "= ~40R, a real signal-integrity fault.\\n"
         "REQUIRED: desolder R409 on the electrically-middle module only.\\n"
         "Verify ~60R across CAN_H/CAN_L with the bus unpowered before trusting it.",
-        25.4, 40.64))
+        25.4, 38.1))
 
-    x = 76.2
     for i, b in enumerate(BOARDS):
-        y = 76.2 + i * 30.48
-        s, pts = place_conn(lib4, f"J{i+1}", f"CAN {b} (DF13-4P)", x, y, 4, inst)
+        y = 76.2 + i * 27.94
+        s, pts = place_conn(lib4, f"J{i+1}", f"CAN {b} -> module J405",
+                            76.2, y, 4, inst, proj)
         body.append(s)
         for idx, px, py in pts:
-            net = {1: "CAN_5V_UNUSED", 2: "CAN_H", 3: "CAN_L", 4: "GND"}[idx]
             body.append(wire(px, py, px - 7.62, py))
-            if net in ("CAN_H", "CAN_L", "GND"):
-                body.append(global_label(net, "bidirectional" if net.startswith("CAN") else "passive",
-                                         px - 7.62, py, 180))
+            if idx == 2:
+                body.append(global_label("CAN_H", "bidirectional", px - 7.62, py, 180))
+            elif idx == 3:
+                body.append(global_label("CAN_L", "bidirectional", px - 7.62, py, 180))
+            elif idx == 4:
+                body.append(global_label("GND", "passive", px - 7.62, py, 180))
             else:
-                body.append(local_label(f"{net}_{b}", px - 7.62, py, 180))
+                # module's own filtered 5V; nothing on the carrier uses it
+                body.append(no_connect(px, py))
 
-    # --- power -------------------------------------------------------------
+    # --- power pass-through ------------------------------------------------
     body.append(text_note(
-        "POWER - three INDEPENDENT bricks, one per module. Deliberately not commoned:\\n"
+        "POWER - three INDEPENDENT paths, one per module. Deliberately not commoned:\\n"
         "board-level redundancy is meaningless if one supply can take all three down.\\n"
-        "Grounds meet at a single star point (see GND_STAR).\\n"
-        "Each module arbitrates its own inputs internally via LTC4417 (U1101).",
-        177.8, 40.64))
+        "Each module still arbitrates its own inputs internally via LTC4417 (U1101).\\n"
+        "Brick in -> module out; the only shared net here is GND.",
+        177.8, 38.1))
 
-    x = 228.6
     for i, b in enumerate(BOARDS):
-        y = 76.2 + i * 30.48
-        s, pts = place_conn(lib6, f"J{i+4}", f"BRICK {b} (DF13-6P)", x, y, 6, inst)
-        body.append(s)
-        for idx, px, py in pts:
-            net = {1: f"VBRICK_{b}", 2: f"VBRICK_{b}", 3: f"BATT_I_{b}",
-                   4: f"BATT_V_{b}", 5: "GND", 6: "GND"}[idx]
-            body.append(wire(px, py, px - 7.62, py))
-            if net == "GND":
-                body.append(global_label("GND", "passive", px - 7.62, py, 180))
-            else:
-                body.append(hier_label(net, "passive" if net.startswith("VBRICK") else "output",
-                                       px - 7.62, py, 180))
+        y = 76.2 + i * 45.72
+        s_in, pts_in = place_conn(lib6, f"J{i+4}", f"BRICK {b} in",
+                                  228.6, y, 6, inst, proj)
+        s_out, pts_out = place_conn(lib6, f"J{i+7}", f"PWR {b} -> module J601",
+                                    292.1, y, 6, inst, proj)
+        body += [s_in, s_out]
+        nets = {1: f"VBRICK_{b}", 2: f"VBRICK_{b}", 3: f"BATT_I_{b}",
+                4: f"BATT_V_{b}", 5: "GND", 6: "GND"}
+        for pts, dx in ((pts_in, -7.62), (pts_out, -7.62)):
+            for idx, px, py in pts:
+                net = nets[idx]
+                body.append(wire(px, py, px + dx, py))
+                if net == "GND":
+                    body.append(global_label("GND", "passive", px + dx, py, 180))
+                else:
+                    body.append(boundary(net, "passive", px + dx, py, 180))
 
-    # --- servo breakout ----------------------------------------------------
-    body.append(text_note(
-        "SERVO / PWM BREAKOUT - each module's FMU channels brought out separately.\\n"
-        "These are NOT combined here. How three boards' motor commands arbitrate into\\n"
-        "one output is unresolved (flight::redundancy::TmrVoter is not wired into\\n"
-        "motor_task - see HARDWARE_BRINGUP.md 'What's still open after Stage 3').\\n"
-        "Baking a guess into copper now would be the wrong place to decide it.",
-        25.4, 175.26))
-
-    x = 76.2
-    for i, b in enumerate(BOARDS):
-        y = 213.36 + i * 25.4
-        s, pts = place_conn(lib8, f"J{i+7}", f"SERVO {b}", x, y, 8, inst)
-        body.append(s)
-        for idx, px, py in pts:
-            body.append(wire(px, py, px - 7.62, py))
-            if idx <= 6:
-                body.append(hier_label(f"SRV_{b}_CH{idx}", "input", px - 7.62, py, 180))
-            elif idx == 7:
-                body.append(local_label(f"VDD_SERVO_{b}", px - 7.62, py, 180))
-            else:
-                body.append(global_label("GND", "passive", px - 7.62, py, 180))
-
-    # --- safety switch -----------------------------------------------------
-    body.append(text_note(
-        "SAFETY SWITCH - one switch for the whole array, fanned out to all three.\\n"
-        "WARNING: on a stock module J702's SAFETY pin lands on U801.PB5, the IO\\n"
-        "co-processor, which this project's FMU-only firmware never runs. Wiring this\\n"
-        "does nothing until either the IO chip is brought into scope or SAFETY is\\n"
-        "routed to a spare FMU GPIO. Provisioned, not functional.",
-        177.8, 175.26))
-
-    s, pts = place_conn(lib3, "J10", "SAFETY SW", 228.6, 213.36, 3, inst)
-    body.append(s)
-    for idx, px, py in pts:
-        net = {1: "VDD_3V3_SW", 2: "SAFETY_LED", 3: "SAFETY"}[idx]
-        body.append(wire(px, py, px - 7.62, py))
-        if net == "SAFETY":
-            body.append(global_label("SAFETY", "input", px - 7.62, py, 180))
-        else:
-            body.append(local_label(net, px - 7.62, py, 180))
-
-    return ru, document(ru, [def3, def4, def6, def8], body, page_one=False)
-
+    return ru, document(ru, [def4, def6], body, page_one=False)
 
 def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
     body = []
@@ -412,15 +429,13 @@ def net_for(pin_name, board):
         return f"BATT_V_{board}"
     if pin_name == "BATT_I_SENS":
         return f"BATT_I_{board}"
-    if pin_name.startswith("FMU_CH"):
-        return f"SRV_{board}_CH{pin_name[len('FMU_CH'):]}"
     return f"{pin_name}_{board}"
 
 
-def build_pro():
+def build_pro(name=PROJECT):
     return json.dumps({
         "board": {"design_settings": {}},
-        "meta": {"filename": f"{PROJECT}.kicad_pro", "version": 1},
+        "meta": {"filename": f"{name}.kicad_pro", "version": 1},
         "schematic": {"legacy_lib_dir": "", "legacy_lib_list": []},
         "sheets": [],
         "text_variables": {},
@@ -543,9 +558,7 @@ def main():
 
     carrier_pins = ([(f"VBRICK_{b}", "passive") for b in BOARDS]
                     + [(f"BATT_V_{b}", "input") for b in BOARDS]
-                    + [(f"BATT_I_{b}", "input") for b in BOARDS]
-                    + [(f"SRV_{b}_CH{i}", "output")
-                       for b in BOARDS for i in range(1, 7)])
+                    + [(f"BATT_I_{b}", "input") for b in BOARDS])
     root = build_root(root_uuid, fmu_sheet_uuids, carrier_sheet_uuid,
                       PER_BOARD, carrier_pins)
 
@@ -561,8 +574,24 @@ def main():
     (HW / "jfox.kicad_sym").write_text(build_sym_lib(), encoding="utf-8")
     (HW / "sym-lib-table").write_text(build_sym_lib_table(), encoding="utf-8")
 
+    # The carrier again, as its own project - this is the one that becomes a
+    # physical board. Kept separate from jfox-tmr because the three FMU
+    # modules are separately manufactured hardware; if they shared a project,
+    # a board netlist would try to place 421 module components on the carrier.
+    car = HW / "carrier"
+    car.mkdir(exist_ok=True)
+    _, carrier_standalone = build_carrier(root_uuid, carrier_sheet_uuid,
+                                          standalone=True)
+    (car / "carrier.kicad_sch").write_text(carrier_standalone, encoding="utf-8")
+    (car / "carrier.kicad_pro").write_text(
+        build_pro("carrier"), encoding="utf-8")
+    (car / "jfox.kicad_sym").write_text(build_sym_lib(), encoding="utf-8")
+    (car / "sym-lib-table").write_text(build_sym_lib_table(), encoding="utf-8")
+
     extra = [HW / f"{PROJECT}.kicad_pro", HW / "jfox.kicad_sym",
-             HW / "sym-lib-table"]
+             HW / "sym-lib-table",
+             car / "carrier.kicad_sch", car / "carrier.kicad_pro",
+             car / "jfox.kicad_sym", car / "sym-lib-table"]
     for path in list(files) + extra:
         print(f"  wrote {path.relative_to(REPO)} ({path.stat().st_size} bytes)")
     if problems:

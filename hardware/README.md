@@ -162,6 +162,83 @@ Two real defects were caught this way and fixed:
 - **Symbols resolved to no registered library** (10 `lib_symbol_issues`
   warnings). Fixed by emitting a real `jfox.kicad_sym` plus a `sym-lib-table`.
 
+## The carrier PCB (`carrier/`)
+
+`hardware/carrier/` is a **separate KiCad project**, and that is deliberate:
+the three FMU modules are separately manufactured hardware, not parts on this
+board. Sharing a project would make a board netlist try to place 421 module
+components on the carrier.
+
+What it carries — 9 connectors, 12 nets, no dangling ends:
+
+| Ref | Part | Role |
+|---|---|---|
+| J1–J3 | DF13-4P | CAN1 to each module's J405, daisy-chained |
+| J4–J6 | DF13-6P | brick power in, one per module |
+| J7–J9 | DF13-6P | power out to each module's J601 |
+
+**Why every signal has an IN and an OUT connector.** The first version gave
+each board a single power connector. That reads fine as a system sheet — the
+net continues into the FMU sheet — but once the carrier stood alone, 28 nets
+terminated on a single pin. A pass-through carrier *is* a path, so power
+enters on one connector and leaves for the module on another.
+`kicad-cli sch export netlist` now reports zero single-pin nets.
+
+**Deliberately not on this board:**
+
+- *Servo/PWM breakout.* How three boards' motor commands arbitrate into one
+  output is unresolved — `TmrVoter` is still not wired into `motor_task`.
+  Each module's J901 cables straight to its ESCs until that is decided;
+  committing a guess to copper is worse than leaving it out.
+- *The safety switch.* J702's `SAFETY` lands on `U801.PB5`, the IO
+  co-processor this firmware never runs, and neither J405 nor J601 carries a
+  pin to route it through. It would be decorative.
+
+### Board
+
+`tools/gen_carrier_pcb.py` writes `carrier.kicad_pcb`: an 80 × 60 mm
+two-layer outline and the four M3 mounting holes on a **30.000 × 30.000 mm**
+pattern. That pattern is not a guess — it comes from the module's own
+`PX4FMUv2.4.5.brd`, CLI-imported (`kicad-cli pcb import`, which *does* exist
+for boards even though the schematic equivalent does not) and read off
+`M3_MOUNT1101..1104`. A stacked module will line up.
+
+Verified: **DRC reports 0 violations, 0 unconnected items**, and the full
+fabrication set exports — gerbers, drill, job file. The drill file contains
+exactly four 3.2 mm NPTH holes at the 30 × 30 pattern.
+
+```bash
+kicad-cli pcb drc carrier.kicad_pcb
+kicad-cli pcb export gerbers --output fab/ carrier.kicad_pcb
+kicad-cli pcb export drill   --output fab/ carrier.kicad_pcb
+```
+
+### To finish the board
+
+Two steps remain, and the first is GUI-only:
+
+1. Open `carrier/carrier.kicad_pro` and press **F8** (*Tools → Update PCB
+   from Schematic*) to place the nine connectors. `kicad-cli pcb` has
+   `drc`, `export`, `import`, `render` and `upgrade` — nothing that loads a
+   netlist into a board, so this cannot be scripted.
+2. Route it. Placement and routing are left interactive on purpose:
+   generated copper on flight hardware needs reviewing trace by trace, which
+   is more work than routing it properly once. The layout is small — the CAN
+   pair daisy-chains down a column of three connectors, and each board's
+   power is a short parallel run from its in-connector to its out-connector.
+
+Constraints to route to:
+
+- **CAN_H/CAN_L are a differential pair.** Keep them adjacent and equal
+  length; keep stubs off the bus short (it is a daisy chain, not a star).
+- **No termination on this board** — see the CAN note above; it is also on
+  the silkscreen.
+- **Keep the three power paths physically separate.** They are electrically
+  independent by design; running them as one bundle re-introduces a common
+  failure the netlist cannot see.
+- `VBRICK_*` carries the module supply — widen it relative to the sense
+  signals.
+
 ## Out of scope
 
 PCB layout. The netlist, footprint assignment, board outline and routing

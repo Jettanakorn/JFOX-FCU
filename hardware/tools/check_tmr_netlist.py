@@ -7,7 +7,7 @@ a terminator on the carrier, both look fine in a schematic and are only
 obvious once the hardware misbehaves. So they are checked mechanically,
 against the netlist KiCad exports - not against the generator's intent.
 
-Run (after `gen_tmr_schematic.py`):
+Run (after gen_tmr_schematic.py) against the standalone carrier board:
   python hardware/tools/check_tmr_netlist.py
 """
 
@@ -21,7 +21,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 HW = REPO / "hardware"
-ROOT_SCH = HW / "jfox-tmr.kicad_sch"
+ROOT_SCH = HW / "carrier" / "carrier.kicad_sch"
 
 CLI_CANDIDATES = [
     Path(os.environ.get("LOCALAPPDATA", "")) / "Programs/KiCad/10.0/bin/kicad-cli.exe",
@@ -29,8 +29,9 @@ CLI_CANDIDATES = [
 ]
 
 CAN_CONNECTORS = {"J1", "J2", "J3"}
-BRICK_CONNECTORS = {"J4", "J5", "J6"}
-SERVO_CONNECTORS = {"J7", "J8", "J9"}
+BRICK_IN = {"J4", "J5", "J6"}      # brick power in, one per module
+MODULE_OUT = {"J7", "J8", "J9"}    # out to each module's J601
+BRICK_CONNECTORS = BRICK_IN | MODULE_OUT
 
 
 def find_cli():
@@ -91,10 +92,14 @@ def main():
                         f"{brick_nets[a]} and {brick_nets[b]} share {sorted(shared)} "
                         "- the three supplies are commoned, which defeats "
                         "board-level redundancy")
+        # Each supply must run in on exactly one brick connector and out on
+        # exactly one module connector - a path, not a dead end.
         for n in brick_nets:
-            got = refs(n) & BRICK_CONNECTORS
-            if len(got) != 1:
-                fails.append(f"{n} touches brick connectors {sorted(got)}, expected exactly 1")
+            gin, gout = refs(n) & BRICK_IN, refs(n) & MODULE_OUT
+            if len(gin) != 1 or len(gout) != 1:
+                fails.append(
+                    f"{n} runs from {sorted(gin)} to {sorted(gout)}; expected "
+                    "exactly one brick-in and one module-out connector")
 
     # 2. CAN is one bus reaching all three boards.
     for n in ("CAN_H", "CAN_L"):
@@ -112,17 +117,12 @@ def main():
                 f"{n} has resistor(s) {rs} on the carrier - the carrier must "
                 "carry NO termination (see hardware/README.md)")
 
-    # 4. Servo channels stay per-board and reach their own connector.
-    for i, b in enumerate("ABC"):
-        for ch in range(1, 7):
-            n = f"/SRV_{b}_CH{ch}"
-            if n not in nets:
-                fails.append(f"missing servo net {n}")
-                continue
-            got = refs(n) & SERVO_CONNECTORS
-            expect = {sorted(SERVO_CONNECTORS)[i]}
-            if got != expect:
-                fails.append(f"{n} reaches {sorted(got)}, expected {sorted(expect)}")
+    # 4. Nothing dangles. A single-pin net on a pass-through board means a
+    #    signal with no path, which is how the first carrier revision was
+    #    wrong in a way the schematic still looked fine.
+    for n, nodes in nets.items():
+        if n and not n.startswith("unconnected") and len(nodes) < 2:
+            fails.append(f"{n} terminates on one pin - no path across the board")
 
     # 5. Ground is common across all three boards - the star point.
     gnd = refs("GND")
@@ -140,7 +140,7 @@ def main():
     print("  - the three brick supplies are electrically independent")
     print("  - CAN_H/CAN_L form one bus reaching all three modules")
     print("  - no termination resistor on the carrier")
-    print("  - each board's 6 servo channels reach only its own connector")
+    print("  - no net terminates on a single pin")
     print("  - GND is common across all modules")
 
 

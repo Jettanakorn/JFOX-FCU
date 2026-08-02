@@ -32,3 +32,7 @@ fp-info-cache
 # KiCad 10's Local History feature keeps its own nested git repo here, which
 # would otherwise be committed as a broken submodule.
 .history/
+
+# DRC/ERC reports are generated on demand
+*-drc.rpt
+*-erc.rpt
