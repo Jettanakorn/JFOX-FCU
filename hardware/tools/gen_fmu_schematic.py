@@ -405,11 +405,14 @@ POWER = [
                "UV3": "UV3_SET", "OV3": "OV3_SET",
                "~{VALID1}": "BRICK_VALID", "~{VALID2}": "SERVO_VALID",
                "~{VALID3}": "USB_VALID"}),
-    # Main 3V3. See the note on the sheet about dissipation.
-    dict(ref="U21", lib="Regulator_Linear:AP2112K-3.3", val="AP2112K-3.3",
+    # Main 3V3: a buck, not an LDO. At 5 V in, 3V3 out and the measured load
+    # an LDO burns over half a watt - see POWER_BUDGET.md. SW/VOS/FB need the
+    # inductor and feedback network, which are not on the sheet yet.
+    dict(ref="U21", lib="Regulator_Switching:TPS62130", val="TPS62130",
          x=177.8, y=63.5,
-         nets={"VIN": "+5V", "VOUT": "+3V3", "GND": "GND", "EN": "+5V",
-               "NC": "NC"}),
+         nets={"VIN": "+5V", "SW": "SW_3V3", "VOS": "+3V3", "FB": "FB_3V3",
+               "GND": "GND", "EN": "+5V", "PG": "PG_3V3",
+               "FSW": "GND", "DEF": "GND", "SS/TR": "NC"}),
     # Separate quiet rail for VDDA/VREF+, fed from +3V3 so it cannot pull the
     # digital rail around.
     dict(ref="U22", lib="Regulator_Linear:AP2112K-3.3", val="AP2112K-3.3",

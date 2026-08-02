@@ -115,11 +115,12 @@ Verified from KiCad's own `STM32H753IITx` symbol (165 pins):
 - **PDR_ON**, NRST, BOOT0
 - **140 GPIO**
 
-*To confirm against the datasheet before layout:* whether to use the SMPS
-supply option instead of the LDO. KiCad's symbol exposes no SMPS pins, which
-suggests LDO-only for this package, but power architecture is not something to
-settle from a schematic symbol. It matters for thermal design, not
-correctness.
+**Settled, from ST's datasheet rather than from the symbol:** the internal
+regulator is the **LDO**, and not by preference. §"Voltage regulator" states
+that Scale 0 - boosted performance - is *"available only with LDO regulator"*,
+and 480 MHz requires VOS0. So the two VCAP pins and their 2.2 uF are right,
+and the SMPS option is unavailable to this design at this clock. LQFP176 is
+also confirmed as a real package for this part, from the same datasheet.
 
 Clock: 16 MHz HSE crystal (H7 PLLs reach 480 MHz cleanly from 16 MHz and it
 divides exactly to the 48 MHz USB clock — avoiding the 24 MHz problem that
@@ -142,8 +143,14 @@ selecting between brick, servo rail and USB, with under/over-voltage lockout.
 That part is correctly identified here — the current board's docs called it a
 BQ24315 until the netlist proved otherwise.
 
-Rails: 5 V from the brick → 3V3 main → separately switchable 3V3 per sensor
-bus (so a wedged IMU can be power-cycled) → clean 3V3 analog for VDDA/VREF+.
+Rails: 5 V from the brick → 3V3 main (**TPS62130 buck**) → separately
+switchable 3V3 per sensor bus (so a wedged IMU can be power-cycled) → clean
+3V3 analog for VDDA/VREF+ (**AP2112K LDO**, deliberately linear so its ripple
+does not reach the ADC reference).
+
+The main rail is a buck because the budget says it has to be - ~310 mA typical
+and ~550 mA peak means an LDO would burn 0.53-0.94 W in a package that sheds
+neither. See `POWER_BUDGET.md`, which shows the working.
 
 ### The per-bus switching has a firmware obligation attached
 
