@@ -83,6 +83,58 @@ def nets():
     return d
 
 
+# Nets that must span two sheets, with the parts they have to join. This is
+# what proves the design is one circuit rather than four drawings that happen
+# to use similar label names.
+CROSS_SHEET = [
+    ("FDCAN1_TX",     {"U10", "U30"}, "MCU to CAN1 transceiver"),
+    ("FDCAN1_RX",     {"U10", "U30"}, "CAN1 transceiver back to MCU"),
+    ("FDCAN2_TX",     {"U10", "U31"}, "MCU to CAN2 transceiver"),
+    ("USB_OTG_FS_DP", {"U10", "J30"}, "MCU to USB-C"),
+    ("USB_OTG_FS_DM", {"U10", "J30"}, "MCU to USB-C"),
+    ("SDMMC1_CK",     {"U10", "J31"}, "MCU to microSD"),
+    ("SDMMC1_CMD",    {"U10", "J31"}, "MCU to microSD"),
+    ("SPI2_SCK",      {"U10", "U1"},  "MCU to IMU2"),
+    ("IMU2_CS",       {"U10", "U1"},  "MCU chip-selects IMU2"),
+    ("SPI6_SCK",      {"U10", "U2"},  "MCU to IMU3"),
+    ("SPI4_SCK",      {"U10", "U5"},  "MCU to FRAM"),
+    ("I2C1_SCL",      {"U10", "U4"},  "MCU to barometer"),
+    ("EN_3V3_IMU1",   {"U10", "U23"}, "MCU controls IMU1's rail"),
+    ("EN_3V3_IMU2",   {"U10", "U24"}, "MCU controls IMU2's rail"),
+    ("EN_3V3_IMU3",   {"U10", "U25"}, "MCU controls IMU3's rail"),
+    ("+3V3_IMU2",     {"U24", "U1"},  "IMU2 powered from its own switch"),
+]
+
+
+def check_cross_sheet(fails):
+    """Every sheet is one circuit, not four drawings with similar labels.
+
+    Cross-sheet nets here are global labels, which connect only once the
+    sheets are children of a common root. Before that root existed these all
+    read as isolated on both ends - the nets were right and the project was
+    not assembled - so this asserts the assembly, not just the naming.
+    """
+    out = Path(tempfile.gettempdir()) / "fmu_proj.net"
+    r = subprocess.run([cli(), "sch", "export", "netlist", "--format",
+                        "kicadsexpr", "--output", str(out),
+                        str(SCH.parent / "jfox-fmu.kicad_sch")],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        fails.append("project netlist export failed")
+        return 0
+    txt = out.read_text(encoding="utf-8")
+    n = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            n[m.group(1).lstrip("/")] = set(re.findall(r'\(ref "([^"]+)"\)', blk))
+    for net, want, why in CROSS_SHEET:
+        got = n.get(net, set())
+        if not want <= got:
+            fails.append(f"{net} joins {sorted(got)}, needs {sorted(want)} - {why}")
+    return len(CROSS_SHEET)
+
+
 def check_power(fails):
     """The power tree's load-bearing properties.
 
@@ -218,6 +270,11 @@ def main():
             fails.append(f"{rail} feeds {refs} - each IMU needs its own rail")
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"each IMU is on its own switchable rail")
+
+    before = len(fails)
+    ncross = check_cross_sheet(fails)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"{ncross} nets span sheets - the design is one circuit")
 
     before = len(fails)
     check_power(fails)

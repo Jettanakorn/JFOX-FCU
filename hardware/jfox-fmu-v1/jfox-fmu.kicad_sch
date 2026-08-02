@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "650f07a7-2d18-4de2-ac87-cdeec4948d34")
+	(uuid "2ddf097b-38c1-41be-a06d-3f4921faa6d2")
 	(paper "A3")
 	(lib_symbols
 
@@ -15,7 +15,7 @@
 			)
 			(justify left top)
 		)
-		(uuid "f56add2f-14db-40b5-b1f6-b79f2062136b")
+		(uuid "29e43fb5-58f0-4897-a809-48cae3ee05b4")
 	)
 	(sheet
 		(at 38.1 88.9)
@@ -23,7 +23,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "8f418b45-0b3b-4e37-9ad5-1cefd5874f90")
+		(uuid "7985bab9-1a7a-4139-83ba-38c4e2923fa9")
 		(property "Sheetname" "MCU"
 			(at 38.1 88.19 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -34,7 +34,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/650f07a7-2d18-4de2-ac87-cdeec4948d34"
+				(path "/2ddf097b-38c1-41be-a06d-3f4921faa6d2"
 					(page "2")
 				)
 			)
@@ -46,7 +46,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "b76e8ffc-9cd5-4f60-a347-0b24c507f628")
+		(uuid "60fd5e34-f6fd-453c-8941-6c9ce977c54d")
 		(property "Sheetname" "SENSORS"
 			(at 38.1 126.29 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -57,7 +57,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/650f07a7-2d18-4de2-ac87-cdeec4948d34"
+				(path "/2ddf097b-38c1-41be-a06d-3f4921faa6d2"
 					(page "3")
 				)
 			)
@@ -69,7 +69,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "7580a434-0d78-4b50-9bd5-8cb60929eacd")
+		(uuid "ceef6728-bd55-474e-b9d1-ab8731b4445c")
 		(property "Sheetname" "POWER"
 			(at 38.1 164.39 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -80,8 +80,31 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/650f07a7-2d18-4de2-ac87-cdeec4948d34"
+				(path "/2ddf097b-38c1-41be-a06d-3f4921faa6d2"
 					(page "4")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 38.1 203.20000000000002)
+		(size 60.96 25.4)
+		(fields_autoplaced yes)
+		(stroke (width 0.1524)(type solid))
+		(fill (color 0 0 0 0.0000))
+		(uuid "22b1e163-eb82-4a25-82f2-ccf26bc73e95")
+		(property "Sheetname" "COMMS"
+			(at 38.1 202.49 0)
+			(effects (font (size 1.27 1.27))(justify left bottom))
+		)
+		(property "Sheetfile" "comms.kicad_sch"
+			(at 38.1 229.2 0)
+			(effects (font (size 1.27 1.27))(justify left top))
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/2ddf097b-38c1-41be-a06d-3f4921faa6d2"
+					(page "5")
 				)
 			)
 		)

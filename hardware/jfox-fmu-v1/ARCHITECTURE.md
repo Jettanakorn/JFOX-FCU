@@ -12,8 +12,12 @@ against the datasheets; MCU, power and comms sheets are next.
 | `sensors.kicad_sch` | drawn, wiring verified against the datasheets |
 | `mcu.kicad_sch` | drawn, 96 pins wired, all verified against `PINMAP.md` |
 | `power.kicad_sch` | drawn, wiring verified |
-| `jfox-fmu.kicad_sch` | root - the three sheets are now one project |
-| comms | next |
+| `comms.kicad_sch` | drawn - CAN FD x2 with jumpered termination, USB-C, microSD |
+| `jfox-fmu.kicad_sch` | root - all four sheets are one project |
+
+**Schematic capture is complete.** What remains before layout: PWR_FLAG
+symbols on the rails, decoupling capacitors, and connectors for the UARTs and
+PWM outputs, which is why ERC still reports unconnected pins on those nets.
 
 `tools/check_fmu_schematic.py` verifies all three sheets against their
 sources and is negative-tested throughout.

@@ -500,6 +500,91 @@ def build_power():
     return ru, document(ru, libs, body, paper="A2")
 
 
+def build_comms():
+    """CAN, USB and the SD card.
+
+    The CAN termination is the point of this sheet. Every PX4FMUv2.4.5 carries
+    R409, 120 ohm hard across CAN_H/CAN_L with no way to remove it short of a
+    soldering iron, so a three-board bus needs the middle module desoldered -
+    a fact recorded across HARDWARE_BRINGUP.md, the carrier silkscreen and the
+    TMR checker. Here each bus gets 120 ohm in series with a solder jumper,
+    fitted by default. The middle module clears a jumper instead.
+    """
+    ru = uid()
+    libs = []
+    libs += sym_defs(KICAD_SYMS / "Interface_CAN_LIN.kicad_sym",
+                     "TCAN332", "Interface_CAN_LIN")
+    libs += sym_defs(KICAD_SYMS / "Jumper.kicad_sym",
+                     "SolderJumper_2_Bridged", "Jumper")
+    libs += sym_defs(KICAD_SYMS / "Connector.kicad_sym",
+                     "USB_C_Receptacle_USB2.0_14P", "Connector")
+    libs += sym_defs(KICAD_SYMS / "Connector.kicad_sym",
+                     "SD_Card_Device", "Connector")
+
+    geom = {}
+    for lib in libs:
+        m = re.search(r'\(symbol "([^"]+)"', lib)
+        geom[m.group(1)] = pin_positions(lib)
+
+    body = [text(
+        "JFOX-FMU v1 - COMMS\\n"
+        "\\n"
+        "TWO CAN FD BUSES, BOTH WITH TRANSCEIVERS. v2.4.5 wired CAN2 to the MCU\\n"
+        "with no transceiver at all, so it was never usable as a bus.\\n"
+        "\\n"
+        "TERMINATION IS SWITCHABLE. 120 ohm in series with a solder jumper,\\n"
+        "FITTED by default. On a three-board TMR chain the electrically middle\\n"
+        "module clears JP1 - it does not get R409 desoldered, which is what the\\n"
+        "old board required. Verify ~60 ohm across CAN_H/CAN_L, bus unpowered,\\n"
+        "before trusting it.",
+        20.32, 20.32, 1.5)]
+
+    def wire_part(ref, lib_id, val, x, y, nets):
+        body.append(place(lib_id, ref, val, x, y, ru, []))
+        for name, (dx, dy, ang) in geom[lib_id].items():
+            net = nets.get(name)
+            if net in (None, "NC"):
+                continue
+            ax, ay = round(x + dx, 2), round(y + dy, 2)
+            sx, sy = stub_len(ang)
+            bx, by = round(ax + sx, 2), round(ay + sy, 2)
+            body.append(wire(ax, ay, bx, by))
+            shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
+            body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    for i, (ref, bus, y) in enumerate((("U30", "FDCAN1", 76.2),
+                                       ("U31", "FDCAN2", 139.7))):
+        n = i + 1
+        wire_part(ref, "Interface_CAN_LIN:TCAN332", "TCAN332", 76.2, y,
+                  {"TXD": f"{bus}_TX", "RXD": f"{bus}_RX",
+                   "VCC": "+3V3", "GND": "GND",
+                   "CANH": f"CAN{n}_H", "CANL": f"CAN{n}_L"})
+        # 120R in series with the jumper, across the pair
+        body.append(text(
+            f"CAN{n}: R{40+n} 120R + JP{n} (fitted by default)\\n"
+            f"clear JP{n} on the middle module of a 3-board chain",
+            127.0, round(y - 12, 2), 1.1))
+        wire_part(f"JP{n}", "Jumper:SolderJumper_2_Bridged",
+                  "SolderJumper_2_Bridged", 190.5, y,
+                  {"A": f"CAN{n}_TERM", "B": f"CAN{n}_L"})
+
+    wire_part("J30", "Connector:USB_C_Receptacle_USB2.0_14P", "USB-C",
+              76.2, 215.9,
+              {"VBUS": "VBUS_USB", "GND": "GND", "CC1": "USB_CC1",
+               "CC2": "USB_CC2", "D+": "USB_OTG_FS_DP",
+               "D-": "USB_OTG_FS_DM", "SBU1": "NC", "SBU2": "NC",
+               "SHIELD": "GND"})
+
+    wire_part("J31", "Connector:SD_Card_Device", "microSD", 215.9, 215.9,
+              {"CLK": "SDMMC1_CK", "CMD": "SDMMC1_CMD",
+               "DAT0": "SDMMC1_D0", "DAT1": "SDMMC1_D1",
+               "DAT2": "SDMMC1_D2", "DAT3/CS": "SDMMC1_D3",
+               "VDD": "+3V3", "VSS": "GND", "VSS2": "GND",
+               "DET": "SD_DETECT"})
+
+    return ru, document(ru, libs, body, paper="A2")
+
+
 def sheet_block(name, filename, x, y, root_uuid, page):
     """A hierarchical sheet with no pins: every cross-sheet net here is a
     global label, so the sheets need only be *in* the project, not wired
@@ -547,7 +632,8 @@ def build_root():
         25.4, 20.32, 1.6)]
     for i, (nm, fn) in enumerate([("MCU", "mcu.kicad_sch"),
                                   ("SENSORS", "sensors.kicad_sch"),
-                                  ("POWER", "power.kicad_sch")]):
+                                  ("POWER", "power.kicad_sch"),
+                                  ("COMMS", "comms.kicad_sch")]):
         body.append(sheet_block(nm, fn, 38.1, 88.9 + i * 38.1, ru, i + 2))
     return ru, document(ru, [], body)
 
@@ -575,8 +661,10 @@ def main():
     _, sensors = build_sensors()
     _, mcu = build_mcu()
     _, power = build_power()
+    _, comms = build_comms()
     _, root = build_root()
-    files = {BOARD / "sensors.kicad_sch": sensors,
+    files = {BOARD / "comms.kicad_sch": comms,
+             BOARD / "sensors.kicad_sch": sensors,
              BOARD / "mcu.kicad_sch": mcu,
              BOARD / "power.kicad_sch": power,
              BOARD / f"{PROJECT}.kicad_sch": root}
