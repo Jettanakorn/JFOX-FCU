@@ -4,7 +4,6 @@
 Emits, into hardware/:
   jfox-tmr.kicad_pro    project
   jfox-tmr.kicad_sch    root - three FMU sheet instances + the carrier sheet
-  fmu-v2.kicad_sch      FMU board interface (placeholder until the Eagle import)
   carrier.kicad_sch     the new carrier/backplane design
 
 Why generated rather than drawn: the carrier is mostly repetition across three
@@ -37,11 +36,19 @@ BOARDS = ["A", "B", "C"]
 
 # Per-board signals: these must NOT be shared between the three FMU instances,
 # so they cross the sheet boundary as hierarchical pins.
-PER_BOARD = (
-    [("VDD_5V_BRICK", "passive"), ("BATT_V_SENS", "output"), ("BATT_I_SENS", "output")]
+# These are the board's OWN net names, taken from the Eagle import - an
+# earlier version invented BATT_V_SENS/BATT_I_SENS, which matched nothing.
+PER_BOARD = [
+    ("VDD_5V_BRICK", "passive"),
+    ("BATT_CURRENT_SENS", "output"),
+    ("BATT_VOLTAGE_SENS", "output"),
     # FMU_CH* deliberately absent: motor-output arbitration is unresolved
     # (TmrVoter is not wired into motor_task), so it is not committed to copper.
-)
+]
+
+# The real board, converted for safe 3x instantiation by
+# tools/gen_fmu_hierarchical.py. Not a placeholder any more.
+FMU_SHEET = "fmu-v2/fmu-v2.kicad_sch"
 
 # Genuinely shared across all three boards - these ride global labels, which is
 # correct precisely because every board really is on the same net.
@@ -244,40 +251,6 @@ def document(root_uuid, lib_defs, body, page_one=True):
 # sheets
 # --------------------------------------------------------------------------
 
-def build_fmu_sheet():
-    """FMU board interface.
-
-    Placeholder: real contents arrive via KiCad's File > Import > Non-KiCad
-    Schematic on hardware/vendor/PX4FMUv2.4.5.sch. What this file fixes now is
-    the *interface* - the exact set of hierarchical pins the root wires to -
-    so the project is openable and ERC-able before the import happens, and so
-    the import has a defined boundary to be wired into.
-    """
-    ru = uid()
-    body = []
-    body.append(text_note(
-        "PX4FMUv2.4.5 - PLACEHOLDER.\\n"
-        "Replace this sheet's contents with the real board via\\n"
-        "File > Import > Non-KiCad Schematic on\\n"
-        "hardware/vendor/PX4FMUv2.4.5.sch (Eagle 7.1.0, 421 parts, 12 sheets),\\n"
-        "then attach the hierarchical labels below to the matching connectors:\\n"
-        "  CAN_H/CAN_L -> J405 pins 2/3   VDD_5V_BRICK -> J601 pins 1/2\\n"
-        "  BATT_V_SENS -> J601 pin 4      BATT_I_SENS  -> J601 pin 3\\n"
-        "  SAFETY      -> J702 pin 3\\n"
-        "This sheet is instantiated three times; edit it once.",
-        25.4, 25.4))
-
-    y = 76.2
-    for name, shape in PER_BOARD:
-        body.append(hier_label(name, shape, 50.8, y))
-        y += MM * 2
-    y = 76.2
-    for name, shape in SHARED:
-        body.append(global_label(name, shape, 152.4, y))
-        y += MM * 2
-    return ru, document(ru, [], body, page_one=False)
-
-
 def build_carrier(root_uuid, sheet_uuid, standalone=False):
     """The carrier: CAN bus hub + per-board power pass-through.
 
@@ -387,7 +360,7 @@ def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
     body = []
     body.append(text_note(
         "JFOX-FCU - 3-board TMR system.\\n"
-        "FMU-A/B/C are three instances of ONE sheet (fmu-v2.kicad_sch). Editing it\\n"
+        "FMU-A/B/C are three instances of ONE sheet (fmu-v2/). Editing it\\n"
         "edits all three; KiCad keeps their reference designators distinct via the\\n"
         "per-instance paths. CAN_H/CAN_L/GND/SAFETY are global labels because all\\n"
         "three boards genuinely share those nets. Power and servo signals are\\n"
@@ -398,7 +371,7 @@ def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
     for i, b in enumerate(BOARDS):
         x = 38.1 + i * 88.9
         y = 76.2
-        body.append(sheet(f"FMU-{b}", "fmu-v2.kicad_sch", x, y, 55.88,
+        body.append(sheet(f"FMU-{b}", FMU_SHEET, x, y, 55.88,
                           MM * (len(fmu_pins) + 2), fmu_pins, ru, page,
                           fmu_sheet_uuids[i]))
         py = y + MM
@@ -423,13 +396,10 @@ def build_root(ru, fmu_sheet_uuids, carrier_sheet_uuid, fmu_pins, carrier_pins):
 
 def net_for(pin_name, board):
     """Map an FMU sheet pin to the carrier-side net name for that board."""
-    if pin_name == "VDD_5V_BRICK":
-        return f"VBRICK_{board}"
-    if pin_name == "BATT_V_SENS":
-        return f"BATT_V_{board}"
-    if pin_name == "BATT_I_SENS":
-        return f"BATT_I_{board}"
-    return f"{pin_name}_{board}"
+    return {"VDD_5V_BRICK": f"VBRICK_{board}",
+            "BATT_CURRENT_SENS": f"BATT_I_{board}",
+            "BATT_VOLTAGE_SENS": f"BATT_V_{board}"}.get(
+                pin_name, f"{pin_name}_{board}")
 
 
 def build_pro(name=PROJECT):
@@ -490,10 +460,16 @@ def check(files, root_uuid=None):
             if not fm:
                 continue
             target = HW / fm.group(1)
-            if target not in files:
-                problems.append(f"{path.name}: Sheetfile {fm.group(1)} not generated")
+            if target in files:
+                tgt = files[target]
+            elif target.exists():
+                # fmu-v2/ is produced by gen_fmu_hierarchical.py, not here
+                tgt = target.read_text(encoding="utf-8")
+            else:
+                problems.append(
+                    f"{path.name}: Sheetfile {fm.group(1)} does not exist - "
+                    "run gen_fmu_hierarchical.py first")
                 continue
-            tgt = files[target]
             labels = set(re.findall(r'\(hierarchical_label "([^"]+)"', tgt))
             for pin in re.findall(r'^    \(pin "([^"]+)" ', blk, re.M):
                 if pin not in labels:
@@ -534,13 +510,22 @@ def build_sym_lib():
             + "\n".join(defs) + "\n)\n")
 
 
-def build_sym_lib_table():
-    return ('(sym_lib_table\n'
-            '  (version 7)\n'
-            '  (lib (name "jfox")(type "KiCad")'
+def build_sym_lib_table(with_fmu=False):
+    """Project symbol libraries.
+
+    jfox-tmr also needs the Eagle import's generated library, since its three
+    FMU sheets place symbols from it - without the entry KiCad still renders
+    them from the schematic's cached copies but ERC reports one
+    lib_symbol_issues per symbol, 492 of them.
+    """
+    libs = ['  (lib (name "jfox")(type "KiCad")'
             '(uri "${KIPRJMOD}/jfox.kicad_sym")(options "")'
-            '(descr "JFOX TMR carrier connectors"))\n'
-            ')\n')
+            '(descr "JFOX TMR carrier connectors"))']
+    if with_fmu:
+        libs.append('  (lib (name "PX4FMUv2.4.5-eagle-import")(type "KiCad")'
+                    '(uri "${KIPRJMOD}/fmu-v2/PX4FMUv2.4.5-eagle-import.kicad_sym")'
+                    '(options "")(descr "FMU board, from the Eagle import"))')
+    return "(sym_lib_table\n  (version 7)\n" + "\n".join(libs) + "\n)\n"
 
 
 def main():
@@ -553,7 +538,6 @@ def main():
     fmu_sheet_uuids = [uid() for _ in BOARDS]
     carrier_sheet_uuid = uid()
 
-    _, fmu = build_fmu_sheet()
     _, carrier = build_carrier(root_uuid, carrier_sheet_uuid)
 
     carrier_pins = ([(f"VBRICK_{b}", "passive") for b in BOARDS]
@@ -563,7 +547,6 @@ def main():
                       PER_BOARD, carrier_pins)
 
     files = {
-        HW / "fmu-v2.kicad_sch": fmu,
         HW / "carrier.kicad_sch": carrier,
         HW / f"{PROJECT}.kicad_sch": root,
     }
@@ -572,7 +555,7 @@ def main():
         path.write_text(text, encoding="utf-8")
     (HW / f"{PROJECT}.kicad_pro").write_text(build_pro(), encoding="utf-8")
     (HW / "jfox.kicad_sym").write_text(build_sym_lib(), encoding="utf-8")
-    (HW / "sym-lib-table").write_text(build_sym_lib_table(), encoding="utf-8")
+    (HW / "sym-lib-table").write_text(build_sym_lib_table(with_fmu=True), encoding="utf-8")
 
     # The carrier again, as its own project - this is the one that becomes a
     # physical board. Kept separate from jfox-tmr because the three FMU

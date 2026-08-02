@@ -29,11 +29,25 @@ rather than transcribed.
 | `jfox.kicad_sym` / `sym-lib-table` | **Generated.** Connector symbols, registered as a project library. |
 | `tools/check_tmr_netlist.py` | Asserts the redundancy invariants against KiCad's netlist. |
 
-Regenerate and verify with:
+| `tools/gen_fmu_hierarchical.py` | Converts the import for safe 3× instantiation → `fmu-v2/`. |
+| `tools/annotate_tmr_instances.py` | Gives each FMU instance its own reference designators. |
+| `tools/check_fmu_conversion.py` | Proves the conversion changed no connectivity. |
+
+Full pipeline — regenerate and verify everything:
 
 ```bash
-python hardware/tools/extract_eagle_nets.py && python hardware/tools/gen_tmr_schematic.py && python hardware/tools/check_tmr_netlist.py
+python hardware/tools/extract_eagle_nets.py
+python hardware/tools/repair_import_hierarchy.py
+python hardware/tools/gen_fmu_hierarchical.py
+python hardware/tools/gen_tmr_schematic.py
+python hardware/tools/annotate_tmr_instances.py
+python hardware/tools/gen_carrier_pcb.py
+python hardware/tools/check_fmu_conversion.py
+python hardware/tools/check_tmr_netlist.py
 ```
+
+Order matters: `annotate_tmr_instances.py` reads sheet UUIDs that
+`gen_tmr_schematic.py` allocates, so it has to run after it.
 
 (On this machine `python` on `PATH` is the Microsoft Store stub — use
 `C:\Users\Jetta\AppData\Local\Programs\Python\Python312\python.exe`.)
@@ -96,17 +110,40 @@ Note for anyone hand-editing these files: **KiCad 10 writes child instance
 paths as `/<sheet-element-uuid>`** — one level, without the root document's
 UUID. KiCad 7 included the root UUID. The two forms are not interchangeable.
 
-**Still open: the import uses global labels for everything.** 136 distinct
-global labels, no internal hierarchy. 123 of them span multiple pages. A
-global label is global across the *whole project*, so instantiating this
-design three times would short all 120 non-shared nets together across
-FMU-A/B/C — every SPI bus, every MCU pin, every internal rail. Only `CAN_H`,
-`CAN_L`, `GND` and `SAFETY` are genuinely shared and may stay global.
+### The global-label problem, and how it was fixed
 
-So the 3× instantiation needs those 120 nets converted to hierarchical labels
-plus sheet pins first. That conversion will be generated into a separate
-directory rather than applied in place, so `PX4FMUv2.4.5/` stays a pristine,
-re-importable capture of the board.
+The import represents every cross-page net as a **global** label — 136
+distinct, 123 spanning multiple pages, no internal hierarchy at all. A global
+label is global across the *whole project*, so instantiating this design three
+times would have shorted all 120 non-shared nets together across FMU-A/B/C:
+every SPI bus, every MCU pin, every internal rail. The schematic would have
+looked completely normal and been electrically meaningless.
+
+`tools/gen_fmu_hierarchical.py` generates `fmu-v2/` from the pristine import,
+which it leaves untouched and re-importable:
+
+- 120 multi-page nets → hierarchical labels plus matching sheet pins on a new
+  container root, joined there by local labels. Connectivity is preserved but
+  **scoped to one instance** of the board.
+- 12 single-page nets → plain local labels; they never left the page.
+- `CAN_H`, `CAN_L`, `GND`, `SAFETY` → left global, which is correct. They are
+  the four nets the three modules genuinely share, and that is the same split
+  the carrier assumes.
+- `VDD_5V_BRICK`, `BATT_CURRENT_SENS`, `BATT_VOLTAGE_SENS` → also exposed on
+  the root, so each board's power reaches its own carrier connector. (Those
+  are the board's own net names; an earlier version of the TMR generator had
+  invented `BATT_V_SENS`/`BATT_I_SENS`, which matched nothing.)
+
+That is a lot of automated surgery on a design nobody can eyeball, so it is
+checked rather than trusted. `tools/check_fmu_conversion.py` exports a netlist
+from the pristine import and from the converted copy and compares them net by
+net: **262 multi-pin nets on both sides, joining exactly the same pins.**
+
+`tools/annotate_tmr_instances.py` then gives each instance its own reference
+designators — `C101` becomes `C101A`/`C101B`/`C101C` — by writing one
+`(path ...)` entry per instance, the same mechanism KiCad's own test project
+uses for a thrice-instantiated subsheet. Without it all three boards report
+the same designators and KiCad refuses to annotate.
 
 ## Installing KiCad
 
@@ -161,6 +198,34 @@ Two real defects were caught this way and fixed:
   checks instance-path rooting directly.
 - **Symbols resolved to no registered library** (10 `lib_symbol_issues`
   warnings). Fixed by emitting a real `jfox.kicad_sym` plus a `sym-lib-table`.
+
+## System verification
+
+The whole point of the array is that three boards fail independently but vote
+together. That is now demonstrable from KiCad's own netlist of
+`jfox-tmr.kicad_sch`, not asserted:
+
+- **885 component instances, 885 distinct references, 0 duplicated** — the
+  three boards are genuinely separate instances, not one drawn three times.
+- **The three supplies share no node.** `/VBRICK_A` reaches `C1101A`,
+  `U1101A`, `J601A` and carrier `J4`/`J7`; `/VBRICK_B` reaches the `B` parts
+  and `J5`/`J8`; `/VBRICK_C` the `C` parts and `J6`/`J9`. One brick failing
+  cannot take the other two boards down.
+- **CAN_H is one bus reaching all three modules' real hardware** — `U401A`,
+  `U401B`, `U401C` (the MAX3051 transceivers), `R409A/B/C` (their fixed
+  terminators), `J405A/B/C`, and the carrier's `J1`/`J2`/`J3`.
+
+That last line is also the clearest statement of the R409 problem: three
+terminators really are on one bus, so one of them really does have to come
+off.
+
+ERC on the full system reports **433 violations**, down from 1639 before the
+conversion and library fixes. What remains is inherited from the upstream
+board and its import, not introduced here: 363 `footprint_link_issues` (the
+FMU is a manufactured module, not a part placed on our PCB, so its symbols
+carry no footprints), 41 `pin_not_connected` (genuinely unused MCU pins), 22
+`power_pin_not_driven` (the import has no PWR_FLAG symbols), and 7 assorted
+import artifacts.
 
 ## The carrier PCB (`carrier/`)
 
