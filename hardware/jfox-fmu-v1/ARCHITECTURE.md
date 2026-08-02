@@ -125,6 +125,24 @@ BQ24315 until the netlist proved otherwise.
 Rails: 5 V from the brick → 3V3 main → separately switchable 3V3 per sensor
 bus (so a wedged IMU can be power-cycled) → clean 3V3 analog for VDDA/VREF+.
 
+### The per-bus switching has a firmware obligation attached
+
+From the BMP388 datasheet (§3.2), and assume it holds for the IMUs too:
+
+> "Holding any interface pin (SDI, SDO, SCK or CSB) at a logical high level
+> when VDDIO is switched off can permanently damage the device due caused by
+> excessive current flow through the ESD protection diodes."
+
+So the recovery mechanism can destroy the part it is recovering. **Before
+removing a sensor bus's supply the firmware must drive that bus's SCK, MOSI
+and CS low** (and release MISO), then restore them only after the rail is back
+up. Powering a bus down by simply clearing its enable GPIO is a latent way to
+kill sensors — slowly, and only on the boards that ever had to recover one.
+
+This is a hardware feature creating a firmware requirement, so it is written
+down here rather than left to be rediscovered: see
+`jfox-fmu-v1/PINOUTS.md` for the quote and its provenance.
+
 ## Form factor and the carrier
 
 Custom, as decided — not the Pixhawk Autopilot Bus.
