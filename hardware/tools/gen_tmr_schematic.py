@@ -536,7 +536,13 @@ def build_sym_lib_table(with_fmu=False):
 
 
 def upgrade(paths):
-    """Rewrite generated schematics in the installed KiCad's own format."""
+    """Rewrite generated files in the installed KiCad's own format.
+
+    These are emitted in KiCad 7 syntax, that being the version there are real
+    reference files for. Without this step KiCad rewrites them on first open,
+    so merely looking at the project showed a pile of modified files.
+    Schematics and symbol libraries take different subcommands.
+    """
     import os
     import shutil
     import subprocess
@@ -550,7 +556,8 @@ def upgrade(paths):
         print("  (kicad-cli not found - skipping format upgrade)")
         return
     for p in paths:
-        subprocess.run([cli, "sch", "upgrade", str(p)],
+        sub = "sym" if p.suffix == ".kicad_sym" else "sch"
+        subprocess.run([cli, sub, "upgrade", str(p)],
                        check=True, capture_output=True, text=True)
 
 
@@ -606,7 +613,9 @@ def main():
     # reference files for), and KiCad rewrites them on first open - which made
     # merely *opening* the project show sixteen modified files. Upgrading here
     # means opening changes nothing.
-    upgrade([HW / f"{PROJECT}.kicad_sch", car / "carrier.kicad_sch"])
+    upgrade([HW / f"{PROJECT}.kicad_sch", HW / "carrier.kicad_sch",
+             HW / "jfox.kicad_sym",
+             car / "carrier.kicad_sch", car / "jfox.kicad_sym"])
 
     for path in list(files) + extra:
         print(f"  wrote {path.relative_to(REPO)} ({path.stat().st_size} bytes)")

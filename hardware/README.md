@@ -54,6 +54,59 @@ Order matters: `annotate_tmr_instances.py` reads sheet UUIDs that
 (On this machine `python` on `PATH` is the Microsoft Store stub — use
 `C:\Users\Jetta\AppData\Local\Programs\Python\Python312\python.exe`.)
 
+## How to verify all of it
+
+```bash
+python hardware/tools/verify_all.py
+```
+
+Eight checks, each asking KiCad itself rather than the generators — the point
+is to catch a generator that produced something plausible but wrong. Expect:
+
+```
+Imported FMU board
+  [PASS] conversion preserved every connection  -- 262 nets in the import, 262 in the converted copy
+
+3-board TMR system
+  [PASS] every component has a unique designator  -- 885 instances, 885 distinct
+  [PASS] the three supplies share no node
+  [PASS] CAN_H reaches all three modules  -- via each module's own MAX3051
+  [PASS] all three module terminators are on the bus  -- ['R409A', 'R409B', 'R409C']
+
+Carrier board
+  [PASS] DRC clean  -- 0 violations
+  [PASS] fully routed  -- 0 unconnected
+  [PASS] no net dead-ends on the board  -- 15 nets, all with a path across
+
+all 8 checks passed
+```
+
+It exits non-zero on failure, and it is negative-tested: deleting a single
+routed trace turns "fully routed" into `[FAIL] 1 unconnected`.
+
+**Close KiCad before trusting a FAIL.** The script reads what is on disk; if
+KiCad has unsaved changes the two disagree, and it prints a note when it sees
+a lock file.
+
+Everything here is saved in **KiCad 10** format. Each file type carries its own
+version number — schematics `20260306`, boards `20260206`, symbol libraries
+`20251024` — so those differing numbers are expected, not a mix of versions.
+`gen_tmr_schematic.py` runs `kicad-cli sch upgrade` / `sym upgrade` on its
+output, so opening the project does not rewrite anything.
+
+### Looking at it by hand
+
+| To see | Open |
+|---|---|
+| The board | `hardware/carrier/carrier.kicad_pro` → PCB editor |
+| The carrier schematic | same project → schematic editor |
+| The whole 3-board system | `hardware/jfox-tmr.kicad_pro` → schematic only |
+| One module's real internals | `hardware/fmu-v2/fmu-v2.kicad_sch` (12 pages) |
+
+In the TMR schematic, open the hierarchy navigator to move between `FMU-A`,
+`FMU-B`, `FMU-C` and `CARRIER`. The three FMU sheets are the *same file* — a
+change to one is a change to all three, which is the point.
+
 ## Two projects, and why
 
 | Project | What it is | Has a PCB? |
