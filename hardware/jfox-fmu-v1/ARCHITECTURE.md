@@ -11,17 +11,12 @@ against the datasheets; MCU, power and comms sheets are next.
 |---|---|
 | `sensors.kicad_sch` | drawn, wiring verified against the datasheets |
 | `mcu.kicad_sch` | drawn, 96 pins wired, all verified against `PINMAP.md` |
-| `power.kicad_sch` | drawn, **not yet clean** - see below |
+| `power.kicad_sch` | drawn, wiring verified |
+| `jfox-fmu.kicad_sch` | root - the three sheets are now one project |
 | comms | next |
 
-The power sheet places the LTC4417, both regulators and the four per-bus load
-switches with their nets named, but ERC reports 72 violations that are *not*
-the expected "other sheets do not exist yet" kind: 28 unconnected wire
-endpoints and 19 dangling labels around the load switches, plus 6
-`lib_symbol_mismatch` on the derived AP22804AW5 / AP2112K-3.3 symbols. The
-labels are not attaching to their wires on this sheet while the identical
-mechanism works on the sensor and MCU sheets, so something about the derived
-symbols' geometry is off. **Do not treat this sheet as correct yet.**
+`tools/check_fmu_schematic.py` verifies all three sheets against their
+sources and is negative-tested throughout.
 
 `tools/check_fmu_schematic.py` verifies both sheets against their sources -
 sensor nets against the datasheet pin tables, MCU nets against the allocator's

@@ -83,6 +83,60 @@ def nets():
     return d
 
 
+def check_power(fails):
+    """The power tree's load-bearing properties.
+
+    Each sensor rail must come from its own load switch, or "power-cycle the
+    wedged IMU" quietly means "power-cycle two working ones as well". And the
+    ORing controller's three inputs must stay distinct, or the redundancy it
+    exists to provide is gone.
+    """
+    out = Path(tempfile.gettempdir()) / "fmu_pwr.net"
+    r = subprocess.run([cli(), "sch", "export", "netlist", "--format",
+                        "kicadsexpr", "--output", str(out),
+                        str(SCH.parent / "power.kicad_sch")],
+                       capture_output=True, text=True)
+    if r.returncode != 0:
+        fails.append("power netlist export failed")
+        return
+    txt = out.read_text(encoding="utf-8")
+    # Keyed by (ref, pin), not ref alone. Comparing bare refs made all three
+    # ORing inputs look identical, because on this sheet each touches only
+    # U20 - a false alarm from the checker, not a fault in the schematic.
+    n = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            n[m.group(1).lstrip("/")] = set(
+                re.findall(r'\(ref "([^"]+)"\)\s*\n\s*\(pin "([^"]+)"\)', blk))
+
+    def refs(net):
+        return {r for r, _ in n.get(net, set())}
+
+    switches = {"+3V3_IMU1": "U23", "+3V3_IMU2": "U24",
+                "+3V3_IMU3": "U25", "+3V3_SENS": "U26"}
+    for rail, ref in switches.items():
+        srcs = refs(rail)
+        if ref not in srcs:
+            fails.append(f"{rail} does not come from {ref}")
+        others = (srcs & set(switches.values())) - {ref}
+        if others:
+            fails.append(f"{rail} is also fed by {sorted(others)} - "
+                         "each rail needs its own switch")
+
+    # The ORing controller's three inputs must be distinct nets reaching
+    # distinct pins, or the redundancy it exists to provide is gone.
+    ins = ["VDD_BRICK", "VDD_SERVO", "VBUS_USB"]
+    for name in ins:
+        if name not in n:
+            fails.append(f"{name} is not present on the power sheet")
+    for a in range(3):
+        for b in range(a + 1, 3):
+            if ins[a] in n and ins[b] in n and n[ins[a]] & n[ins[b]]:
+                fails.append(f"{ins[a]} and {ins[b]} share a pin - "
+                             "prioritised ORing needs distinct sources")
+
+
 def check_mcu(fails):
     """Every allocated signal must reach the pin the allocator chose.
 
@@ -164,6 +218,11 @@ def main():
             fails.append(f"{rail} feeds {refs} - each IMU needs its own rail")
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"each IMU is on its own switchable rail")
+
+    before = len(fails)
+    check_power(fails)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"power tree: 4 independent sensor rails, ORing intact")
 
     before = len(fails)
     nchk = check_mcu(fails)
