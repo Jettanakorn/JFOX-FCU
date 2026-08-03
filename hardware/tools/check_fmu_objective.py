@@ -170,6 +170,40 @@ def main():
     check("FRAM present", ["FM25V02A missing"] if "FM25V02A" not in present
           else [])
 
+    # --- isolated I/O ------------------------------------------------------
+    # ARCHITECTURE.md "Isolated I/O": every off-board signal crosses a
+    # galvanic barrier, twice, by independent paths; actuator links are
+    # fibre. None of it is built yet. These assertions are written now so the
+    # gap is measured on every run instead of being remembered, which is what
+    # happened to the second barometer and the magnetometer.
+    p = []
+    isolators = [r for r, v in comps.items()
+                 if any(k in v.upper() for k in
+                        ("ADUM", "SI86", "ISO10", "ISO12", "6N137", "HCPL",
+                         "TLP", "ISO7", "MAX146"))]
+    if not isolators:
+        p.append("no isolator parts on the board - every off-board signal "
+                 "currently reaches the MCU directly")
+    check("off-board I/O crosses a galvanic barrier", p)
+
+    p = []
+    fibre = [r for r, v in comps.items()
+             if any(k in v.upper() for k in ("HFBR", "AFBR", "SP000", "IF-E"))]
+    if not fibre:
+        p.append("no fibre-optic transmitters or receivers - actuator links "
+                 "are specified as fibre")
+    check("actuator links are fibre-optic", p)
+
+    # An isolated barrier is decorative unless the far side has its own
+    # supply. Borrowing the digital rail defeats the whole point.
+    p = []
+    iso_rails = [n for n in nets if re.match(r'^\+?\d*V?\d*_ISO', n, re.I)
+                 or n.upper().startswith(("+3V3_ISO", "VISO"))]
+    if not iso_rails:
+        p.append("no isolated supply rail - the far side of a barrier cannot "
+                 "share the digital rail and still be isolated")
+    check("isolated side has its own supply", p)
+
     # --- no IO co-processor, deliberately ---------------------------------
     # Listed so that adding one is a visible decision rather than a drift.
     io = [r for r, v in comps.items() if "STM32F1" in v or "STM32F3" in v]

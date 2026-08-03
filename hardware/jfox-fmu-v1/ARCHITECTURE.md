@@ -84,6 +84,77 @@ fully covered. FMUv6X makes the same compromise. True three-vendor diversity
 means an ADI **ADIS16470** in place of one of them — far better, several times
 the cost, and worth revisiting if the airframe justifies it.
 
+## Isolated I/O — objective, not yet built
+
+**Every off-board signal crosses a galvanic isolation barrier, and every one
+of them crosses it twice, by two independent paths.** Actuator links are
+fiber-optic. This is a requirement on the design, added deliberately; the
+board described everywhere else in this document does **not** meet it yet.
+
+Why: a flight controller's external wiring is where the energy and the faults
+are. A shorted motor lead, an ESC dumping switching noise back up its signal
+wire, or a servo harness chafing against the airframe all reach the MCU
+directly today. Isolation turns those into a barrier event instead of a dead
+flight computer. Two paths per signal means one failed isolator does not lose
+the link — the same argument that gives the board three IMUs.
+
+### What this costs, measured rather than estimated
+
+Checked against the part's own alternate-function table
+(`plan_pinout.py`, from `STM32H753II.json`):
+
+| Resource | Needed for 2× isolated | Available | Verdict |
+|---|---|---|---|
+| Timer channels (8 PWM × 2) | 16 | 32 | fits |
+| GPIO (currently free) | — | 91 of 176 | fits |
+| UART instances (RC + telemetry × 2) | 4–6 | 8 | fits |
+| **FDCAN controllers** | **4** | **2** | **does not fit** |
+
+The CAN row is the real constraint and it is not solvable by re-allocation.
+The STM32H753 has exactly two FDCAN controllers. "Two independent paths" for
+two buses needs four. Three ways out, none free:
+
+1. **One redundant bus instead of two.** FDCAN1 and FDCAN2 become the A and B
+   paths of a single TMR voting bus, each with its own isolated transceiver.
+   Full controller-level redundancy, at the cost of the second bus.
+2. **Two buses, isolator-level redundancy only.** Each bus keeps one
+   controller and gets two isolated transceivers in parallel. Survives a dead
+   isolator, not a dead controller — the controller stays a single point of
+   failure.
+3. **An external CAN controller** (MCP2518FD on SPI5, which is currently spare).
+   Four independent controllers, at the price of a part, a bus, and a driver.
+
+This needs a decision before the isolated design can be drawn. Option 1 is the
+honest one for a TMR system: the voting bus is the thing that must not fail,
+and a second unredundant bus is worth less than one redundant bus.
+
+### Power, which is where this really bites
+
+Fiber transmitters are current-driven. A 660 nm POF transmitter of the
+HFBR-1521 class wants ~60 mA of forward current. Eight actuator links, two
+paths each, is sixteen transmitters:
+
+    16 × 60 mA ≈ 960 mA
+
+The whole board is budgeted at **310 mA typical, 550 mA peak** today
+(`POWER_BUDGET.md`). The fiber transmitters alone are roughly three times the
+present total. The TPS62132 can source 3 A so the regulator survives, but the
+budget, the thermal design and the input feed all have to be redone, and the
+isolated side of each barrier needs its own supply — an isolated DC-DC, not a
+rail borrowed from the digital side, or the isolation is decorative.
+
+### Beyond this board
+
+Fiber to the actuators means **every ESC needs a fiber receiver**. That is an
+airframe and propulsion decision, not a flight-controller one, and it should
+be settled before this board is laid out — the connector choice depends on it.
+
+### Status
+
+`check_fmu_objective.py` asserts these requirements. It currently **fails**,
+by design: the objective is recorded so the gap is visible and measured,
+rather than remembered.
+
 ## Why no IO co-processor
 
 v2.4.5 carries an STM32F103-class IO chip owning the safety switch, RC input
