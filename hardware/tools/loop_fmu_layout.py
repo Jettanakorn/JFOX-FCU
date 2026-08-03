@@ -84,7 +84,10 @@ def band(name, idx):
     pre = r'("%s":\s*\(\s*' % name
     for _ in range(idx):
         pre += r'[\d.]+,\s*'
-    return pre + r')([\d.]+)(,)'
+    # Terminator is ',' for every field but the last, which the tuple's
+    # closing paren ends. Demanding a comma made every "far edge" parameter
+    # match nothing.
+    return pre + r')([\d.]+)([,)])'
 
 
 PARAMS = {
@@ -109,9 +112,13 @@ def patch(name, value):
     t = GEN.read_text(encoding="utf-8")
     new, n = re.subn(pat, lambda m: f"{m.group(1)}{value}{m.group(3)}", t)
     if n != 1:
-        raise SystemExit(f"{name}: pattern matched {n} times, expected 1 - "
-                         f"the generator has changed shape and this search "
-                         f"would be editing the wrong number")
+        raise SystemExit(
+            f"{name}: pattern matched {n} times, expected 1.\n"
+            f"  pattern: {pat}\n"
+            f"The generator has changed shape, so this search would be "
+            f"editing the wrong number. Every candidate for {name} will be "
+            f"skipped until the pattern is fixed - which looks identical to "
+            f"'{name} never improves the board'.")
     GEN.write_text(new, encoding="utf-8")
 
 

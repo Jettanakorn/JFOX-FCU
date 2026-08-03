@@ -165,12 +165,12 @@ ZONES = {
     # is 22 mm clear and the sensors can live there. The 15 mm rule is only
     # satisfiable on an 80 mm body if noise occupies one end of it.
     "NOISY":    (2.0, 19.0, 38.0, 29.0),
-    "ISOLATED": (2.0, 30.0, 38.0, 48.0),
+    "ISOLATED": (2.0, 32.0, 38.0, 48.0),
     # --- front face: digital behind the MCU, sensors at the far end -------
     "DIGITAL":  (2.0, 50.0, 26.0, 58.0),
     "DIGITAL2": (2.0, 59.0, 26.0, 65.0),
     # The sensor island, as far from the converters as an 80 mm body allows.
-    "QUIET":    (2.0, 67.0, 38.0, 79.0),
+    "QUIET":    (2.0, 69.0, 38.0, 79.0),
 }
 
 
@@ -212,7 +212,7 @@ FIXED_EDGE = {
 
     # --- FLANKS -----------------------------------------------------------
     "J12": ("E", 52.0, "F"),        # isolated CAN1, behind the MCU
-    "J13": ("E", 62.0, "F"),        # isolated CAN2, behind the MCU
+    "J13": ("E", 60.0, "F"),        # isolated CAN2, behind the MCU
 
     # The magnetometer at the extreme rear of the sensor island - the point
     # furthest from the converter region, which is where its 25 mm has to
@@ -222,6 +222,13 @@ FIXED_EDGE = {
     # The MCU, placed rather than centred: 27.36 mm on a 40 mm card leaves
     # 6.3 mm each flank, so there is nowhere else it can go.
     "U10": ("XY", (6.3, 20.0), "F"),
+
+    # The buck, pinned rather than packed. Its exposed pad carries a thermal
+    # via array, and a via goes through every layer - so on the back face
+    # under U10 its ground vias land in the MCU's +3V3 pads. U10 holds
+    # y 20..47.4, so U21 goes below it. This is the only part on the board
+    # whose placement is constrained by what is on the OTHER side.
+    "U21": ("XY", (20.0, 50.0), "B"),
 }
 
 
@@ -1196,6 +1203,33 @@ def main():
             p, ref, val, x, y, "B",
             {pn: v for (r_, pn), v in pins.items() if r_ == ref}))
         placed.append(ref)
+
+    # --- through-hole parts must not overlap the far face -----------------
+    # Zone packing fills its rectangle without consulting any keep-out list,
+    # so a band drawn over something on the other side wins silently. That
+    # has now produced mounting holes under bands twice and a via array
+    # under the MCU once. DRC catches the electrical result but only after
+    # the fact; this refuses to write the file at all.
+    tht = []
+    for r_, path_ in fp_path.items():
+        if r_.startswith("MH") or (
+                path_ is not None
+                and "thru_hole" in path_.read_text(encoding="utf-8")):
+            tht.append(r_)
+    for a_ in tht:
+        ax0, ay0, aw, ah = where[a_]
+        for b_, (bx0, by0, bw, bh) in where.items():
+            if b_ == a_ or b_ in tht:
+                continue
+            if ic_side.get(a_) == ic_side.get(b_):
+                continue          # same face - ordinary courtyard rules
+            if (ax0 < bx0 + bw and bx0 < ax0 + aw
+                    and ay0 < by0 + bh and by0 < ay0 + ah):
+                sys.exit(
+                    f"{a_} has through-hole pads and overlaps {b_} on the "
+                    f"far face - its holes would land in {b_}'s pads. "
+                    f"Move one of them; a via is a hole through every layer, "
+                    f"so opposite sides is not clearance.")
 
     # --- silkscreen zone labels, so the intent survives into the editor ----
     for zname, (zx0, zy0, _zx1, _zy1) in ZONES.items():
