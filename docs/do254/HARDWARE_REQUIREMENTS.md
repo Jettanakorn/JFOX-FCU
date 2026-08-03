@@ -65,6 +65,24 @@ These are the requirements the DAL A architectural argument rests on. See
 | HWR-IFC-005 | The design shall be one electrically connected circuit across all sheets. | Global labels connect only once the sheets are children of a common root; before that they read as isolated on both ends. | `check_fmu_schematic :: nets span sheets - the design is one circuit` | V |
 | HWR-IFC-006 | Non-volatile storage shall be provided for parameters and calibration. | Calibration that does not survive power-down is not calibration. | `check_fmu_objective :: FRAM present` | V |
 
+
+## Environmental (DO-160G)
+
+See `DO160_ENVIRONMENTAL.md`. DO-160G is a test standard: everything below is
+either a capability check that can be made before hardware exists, or a gap
+recorded because it cannot.
+
+| ID | Requirement | Rationale | Verification | Status |
+|---|---|---|---|---|
+| HWR-ENV-001 | Every active component shall be rated across the declared DO-160G Section 4 category. | A temperature range is a datasheet fact. A part rated to −40 °C cannot pass a −55 °C category however the test is run, and a chamber is the expensive place to learn it. | `check_hw_environmental :: active parts support DO-160G category` | V |
+| HWR-ENV-002 | Every component's temperature rating shall be cited to a datasheet, not assumed. | **Open gap.** BMI088, LTC4417CGN, AP2112K-3.3 and AP22804AW5 carry assumed data. Assumed ratings are how a BOM is qualified on paper and fails in a chamber. | `check_hw_environmental :: carry ASSUMED temperature data` | X |
+| HWR-ENV-003 | The declared category shall derive from the installation location and the aircraft operating envelope. | **Open gap.** Neither is defined. Category A2 is currently the most demanding the BOM can support, which is an honest basis and not a correct one. | none — needs the vehicle envelope | X |
+| HWR-ENV-004 | Where a sensor's full-accuracy range is narrower than the declared category, the limitation shall be stated and detectable. | The BMP388 operates past +65 °C but stops meeting its altitude accuracy spec. A sensor that is powered, responding and quietly out of spec is worse than one that has stopped. Cross-checking against the ICP-20100 is the intended detection. | `check_hw_environmental` reports the narrowing | D |
+| HWR-ENV-005 | Open-cavity pressure sensors shall be masked from conformal coating. | Coating U4 and U7 destroys the measurement. This must reach the fabrication drawing, not just this document. | none — fabrication drawing does not exist | D |
+| HWR-ENV-006 | The board shall carry input transient protection. | **Open gap.** DO-160G §17 voltage spike; no TVS on the brick input. | none — not designed | X |
+| HWR-ENV-007 | Off-board connectors shall carry ESD protection. | **Open gap.** DO-160G §25. The isolation barrier helps but does not replace it. | none — connectors not designed | X |
+| HWR-ENV-008 | The magnetometer shall be kept clear of switching converters and high-current paths. | DO-160G §15. The TPS62132 switches at 2.5 MHz and each ISOW1044's internal converter at 25 MHz, on a board carrying a BMM150. | none — layout not started | D |
+
 ## Manufacturability
 
 | ID | Requirement | Rationale | Verification | Status |
@@ -80,7 +98,6 @@ These are the requirements the DAL A architectural argument rests on. See
 Deliberately listed rather than omitted, because an incomplete matrix that
 looks complete is the failure mode this whole directory exists to avoid:
 
-- Environmental qualification (DO-160) — temperature, vibration, EMC. None.
 - Component derating and worst-case analysis. None.
 - Thermal analysis. The TPS62132 and the ISOW1044s are the candidates.
 - Signal integrity for USB and CAN FD — impedance control, length matching.
