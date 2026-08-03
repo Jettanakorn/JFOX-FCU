@@ -109,6 +109,12 @@ SETUP = """\t(setup
 # connectors works loose under DO-160G section 8 vibration.
 # --------------------------------------------------------------------------
 FIXED_EDGE = {
+    # Company mark. board_only, so it carries no pads, no
+    # reference on the assembly drawing and nothing in the
+    # BOM - it is artwork, and the checkers that count
+    # components should not see it as one.
+    "G1":  ("XY", (6.0, 92.0), "F"),   # JFOX logo, bottom edge, below the slot column
+
     # --- the three card slots ---------------------------------------------
     # A COLUMN up the middle of the backplane, at the 18 mm card pitch. The
     # cards plug in edge-on and project forward, so their spacing here IS

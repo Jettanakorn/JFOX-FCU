@@ -103,6 +103,17 @@ def parse(path=PCB):
         # with a silent fallback fails the same way a check that stops
         # seeing failures does: the number keeps arriving, and stops
         # meaning anything.
+        # Board-only artwork - the logo - has no courtyard and no pads by
+        # definition. It is not a placement subject, so it is skipped
+        # rather than measured. The guard below is right for a component
+        # and wrong for a graphic, and it took down the whole scorer.
+        # Artwork, not a component: no pads means nothing to
+        # connect and nothing to place around. Keying off the
+        # board_only attribute did not work - it does not
+        # survive into the board file - and "has no pads" is a
+        # property of the thing itself rather than a label on it.
+        if "(pad " not in blk:
+            continue
         try:
             ox, oy, w, h = kicad_geom.extent(blk)
         except ValueError:

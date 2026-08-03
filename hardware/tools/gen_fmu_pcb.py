@@ -198,6 +198,12 @@ ZONES = {
 # COURTYARD, not its origin - placing a 15 mm deep microSD socket by its
 # origin hangs it off the board, which is what the first attempt did.
 FIXED_EDGE = {
+    # Company mark. board_only, so it carries no pads, no
+    # reference on the assembly drawing and nothing in the
+    # BOM - it is artwork, and the checkers that count
+    # components should not see it as one.
+    "G1":  ("XY", (11.0, 48.2), "F"),   # JFOX logo, front edge, above the card slot
+
     # --- REAR (south): the card edge, key notch and all -------------------
     "J40": ("FLUSH_S", 20.0, "F"),
 
@@ -1230,6 +1236,19 @@ def main():
                     f"far face - its holes would land in {b_}'s pads. "
                     f"Move one of them; a via is a hole through every layer, "
                     f"so opposite sides is not clearance.")
+
+
+    # --- company mark ------------------------------------------------------
+    # Board-only artwork, so it is emitted here rather than coming from the
+    # netlist - like the mounting holes, it has no schematic symbol. Placed
+    # by hand because a logo has no electrical constraint to optimise and
+    # letting the packer choose would put it wherever there happened to be
+    # room, which for a company mark is not the same as where it should be.
+    logo = REPO / "hardware" / "jfox-fmu-v1" / "jfox-fmu.pretty" /         "JFOX_Logo.kicad_mod"
+    if logo.exists() and "G1" in FIXED_EDGE:
+        _e, off, _s = FIXED_EDGE["G1"]
+        body.append(embed_footprint(logo, "G1", "JFOX", BX + off[0],
+                                    BY + off[1], "F", {}))
 
     # --- silkscreen zone labels, so the intent survives into the editor ----
     for zname, (zx0, zy0, _zx1, _zy1) in ZONES.items():
