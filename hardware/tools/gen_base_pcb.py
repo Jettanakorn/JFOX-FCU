@@ -175,7 +175,9 @@ ZONES = {
     # of the optical housings, which are THROUGH-HOLE - their pins occupy
     # every layer, so a bottom-side part under one collides even though
     # they are on opposite faces.
-    "EXP":   (30.0, 34.0, 70.0, 44.0),
+    "EXP":   (26.0, 30.0, 74.0, 44.0),
+    # The ORing stage: controller, four pass FETs, six dividers, two caps.
+    "ORING": (26.0, 56.0, 74.0, 70.0),
 }
 
 
@@ -184,7 +186,9 @@ ZONE_OF = [
     (r'^(F2|R2|C2|R61|D2)$',  "CH_B", "F"),
     (r'^(F3|R3|C3|R62|D3)$',  "CH_C", "F"),
     (r'^J6[0-5]$|^R4[01]$',   "CAN",  "F"),
-    (r'^D5[01]$',             "CAN",  "F"),   # the two feed ORing diodes
+    (r'^D5[01]$',             "ORING", "F"),  # feed reverse-polarity diodes
+    (r'^U20$|^Q[12][AB]$',    "ORING", "F"),  # LTC4417 and its pass FETs
+    (r'^R7[0-5]$|^C7[01]$',   "ORING", "B"),  # thresholds and bypass
     (r'^C5[01]$',             "EXP",  "B"),
     (r'^J10[012]$',           "EXP",  "B"),
 ]

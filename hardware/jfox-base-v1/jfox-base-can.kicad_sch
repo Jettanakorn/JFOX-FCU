@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "bd2a020a-192c-4029-9a93-267f40279d32")
+	(uuid "7a20d81d-747f-4b37-ab09-f38662589eb0")
 	(paper "A4" portrait)
 	(title_block
 		(title "CAN FD bus and termination")
@@ -622,14 +622,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "30146cae-8bbb-433a-ab68-d40365949ee4")
+		(uuid "cdc5b49a-ffad-414f-bfda-7687c19b832f")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 49.53 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "1c7fa80c-bf10-465c-8dbf-6386fbcc4837")
+		(uuid "1d212078-3065-4740-91e5-1e97dd91fc36")
 		(property "Reference" "J60"
 			(at 49.53 60.85 0)
 			(effects
@@ -657,7 +657,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J60")
 					(unit 1)
 				)
@@ -666,7 +666,7 @@
 	)
 	(no_connect
 		(at 44.45 67.31)
-		(uuid "2889493c-894f-4ac9-b49b-7725d796be8d")
+		(uuid "d9c22be7-6487-4925-8396-928fbd903bca")
 	)
 	(wire
 		(pts
@@ -676,7 +676,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f45970ee-fcdf-456f-9269-51a1e828e84a")
+		(uuid "1eb840f5-4399-49ef-bde6-b2d3ee673c89")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -688,7 +688,7 @@
 			)
 			(justify left)
 		)
-		(uuid "91518495-920e-498a-9219-7dcf670f77a0")
+		(uuid "d9e38429-c273-4c09-973a-4deee78d6c6a")
 	)
 	(wire
 		(pts
@@ -698,7 +698,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a293245e-63e6-4be2-9cc0-7bf82a5bcc8c")
+		(uuid "7ae8e21c-0f96-4005-b0ed-3e88dd676ac5")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -710,7 +710,7 @@
 			)
 			(justify left)
 		)
-		(uuid "5fc497a4-757d-45f6-9b0b-bbbd4b66261e")
+		(uuid "1db440a1-191d-4065-a55a-7c5fdb569642")
 	)
 	(wire
 		(pts
@@ -720,7 +720,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "28ac5993-d914-4782-9260-214b348c13f9")
+		(uuid "2c31af18-386e-4dd6-ab05-3cad71d871d7")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -732,14 +732,14 @@
 			)
 			(justify left)
 		)
-		(uuid "2ea00846-89a0-4493-81e9-99f536d42767")
+		(uuid "c1c5a879-f022-4d48-be98-d4aca127f6e9")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 110.49 69.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8f859896-bdd2-4fed-a900-b6a8da89da89")
+		(uuid "88f4c532-a450-4eb9-9dfb-dc51aebe110a")
 		(property "Reference" "J61"
 			(at 110.49 60.85 0)
 			(effects
@@ -767,7 +767,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J61")
 					(unit 1)
 				)
@@ -776,7 +776,7 @@
 	)
 	(no_connect
 		(at 105.41 67.31)
-		(uuid "7fd8051e-76a5-4747-b885-618db138186d")
+		(uuid "988136c2-74bb-42ba-adde-471f122cc8be")
 	)
 	(wire
 		(pts
@@ -786,7 +786,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0bb079ca-02e1-4150-860a-3c6b0cb0a92e")
+		(uuid "4f982040-ad15-4ac0-a59d-11bb182ee1fc")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -798,7 +798,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a71090eb-404c-49ff-aaa9-0e47d4e7c343")
+		(uuid "9f5380bb-25c2-4583-9ddc-537d207d901a")
 	)
 	(wire
 		(pts
@@ -808,7 +808,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "0c0debf2-3bfb-4a95-977c-c9be5fcc2277")
+		(uuid "b79f0b42-c724-4deb-8aa4-8002437f0526")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -820,7 +820,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9e1ed810-192f-4c67-aa95-f12ac9467edb")
+		(uuid "19891b85-0bb6-45aa-ae2f-7a3cbd5d1ea7")
 	)
 	(wire
 		(pts
@@ -830,7 +830,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7c866900-d0e9-43dc-b8d3-5265461f2768")
+		(uuid "c660d049-c51d-4263-b191-7d436b8bca18")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -842,14 +842,14 @@
 			)
 			(justify left)
 		)
-		(uuid "82a39786-6a2d-47f3-b3ba-2d4b463edb90")
+		(uuid "38813027-2784-43c8-a04d-f23419de1eea")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 49.53 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "053acd8a-6a17-4dab-9593-3a1d9e76e12b")
+		(uuid "ebd13b3d-2920-43ab-aed6-5513e6867a97")
 		(property "Reference" "J62"
 			(at 49.53 101.49 0)
 			(effects
@@ -877,7 +877,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J62")
 					(unit 1)
 				)
@@ -886,7 +886,7 @@
 	)
 	(no_connect
 		(at 44.45 107.95)
-		(uuid "3bdd96b8-df7e-42a8-a00c-9489f236debd")
+		(uuid "12e568c6-2413-4ba1-bf00-5e6445dc8b63")
 	)
 	(wire
 		(pts
@@ -896,7 +896,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "74c8e716-c2a6-4aa7-bf6b-3b05949dd03d")
+		(uuid "eaa66782-2ff6-4864-b35f-4e4076d009bf")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -908,7 +908,7 @@
 			)
 			(justify left)
 		)
-		(uuid "03e35a65-8f9b-4cbf-86a0-01750246ae12")
+		(uuid "6395c7d7-8b44-4c4b-b28a-29df350b088a")
 	)
 	(wire
 		(pts
@@ -918,7 +918,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fa441b0b-66c8-4de0-a28a-54f59db57a19")
+		(uuid "b13477ff-7e53-4ce7-a8e6-b26e31214dba")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -930,7 +930,7 @@
 			)
 			(justify left)
 		)
-		(uuid "328104c9-d3af-4fd8-93b0-db37ff018702")
+		(uuid "4212de52-1613-4e60-b739-a35c96aee9da")
 	)
 	(wire
 		(pts
@@ -940,7 +940,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7cd6f97c-ee8d-4054-a4ca-de30ba1647c0")
+		(uuid "d02d41b9-da10-4e2d-97b5-b7e882082f9d")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -952,14 +952,14 @@
 			)
 			(justify left)
 		)
-		(uuid "01c5f219-612b-4c37-a950-63d294cd7024")
+		(uuid "2ba209f4-7294-4b0b-97b0-fecbc3dd15cb")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 110.49 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "335e241d-9fd1-4749-8419-e2917e8289bb")
+		(uuid "32e3ffc3-a984-482a-b08e-0c79d69409cb")
 		(property "Reference" "J63"
 			(at 110.49 101.49 0)
 			(effects
@@ -987,7 +987,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J63")
 					(unit 1)
 				)
@@ -996,7 +996,7 @@
 	)
 	(no_connect
 		(at 105.41 107.95)
-		(uuid "95734b0c-e041-4bfe-afe2-a8fe380fa47e")
+		(uuid "fad9ce92-8baa-48d7-955b-c214869f9efe")
 	)
 	(wire
 		(pts
@@ -1006,7 +1006,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "70c33569-3f24-4ed6-a1ee-17fb6e3a3362")
+		(uuid "5e6cd91a-12bf-41a7-a4d6-dc6ca19cc201")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -1018,7 +1018,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2c0926e1-9db8-434c-9c0c-811da29cf663")
+		(uuid "3e8b6e0d-9ccd-49e1-ba31-1b3610e1f0ef")
 	)
 	(wire
 		(pts
@@ -1028,7 +1028,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ef646fd0-7329-4b97-becc-4d8ded67f452")
+		(uuid "972e0af2-2aca-4e0b-aba2-3585910f2cea")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -1040,7 +1040,7 @@
 			)
 			(justify left)
 		)
-		(uuid "eba2d506-2ad5-4892-9dab-31424d4af2f9")
+		(uuid "f230771e-6fc7-441d-8cad-092bcc8de213")
 	)
 	(wire
 		(pts
@@ -1050,7 +1050,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "897b0d41-0478-4781-aa14-6e6cb3743472")
+		(uuid "370e3ac7-fa5d-4818-a943-304d4cbbb327")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -1062,14 +1062,14 @@
 			)
 			(justify left)
 		)
-		(uuid "ba2f0e41-1d63-4f4e-a73c-23d995cbc584")
+		(uuid "a99f8d3c-515e-4f39-8ddb-642b137894cf")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 49.53 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "d9356899-0be1-4fe0-9655-ee6f3501b671")
+		(uuid "c15b07ce-5b2c-4b0d-b52f-94306aa42a4f")
 		(property "Reference" "J64"
 			(at 49.53 142.13 0)
 			(effects
@@ -1097,7 +1097,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J64")
 					(unit 1)
 				)
@@ -1106,7 +1106,7 @@
 	)
 	(no_connect
 		(at 44.45 148.59)
-		(uuid "cbd24f03-e522-4f21-9802-f7f7ebc889f7")
+		(uuid "77946d16-0241-4968-b0c9-fd714f87fe5b")
 	)
 	(wire
 		(pts
@@ -1116,7 +1116,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "565018a0-a834-4ea1-bfa4-5ce9ff84b17e")
+		(uuid "cd16f3ac-693d-437b-8c96-5864c2c3ab99")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -1128,7 +1128,7 @@
 			)
 			(justify left)
 		)
-		(uuid "3b089a99-72d0-4061-a32f-5fa14ff12e98")
+		(uuid "eed33de4-9406-4e7d-9eef-e2c45cf9bc59")
 	)
 	(wire
 		(pts
@@ -1138,7 +1138,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "096e9339-fe77-4a1d-bce4-602428493456")
+		(uuid "9543fced-d81a-404f-b545-0b09a69e98f8")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -1150,7 +1150,7 @@
 			)
 			(justify left)
 		)
-		(uuid "1cf5d9d7-59ea-499e-924c-4cc572fb90ca")
+		(uuid "f40a731a-0f87-48f6-ae22-5c82520872ee")
 	)
 	(wire
 		(pts
@@ -1160,7 +1160,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "968b85e9-217a-4831-959c-4c70e3cc1eec")
+		(uuid "958cd3fb-9cc6-4eb6-bc79-169eb01d51a7")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -1172,14 +1172,14 @@
 			)
 			(justify left)
 		)
-		(uuid "75d6d834-b1f0-4996-898c-7fac1b0713b2")
+		(uuid "dcfbf4fa-d4a6-446b-bd80-d4cba57bb4a1")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 110.49 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "dbb3ef41-0414-4268-af3c-c8832cf32872")
+		(uuid "f0662378-55ac-408e-b763-c444adeb9521")
 		(property "Reference" "J65"
 			(at 110.49 142.13 0)
 			(effects
@@ -1207,7 +1207,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J65")
 					(unit 1)
 				)
@@ -1216,7 +1216,7 @@
 	)
 	(no_connect
 		(at 105.41 148.59)
-		(uuid "6da064f0-e5f7-41ee-82c8-48250f269b29")
+		(uuid "cac8e2cf-2c85-4d97-a254-ff89ad4f7b83")
 	)
 	(wire
 		(pts
@@ -1226,7 +1226,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "faa382c1-e3d8-403a-a5f8-962e1511ded2")
+		(uuid "7c855588-9f6f-4c24-a622-adc1f8a72b23")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -1238,7 +1238,7 @@
 			)
 			(justify left)
 		)
-		(uuid "74779b77-74de-4e79-abd5-0093e412541d")
+		(uuid "2a41d730-9aab-4cb1-a896-a2496895e5ce")
 	)
 	(wire
 		(pts
@@ -1248,7 +1248,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d79ea7b5-972c-4f4b-a297-f5adc013016c")
+		(uuid "27ad8d5e-3a40-4ca8-a962-b045bd6f5219")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -1260,7 +1260,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7175926b-75f2-48f5-92c8-95a1f4072e30")
+		(uuid "b56f3e3f-1fb5-466b-a265-7b45ef439b58")
 	)
 	(wire
 		(pts
@@ -1270,7 +1270,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e85d9aa3-d2ce-4c5f-bd1c-2a6bfa01ac4f")
+		(uuid "ee3ca5f9-e664-4484-981b-89f3d563e602")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -1282,14 +1282,14 @@
 			)
 			(justify left)
 		)
-		(uuid "5892c61d-2566-47a2-b173-bcac5d2a3d41")
+		(uuid "83708f02-c574-4a92-a035-5c817d5f216c")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 161.29 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4075a334-70cb-4070-9ebc-3cb51962215c")
+		(uuid "4be8d68b-8e0b-4abc-98c3-2f9d204ffbb2")
 		(property "Reference" "R40"
 			(at 161.29 62.93 0)
 			(effects
@@ -1317,7 +1317,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "R40")
 					(unit 1)
 				)
@@ -1332,7 +1332,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b25a20ad-16ba-47e4-a298-c8bd4674e253")
+		(uuid "96c11696-9050-418f-b50e-7a7d9a97d476")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -1344,7 +1344,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2702161e-4bd9-4dc2-9e87-0efff220aab7")
+		(uuid "78ee22b1-3316-4ca3-b791-79d388ec82bd")
 	)
 	(wire
 		(pts
@@ -1354,7 +1354,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d573bb96-ff69-42e7-b813-0e95ef346e3c")
+		(uuid "da572a8f-0c44-4497-9fc8-4db86327e96c")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -1366,14 +1366,14 @@
 			)
 			(justify left)
 		)
-		(uuid "9c0566db-4868-48bc-bb7c-788ab5d728ce")
+		(uuid "9f60181f-3c8f-4143-a4fa-5892bc667bf1")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 182.88 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4d3e2dd8-c3f3-4d7c-bfe7-dd76b353ff1c")
+		(uuid "08fb31b0-be9d-432b-a95d-07b68d5752b8")
 		(property "Reference" "R41"
 			(at 182.88 62.93 0)
 			(effects
@@ -1401,7 +1401,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "R41")
 					(unit 1)
 				)
@@ -1416,7 +1416,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "97f30c0f-a7fe-4688-bca6-be0b57990718")
+		(uuid "0d855f94-4aad-4254-abd7-7168335b5f03")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -1428,7 +1428,7 @@
 			)
 			(justify left)
 		)
-		(uuid "45aa5ffe-9ed6-43d4-b7b5-46278fe92902")
+		(uuid "83216c37-a508-4836-8644-1201573eb2c6")
 	)
 	(wire
 		(pts
@@ -1438,7 +1438,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6a2fefd3-72c2-47af-97fe-2babb8497916")
+		(uuid "4b3ad491-3377-4dd2-920c-83b9973250cf")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -1450,14 +1450,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b2ffc37a-dfe0-4080-a5f6-69cf8478dbfd")
+		(uuid "4033242a-10f9-4bf2-b8b8-facfef77ec21")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x05")
 		(at 161.29 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "97bcedb4-8c12-4d1a-a53c-8fde24fb712e")
+		(uuid "28c97698-b0cf-412a-b8ae-ad47951eca4f")
 		(property "Reference" "J70"
 			(at 161.29 172.88 0)
 			(effects
@@ -1485,7 +1485,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ad560bec-af51-49c2-bf8f-7b578e07ba19"
+				(path "/c9a7bc7e-a688-4c61-aa16-e71cc2a8d869"
 					(reference "J70")
 					(unit 1)
 				)
@@ -1500,7 +1500,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "28c4a168-01c9-49e6-937e-f5f66c15076b")
+		(uuid "0b7742cd-f3d8-4db7-9d14-23a02636cf66")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -1512,7 +1512,7 @@
 			)
 			(justify left)
 		)
-		(uuid "012c6527-40d6-41e0-b42d-42ef6b96741e")
+		(uuid "9e4d1b23-05ee-4947-8ee4-8c45992e70ce")
 	)
 	(wire
 		(pts
@@ -1522,7 +1522,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "86843114-8579-4ba5-9cd5-dc17f4af3e69")
+		(uuid "ab71a9e1-d82b-4ffb-8192-a4eac4021bd0")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -1534,7 +1534,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ae1bb630-8b91-43a8-80f5-8d378e26ba82")
+		(uuid "56116a33-cc09-41ec-9079-b70aba9b2bb0")
 	)
 	(wire
 		(pts
@@ -1544,7 +1544,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "681f0d0d-e08a-4d62-97a3-5b1296967ed8")
+		(uuid "3bf7f27a-f56f-4ceb-984f-26e0fc24265f")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -1556,7 +1556,7 @@
 			)
 			(justify left)
 		)
-		(uuid "aff65a2e-53c1-4dff-9503-167402a8ac10")
+		(uuid "a2f0fab4-efda-41d6-ac4b-ecd6cafeaae2")
 	)
 	(wire
 		(pts
@@ -1566,7 +1566,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d8197902-18d3-456b-a19c-0f94e8ae8a98")
+		(uuid "b610e350-a30b-4d7b-9d60-894775fff825")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -1578,7 +1578,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e919ddc1-2009-4358-a316-8b8ac1a72943")
+		(uuid "605b2914-abf0-4895-9e89-e01da11dc882")
 	)
 	(wire
 		(pts
@@ -1588,7 +1588,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "31f44cb6-91fe-4907-926e-4cc3909da9dd")
+		(uuid "f9e9cb61-907c-4202-9b28-072f50809f03")
 	)
 	(global_label "CAN_GND_ISO"
 		(shape bidirectional)
@@ -1600,7 +1600,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4973eb47-e132-4811-bf24-b3207f069e63")
+		(uuid "240e4397-8bf7-40d4-be87-d8321094bc61")
 	)
 	(sheet_instances
 		(path "/"

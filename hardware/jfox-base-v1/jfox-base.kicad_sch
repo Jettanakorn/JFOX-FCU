@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "b2cc6ebd-b7ba-402a-ae78-fd348f9c718b")
+	(uuid "06ecc874-cab5-4cc2-8ce6-7ea7d63700ec")
 	(paper "A4" portrait)
 	(title_block
 		(title "JFOX-BASE-v1 - root")
@@ -21,7 +21,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "caef52f9-fadf-412a-8c4a-d2dc2317692c")
+		(uuid "91e12ccb-65d8-4870-9352-bdd21936b5bc")
 		(property "Sheetname" "Mezzanine sockets - three channels"
 			(at 25.4 39.93 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -32,7 +32,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "2")
 				)
 			)
@@ -44,7 +44,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "313c5dff-b4c3-431b-99f8-6d47ba976e6a")
+		(uuid "99d15f7c-671d-46ff-8d86-dbb573e18ac4")
 		(property "Sheetname" "Power distribution - per channel"
 			(at 114.30000000000001 39.93 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -55,7 +55,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "3")
 				)
 			)
@@ -67,18 +67,18 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "2052434c-38d1-488e-8787-0fe15f482fe9")
-		(property "Sheetname" "CAN FD bus and termination"
+		(uuid "97b3d6dc-c5f2-45c4-8194-1587e634062e")
+		(property "Sheetname" "Prioritised ORing - two airframe feeds"
 			(at 25.4 100.89 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-can.kicad_sch"
+		(property "Sheetfile" "jfox-base-oring.kicad_sch"
 			(at 25.4 127.6 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "4")
 				)
 			)
@@ -90,18 +90,18 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "7d3ae6c7-88be-4414-842e-5204ff38f8e6")
-		(property "Sheetname" "Actuator outputs - headers only"
+		(uuid "c0308eb9-c4e3-4d8c-8188-f88d61abc422")
+		(property "Sheetname" "CAN FD bus and termination"
 			(at 114.30000000000001 100.89 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-actuators.kicad_sch"
+		(property "Sheetfile" "jfox-base-can.kicad_sch"
 			(at 114.30000000000001 127.6 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "5")
 				)
 			)
@@ -113,18 +113,18 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "2f2a4a71-d16c-4b25-812e-d8e513bbed94")
-		(property "Sheetname" "External I/O breakout"
+		(uuid "7b8602fc-bb1d-4b26-b659-ed19880d2ee9")
+		(property "Sheetname" "Actuator outputs - headers only"
 			(at 25.4 161.85 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-io.kicad_sch"
+		(property "Sheetfile" "jfox-base-actuators.kicad_sch"
 			(at 25.4 188.56 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "6")
 				)
 			)
@@ -136,18 +136,18 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "d32c5875-22ed-46f7-9782-738780305283")
-		(property "Sheetname" "Fibre-optic link - two channels"
+		(uuid "7c1df696-1dc9-406f-bb7c-51f99b286e55")
+		(property "Sheetname" "External I/O breakout"
 			(at 114.30000000000001 161.85 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-fibre.kicad_sch"
+		(property "Sheetfile" "jfox-base-io.kicad_sch"
 			(at 114.30000000000001 188.56 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "7")
 				)
 			)
@@ -159,18 +159,18 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "264907a3-57c9-4b7d-af08-ecc32182226d")
-		(property "Sheetname" "Master board panel - debug, USB, LEDs"
+		(uuid "41d40ac2-4108-4116-8a78-9ce242fb5a0c")
+		(property "Sheetname" "Fibre-optic link - two channels"
 			(at 25.4 222.81 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-panel.kicad_sch"
+		(property "Sheetfile" "jfox-base-fibre.kicad_sch"
 			(at 25.4 249.52 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "8")
 				)
 			)
@@ -182,19 +182,42 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "31d56c4f-ffe0-447d-9299-3873df6726d5")
-		(property "Sheetname" "Per-channel expansion header"
+		(uuid "8a431000-db58-485d-b60f-ead966cd5f18")
+		(property "Sheetname" "Master board panel - debug, USB, LEDs"
 			(at 114.30000000000001 222.81 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
 		)
-		(property "Sheetfile" "jfox-base-expansion.kicad_sch"
+		(property "Sheetfile" "jfox-base-panel.kicad_sch"
 			(at 114.30000000000001 249.52 0)
 			(effects (font (size 1.27 1.27))(justify left top))
 		)
 		(instances
 			(project "jfox-base"
-				(path "/b2cc6ebd-b7ba-402a-ae78-fd348f9c718b"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
 					(page "9")
+				)
+			)
+		)
+	)
+	(sheet
+		(at 25.4 284.48)
+		(size 60.96 25.4)
+		(fields_autoplaced yes)
+		(stroke (width 0.1524)(type solid))
+		(fill (color 0 0 0 0.0000))
+		(uuid "961175e3-1b42-4b2c-9e84-aa690c13452f")
+		(property "Sheetname" "Per-channel expansion header"
+			(at 25.4 283.77 0)
+			(effects (font (size 1.27 1.27))(justify left bottom))
+		)
+		(property "Sheetfile" "jfox-base-expansion.kicad_sch"
+			(at 25.4 310.48 0)
+			(effects (font (size 1.27 1.27))(justify left top))
+		)
+		(instances
+			(project "jfox-base"
+				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+					(page "10")
 				)
 			)
 		)

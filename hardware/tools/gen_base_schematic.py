@@ -263,6 +263,116 @@ def build_power():
 # sheet 4 - CAN FD bus
 # --------------------------------------------------------------------------
 
+# LTC4417 prioritised ORing between the two airframe feeds.
+#
+# (n, source, Rtop, Rmid, Rbot, UV, OV) - the divider chain from the input
+# down to ground, tapped twice. Both comparators sit at 1 V, so
+# UV = Rtot/(Rmid+Rbot) and OV = Rtot/Rbot. These are the module's brick
+# values, reproduced from the datasheet's worked example rather than
+# recalculated from scratch.
+ORING = [
+    (1, "VBAT_RH", "787k", "49k9", "174k", 4.52, 5.81),
+    (2, "VBAT_LH", "787k", "49k9", "174k", 4.52, 5.81),
+]
+
+
+def build_oring():
+    """Prioritised ORing, replacing the pair of Schottkys.
+
+    D50/D51 stay as reverse-polarity protection on each feed; what changes
+    is that selection between them is now made by a part that knows which
+    one it chose and whether that one is still in spec.
+    """
+    ru = G.uid()
+    libs = []
+    for lib, name, nick in (
+            ("Power_Management.kicad_sym", "LTC4417CGN", "Power_Management"),
+            ("Transistor_FET.kicad_sym", "Q_PMOS_GSD", "Transistor_FET"),
+            ("Device.kicad_sym", "R", "Device"),
+            ("Device.kicad_sym", "C", "Device"),
+    ):
+        libs += G.sym_defs(G.KICAD_SYMS / lib, name, nick)
+    geom = {re.search(r'\(symbol "([^"]+)"', b).group(1): G.pin_positions(b)
+            for b in libs}
+    dgeom = {re.search(r'\(symbol "([^"]+)"', b).group(1): G.pin_list(b)
+             for b in libs}
+
+    body = [G.text(
+        "LTC4417 prioritised ORing: PWR 1 (RH) has priority over PWR 2 (LH).\\n"
+        "\\n"
+        "A diode OR takes whichever feed is momentarily higher, so two\\n"
+        "supplies 100 mV apart make the board chatter between them. This\\n"
+        "holds the selected source until it leaves its window, and rejects\\n"
+        "a feed that has drifted out of spec rather than using it because\\n"
+        "it is the higher of two bad ones.\\n"
+        "\\n"
+        "V3 is unused - the backplane has two feeds, not three. It is tied\\n"
+        "to ground and its pass FET omitted, which is how the datasheet\\n"
+        "says to leave an input out.", 0, 0, 1.4)]
+
+    nets = {"V1": "VBAT_RH", "V2": "VBAT_LH", "V3": "GND",
+            "VS1": "VS1_ORING", "VS2": "VS2_ORING", "VS3": "GND",
+            "G1": "PGATE1", "G2": "PGATE2", "G3": "NC_G3",
+            "UV1": "UV1_SET", "UV2": "UV2_SET", "UV3": "GND",
+            "OV1": "OV1_SET", "OV2": "OV2_SET", "OV3": "GND",
+            "VALID1": "RH_VALID", "VALID2": "LH_VALID", "VALID3": "NC_V3",
+            "OUT": "VBAT_IN", "GND": "GND", "CAS": "GND", "HYST": "GND",
+            "EN": "VBAT_RH", "STAT": "PWR_STAT"}
+    body.append(G.place("Power_Management:LTC4417CGN", "U20", "LTC4417CGN",
+                        63.5, 63.5, ru, [], label_dy=27.94,
+                        fp="Package_SO:SSOP-24_3.9x8.7mm_P0.635mm"))
+    for num, nm, dx, dy, ang in dgeom["Power_Management:LTC4417CGN"]:
+        net = nets.get(nm)
+        if net is None:
+            continue
+        ax, ay = round(63.5 + dx, 2), round(63.5 + dy, 2)
+        sx, sy = G.stub_len(ang, h=5.08)
+        bx, by = round(ax + sx, 2), round(ay + sy, 2)
+        body.append(G.wire(ax, ay, bx, by))
+        shape = ("input" if net.startswith(("+", "GND", "VBAT")) else
+                 "output" if net.endswith(("_VALID", "_STAT")) else
+                 "bidirectional")
+        body.append(G.glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    # Pass devices: two back-to-back PMOS per input, so the body diode of
+    # one blocks the reverse path the other's would allow.
+    for i, (n, src, *_rest) in enumerate(ORING):
+        for k, (ref, drain) in enumerate(((f"Q{n}A", src),
+                                          (f"Q{n}B", "VBAT_IN"))):
+            qx = 25.4 + i * 76.2 + k * 30.48
+            body.append(G.place("Transistor_FET:Q_PMOS_GSD", ref, "PMOS",
+                                qx, 142.24, ru, [], label_dy=11.43,
+                                fp="Package_TO_SOT_SMD:SOT-23"))
+            for num, nm, dx, dy, ang in dgeom["Transistor_FET:Q_PMOS_GSD"]:
+                net = {"G": f"PGATE{n}", "S": f"VS{n}_ORING",
+                       "D": drain}[nm]
+                ax, ay = round(qx + dx, 2), round(142.24 + dy, 2)
+                sx, sy = G.stub_len(ang, h=5.08, v=3.81)
+                bx, by = round(ax + sx, 2), round(ay + sy, 2)
+                body.append(G.wire(ax, ay, bx, by))
+                body.append(G.glabel(
+                    net, "input" if net.startswith("V") else "bidirectional",
+                    bx, by, 0 if sx < 0 else 180))
+
+    # Threshold dividers, next to the part that reads them.
+    dp = []
+    for n, src, rtop, rmid, rbot, _uv, _ov in ORING:
+        b = 70 + (n - 1) * 3
+        dp += [(f"R{b}", rtop, src, f"UV{n}_SET"),
+               (f"R{b+1}", rmid, f"UV{n}_SET", f"OV{n}_SET"),
+               (f"R{b+2}", rbot, f"OV{n}_SET", "GND")]
+    for j, (ref, val, a, bn) in enumerate(dp):
+        body += G.two_pin(ref, "Device:R", val,
+                          round(20.32 + (j % 6) * 24.13, 2),
+                          round(177.8 + (j // 6) * 20.32, 2),
+                          a, bn, ru, dgeom)
+    for k, n in enumerate((1, 2)):
+        body += G.two_pin(f"C{70 + k}", "Device:C", "100n",
+                          round(20.32 + k * 24.13, 2), 218.44,
+                          f"VS{n}_ORING", "GND", ru, dgeom)
+    return libs, body, ru
+
+
 def build_can():
     """Harness landings for the modules' isolated CAN, plus the vehicle bus.
 
@@ -390,7 +500,7 @@ def build_actuators():
                             f"ACT {ch}", cx, cy, ru, [], label_dy=16.0,
                             fp=JST_FP[10]))
         nets = used(*[f"{ch}_{p}" for p in pwm],
-                    f"{ch}_VDD_SERVO", "GND")
+                    "VDD_SERVO", "GND")
         for (num, _nm, dx, dy, ang), net in zip(
                 sorted(geom, key=lambda p: int(p[0])), nets):
             ax, ay = round(cx + dx, 2), round(cy + dy, 2)
@@ -660,7 +770,7 @@ def build_expansion():
     """
     ru = G.uid()
     libs = G.sym_defs(G.KICAD_SYMS / "Connector_Generic.kicad_sym",
-                      "Conn_02x10_Odd_Even", "Connector_Generic")
+                      "Conn_02x15_Odd_Even", "Connector_Generic")
     geom = G.pin_list(libs[-1])
     pins = sorted(geom, key=lambda p: int(p[0]))
 
@@ -689,7 +799,7 @@ def build_expansion():
                  if n not in SHARED and chan_net(ch, n) not in ROUTED]
         cx = 43.18 + i * 46.99
         cy = 88.9
-        body.append(G.place("Connector_Generic:Conn_02x10_Odd_Even",
+        body.append(G.place("Connector_Generic:Conn_02x15_Odd_Even",
                             f"J{100 + i}", f"EXP {ch}", cx, cy, ru, [],
                             label_dy=17.78,
                             fp="Connector_PinHeader_1.27mm:"
@@ -714,6 +824,7 @@ def build_expansion():
 SHEETS = [
     ("sockets",   "Mezzanine sockets - three channels", build_sockets),
     ("power",     "Power distribution - per channel",   build_power),
+    ("oring",     "Prioritised ORing - two airframe feeds", build_oring),
     ("can",       "CAN FD bus and termination",         build_can),
     ("actuators", "Actuator outputs - headers only",    build_actuators),
     ("io",        "External I/O breakout",              build_io),

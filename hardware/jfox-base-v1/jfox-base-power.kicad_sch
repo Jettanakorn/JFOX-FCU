@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "e7611bd3-9764-4e37-b542-437cf726f976")
+	(uuid "d8efecbc-a708-4cf1-807d-14f86c3d544e")
 	(paper "A4" portrait)
 	(title_block
 		(title "Power distribution - per channel")
@@ -850,14 +850,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "97925172-5201-4c0a-9db3-f8997d96e031")
+		(uuid "fe63d28b-4427-4560-a48a-fedd8c02893b")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 49.53 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "b0f5568d-bf12-481f-b38b-f5a810c0ab89")
+		(uuid "127af844-2a2d-4433-adce-1467370007b2")
 		(property "Reference" "J50"
 			(at 49.53 43.34 0)
 			(effects
@@ -885,7 +885,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "J50")
 					(unit 1)
 				)
@@ -900,7 +900,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b76c763f-5579-436b-8973-d90a25e86fa6")
+		(uuid "b706c187-50fa-40a2-8977-2d22c13c74a2")
 	)
 	(global_label "VBAT_RH"
 		(shape input)
@@ -912,7 +912,7 @@
 			)
 			(justify left)
 		)
-		(uuid "04a50581-7cf8-4a38-a958-20797574b0c1")
+		(uuid "0aca73eb-36df-4788-a284-be1f5cf84a5e")
 	)
 	(wire
 		(pts
@@ -922,7 +922,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "453e9e85-aa05-4abf-83cc-ebb533c1e15a")
+		(uuid "fa0b212e-fe27-481b-89da-da6457853086")
 	)
 	(global_label "VBAT_RH"
 		(shape input)
@@ -934,7 +934,7 @@
 			)
 			(justify left)
 		)
-		(uuid "557a9d03-bfee-4fe9-a51c-a32daa6a7eb0")
+		(uuid "cbce2257-c492-4722-aa58-d679f343acbe")
 	)
 	(wire
 		(pts
@@ -944,7 +944,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6e0ba7a3-470f-401b-9fb9-54f6fbbbb18b")
+		(uuid "bfc4c951-e3aa-4685-be5f-231a0e098c40")
 	)
 	(global_label "GND"
 		(shape input)
@@ -956,7 +956,7 @@
 			)
 			(justify left)
 		)
-		(uuid "95186a7a-6509-40de-ae72-ff57c2cb28e9")
+		(uuid "27b29a97-eaaf-495b-a962-823401beb9e7")
 	)
 	(wire
 		(pts
@@ -966,7 +966,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4b762b07-a59d-41bc-b7b4-fca170891f77")
+		(uuid "fe6c8808-0dda-4756-84c5-b078b91dd9b8")
 	)
 	(global_label "GND"
 		(shape input)
@@ -978,14 +978,14 @@
 			)
 			(justify left)
 		)
-		(uuid "c02cd8f5-1c79-41b3-aacd-b87ef1328ad5")
+		(uuid "c52aa9d2-902b-4032-96b0-5f6376ed99f8")
 	)
 	(symbol
 		(lib_id "Device:D_Schottky")
 		(at 49.53 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "0fed20e9-1d98-4eff-badc-4e6ecd333f3a")
+		(uuid "af49d81e-204f-47a0-97b0-ede86f57992b")
 		(property "Reference" "D50"
 			(at 49.53 68.01 0)
 			(effects
@@ -1013,7 +1013,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "D50")
 					(unit 1)
 				)
@@ -1028,7 +1028,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "82298cef-4cba-460f-889b-a487fa89d4ac")
+		(uuid "e0a92cd8-78b2-4d7d-9a84-9a520f91ed3c")
 	)
 	(global_label "VBAT_RH"
 		(shape bidirectional)
@@ -1040,7 +1040,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e9968720-d232-4823-a153-8865363f838f")
+		(uuid "d12badc1-c2df-4da4-8e9f-fb01459771f7")
 	)
 	(wire
 		(pts
@@ -1050,7 +1050,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fbb176ac-4377-47a6-93b5-d566fdda1c92")
+		(uuid "a651afbd-500a-4e07-96ba-9abef0e8ec98")
 	)
 	(global_label "VBAT_IN"
 		(shape bidirectional)
@@ -1062,14 +1062,14 @@
 			)
 			(justify left)
 		)
-		(uuid "c397f5d5-3385-42a7-a79c-e0dcea6a9e91")
+		(uuid "ed56fdf3-d2cf-4afe-a247-5708954bbdd6")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x04")
 		(at 93.98 53.34 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "aa85d6f2-0cd5-481a-ab0f-710339ab0d9a")
+		(uuid "630931ed-efee-4a45-ac8c-8306bb5ebc6a")
 		(property "Reference" "J51"
 			(at 93.98 43.34 0)
 			(effects
@@ -1097,7 +1097,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "J51")
 					(unit 1)
 				)
@@ -1112,7 +1112,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "06b0cd58-7b5a-44ec-bfcc-e5328667ccf5")
+		(uuid "e0498766-9bcd-49bb-bcb1-6a6593723e4e")
 	)
 	(global_label "VBAT_LH"
 		(shape input)
@@ -1124,7 +1124,7 @@
 			)
 			(justify left)
 		)
-		(uuid "dd3ee261-25f1-4203-ba77-c0f1379450f9")
+		(uuid "57156b6c-8687-4fc2-a3ee-a25f464f9bf3")
 	)
 	(wire
 		(pts
@@ -1134,7 +1134,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "62e2cf5c-8db8-4079-a391-07600bb70532")
+		(uuid "82acd00b-4a36-420d-96bd-859200214dc6")
 	)
 	(global_label "VBAT_LH"
 		(shape input)
@@ -1146,7 +1146,7 @@
 			)
 			(justify left)
 		)
-		(uuid "310467e0-4e20-465c-8b65-e2884a9acbf1")
+		(uuid "9d61549f-2e0e-420c-8751-872686042bcb")
 	)
 	(wire
 		(pts
@@ -1156,7 +1156,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "99f4fa95-d302-430f-9368-c96cb7b8c2f2")
+		(uuid "b8f63e95-6606-49f4-bbf0-a0cbb8f80d1f")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1168,7 +1168,7 @@
 			)
 			(justify left)
 		)
-		(uuid "137fdb89-22c6-45d9-98a6-1433f91cf423")
+		(uuid "c0eb9c6e-08e0-4fec-bc7f-1296cbf7f457")
 	)
 	(wire
 		(pts
@@ -1178,7 +1178,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "595a12d9-f6f3-4275-a0c9-09fd248e9123")
+		(uuid "93015048-af72-44d9-a08f-f7e9b5a0c270")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1190,14 +1190,14 @@
 			)
 			(justify left)
 		)
-		(uuid "7098269e-fda1-4ec3-bc6a-0dd87e883262")
+		(uuid "7935f464-0ca6-4b38-aa8e-e2cb611d5c56")
 	)
 	(symbol
 		(lib_id "Device:D_Schottky")
 		(at 93.98 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "64cbc5f9-1d18-4df2-8b6c-80f40905f8b8")
+		(uuid "3d6d9f12-d2d9-4ccb-a846-cd90dae7d2b1")
 		(property "Reference" "D51"
 			(at 93.98 68.01 0)
 			(effects
@@ -1225,7 +1225,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "D51")
 					(unit 1)
 				)
@@ -1240,7 +1240,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "954f9f3d-7c9d-424a-b173-b20bbd4ed3fd")
+		(uuid "332501b6-a74d-4e89-a032-61a562d408a3")
 	)
 	(global_label "VBAT_LH"
 		(shape bidirectional)
@@ -1252,7 +1252,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d1bdef4f-260d-4b76-b72c-9ba7c32166d2")
+		(uuid "8608d255-d6ab-4aea-808f-97abaadd9ad6")
 	)
 	(wire
 		(pts
@@ -1262,7 +1262,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "221b8d3d-e154-4f39-a018-5804254d524d")
+		(uuid "bd382293-45bb-47cc-91c8-a4b29c156ede")
 	)
 	(global_label "VBAT_IN"
 		(shape bidirectional)
@@ -1274,14 +1274,14 @@
 			)
 			(justify left)
 		)
-		(uuid "c9e19735-be29-4999-8299-6af8f65c3097")
+		(uuid "f8fd06bb-1879-40a3-9d0a-9a8c8915efd2")
 	)
 	(symbol
 		(lib_id "Device:Fuse")
 		(at 58.42 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "5cea3151-f649-47fd-8708-13051c105434")
+		(uuid "976cafdf-4aff-4b7f-94f2-2d8cc92e7b3b")
 		(property "Reference" "F1"
 			(at 58.42 98.49 0)
 			(effects
@@ -1309,7 +1309,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "F1")
 					(unit 1)
 				)
@@ -1324,7 +1324,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "bbf50f8c-8534-4035-a0d3-1daa1c07c7f2")
+		(uuid "7a5a28cc-247a-4a2e-998b-f23046d621fd")
 	)
 	(global_label "VBAT_IN"
 		(shape bidirectional)
@@ -1336,7 +1336,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ca9d3015-2442-49f3-a8e6-f5639fbe64b3")
+		(uuid "ab9c63cc-e92f-4a3c-9041-e3a9d10bc9c6")
 	)
 	(wire
 		(pts
@@ -1346,7 +1346,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e59f7692-a404-450b-a794-0be4cb8bbe8c")
+		(uuid "18005500-f611-4d46-a8da-87ed0be7134e")
 	)
 	(global_label "A_FUSED"
 		(shape bidirectional)
@@ -1358,14 +1358,14 @@
 			)
 			(justify left)
 		)
-		(uuid "bc7c6337-d6e9-4ceb-a32c-da2fa1fccfd5")
+		(uuid "e5249719-ab4f-4403-af1d-6af8d7a2d344")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 58.42 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "41cd3cad-3fe3-409c-99d7-9a6c8c516941")
+		(uuid "f7f60bdc-2573-4d1f-84ee-8aa81bf371a5")
 		(property "Reference" "R1"
 			(at 58.42 128.97 0)
 			(effects
@@ -1393,7 +1393,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "R1")
 					(unit 1)
 				)
@@ -1408,7 +1408,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "736c963b-123d-429a-be35-1fa8b3c93833")
+		(uuid "2a53c54c-64a2-489a-9815-a3c698b25645")
 	)
 	(global_label "A_FUSED"
 		(shape bidirectional)
@@ -1420,7 +1420,7 @@
 			)
 			(justify left)
 		)
-		(uuid "22f1cd4f-1e1c-4d11-9fda-9ac1310b0265")
+		(uuid "7fe321f7-54aa-4b43-b798-3e66879d72f1")
 	)
 	(wire
 		(pts
@@ -1430,7 +1430,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5479b47e-e796-4932-8a3b-0173b159b4a5")
+		(uuid "bfbd40f4-0ee1-48b0-9f1f-193ccd744598")
 	)
 	(global_label "A_VDD_BRICK"
 		(shape bidirectional)
@@ -1442,14 +1442,14 @@
 			)
 			(justify left)
 		)
-		(uuid "793d9edb-617e-4701-b7bb-f989a109896a")
+		(uuid "7527a081-1931-4dc5-99de-9d8705f211bd")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 78.74 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "c1e37b64-f66a-45bb-91d3-dc0d515f9bfc")
+		(uuid "9baa52d7-ca6c-48d2-9e62-7254a6addbcc")
 		(property "Reference" "C1"
 			(at 78.74 128.97 0)
 			(effects
@@ -1477,7 +1477,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "C1")
 					(unit 1)
 				)
@@ -1492,7 +1492,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3d830aa3-b47d-4e25-8233-4c06a456b5d1")
+		(uuid "05d74be8-8b61-456d-9747-294d2705766f")
 	)
 	(global_label "A_VDD_BRICK"
 		(shape bidirectional)
@@ -1504,7 +1504,7 @@
 			)
 			(justify left)
 		)
-		(uuid "14491399-37ed-4986-8c45-d48017272de6")
+		(uuid "2bada99d-c73a-4f59-85cd-ac413101e55e")
 	)
 	(wire
 		(pts
@@ -1514,7 +1514,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f363bf55-ab4d-4d6e-a645-1a52ec323196")
+		(uuid "52375593-56dc-4160-a6ae-67dadefeaef0")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1526,14 +1526,14 @@
 			)
 			(justify left)
 		)
-		(uuid "012953ac-8672-4c29-9f7f-911227dbd650")
+		(uuid "334e226f-062c-4be9-86a0-f1ce37b8591c")
 	)
 	(symbol
 		(lib_id "Device:Fuse")
 		(at 106.68 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "619c0527-04cc-4bcb-b887-2ab02960af36")
+		(uuid "b2b7f0f2-1778-452f-a789-b4454e33c8ee")
 		(property "Reference" "F2"
 			(at 106.68 98.49 0)
 			(effects
@@ -1561,7 +1561,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "F2")
 					(unit 1)
 				)
@@ -1576,7 +1576,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4bfe0334-217e-4677-9d9e-208095ceadd1")
+		(uuid "c5568c30-5f5a-4a91-846d-7924860aff34")
 	)
 	(global_label "VBAT_IN"
 		(shape bidirectional)
@@ -1588,7 +1588,7 @@
 			)
 			(justify left)
 		)
-		(uuid "12c6dcdc-a530-42ca-8ad2-8a6ce538a860")
+		(uuid "4b937256-d24a-444b-af6d-c0fbed61c4d7")
 	)
 	(wire
 		(pts
@@ -1598,7 +1598,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b0d54b88-9ec7-4811-bf01-08c48f0b78b7")
+		(uuid "b8875670-3a71-44e0-a445-5881dfce3ae2")
 	)
 	(global_label "B_FUSED"
 		(shape bidirectional)
@@ -1610,14 +1610,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b213d50b-92e1-4c47-8b40-37af74e10e77")
+		(uuid "24fa1ffb-60a4-448d-936a-87ce0dbcbd59")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 106.68 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "04a9743e-a3a7-4611-88c1-58d8844bca17")
+		(uuid "433c7133-446b-4bb3-a183-47c132c0e06d")
 		(property "Reference" "R2"
 			(at 106.68 128.97 0)
 			(effects
@@ -1645,7 +1645,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "R2")
 					(unit 1)
 				)
@@ -1660,7 +1660,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f827ffc3-09a1-4ae6-a527-33e779161ee5")
+		(uuid "b969c69f-14c4-4888-ba8b-c06351a60311")
 	)
 	(global_label "B_FUSED"
 		(shape bidirectional)
@@ -1672,7 +1672,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d8319b8f-6da3-488d-8f7f-65588e7b2434")
+		(uuid "978b9dd3-5779-4207-bd28-8c857cab0c26")
 	)
 	(wire
 		(pts
@@ -1682,7 +1682,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fe8a0cbf-4864-4664-82fe-55bc51b8a999")
+		(uuid "51135bf7-b91c-4016-9f9d-987322c71a84")
 	)
 	(global_label "B_VDD_BRICK"
 		(shape bidirectional)
@@ -1694,14 +1694,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b57894e1-7a26-43d2-8352-725ec1d08e5f")
+		(uuid "6ecfc073-f245-45f6-a120-4753f677fff6")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 127.0 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "6dc2cb01-f4b8-472a-b349-d87e09b095f3")
+		(uuid "d5cf8bd4-268a-450d-80da-8017c73cdca9")
 		(property "Reference" "C2"
 			(at 127.0 128.97 0)
 			(effects
@@ -1729,7 +1729,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "C2")
 					(unit 1)
 				)
@@ -1744,7 +1744,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "75a0b31f-16b9-4b12-94d0-7c1d794fbd5a")
+		(uuid "f14e066e-88c7-4a0a-8007-3eb62e2b8c83")
 	)
 	(global_label "B_VDD_BRICK"
 		(shape bidirectional)
@@ -1756,7 +1756,7 @@
 			)
 			(justify left)
 		)
-		(uuid "700b13ee-c0a5-4a24-9f11-279aff83c72e")
+		(uuid "901276a9-ef45-43cc-a204-f8b64f2976c0")
 	)
 	(wire
 		(pts
@@ -1766,7 +1766,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "519eec35-865e-43e8-90bb-8003b35d8964")
+		(uuid "ca54b238-1c8a-478e-b874-61105985ac15")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1778,14 +1778,14 @@
 			)
 			(justify left)
 		)
-		(uuid "c7dd45e1-8b8f-444d-a840-47ee0d7bbc85")
+		(uuid "6b93f0ee-9e81-4b61-b8f4-c30603563f20")
 	)
 	(symbol
 		(lib_id "Device:Fuse")
 		(at 154.94 110.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "2df4f9b8-4811-4a84-90b2-da31058269f1")
+		(uuid "ea6cfb4b-5813-4f51-a3e0-65c67ebb853d")
 		(property "Reference" "F3"
 			(at 154.94 98.49 0)
 			(effects
@@ -1813,7 +1813,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "F3")
 					(unit 1)
 				)
@@ -1828,7 +1828,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "14256e35-c9ee-4674-b8e7-fa14ee50c8ac")
+		(uuid "8f00baa0-0acf-4a30-a1bd-493097fe8cdf")
 	)
 	(global_label "VBAT_IN"
 		(shape bidirectional)
@@ -1840,7 +1840,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6013ac34-0210-4b2e-b3a7-c2417fe80c78")
+		(uuid "b05649e9-3648-4c7b-9b3a-412c5dee5646")
 	)
 	(wire
 		(pts
@@ -1850,7 +1850,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4ccf0459-fe55-495e-ab4f-3010f3d019e0")
+		(uuid "f42e474a-ceba-4305-b3a2-0f8f18e179a8")
 	)
 	(global_label "C_FUSED"
 		(shape bidirectional)
@@ -1862,14 +1862,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b909e504-9b3d-422e-9690-5e35165c401a")
+		(uuid "5172cc2a-2c7d-4299-b52b-383047f3481a")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 154.94 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "b2aba09c-36d2-4704-bf54-b3b4fcf502ca")
+		(uuid "f3bfdc5b-9bca-49fa-a585-e8e94723cd3c")
 		(property "Reference" "R3"
 			(at 154.94 128.97 0)
 			(effects
@@ -1897,7 +1897,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "R3")
 					(unit 1)
 				)
@@ -1912,7 +1912,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f4547965-dbdb-439e-b277-23e2f50bdf82")
+		(uuid "f70e1114-6519-4187-a7f1-741a01a4ed0c")
 	)
 	(global_label "C_FUSED"
 		(shape bidirectional)
@@ -1924,7 +1924,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a8069b46-62ca-4f7a-b1a4-b0b84b822ac5")
+		(uuid "30f23520-dbac-452b-8745-9b233dfd3562")
 	)
 	(wire
 		(pts
@@ -1934,7 +1934,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b2f3efc6-2823-470f-aa8d-7acd6175bdd7")
+		(uuid "e118cb26-4b99-49e8-96da-569761905e58")
 	)
 	(global_label "C_VDD_BRICK"
 		(shape bidirectional)
@@ -1946,14 +1946,14 @@
 			)
 			(justify left)
 		)
-		(uuid "8b0c7053-9865-4d81-bff3-910c371ee0f7")
+		(uuid "9e74ac3c-3dab-4e14-886e-5ac72229e036")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 175.26 140.97 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "60d985d8-ae52-4375-8fcd-606143bbf18d")
+		(uuid "154c11ef-ebe3-40ae-a6cc-f63d99d31b1c")
 		(property "Reference" "C3"
 			(at 175.26 128.97 0)
 			(effects
@@ -1981,7 +1981,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/a282c18b-a24f-4b16-8eb5-6c307e4355c9"
+				(path "/f40a1d24-1a86-47f5-812b-77384e8b9f71"
 					(reference "C3")
 					(unit 1)
 				)
@@ -1996,7 +1996,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "4298880b-fc58-45f4-abcc-3d2f9a2e4daa")
+		(uuid "3d42be9c-500c-413c-acdb-66be6c41c89d")
 	)
 	(global_label "C_VDD_BRICK"
 		(shape bidirectional)
@@ -2008,7 +2008,7 @@
 			)
 			(justify left)
 		)
-		(uuid "4e115991-3302-4074-abcd-0ccd2a24a21a")
+		(uuid "795d0591-7ccb-4bbd-bd97-b4344f03800c")
 	)
 	(wire
 		(pts
@@ -2018,7 +2018,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "545f0fcb-d490-495c-964b-c0c1c3d6a1df")
+		(uuid "ba81f5b3-0094-40c6-836e-040c053c9f5b")
 	)
 	(global_label "GND"
 		(shape input)
@@ -2030,7 +2030,7 @@
 			)
 			(justify left)
 		)
-		(uuid "486ece7c-388c-4b16-876b-ffe275f77748")
+		(uuid "795630ba-402f-47cc-8665-3af3f1cd596d")
 	)
 	(sheet_instances
 		(path "/"
