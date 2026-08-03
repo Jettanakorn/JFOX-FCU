@@ -54,7 +54,7 @@ from PIL import Image
 
 REPO = Path(__file__).resolve().parents[2]
 LIB = REPO / "hardware" / "jfox-fmu-v1" / "jfox-fmu.pretty"
-SRC = REPO / "hardware" / "brand" / "jfox-logo-white.png"
+SRC = REPO / "hardware" / "brand" / "jfox-logo.png"
 
 
 def shape(src, width_px):
@@ -108,7 +108,17 @@ def rectangles(mask, w, h):
 
 def main():
     ap = argparse.ArgumentParser()
+    # 20 mm, not smaller. At 12 mm the "JFOX AIRCRAFT" lettering reduces to
+    # unreadable mush - every stroke lands in the same pixel as its
+    # neighbour - while the wings still survive. A logo whose text cannot be
+    # read is worse than no logo: it looks like a printing defect.
+    #
+    # The printability floor below catches strokes too thin to print. This
+    # catches art too small to mean anything, which is a different failure
+    # and needs its own limit.
     ap.add_argument("--width-mm", type=float, default=20.0)
+    ap.add_argument("--min-width-mm", type=float, default=18.0,
+                    help="below this the lettering stops being legible")
     # One pixel must be at least the silkscreen minimum feature, or the
     # trace produces art the fab cannot print. At 8 px/mm a pixel is
     # 0.125 mm and 209 of 278 features came out below 0.15 - most of the
@@ -178,6 +188,12 @@ def main():
     # A pixel IS the smallest feature this can produce, so check it against
     # what the process can print rather than hoping. Silkscreen art below
     # the minimum does not come back thin - it comes back broken.
+    if args.width_mm < args.min_width_mm - 1e-9:
+        sys.exit(f"{args.width_mm:g} mm is below the {args.min_width_mm:g} mm "
+                 f"legibility floor - the lettering will not be readable. "
+                 f"Use the emblem-only artwork if the space is fixed, or "
+                 f"pass --min-width-mm to override deliberately.")
+
     if s < args.min_feature - 1e-9:
         sys.exit(f"one pixel is {s:.3f} mm but silkscreen resolves "
                  f"{args.min_feature:.3f} mm - at {args.px_per_mm:g} px/mm "
