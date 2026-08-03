@@ -484,7 +484,9 @@ def check_mcu(fails):
     want += [(net, pin) for net, pin in gpio]
     checked = 0
     for net, port in want:
-        num = num_of.get(port)
+        # PC2/PC3 exist on this package only as PC2_C/PC3_C. The allocator
+        # names them from the chip's AF table, the symbol from the package.
+        num = num_of.get(port) or num_of.get(port + "_C")
         if num is None:
             fails.append(f"symbol has no pin named {port}")
             continue

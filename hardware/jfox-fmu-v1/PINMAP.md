@@ -112,4 +112,14 @@ those are the ones no peripheral could use anyway.
 | SAFETY_LED | **PB4** |
 | SD_DETECT | **PB1** |
 | VBUS_SENSE | **PE4** |
+| BRICK_VALID | **PE5** |
+| SERVO_VALID | **PF8** |
+| USB_VALID | **PB11** |
+| PG_3V3 | **PC0** |
+| IMU1_RAIL_FLG | **PC4** |
+| IMU2_RAIL_FLG | **PE8** |
+| IMU3_RAIL_FLG | **PC2** |
+| SENS_RAIL_FLG | **PE2** |
+| CAN1_FLT | **PF10** |
+| CAN2_FLT | **PF6** |
 

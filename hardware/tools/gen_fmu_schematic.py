@@ -684,7 +684,13 @@ def build_mcu():
     allpins = pin_list(lib)
     entries = []
     for num, name, dx, dy, ang in allpins:
-        net = netof.get(name) or MCU_FIXED.get(name)
+        # On this package PC2 and PC3 exist only as PC2_C / PC3_C - the
+        # analog-switch-capable balls. The allocator works from the chip's AF
+        # table, which calls them PC2 and PC3, so without this alias the pin
+        # simply never matched and its signal silently went nowhere.
+        alias = name[:-2] if name.endswith("_C") else name
+        net = (netof.get(name) or MCU_FIXED.get(name)
+               or netof.get(alias) or MCU_FIXED.get(alias))
         if net is None:
             if name.startswith("VDD"):
                 net = "+3V3"
@@ -860,12 +866,15 @@ def build_power():
 
     # Two columns of load switches rather than one row of four: a row spans
     # 203 mm and the drawable width is 180.
+    FLG_NET = {"+3V3_IMU1": "IMU1_RAIL_FLG", "+3V3_IMU2": "IMU2_RAIL_FLG",
+               "+3V3_IMU3": "IMU3_RAIL_FLG", "+3V3_SENS": "SENS_RAIL_FLG"}
     for i, (ref, rail, en) in enumerate(RAIL_SWITCHES):
+        flg = FLG_NET[rail]
         sx = 62.23 + (i % 2) * 78.74
         sy = 175.26 + (i // 2) * 44.45
         wire_part(ref, "Power_Management:AP22804AW5", "AP22804AW5", sx, sy,
                   {"IN": "+3V3", "OUT": rail, "EN": en, "GND": "GND",
-                   "~{FLG}": f"{rail}_FLG"})
+                   "~{FLG}": flg})
         body.append(text(f"{ref}: {rail}", round(sx - 10, 2),
                          round(sy - 16.51, 2), 1.2))
 
@@ -1005,6 +1014,22 @@ def build_passives():
                 # not redundant.
                 ("R7", "Device:R", "10k", "+3V3", "CAN1_FLT"),
                 ("R8", "Device:R", "10k", "+3V3", "CAN2_FLT"),
+                # USB-C sink termination. Without 5.1k on each CC pin the
+                # port is not a sink and a host will never enumerate it - the
+                # CC pins reached the connector and nothing else.
+                ("R9",  "Device:R", "5k1", "USB_CC1", "GND"),
+                ("R10", "Device:R", "5k1", "USB_CC2", "GND"),
+                # VBUS sense divider. VBUS_SENSE reached an ADC pin with
+                # nothing driving it; 10k/10k puts 5.25 V at 2.63 V, inside
+                # the 3.3 V reference with margin.
+                ("R11", "Device:R", "10k", "VBUS_USB", "VBUS_SENSE"),
+                ("R12", "Device:R", "10k", "VBUS_SENSE", "GND"),
+                # Load-switch fault outputs are open drain and need pull-ups
+                # to be readable at all.
+                ("R13", "Device:R", "10k", "+3V3", "IMU1_RAIL_FLG"),
+                ("R14", "Device:R", "10k", "+3V3", "IMU2_RAIL_FLG"),
+                ("R15", "Device:R", "10k", "+3V3", "IMU3_RAIL_FLG"),
+                ("R16", "Device:R", "10k", "+3V3", "SENS_RAIL_FLG"),
                 # I2C1 is open drain and has no other pull-up. Both the
                 # ICP-20100 (DS-000416 fig 10 note) and the BMM150
                 # (BST-BMM150 s6.2) say so outright; without these the
@@ -1142,15 +1167,19 @@ def build_comms():
               35.56, 165.1,
               {"VBUS": "VBUS_USB", "GND": "GND", "CC1": "USB_CC1",
                "CC2": "USB_CC2", "D+": "USB_OTG_FS_DP",
-               "D-": "USB_OTG_FS_DM", "SBU1": "NC", "SBU2": "NC",
-               "SHIELD": "GND"})
+               "D-": "USB_OTG_FS_DM", "SHIELD": "GND"})
 
+    # The symbol's pin is "CD/DAT3", not "DAT3/CS". wire_part matches by pin
+    # NAME, so the old key matched nothing and SDMMC1_D3 reached only the MCU
+    # - the card would have run in 1-bit mode at best. "VSS2" and "DET" were
+    # invented too: this symbol has neither, so those keys also wired nothing
+    # and SD_DETECT had no source at all. Card detect needs a socket symbol
+    # that exposes it; recorded rather than faked.
     wire_part("J31", "Connector:SD_Card_Device", "microSD", 129.54, 165.1,
               {"CLK": "SDMMC1_CK", "CMD": "SDMMC1_CMD",
                "DAT0": "SDMMC1_D0", "DAT1": "SDMMC1_D1",
-               "DAT2": "SDMMC1_D2", "DAT3/CS": "SDMMC1_D3",
-               "VDD": "+3V3", "VSS": "GND", "VSS2": "GND",
-               "DET": "SD_DETECT"})
+               "DAT2": "SDMMC1_D2", "CD/DAT3": "SDMMC1_D3",
+               "VDD": "+3V3", "VSS": "GND"})
 
     return ru, document(ru, libs, fit(body, "comms"), "Comms and Storage", (
         "Two CAN FD buses, both with transceivers - v2.4.5 had only one",

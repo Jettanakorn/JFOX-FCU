@@ -71,6 +71,14 @@ GPIO_NETS = [
     "EN_3V3_IMU1", "EN_3V3_IMU2", "EN_3V3_IMU3", "EN_3V3_SENS",
     "LED_R", "LED_G", "LED_B",
     "SAFETY_SW", "SAFETY_LED", "SD_DETECT", "VBUS_SENSE",
+    # Status inputs. Every one of these was an output on some part that
+    # reached no MCU pin - the board could not tell whether its power source
+    # was valid, whether a sensor rail had tripped, or whether an isolated
+    # CAN supply had failed. A fault nothing can read is not a fault report.
+    "BRICK_VALID", "SERVO_VALID", "USB_VALID",
+    "PG_3V3",
+    "IMU1_RAIL_FLG", "IMU2_RAIL_FLG", "IMU3_RAIL_FLG", "SENS_RAIL_FLG",
+    "CAN1_FLT", "CAN2_FLT",
 ]
 
 # Pins that must stay free for their dedicated function.
