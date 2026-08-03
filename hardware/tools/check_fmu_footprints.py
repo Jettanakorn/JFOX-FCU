@@ -33,7 +33,6 @@ SCH = BOARD / "jfox-fmu.kicad_sch"
 
 KICAD = Path(r"C:\Users\Jetta\AppData\Local\Programs\KiCad\10.0")
 STOCK = KICAD / "share" / "kicad" / "footprints"
-PROJECT_LIBS = {"jfox-fmu": BOARD / "jfox-fmu.pretty"}
 
 # Parts that are drawing symbols, not components: power flags, net ties.
 VIRTUAL = re.compile(r'^#')
@@ -57,12 +56,44 @@ def netlist():
     return out.read_text(encoding="utf-8")
 
 
+def project_libs():
+    """Footprint libraries the PROJECT declares, from its fp-lib-table.
+
+    Resolving through the table is the whole point. The first version of this
+    checker hardcoded `{"jfox-fmu": BOARD / "jfox-fmu.pretty"}` and reported
+    58 of 58 footprints resolving - while the project had no fp-lib-table at
+    all, so KiCad could not find that library and refused to place four parts.
+    The checker was answering "does this file exist", and the question that
+    matters is "can KiCad find it", which is not the same question and was not
+    the same answer.
+    """
+    tbl = BOARD / "fp-lib-table"
+    if not tbl.exists():
+        return {}, "the project has no fp-lib-table"
+    libs = {}
+    for name, uri in re.findall(r'\(name "([^"]+)"\).*?\(uri "([^"]+)"\)',
+                                tbl.read_text(encoding="utf-8"), re.S):
+        libs[name] = Path(uri.replace("${KIPRJMOD}", str(BOARD)))
+    return libs, None
+
+
+LIBS, TABLE_PROBLEM = project_libs()
+
+
 def resolve(fp):
-    """Path a `Library:Name` footprint reference points at, or None."""
+    """Path a `Library:Name` footprint reference points at, or None.
+
+    Project libraries must be declared in fp-lib-table; stock ones come from
+    the KiCad install. A name that resolves to neither is unplaceable.
+    """
     if ":" not in fp:
         return None
     lib, name = fp.split(":", 1)
-    root = PROJECT_LIBS.get(lib, STOCK / f"{lib}.pretty")
+    root = LIBS.get(lib)
+    if root is None:
+        root = STOCK / f"{lib}.pretty"
+        if not root.is_dir():
+            return None          # not stock, and the project never declared it
     p = root / f"{name}.kicad_mod"
     return p if p.exists() else None
 

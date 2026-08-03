@@ -1189,6 +1189,18 @@ def main():
         '(uri "${KIPRJMOD}/jfox-fmu.kicad_sym")(options "")'
         '(descr "JFOX-FMU parts with no stock symbol"))\n)\n', encoding="utf-8")
 
+    # The footprint table is not optional and was missing. Symbols resolved
+    # because sym-lib-table named the symbol library; the project's own
+    # footprints resolved for nothing, because no table named jfox-fmu.pretty.
+    # KiCad reports this as footprint_link_issues at ERC time, and the board
+    # simply cannot place those four parts.
+    (BOARD / "fp-lib-table").write_text(
+        '(fp_lib_table\n  (version 7)\n'
+        '  (lib (name "jfox-fmu")(type "KiCad")'
+        '(uri "${KIPRJMOD}/jfox-fmu.pretty")(options "")'
+        '(descr "JFOX-FMU footprints with no stock equivalent"))\n)\n',
+        encoding="utf-8")
+
     for p, t in files.items():
         p.write_text(t, encoding="utf-8")
     upgrade(list(files))
