@@ -646,11 +646,27 @@ POWER = [
     # Main 3V3: a buck, not an LDO. At 5 V in, 3V3 out and the measured load
     # an LDO burns over half a watt - see POWER_BUDGET.md. SW/VOS/FB need the
     # inductor and feedback network, which are not on the sheet yet.
-    dict(ref="U21", lib="Regulator_Switching:TPS62130", val="TPS62130",
+    # The FIXED 3.3 V member of the family, not the adjustable one. The
+    # adjustable TPS62130 needs a divider setting FB to 800 mV, and the
+    # divider this design carried - 180k over 100k - sets 0.8 x (1 + 1.8) =
+    # 2.24 V. Not marginal: the board would never have come up, and the
+    # values were labelled a "datasheet-example starting point" the whole
+    # time, which is exactly the kind of note that reads as harmless.
+    #
+    # TPS62132 removes the divider rather than correcting it. Two fewer
+    # parts, no divider tolerance stacking on top of the reference, and the
+    # output voltage becomes a property of the ordering code instead of
+    # something a resistor swap can silently change.
+    #
+    # FSW low = 2.5 MHz (smallest solution size, lowest ripple; datasheet
+    # 9.2.1). DEF low = nominal, not nominal +5%. FB to AGND, which the
+    # datasheet recommends on fixed versions for thermal reasons - it is
+    # pulled down internally.
+    dict(ref="U21", lib="Regulator_Switching:TPS62132", val="TPS62132",
          x=125.73, y=69.85,
-         nets={"VIN": "+5V", "SW": "SW_3V3", "VOS": "+3V3", "FB": "FB_3V3",
+         nets={"VIN": "+5V", "SW": "SW_3V3", "VOS": "+3V3", "FB": "GND",
                "GND": "GND", "EN": "+5V", "PG": "PG_3V3",
-               "FSW": "GND", "DEF": "GND", "SS/TR": "NC"}),
+               "FSW": "GND", "DEF": "GND", "SS/TR": "SS_3V3"}),
     # Separate quiet rail for VDDA/VREF+, fed from +3V3 so it cannot pull the
     # digital rail around.
     dict(ref="U22", lib="Regulator_Linear:AP2112K-3.3", val="AP2112K-3.3",
@@ -833,13 +849,19 @@ def build_passives():
     y = row(y, [("L1", "Device:L", "2u2", "SW_3V3", "+3V3"),
                 ("C26", "Device:C", "10u", "+5V", "GND"),
                 ("C27", "Device:C", "22u", "+3V3", "GND"),
-                ("R1", "Device:R", "180k", "+3V3", "FB_3V3"),
-                ("R2", "Device:R", "100k", "FB_3V3", "GND"),
+                # No feedback divider - U21 is the fixed 3.3 V TPS62132.
+                # C28 is the AVIN bypass and C29 the soft-start capacitor,
+                # both from the datasheet's own typical application (figure
+                # 9-1); R3 pulls up PG, which is open drain and was
+                # previously wired to a net nothing could ever drive.
+                ("C28", "Device:C", "100n", "+5V", "GND"),
+                ("C29", "Device:C", "3n3", "SS_3V3", "GND"),
+                ("R3", "Device:R", "100k", "+3V3", "PG_3V3"),
                 ("R41", "Device:R", "120", "CAN1_H", "CAN1_TERM"),
                 ("R42", "Device:R", "120", "CAN2_H", "CAN2_TERM")])
     body.append(text(
-        "L1/C26/C27 + R1/R2 set the TPS62130 output. Datasheet-example "
-        "starting values - recompute against the final load.",
+        "L1 2u2 + C27 22u is the TPS6213x datasheet's own recommended "
+        "standard LC filter (table 9-2). Output is fixed by the part.",
         0, round(y - DY - 20.32, 2), 1.1))
 
     # Crystals with their load capacitors, each beside its own crystal

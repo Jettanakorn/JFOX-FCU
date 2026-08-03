@@ -143,7 +143,7 @@ selecting between brick, servo rail and USB, with under/over-voltage lockout.
 That part is correctly identified here — the current board's docs called it a
 BQ24315 until the netlist proved otherwise.
 
-Rails: 5 V from the brick → 3V3 main (**TPS62130 buck**) → separately
+Rails: 5 V from the brick → 3V3 main (**TPS62132 buck, fixed 3.3 V**) → separately
 switchable 3V3 per sensor bus (so a wedged IMU can be power-cycled) → clean
 3V3 analog for VDDA/VREF+ (**AP2112K LDO**, deliberately linear so its ripple
 does not reach the ADC reference).

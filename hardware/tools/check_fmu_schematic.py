@@ -189,6 +189,85 @@ def check_passives(fails):
             fails.append(f"{xtal} crystal missing")
 
 
+# Every rail this board generates, and what actually sets its voltage.
+# `fixed` parts encode the output in the ordering code; `divider` parts need
+# the resistors checked against the part's own feedback reference.
+REGULATORS = [
+    # ref, part, rail, expected volts, how it is set
+    ("U21", "TPS62132", "+3V3",  3.3, ("fixed",)),
+    ("U22", "AP2112K-3.3", "+3V3A", 3.3, ("fixed",)),
+]
+
+# Parts whose output is set by a divider, and the feedback voltage they
+# regulate that divider's tap to. From the part's own datasheet.
+FEEDBACK_REF = {
+    "TPS62130": 0.800,      # SLVSAG7F table 6-1 / equation 6
+    "TPS62130A": 0.800,
+}
+
+VOLTAGE_TOLERANCE = 0.05    # 5%: covers 1% resistors and reference spread
+
+
+def check_regulators(fails, comps, n):
+    """Does each rail's regulator actually produce the voltage its name claims?
+
+    This check exists because it was missing. U21 was an adjustable TPS62130
+    with a 180k/100k feedback divider, carried as "a starting point from the
+    datasheet's 3V3 example". The TPS62130 regulates FB to 800 mV, so that
+    divider sets 0.8 x (1 + 180/100) = 2.24 V onto a net called +3V3.
+
+    Nothing caught it. ERC checks connectivity, not arithmetic; the net was
+    named +3V3 and every part was dutifully connected to it, so every
+    structural check passed on a board that would have browned out an
+    STM32H753 and undervolted all three IMUs. The error was pure numbers,
+    and numbers are what nothing was looking at.
+
+    A rail's name is a claim about its voltage. This makes the claim testable.
+    """
+    for ref, part, rail, want, how in REGULATORS:
+        if ref not in comps:
+            fails.append(f"{ref} ({part}) is missing")
+            continue
+        got = comps[ref]
+        if got != part:
+            fails.append(f"{ref} is a {got}, but {rail} needs a {part}")
+            continue
+        if how[0] == "fixed":
+            # The part number is the guarantee. Assert it is genuinely a
+            # fixed part - an adjustable one here would need a divider.
+            if part in FEEDBACK_REF:
+                fails.append(
+                    f"{ref} is {part}, an ADJUSTABLE part, but is treated as "
+                    f"fixed {want} V - it needs a checked feedback divider")
+            continue
+
+        vfb = FEEDBACK_REF[part]
+        top, bot = how[1], how[2]
+        if top not in comps or bot not in comps:
+            fails.append(f"{ref}: divider {top}/{bot} missing")
+            continue
+        try:
+            rt, rb = ohms(comps[top]), ohms(comps[bot])
+        except ValueError as e:
+            fails.append(f"{ref}: {e}")
+            continue
+        vout = vfb * (1 + rt / rb)
+        if abs(vout - want) / want > VOLTAGE_TOLERANCE:
+            fails.append(
+                f"{ref}: {top}={comps[top]} over {bot}={comps[bot]} sets "
+                f"{vout:.2f} V on {rail}, not {want} V "
+                f"(Vfb={vfb} V, Vout = Vfb x (1 + Rtop/Rbot))")
+
+
+def ohms(v):
+    """'180k' -> 180000.0. Values are written the way a BOM writes them."""
+    m = re.fullmatch(r'([\d.]+)([kKmMrR]?)', v.strip())
+    if not m:
+        raise ValueError(f"cannot read resistance {v!r}")
+    scale = {"": 1, "r": 1, "R": 1, "k": 1e3, "K": 1e3, "m": 1e6, "M": 1e6}
+    return float(m.group(1)) * scale[m.group(2)]
+
+
 def check_power(fails):
     """The power tree's load-bearing properties.
 
@@ -339,6 +418,15 @@ def main():
     check_power(fails)
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"power tree: 4 independent sensor rails, ORing intact")
+
+    before = len(fails)
+    projnet = Path(tempfile.gettempdir()) / "fmu_proj.net"
+    comps = dict(re.findall(
+        r'\(comp\s*\n\s*\(ref "([^"]+)"\)\s*\n\s*\(value "([^"]+)"\)',
+        projnet.read_text(encoding="utf-8"))) if projnet.exists() else {}
+    check_regulators(fails, comps, n)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"{len(REGULATORS)} rails produce the voltage their name claims")
 
     before = len(fails)
     nchk = check_mcu(fails)
