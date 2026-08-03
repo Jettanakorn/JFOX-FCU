@@ -90,8 +90,14 @@ CROSS_SHEET = [
     ("FDCAN1_TX",     {"U10", "U30"}, "MCU to CAN1 transceiver"),
     ("FDCAN1_RX",     {"U10", "U30"}, "CAN1 transceiver back to MCU"),
     ("FDCAN2_TX",     {"U10", "U31"}, "MCU to CAN2 transceiver"),
-    ("USB_OTG_FS_DP", {"U10", "J30"}, "MCU to USB-C"),
-    ("USB_OTG_FS_DM", {"U10", "J30"}, "MCU to USB-C"),
+    # USB no longer runs connector-to-MCU. It goes J30 -> U40 (ESD array,
+    # closest to the connector) -> L5 (common-mode choke) -> MCU, so the
+    # path is asserted in two hops. Checking only the old net would pass on
+    # a board whose protection had been deleted.
+    ("USB_DP_RAW",    {"J30", "U40", "L5"}, "USB-C to ESD array and choke"),
+    ("USB_DM_RAW",    {"J30", "U40", "L5"}, "USB-C to ESD array and choke"),
+    ("USB_OTG_FS_DP", {"L5", "U10"}, "choke to MCU"),
+    ("USB_OTG_FS_DM", {"L5", "U10"}, "choke to MCU"),
     ("SDMMC1_CK",     {"U10", "J31"}, "MCU to microSD"),
     ("SDMMC1_CMD",    {"U10", "J31"}, "MCU to microSD"),
     ("SPI2_SCK",      {"U10", "U1"},  "MCU to IMU2"),

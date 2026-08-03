@@ -1296,8 +1296,8 @@ def build_comms():
     wire_part("J30", "Connector:USB_C_Receptacle_USB2.0_14P", "USB-C",
               35.56, 165.1,
               {"VBUS": "VBUS_USB", "GND": "GND", "CC1": "USB_CC1",
-               "CC2": "USB_CC2", "D+": "USB_OTG_FS_DP",
-               "D-": "USB_OTG_FS_DM", "SHIELD": "GND"})
+               "CC2": "USB_CC2", "D+": "USB_DP_RAW",
+               "D-": "USB_DM_RAW", "SHIELD": "GND"})
 
     # Micro_SD_Card_Det_Hirose_DM3AT, not SD_Card_Device: same socket, but
     # this symbol exposes the DET_A/DET_B mechanical switch and the shield.
@@ -1334,15 +1334,15 @@ def build_comms():
 # (ref, ways, value, description, nets from pin 1)
 CONNECTORS = [
     ("J1", 6, "TELEM1", "Pixhawk TELEM: USART2 with flow control",
-     ["+5V", "USART2_TX", "USART2_RX", "USART2_CTS", "USART2_RTS", "GND"]),
+     ["+5V_TELEM", "USART2_TX", "USART2_RX", "USART2_CTS", "USART2_RTS", "GND"]),
     ("J2", 6, "TELEM2", "Pixhawk TELEM: USART3 with flow control",
-     ["+5V", "USART3_TX", "USART3_RX", "USART3_CTS", "USART3_RTS", "GND"]),
+     ["+5V_TELEM", "USART3_TX", "USART3_RX", "USART3_CTS", "USART3_RTS", "GND"]),
     ("J3", 6, "GPS1", "Pixhawk GPS: UART4 plus the external compass I2C",
-     ["+5V", "UART4_TX", "UART4_RX", "I2C2_SCL", "I2C2_SDA", "GND"]),
+     ["+5V_GPS", "UART4_TX", "UART4_RX", "I2C2_SCL", "I2C2_SDA", "GND"]),
     ("J4", 6, "GPS2", "Second GNSS on UART7",
-     ["+5V", "UART7_TX", "UART7_RX", "NC", "NC", "GND"]),
+     ["+5V_GPS", "UART7_TX", "UART7_RX", "NC", "NC", "GND"]),
     ("J5", 5, "RC_IN", "RC receiver on UART8",
-     ["+5V", "UART8_RX", "UART8_TX", "NC", "GND"]),
+     ["+5V_RC", "UART8_RX", "UART8_TX", "NC", "GND"]),
     # Ten ways, not six: SWD plus a bidirectional console needs both USART1
     # lines, and six could only carry TX. Matches the Pixhawk debug pin count.
     ("J6", 10, "DEBUG", "SWD plus the console UART, USART1",
@@ -1432,6 +1432,128 @@ def build_connectors():
         "TELEM x2, GPS x2, RC, debug, external SPI, 2 power inputs, 8 PWM"))
 
 
+
+# --------------------------------------------------------------------------
+# the EMI/EMC protection sheet
+# --------------------------------------------------------------------------
+
+PROT_NOTE = (
+    "DO-160G s17 voltage spike, s25 ESD, s21 radiated emissions.\\n"
+    "\\n"
+    "Every off-board harness is an antenna bonded to a board carrying two\\n"
+    "deliberate switching sources - U21 at 2.5 MHz and each ISOW1044's\\n"
+    "internal converter at 25 MHz. Suppression at the connector is the\\n"
+    "only place it works: past it the harness is already radiating.\\n"
+    "\\n"
+    "Placement is the requirement, not the part. Each device belongs AT\\n"
+    "its connector, ahead of everything it protects, with the shortest\\n"
+    "return to ground. A TVS 30 mm downstream of the connector protects\\n"
+    "the last 30 mm of track and nothing else.")
+
+# Transient suppression on every power input. DO-160G s17.
+# 5 V nominal rails, so a 6 V standoff clamps well above the 5.5 V a valid
+# supply reaches and well below anything the LTC4417 or the buck will
+# tolerate. Unidirectional: these rails are never driven negative in normal
+# use, and a reverse-battery event is the LTC4417's job, not the TVS's.
+TVS = [
+    ("D4", "VDD_BRICK", "brick input"),
+    ("D5", "VDD_SERVO", "servo rail"),
+    ("D6", "VBUS_USB", "USB VBUS"),
+]
+
+# Common-mode chokes. These do nothing for signal integrity and everything
+# for emissions: the differential signal passes, the common-mode current that
+# actually radiates from the harness does not.
+#
+# Both CAN pairs sit on the ISOLATED side of their ISOW1044, so their chokes
+# and TVS reference GND_ISOn - not GND. Referencing them to board ground
+# would bridge the isolation barrier and undo the reason the ISOW1044 is
+# there at all.
+CHOKES = [
+    ("L3", "CAN1_H", "CAN1_L", "CAN1_H_C", "CAN1_L_C", "GND_ISO1", "CAN1"),
+    ("L4", "CAN2_H", "CAN2_L", "CAN2_H_C", "CAN2_L_C", "GND_ISO2", "CAN2"),
+]
+
+
+def build_protection():
+    """Transient, ESD and emissions control at the board boundary."""
+    ru = uid()
+    libs = []
+    libs += sym_defs(KICAD_SYMS / "Device.kicad_sym", "D_TVS", "Device")
+    libs += sym_defs(KICAD_SYMS / "Device.kicad_sym", "FerriteBead", "Device")
+    libs += sym_defs(KICAD_SYMS / "Filter.kicad_sym",
+                     "Choke_CommonMode_FerriteCore_1234", "Filter")
+    libs += sym_defs(KICAD_SYMS / "Power_Protection.kicad_sym",
+                     "USBLC6-2SC6", "Power_Protection")
+    geom = {}
+    for lib in libs:
+        m = re.search(r'\(symbol "([^"]+)"', lib)
+        geom[m.group(1)] = pin_list(lib)
+
+    body = [text(PROT_NOTE, 0, 0, 1.35)]
+
+    def part(lib_id, ref, val, x, y, nets, fp, dy=11.43):
+        body.append(place(lib_id, ref, val, x, y, ru, [], label_dy=dy, fp=fp))
+        for num, nm, dx, dyy, ang in geom[lib_id]:
+            net = nets.get(num) or nets.get(nm)
+            if net in (None, "NC"):
+                continue
+            ax, ay = round(x + dx, 2), round(y + dyy, 2)
+            sx, sy = stub_len(ang, h=5.08, v=3.81)
+            bx, by = round(ax + sx, 2), round(ay + sy, 2)
+            body.append(wire(ax, ay, bx, by))
+            shape = ("input" if net.startswith(("+", "GND", "VDD", "VBUS"))
+                     else "bidirectional")
+            body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    # --- power input transient suppression -------------------------------
+    for i, (ref, net, _why) in enumerate(TVS):
+        part("Device:D_TVS", ref, "SMAJ6.0A",
+             round(25.4 + i * 45.72, 2), 66.04,
+             {"A1": net, "A2": "GND"}, "Diode_SMD:D_SMA")
+
+    # --- USB: ESD array then common-mode choke ---------------------------
+    # The ESD array goes FIRST, closest to the connector, so it protects the
+    # choke too. USBLC6-2SC6 is the standard part for this and its two pins
+    # per channel are one node - route in one, out the other.
+    part("Power_Protection:USBLC6-2SC6", "U40", "USBLC6-2SC6", 25.4, 154.94,
+         {"1": "USB_DP_RAW", "6": "USB_DP_RAW",
+          "3": "USB_DM_RAW", "4": "USB_DM_RAW",
+          "5": "VBUS_USB", "2": "GND"},
+         "Package_TO_SOT_SMD:SOT-23-6", dy=13.97)
+    part("Filter:Choke_CommonMode_FerriteCore_1234", "L5", "90R@100MHz",
+         99.06, 154.94,
+         {"1": "USB_DP_RAW", "2": "USB_OTG_FS_DP",
+          "3": "USB_DM_RAW", "4": "USB_OTG_FS_DM"},
+         "Inductor_SMD:L_CommonModeChoke_Coilank_ACM1608")
+
+    # --- CAN: common-mode choke per bus, on the isolated side ------------
+    for i, (ref, hin, lin, hout, lout, gnd, name) in enumerate(CHOKES):
+        y = 190.5 + i * 30.48
+        part("Filter:Choke_CommonMode_FerriteCore_1234", ref, "51uH CM",
+             30.48, y, {"1": hin, "2": hout, "3": lin, "4": lout},
+             "Inductor_SMD:L_CommonModeChoke_Coilank_ACM1608")
+        part("Device:D_TVS", "D%d" % (7 + i), "PESD2CAN",
+             104.14, y, {"A1": hout, "A2": lout}, "Diode_SMD:D_SOD-323")
+
+    # --- ferrites on the 5 V feed to the external harnesses --------------
+    # Conducted emissions leave on the power wire as readily as on the
+    # signal wires, and the servo harness is the longest thing attached to
+    # this board.
+    for i, (ref, net) in enumerate((("FB1", "+5V_TELEM"), ("FB2", "+5V_GPS"),
+                                    ("FB3", "+5V_RC"))):
+        part("Device:FerriteBead", ref, "600R@100MHz",
+             round(20.32 + i * 45.72, 2), 116.84,
+             {"1": "+5V", "2": net}, "Inductor_SMD:L_0805_2012Metric")
+
+    print("  protection: %d TVS, 3 chokes, 1 ESD array, 3 ferrites"
+          % (len(TVS) + len(CHOKES)))
+    return ru, document(ru, libs, fit(body, "protection"),
+                        "EMI / EMC Protection", (
+        "DO-160G s17 voltage spike, s25 ESD, s21 radiated emissions",
+        "CAN protection references GND_ISO, not GND - it is past the barrier"))
+
+
 def sheet_block(name, filename, x, y, root_uuid, page):
     """A hierarchical sheet with no pins: every cross-sheet net here is a
     global label, so the sheets need only be *in* the project, not wired
@@ -1482,16 +1604,17 @@ def build_root():
                                   ("POWER", "power.kicad_sch"),
                                   ("COMMS", "comms.kicad_sch"),
                                   ("PASSIVES", "passives.kicad_sch"),
-                                  ("CONNECTORS", "connectors.kicad_sch")]):
+                                  ("CONNECTORS", "connectors.kicad_sch"),
+                                  ("PROTECTION", "protection.kicad_sch")]):
         # One column, tighter pitch. Two columns fit the anchors but not
         # the Sheetfile text, which fit() does not measure - the render
         # ran 15 mm past the frame.
-        body.append(sheet_block(nm, fn, 20.32, 45.72 + i * 27.94,
+        body.append(sheet_block(nm, fn, 20.32, 45.72 + i * 25.4,
                                 ru, i + 2))
     return ru, document(ru, [], fit(body, "root"), "JFOX-FMU v1", (
         "STM32H753IIT6 - 3 IMUs, 2 barometers, magnetometer, CAN FD",
         "Generated by hardware/tools/gen_fmu_schematic.py - regenerate, do not edit",
-        "Sheet 1 of 7"))
+        "Sheet 1 of 8"))
 
 
 def build_stub(title, note):
@@ -1521,10 +1644,12 @@ def main():
     _, comms = build_comms()
     _, passives = build_passives()
     _, connectors = build_connectors()
+    _, protection = build_protection()
     _, root = build_root()
     files = {BOARD / "comms.kicad_sch": comms,
              BOARD / "passives.kicad_sch": passives,
              BOARD / "connectors.kicad_sch": connectors,
+             BOARD / "protection.kicad_sch": protection,
              BOARD / "sensors.kicad_sch": sensors,
              BOARD / "mcu.kicad_sch": mcu,
              BOARD / "power.kicad_sch": power,

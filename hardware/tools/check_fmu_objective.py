@@ -185,6 +185,28 @@ def main():
                      "tell an empty slot from a failing card")
     check("microSD socket with card detect", p)
 
+    # --- transient and ESD protection --------------------------------------
+    p = []
+    for rail in ("VDD_BRICK", "VDD_SERVO", "VBUS_USB"):
+        tvs = [r for r, _ in nets.get(rail, set()) if r.startswith("D")]
+        if not tvs:
+            p.append(f"{rail} has no transient suppressor (DO-160G s17)")
+    check("power inputs have transient suppression", p)
+
+    p = []
+    for raw in ("USB_DP_RAW", "USB_DM_RAW"):
+        prot = {r for r, _ in nets.get(raw, set())}
+        if not any(r.startswith("U") for r in prot):
+            p.append(f"{raw} has no ESD array (DO-160G s25)")
+        if not any(r.startswith("L") for r in prot):
+            p.append(f"{raw} has no common-mode choke (DO-160G s21)")
+    for n_ in (1, 2):
+        ch = {r for r, _ in nets.get("CAN%d_H" % n_, set())}
+        if not any(r.startswith("L") for r in ch):
+            p.append(f"CAN{n_} has no common-mode choke - a differential pair "
+                     f"leaving the board is an antenna")
+    check("data lines have ESD and common-mode suppression", p)
+
     # --- isolated I/O ------------------------------------------------------
     # ARCHITECTURE.md "Isolated I/O": every off-board signal crosses a
     # galvanic barrier, twice, by independent paths; actuator links are

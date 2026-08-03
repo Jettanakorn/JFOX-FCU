@@ -76,6 +76,14 @@ TEMP = {
     "AP2112K-3.3":   (-40, 85, False, "assumed - no datasheet in repo"),
     # The ORing pass devices are a generic PMOS symbol; no specific
     # part is selected yet, so there is nothing to cite.
+    # EMC protection parts. Generic symbols with no specific part chosen
+    # yet, so there is nothing to cite - reported as gaps, not assumed away.
+    "USBLC6-2SC6":   (-40, 125, False, "assumed - ST datasheet not in repo"),
+    "SMAJ6.0A":      (-55, 150, False, "assumed - no datasheet in repo"),
+    "PESD2CAN":      (-55, 150, False, "assumed - no datasheet in repo"),
+    "90R@100MHz":    (-40, 125, False, "assumed - no choke part selected"),
+    "51uH CM":       (-40, 125, False, "assumed - no choke part selected"),
+    "600R@100MHz":   (-55, 125, False, "assumed - no ferrite part selected"),
     "PMOS":          (-40, 85, False,
                       "assumed - no part selected for the ORing FETs"),
     "AP22804AW5":    (-40, 85, False, "assumed - no datasheet in repo"),
