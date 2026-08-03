@@ -1333,36 +1333,31 @@ def build_comms():
 #
 # (ref, ways, value, description, nets from pin 1)
 CONNECTORS = [
-    ("J1", 6, "TELEM1", "Pixhawk TELEM: USART2 with flow control",
-     ["+5V_TELEM", "USART2_TX", "USART2_RX", "USART2_CTS", "USART2_RTS", "GND"]),
-    ("J2", 6, "TELEM2", "Pixhawk TELEM: USART3 with flow control",
-     ["+5V_TELEM", "USART3_TX", "USART3_RX", "USART3_CTS", "USART3_RTS", "GND"]),
-    ("J3", 6, "GPS1", "Pixhawk GPS: UART4 plus the external compass I2C",
-     ["+5V_GPS", "UART4_TX", "UART4_RX", "I2C2_SCL", "I2C2_SDA", "GND"]),
-    ("J4", 6, "GPS2", "Second GNSS on UART7",
-     ["+5V_GPS", "UART7_TX", "UART7_RX", "NC", "NC", "GND"]),
-    ("J5", 5, "RC_IN", "RC receiver on UART8",
-     ["+5V_RC", "UART8_RX", "UART8_TX", "NC", "GND"]),
-    # Ten ways, not six: SWD plus a bidirectional console needs both USART1
-    # lines, and six could only carry TX. Matches the Pixhawk debug pin count.
+    # --- stays on the module ------------------------------------------------
+    # Used at the module, not through the airframe: a bench console, a card
+    # slot and a programmer. Putting these on the carrier would mean
+    # unbolting the aircraft to read a log.
     ("J6", 10, "DEBUG", "SWD plus the console UART, USART1",
      ["+3V3", "SWDIO", "SWCLK", "SWO", "NRST",
       "USART1_TX", "USART1_RX", "NC", "GND", "GND"]),
-    ("J7", 6, "SPI_EXT", "External SPI5",
-     ["+3V3", "SPI5_SCK", "SPI5_MISO", "SPI5_MOSI", "NC", "GND"]),
-    ("J8", 6, "PWR_BRICK", "Primary power input, U20's first priority",
-     ["VDD_BRICK", "VDD_BRICK", "NC", "NC", "GND", "GND"]),
-    ("J9", 6, "PWR_SERVO", "Servo rail, U20's second ORing input",
-     ["VDD_SERVO", "VDD_SERVO", "NC", "NC", "GND", "GND"]),
-    ("J10", 5, "SAFETY", "Safety switch and its lamp",
-     ["+3V3", "SAFETY_SW", "SAFETY_LED", "NC", "GND"]),
-    # Eight motor signals on one header rather than eight 3-way headers: the
-    # rail and the return are shared anyway, and eight separate connectors is
-    # 24 crimps for no gain.
-    ("J11", 10, "PWM_OUT", "TIM1 CH1-4 and TIM4 CH1-4",
-     ["TIM1_CH1", "TIM1_CH2", "TIM1_CH3", "TIM1_CH4",
-      "TIM4_CH1", "TIM4_CH2", "TIM4_CH3", "TIM4_CH4", "GND", "GND"]),
+    # --- isolated, and deliberately NOT on the mezzanine --------------------
+    # 0.5 mm pitch gives ~0.5 mm creepage. Running these beside
+    # board-referenced signals would reduce the isolation barrier to that gap
+    # and undo the ISOW1044. Separate connectors keep the barrier intact.
+    ("J12", 5, "CAN1", "Isolated CAN1 - GND_ISO1, not GND",
+     ["GND_ISO1", "CAN1_H_C", "CAN1_L_C", "NC", "GND_ISO1"]),
+    ("J13", 5, "CAN2", "Isolated CAN2 - GND_ISO2, not GND",
+     ["GND_ISO2", "CAN2_H_C", "CAN2_L_C", "NC", "GND_ISO2"]),
 ]
+
+# Everything else reaches the carrier through one 60-way 0.5 mm mezzanine
+# instead of ten looms. See MEZZ_PINS for the pinout; grounds are interleaved
+# between signal groups rather than grouped at one end, because a 60-pin
+# connector with no local return is the worst discontinuity on the board.
+MEZZ_REF = "J40"
+MEZZ_FP = ("Connector_Hirose:"
+           "Hirose_DF12_DF12C3.0-60DS-0.5V_2x30_P0.50mm_Vertical")
+MEZZ_PINS = ['GND', 'VDD_BRICK', 'VDD_BRICK', 'GND', 'VDD_SERVO', 'VDD_SERVO', 'GND', '+5V_CARRIER', '+5V_CARRIER', 'GND', 'TIM1_CH1', 'TIM1_CH2', 'GND', 'TIM1_CH3', 'TIM1_CH4', 'GND', 'TIM4_CH1', 'TIM4_CH2', 'GND', 'TIM4_CH3', 'TIM4_CH4', 'GND', 'USART2_TX', 'USART2_RX', 'GND', 'USART2_CTS', 'USART2_RTS', 'GND', 'USART3_TX', 'USART3_RX', 'GND', 'USART3_CTS', 'USART3_RTS', 'GND', 'UART4_TX', 'UART4_RX', 'GND', 'I2C2_SCL', 'I2C2_SDA', 'GND', 'UART7_TX', 'UART7_RX', 'GND', 'UART8_RX', 'UART8_TX', 'GND', 'SAFETY_SW', 'SAFETY_LED', 'GND', 'SPI5_SCK', 'SPI5_MISO', 'SPI5_MOSI', 'GND', 'NC', 'NC', 'GND', 'NC', 'NC', 'GND', 'GND']
 
 CONN_FP = {
     5:  "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal",
@@ -1426,7 +1421,29 @@ def build_connectors():
                      else "bidirectional")
             body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
 
-    print("  connectors: %d headers" % len(CONNECTORS))
+    # --- the mezzanine ----------------------------------------------------
+    mlib = sym_defs(KICAD_SYMS / "Connector_Generic.kicad_sym",
+                    "Conn_02x30_Odd_Even", "Connector_Generic")
+    libs.extend(mlib)
+    mgeom = pin_list(mlib[-1])
+    mx, my = 45.72, 165.1
+    body.append(place("Connector_Generic:Conn_02x30_Odd_Even", MEZZ_REF,
+                      "DF12C3.0-60DS", mx, my, ru, [],
+                      label_dy=43.18, fp=MEZZ_FP))
+    for (num, _nm, dx, dy, ang), net in zip(
+            sorted(mgeom, key=lambda p: int(p[0])), MEZZ_PINS):
+        if net == "NC":
+            continue
+        ax, ay = round(mx + dx, 2), round(my + dy, 2)
+        sx, sy = stub_len(ang, h=3.81)
+        bx, by = round(ax + sx, 2), round(ay + sy, 2)
+        body.append(wire(ax, ay, bx, by))
+        shape = ("input" if net.startswith(("+", "GND", "VDD"))
+                 else "bidirectional")
+        body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    print("  connectors: %d headers plus a %d-way mezzanine"
+          % (len(CONNECTORS), len(MEZZ_PINS)))
     return ru, document(ru, libs, fit(body, "connectors"), "Connectors", (
         "Pixhawk-standard pinouts on JST-GH 1.25 mm",
         "TELEM x2, GPS x2, RC, debug, external SPI, 2 power inputs, 8 PWM"))
@@ -1540,8 +1557,10 @@ def build_protection():
     # Conducted emissions leave on the power wire as readily as on the
     # signal wires, and the servo harness is the longest thing attached to
     # this board.
-    for i, (ref, net) in enumerate((("FB1", "+5V_TELEM"), ("FB2", "+5V_GPS"),
-                                    ("FB3", "+5V_RC"))):
+    # One ferrite, not three. Every harness now leaves through the mezzanine,
+    # so there is one 5 V feed to filter instead of three separate ones - and
+    # three ferrites feeding nets nothing connects to is worse than none.
+    for i, (ref, net) in enumerate((("FB1", "+5V_CARRIER"),)):
         part("Device:FerriteBead", ref, "600R@100MHz",
              round(20.32 + i * 45.72, 2), 116.84,
              {"1": "+5V", "2": net}, "Inductor_SMD:L_0805_2012Metric")

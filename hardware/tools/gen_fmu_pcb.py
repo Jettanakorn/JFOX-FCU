@@ -118,21 +118,52 @@ LAYERS = """\t(layers
 # 8 mm inset - a hole inside a courtyard is a part that cannot be fitted,
 # and DRC reports it as npth_inside_courtyard.
 ZONES = {
+    # Noise sources at the top, as far from the sensor island as the board
+    # allows: the buck's switch node and the two ISOW1044 converters are the
+    # only deliberate emitters on the board.
     "NOISY":    (13.0, 2.0, 48.0, 22.0),
     "ISOLATED": (50.0, 2.0, 87.0, 22.0),
-    # 32 mm tall so the 27 mm LQFP176 fits with room to escape.
-    "DIGITAL":  (2.0, 26.0, 98.0, 58.0),
-    "QUIET":    (13.0, 62.0, 87.0, 78.0),
+    "DIGITAL":  (2.0, 25.0, 98.0, 56.0),
+    # The mezzanine took ten headers' worth of edge, so the sensors get a
+    # dedicated island in the bottom-left - the corner furthest from both the
+    # buck and the isolated converters. Nothing switching goes here.
+    "QUIET":    (4.0, 58.0, 52.0, 77.0),
+    # Connectors that stay on the module, kept away from the sensor island
+    # because their harnesses are antennas.
+    "EDGE":     (56.0, 58.0, 96.0, 77.0),
 }
 
 # Which zone each part belongs in, and which side. Passives default to the
 # bottom so the top stays routable; the parts that must be top are the ones
 # with a connector, a package too large to fit under, or a placement
 # constraint of their own.
+# Parts whose position is a requirement rather than a preference. These are
+# placed exactly, before anything is packed around them.
+#
+# J31's card opening must sit ON the board edge - a microSD socket buried in
+# the middle of a board is a card you cannot change without dismantling the
+# aircraft. The Hirose DM3AT is a push-push; the card travels along +Y, so the
+# socket goes at the bottom edge with its mouth outward.
+# Parts whose position is a requirement rather than a preference, given as
+# (edge, offset-along-that-edge, side). The part is then aligned by its
+# COURTYARD, not its origin - placing a 15 mm deep microSD socket by its
+# origin hangs it off the board, which is what the first attempt did.
+FIXED_EDGE = {
+    # The card mouth must sit on the board edge. Bottom edge, inset from the
+    # right so it clears MH4.
+    "J31": ("S", 62.0, "F"),
+    "J30": ("E", 34.0, "F"),                    # USB-C, right edge
+    # The magnetometer is the most placement-sensitive part on the board
+    # (DO-160G s15): bottom-left, the point furthest from the buck at the top
+    # left and the isolated converters at the top right.
+    "U6":  ("SW", 0.0, "F"),
+}
+FIXED = {}
+
 ZONE_OF = [
     # (regex on reference, zone, side)
     (r'^U10$',            "DIGITAL",  "F"),   # the MCU
-    (r'^J3[01]$',         "DIGITAL",  "F"),   # USB-C, microSD
+
     (r'^U5$',             "DIGITAL",  "F"),   # FRAM
     (r'^U40$|^L5$',       "DIGITAL",  "F"),   # USB protection, near J30
 
@@ -149,7 +180,7 @@ ZONE_OF = [
     (r'^U[1-467]$',       "QUIET",    "F"),   # IMUs, baros, magnetometer
     (r'^X[12]$',          "QUIET",    "F"),   # crystals
     (r'^D[123]$',         "QUIET",    "F"),   # status LEDs
-    (r'^J([1-7]|10|11)$', "QUIET",    "F"),   # signal connectors
+    (r'^J6$|^J1[23]$',    "EDGE",     "F"),   # debug, isolated CAN
 ]
 
 
@@ -391,7 +422,33 @@ def main():
                                         BX + dx, BY + dy, "F", {}))
 
     # --- placement ----------------------------------------------------------
+    # Resolve the edge-aligned parts now that extents are known.
+    for ref, val, p, side, w, h, ox, oy in (
+            [c for z in zoned.values() for c in z] + bottom):
+        if ref not in FIXED_EDGE:
+            continue
+        edge, off, fside = FIXED_EDGE[ref]
+        m = 1.5          # clearance from the outline
+        if edge == "S":
+            FIXED[ref] = (BX + off, BY + H - m - h - oy, fside)
+        elif edge == "E":
+            FIXED[ref] = (BX + W - m - w - ox, BY + off, fside)
+        elif edge == "SW":
+            FIXED[ref] = (BX + m - ox, BY + H - m - h - oy, fside)
+
     overflow = []
+    for ref, val, p, side, w, h, ox, oy in list(
+            [c for z in zoned.values() for c in z] + bottom):
+        if ref in FIXED:
+            fx, fy, fside = FIXED[ref]
+            body.append(embed_footprint(
+                p, ref, val, fx, fy, fside,
+                {pn: v for (r_, pn), v in pins.items() if r_ == ref}))
+            placed.append(ref)
+    for z in zoned:
+        zoned[z] = [c for c in zoned[z] if c[0] not in FIXED]
+    bottom = [c for c in bottom if c[0] not in FIXED]
+
     for zname, (zx0, zy0, zx1, zy1) in ZONES.items():
         for ref, val, p, side, x, y in pack(zoned[zname], BX + zx0, BY + zy0,
                                             BX + zx1, BY + zy1):
