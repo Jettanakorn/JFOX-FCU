@@ -100,6 +100,28 @@ PARTS = [
         note="Interface pins high while VDDIO off destroys the part - see ARCHITECTURE.md.",
     ),
     dict(
+        name="ICP-20100",
+        desc="TDK InvenSense barometric pressure sensor, I2C/I3C/SPI, 10-pin LGA",
+        source="TDK DS-000416 rev 1.3",
+        keywords="barometer pressure altimeter I2C SPI",
+        fp="jfox-fmu:InvenSense_LGA-10_2x2mm_P0.5mm",
+        pins=[
+            ("SCL", "2", "input", "L"),
+            ("SDA/SDIO/SDI", "4", "bidirectional", "L"),
+            ("SDO/AD0", "6", "bidirectional", "R"),
+            ("~{CSB}", "1", "input", "L"),
+            ("INT", "7", "output", "R"),
+            ("VDD", "5", "power_in", "T"),
+            ("VDDIO", "10", "power_in", "T"),
+            ("VSS", "3", "power_in", "B"),
+            # Datasheet table 18 gives pins 8 and 9 as "Connect to Ground",
+            # not "may be left open". power_in so ERC objects if they float.
+            ("RESV", "8", "power_in", "B"),
+            ("RESV", "9", "power_in", "B"),
+        ],
+        note="Pins 8/9 to GND. CSB to VDDIO for I2C. AD0 low = 0x63, high = 0x64.",
+    ),
+    dict(
         name="FM25V02A",
         desc="Infineon 256-Kbit SPI F-RAM, 8-pin SOIC/DFN",
         source="Cypress/Infineon 001-90865 Rev *I",
@@ -194,7 +216,8 @@ def symbol(part):
     return "\n".join(o)
 
 
-EXPECTED_PINS = {"ICM-42688-P": 14, "ICM-45686": 14, "BMP388": 10, "FM25V02A": 8}
+EXPECTED_PINS = {"ICM-42688-P": 14, "ICM-45686": 14, "BMP388": 10,
+                 "ICP-20100": 10, "FM25V02A": 8}
 
 
 def check():

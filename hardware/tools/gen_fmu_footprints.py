@@ -118,7 +118,44 @@ def lga10():
         body=(2.0, 2.0), pads=pads)
 
 
-PARTS = [lga14, lga10]
+def lga10_icp():
+    """TDK InvenSense ICP-20100 10-lead LGA, 2.0 x 2.0 mm.
+
+    TDK DS-000416 rev 1.3, section 10 figure 19 and table 19.
+
+    Same body size as the BMP388 and the same pin count, and a completely
+    different land. Bosch puts three pads on the left and right and two top
+    and bottom; TDK puts three top and bottom and two left and right. Reusing
+    the BMP388 footprint would place ten pads that all land somewhere, none of
+    them on the right terminal.
+
+    Table 19: D = E = 2.000, e = 0.500, b = 0.250, L = 0.375. The terminals
+    run to the package edge - unlike the BMP388's 0.10 mm inset - so a pad
+    centre sits L/2 in from it.
+    """
+    c = 2.0 / 2 - 0.375 / 2          # 0.8125
+    pads = []
+    # Numbering read off the bottom view (figure 19), which is where the pin
+    # numbers are, then mirrored about the vertical axis for the top view
+    # KiCad draws. The mirror axis is fixed by the drawing: the PIN 1 indent
+    # is upper right in the bottom view and upper left in the top view.
+    for n, x, y in [("1", -c, 0.25), ("2", -c, -0.25)]:            # was right
+        pads.append((n, x, y, 0.375, 0.250))
+    for i, x in enumerate([-0.5, 0.0, 0.5]):                       # bottom
+        pads.append((str(i + 3), x, -c, 0.250, 0.375))
+    for n, x, y in [("6", c, -0.25), ("7", c, 0.25)]:              # was left
+        pads.append((n, x, y, 0.375, 0.250))
+    for i, x in enumerate([0.5, 0.0, -0.5]):                       # top
+        pads.append((str(i + 8), x, c, 0.250, 0.375))
+    return dict(
+        name="InvenSense_LGA-10_2x2mm_P0.5mm",
+        descr="10-lead LGA 2x2x0.8mm, TDK InvenSense ICP-20100, "
+              "DS-000416 rev 1.3 s10 fig 19 / table 19",
+        tags="lga land grid array invensense barometer",
+        body=(2.0, 2.0), pads=pads)
+
+
+PARTS = [lga14, lga10, lga10_icp]
 
 # Independent facts from the same drawings, used to re-derive what the tables
 # above assert. If a pad centre were mistyped these would disagree.
@@ -126,6 +163,8 @@ DERIVE = {
     # name: (body_x, body_y, edge_inset, outward_pad_len_col, ..._row)
     "InvenSense_LGA-14_2.5x3mm_P0.5mm": (3.0, 2.5, 0.10, 0.475, 0.475),
     "Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder2x3y": (2.0, 2.0, 0.10, 0.275, 0.275),
+    # Terminals run to the package edge here, so the inset is zero.
+    "InvenSense_LGA-10_2x2mm_P0.5mm": (2.0, 2.0, 0.0, 0.375, 0.375),
 }
 
 

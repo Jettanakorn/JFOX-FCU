@@ -149,6 +149,10 @@ FOOTPRINTS = {
     "jfox-fmu:ICM-42688-P": "jfox-fmu:InvenSense_LGA-14_2.5x3mm_P0.5mm",
     "jfox-fmu:ICM-45686":   "jfox-fmu:InvenSense_LGA-14_2.5x3mm_P0.5mm",
     "jfox-fmu:BMP388":      "jfox-fmu:Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder2x3y",
+    # Same body and pin count as the BMP388, entirely different land -
+    # three pads top and bottom instead of three left and right.
+    "jfox-fmu:ICP-20100":   "jfox-fmu:InvenSense_LGA-10_2x2mm_P0.5mm",
+    "Sensor_Magnetic:BMM150": "Package_CSP:WLCSP-12_1.56x1.56mm_P0.4mm",
     "jfox-fmu:FM25V02A":    "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
     "Sensor_Motion:BMI088":
         "Package_LGA:Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering",
@@ -511,6 +515,24 @@ SENSORS = [
          nets=[("SCK", "I2C1_SCL"), ("SDI", "I2C1_SDA"),
                ("SDO", "GND"), ("~{CSB}", "+3V3_SENS"),
                ("INT", "BARO1_INT")]),
+    # Second barometer, second vendor - ARCHITECTURE.md's whole reason for
+    # having two. Strapping from DS-000416 rev 1.3 figure 10 (the I2C typical
+    # operating circuit): CSB to VDDIO selects I2C, AD0 low gives 0x63, and
+    # both RESV pins go to ground.
+    dict(ref="U7", lib="jfox-fmu:ICP-20100", val="ICP-20100",
+         bus="I2C1", rail="+3V3_SENS",
+         nets=[("SCL", "I2C1_SCL"), ("SDA/SDIO/SDI", "I2C1_SDA"),
+               ("SDO/AD0", "GND"), ("~{CSB}", "+3V3_SENS"),
+               ("INT", "BARO2_INT"), ("RESV", "GND")]),
+    # Magnetometer. Strapping from BST-BMM150-DS001-05 rev 1.4 table 32 and
+    # section 4.1: PS to VDDIO for reliable I2C protocol selection, CSB and
+    # SDO both low for the default address 0x10. That address does not
+    # collide with the BMP388's 0x76 or the ICP-20100's 0x63.
+    dict(ref="U6", lib="Sensor_Magnetic:BMM150", val="BMM150",
+         bus="I2C1", rail="+3V3_SENS",
+         nets=[("SCK", "I2C1_SCL"), ("SDI", "I2C1_SDA"),
+               ("SDO", "GND"), ("~{CSB}", "GND"), ("PS", "+3V3_SENS"),
+               ("DRDY", "MAG_DRDY"), ("INT", "NC")]),
     dict(ref="U5", lib="jfox-fmu:FM25V02A", val="FM25V02A",
          bus="SPI4", rail="+3V3", x=63.5,
          nets=[("SCK", "SPI4_SCK"), ("SI", "SPI4_MOSI"), ("SO", "SPI4_MISO"),
@@ -521,7 +543,8 @@ SENSORS = [
 def build_sensors():
     ru = uid()
     libs = [sym_def(BOARD / "jfox-fmu.kicad_sym", n, "jfox-fmu")
-            for n in ("ICM-42688-P", "ICM-45686", "BMP388", "FM25V02A")]
+            for n in ("ICM-42688-P", "ICM-45686", "BMP388", "ICP-20100",
+                      "FM25V02A")]
     libs.append(sym_def(KICAD_SYMS / "Sensor_Motion.kicad_sym", "BMI088",
                         "Sensor_Motion"))
     libs.append(sym_def(KICAD_SYMS / "Sensor_Magnetic.kicad_sym", "BMM150",
@@ -560,7 +583,7 @@ def build_sensors():
     # sides, about 80 mm, and A4 portrait gives 180 mm of width.
     for i, s in enumerate(allparts):
         px = 45.72 + (i % 2) * 88.9
-        py = 45.72 + (i // 2) * 66.04
+        py = 45.72 + (i // 2) * 55.88
         body.append(place(s["lib"], s["ref"], s["val"], px, py, ru, s["nets"],
                           fp=footprint(s["lib"], s["ref"])))
         pins = geom[s["lib"]]
@@ -928,6 +951,12 @@ def build_passives():
                 ("C28", "Device:C", "100n", "+5V", "GND"),
                 ("C29", "Device:C", "3n3", "SS_3V3", "GND"),
                 ("R3", "Device:R", "100k", "+3V3", "PG_3V3"),
+                # I2C1 is open drain and has no other pull-up. Both the
+                # ICP-20100 (DS-000416 fig 10 note) and the BMM150
+                # (BST-BMM150 s6.2) say so outright; without these the
+                # bus never leaves the low state and no sensor answers.
+                ("R4", "Device:R", "4k7", "+3V3_SENS", "I2C1_SCL"),
+                ("R5", "Device:R", "4k7", "+3V3_SENS", "I2C1_SDA"),
                 ("R41", "Device:R", "120", "CAN1_H", "CAN1_TERM"),
                 ("R42", "Device:R", "120", "CAN2_H", "CAN2_TERM")])
     body.append(text(
