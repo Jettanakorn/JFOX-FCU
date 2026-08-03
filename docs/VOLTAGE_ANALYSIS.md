@@ -174,3 +174,95 @@ but the *names* only match if both are changed together.
 
 None of these is blocking for a first article on the bench. All four are
 blocking before flight.
+
+---
+
+## 7. Correcting package — what was built
+
+Applied in commits `2e5e6d7` and this one. Every item below is now checked
+by `check_base_schematic.py`, which failed on first run — the only reason to
+trust it.
+
+### The window
+
+`787k / 28k7 / 196k` → **UV 4.50 V, OV 5.16 V**.
+
+Finding 1 above named the AP2112K at 6.0 V as the binding part. It was not.
+The checker compared against *every* part downstream and found the
+**ISOW1044 at 5.5 V absolute maximum** — the old 5.81 V threshold was
+**310 mV above it**. Not thin margin: negative margin. A feed the controller
+reported as good would have destroyed the isolator.
+
+| Part | Abs max | Margin at 5.16 V |
+|---|---|---|
+| ISOW1044 | 5.5 V | **+338 mV** |
+| AP2112K-3.3 | 6.0 V | +838 mV |
+| TPS62132 | 17 V | — |
+
+### Protection, per feed
+
+**Assumed: DO-160G §22 pin injection Level 3.** Not specified, so it is
+stated in the sheet note and here rather than left implicit. Level 4 or 5
+need larger clamps and more series impedance; these parts would not survive
+them.
+
+| Ref | Part | Purpose |
+|---|---|---|
+| L60/L61 | 10 µH series | limits d*i*/d*t* so the clamp sees a survivable edge |
+| D60/D61 | SMCJ6.0A | 1500 W, 6.0 V standoff — above the 5.16 V accepted, so off in normal operation |
+| D50/D51 | SS54 (retained) | reverse blocking — the pass FETs only block in the orientation the controller drives them, and a feed connected backwards is exactly when it has no say |
+| C60 | 1800 µF | feed-to-feed switchover ride-through |
+| R80–82 / C80–82 | soft-start | inrush per slot |
+
+Order is deliberate: series L, then clamp, then ORing, then bulk. A TVS with
+nothing ahead of it absorbs the whole injected energy itself, which is how a
+correctly chosen part still fails.
+
+### §16 POWER INTERRUPT IS NOT MET
+
+Stated plainly because the arithmetic is not close. Three cards at 1.2 A,
+riding 5.16 V down to 4.50 V — 0.66 V of usable droop:
+
+| Interrupt | Capacitance needed |
+|---|---|
+| 1 ms | 1.8 mF |
+| 10 ms | 18.2 mF |
+| 50 ms | 90.9 mF |
+| **200 ms** | **363.6 mF** |
+
+364 mF at 5 V is a supercapacitor bank, not a capacitor. C60 is sized for
+what it *can* cover — the switchover the ORing stage itself creates, about
+1 ms. Meeting §16 means holding up at a higher voltage ahead of the ORing,
+or requiring the airframe to provide it. Both are decisions above this
+board.
+
+Sizing for the case you can meet and letting the requirement imply you met
+the other one is how this goes wrong quietly.
+
+### A fifth defect, found while fixing the others
+
+**The ORing controller's output was never connected.** Its pin map was
+written from the datasheet's block diagram rather than the symbol:
+
+| Written | Actual |
+|---|---|
+| `VALID1..3` | `~{VALID1..3}` — active low, overbar in the name |
+| `OUT` | `VOUT` |
+| `HYST` | `HYS` |
+| `STAT` | **does not exist on this part** |
+
+`nets.get()` returns `None` for an unknown key, so six pins were silently
+left unwired — `VOUT` among them. `PWR_ORED` was fed only by D50/D51 and the
+entire prioritised-ORing stage was decorative. An unconnected pin is not a
+DRC error, and nothing read this board.
+
+### Still not met
+
+| | |
+|---|---|
+| §16 power interrupt | not achievable at this voltage — see above |
+| §17/§22 clamping performance | needs injection testing; the design is intended to pass, only a lab shows it does |
+| §22 level | **assumed** Level 3 — confirm before fabrication |
+| ORing PMOS | still the placeholder value `PMOS`; `SQJ431EP` is named in the source but no code places it |
+| `VBUS_USB` suppression | U40 clamps the data lines; VBUS itself is unprotected |
+| Six protection parts | carry assumed temperature data, which is not evidence |

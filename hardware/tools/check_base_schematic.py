@@ -295,6 +295,90 @@ def valid_reaches_cards(net, val, fails):
     return ok
 
 
+
+
+# Recognising a part by its value rather than its reference. A designator is
+# a label someone chose and can be wrong or stale; the value is what will be
+# fitted.
+CLAMP_FAMILIES = ("SMAJ", "SMBJ", "SMCJ", "SMDJ", "P6KE", "1.5KE", "PESD",
+                  "TVS", "SM6T", "SM15T")
+
+
+def _is_clamp(v):
+    u = v.upper()
+    return any(f in u for f in CLAMP_FAMILIES)
+
+
+def _is_inductive(v):
+    # Inductance is normally written without the H on a BOM - 10u, not
+    # 10uH - so requiring the unit rejected every real value. A ferrite is
+    # written as an impedance at a frequency (600R@100MHz) and a common-mode
+    # choke carries CM.
+    u = v.upper().replace(" ", "")
+    import re as _re
+    return bool(_re.fullmatch(r'[\d.]+[PNUM]?H?', u)) or "@" in u or "CM" in u
+
+
+def feeds_protected(net, val, fails):
+    """Every airframe feed must carry series impedance and a clamp.
+
+    Both, and in that order. A TVS with nothing ahead of it has to absorb
+    the whole injected transient itself, which is how a correctly chosen
+    part still fails - so the check requires the inductor as well as the
+    clamp, not either.
+
+    The clamp's standoff must also sit ABOVE the window the ORing accepts,
+    or it conducts in normal operation and the feed is loaded by its own
+    protection.
+    """
+    feeds = sorted(n for n in net if n.endswith("_RAW"))
+    if not feeds:
+        fails.append("no *_RAW feed net - the airframe feeds arrive with no "
+                     "series impedance ahead of them, so any clamp has to "
+                     "absorb the whole transient alone")
+        return 0
+    ok = 0
+    for raw in feeds:
+        cooked = raw[:-4]
+        # Test what the part IS, not what it is called. Keying off the
+        # reference prefix passed a board whose clamps had been replaced
+        # with 0R resistors - D60 was still called D60. A refdes is a label
+        # someone chose; the value is the part.
+        series = {r for r, _p in net[raw]
+                  if r.startswith(("L", "FB")) and _is_inductive(val.get(r, ""))}
+        clamp = {r for r, _p in net.get(cooked, ())
+                 if _is_clamp(val.get(r, ""))}
+        if not series:
+            fails.append(f"{raw} has no series inductance - DO-160G s22 "
+                         f"injection would reach the clamp undamped")
+        elif not clamp:
+            fails.append(f"{cooked} has no clamp - nothing limits a s17 "
+                         f"spike once it is past the inductor")
+        else:
+            ok += 1
+    return ok
+
+
+def holdup_declared(val, fails):
+    """Bulk must exist, and what it does NOT cover must be written down.
+
+    Section 16 interrupt is not met at this voltage and cannot be - 364 mF
+    for 200 ms at 5 V is a supercapacitor bank. The bulk here rides the
+    feed-to-feed switchover, about 1 ms. This check exists so that a later
+    change cannot quietly delete the capacitor and leave even that
+    uncovered.
+    """
+    bulk = [r for r, v in val.items()
+            if r.startswith("C") and v.rstrip("uUfF").isdigit()
+            and int(v.rstrip("uUfF")) >= 1000]
+    if not bulk:
+        fails.append("no bulk capacitor >= 1000 uF on the ORed rail - "
+                     "nothing rides the feed-to-feed switchover, so the "
+                     "cards see the gap the ORing stage creates")
+        return 0
+    return len(bulk)
+
+
 def main():
     if not SCH.exists():
         sys.exit(f"missing {SCH} - run gen_base_schematic.py first")
@@ -306,11 +390,14 @@ def main():
     n_win, windows = oring_window(net, val, fails)
     n_abs = absolute_maximum(windows, val, fails)
     n_valid = valid_reaches_cards(net, val, fails)
+    n_prot = feeds_protected(net, val, fails)
+    n_bulk = holdup_declared(val, fails)
 
     print(f"  [{'PASS' if not fails else 'FAIL'}] backplane: "
           f"{n_rails} fused rail(s) reach a card, {n_win} ORing window(s) "
           f"checked, {n_abs} part(s) fit the window, "
-          f"{n_valid} valid signal(s) reach a card")
+          f"{n_valid} valid signal(s) reach a card, "
+          f"{n_prot} feed(s) protected, {n_bulk} bulk cap(s)")
     for w in windows:
         print(f"      channel {w[0]}: accepts {w[1]:.2f} to {w[2]:.2f} V")
     for f in fails:

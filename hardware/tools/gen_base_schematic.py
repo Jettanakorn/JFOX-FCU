@@ -240,7 +240,7 @@ def build_power():
         for (num, _nm, dx, dy, ang), net in zip(
                 sorted(geom["Connector_Generic:Conn_01x04"],
                        key=lambda p: int(p[0])),
-                [rail, rail, "GND", "GND"]):
+                [rail + "_RAW", rail + "_RAW", "GND", "GND"]):
             ax, ay = round(px + dx, 2), round(39.37 + dy, 2)
             sx, sy = G.stub_len(ang, h=5.08)
             body.append(G.wire(ax, ay, round(ax + sx, 2), round(ay + sy, 2)))
@@ -410,6 +410,87 @@ def build_oring():
         body += G.two_pin(f"C{70 + k}", "Device:C", "100n",
                           round(20.32 + k * 24.13, 2), 218.44,
                           f"VS{n}_ORING", "GND", ru, dgeom)
+    return libs, body, ru
+
+
+# DO-160G protection on the two airframe feeds.
+#
+# ASSUMED: Section 22 pin injection LEVEL 3. Not specified when this was
+# designed, so it is recorded here rather than left implicit - Level 4 or 5
+# need larger clamps and more series impedance, and these parts would not
+# survive them.
+#
+# (ref, feed) - one series inductor and one TVS per feed.
+FEED_PROTECT = [
+    ("L60", "D60", "PWR1_IN"),
+    ("L61", "D61", "PWR2_IN"),
+]
+
+
+def build_protect():
+    """Series impedance, clamps, bulk and inrush limiting.
+
+    The order matters: series inductance first so the clamp sees a survivable
+    edge, then the clamp, then the ORing stage, then the bulk. A TVS with no
+    series impedance ahead of it has to absorb the full injected energy
+    itself, which is how a correctly-chosen part still fails.
+    """
+    ru = G.uid()
+    libs = []
+    for lib, name, nick in (
+            ("Device.kicad_sym", "L", "Device"),
+            ("Device.kicad_sym", "D_TVS", "Device"),
+            ("Device.kicad_sym", "C", "Device"),
+            ("Device.kicad_sym", "R", "Device"),
+            ("Transistor_FET.kicad_sym", "Q_PMOS_GSD", "Transistor_FET"),
+    ):
+        libs += G.sym_defs(G.KICAD_SYMS / lib, name, nick)
+    geom = {re.search(r'\(symbol "([^"]+)"', b).group(1): G.pin_list(b)
+            for b in libs}
+
+    body = [G.text(
+        "DO-160G protection. ASSUMED Section 22 pin injection LEVEL 3 -\\n"
+        "not specified, so it is stated here rather than implied. Level 4\\n"
+        "or 5 need larger clamps and more series impedance than these.\\n"
+        "\\n"
+        "Order is deliberate: series L, then clamp, then ORing, then bulk.\\n"
+        "A TVS with no series impedance ahead of it absorbs the whole\\n"
+        "injected energy itself, which is how a correctly chosen part\\n"
+        "still fails.\\n"
+        "\\n"
+        "SECTION 16 POWER INTERRUPT IS NOT MET. Three cards at 1.2 A\\n"
+        "riding 5.16 V down to 4.50 V need 364 mF for 200 ms - a\\n"
+        "supercapacitor bank, not a capacitor. C60 is sized for the\\n"
+        "feed-to-feed switchover it CAN cover, about 1 ms. Holding up\\n"
+        "longer means doing it at a higher voltage ahead of the ORing, or\\n"
+        "requiring the airframe to provide it.", 0, 0, 1.4)]
+
+    # Series inductance and clamp, per feed. The raw connector net becomes
+    # <feed>_RAW so the inductor has something to sit between.
+    for i, (lref, dref, feed) in enumerate(FEED_PROTECT):
+        x = 30.48 + i * 63.5
+        body += G.two_pin(lref, "Device:L", "10u", x, 63.5,
+                          f"{feed}_RAW", feed, ru, geom, vertical=True)
+        # Standoff 6.0 V sits above the 5.16 V the ORing accepts, so the
+        # clamp is off in normal operation and does not load the feed.
+        body += G.two_pin(dref, "Device:D_TVS", "SMCJ6.0A", x + 25.4, 63.5,
+                          feed, "GND", ru, geom, vertical=True)
+
+    # Bulk on the ORed rail - switchover ride-through, not section 16.
+    body += G.two_pin("C60", "Device:C", "1800u", 30.48, 127.0,
+                      "PWR_ORED", "GND", ru, geom, vertical=True)
+
+    # Inrush limiting, one per slot. A card entering a live backplane
+    # presents its own bulk capacitance as a short; without this the feed
+    # collapses and takes the two channels already running with it, which
+    # would make hot-swap a way to lose the whole set.
+    for i, ch in enumerate(CHANNELS):
+        x = 30.48 + i * 44.45
+        body += G.two_pin(f"R{80 + i}", "Device:R", "10k", x, 177.8,
+                          chan_net(ch, "+5V_CARRIER"), f"{ch}_SOFT", ru,
+                          geom, vertical=True)
+        body += G.two_pin(f"C{80 + i}", "Device:C", "100n", x + 20.32, 177.8,
+                          f"{ch}_SOFT", "GND", ru, geom, vertical=True)
     return libs, body, ru
 
 
@@ -865,6 +946,7 @@ SHEETS = [
     ("sockets",   "Mezzanine sockets - three channels", build_sockets),
     ("power",     "Power distribution - per channel",   build_power),
     ("oring",     "Prioritised ORing - two airframe feeds", build_oring),
+    ("protect",   "DO-160G protection - clamps, bulk, inrush", build_protect),
     ("can",       "CAN FD bus and termination",         build_can),
     ("actuators", "Actuator outputs - headers only",    build_actuators),
     ("io",        "External I/O breakout",              build_io),
@@ -891,6 +973,8 @@ def main():
         "Device:Fuse": "Fuse:Fuse_1206_3216Metric",
         "Device:LED": "LED_SMD:LED_0805_2012Metric",
         "Device:D_Schottky": "Diode_SMD:D_SMA",
+        "Device:D_TVS": "Diode_SMD:D_SMC",
+        "Device:L": "Inductor_SMD:L_Bourns-SRN6045",
     })
 
     files = {}
