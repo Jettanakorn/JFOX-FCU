@@ -188,7 +188,7 @@ FOOTPRINTS = {
     # current and DCR still have to be picked against the real 550 mA peak -
     # so this is a placeholder land of the right size, not a selected part.
     "Device:L": "Inductor_SMD:L_1210_3225Metric",
-    "Device:LED": "LED_SMD:LED_0603_1608Metric",
+    "Device:LED": "LED_SMD:LED_0402_1005Metric",
     "Transistor_FET:Q_PMOS_GSD": "Package_TO_SOT_SMD:SOT-23",
 
     "power:PWR_FLAG": "",        # virtual - no physical part
@@ -755,37 +755,11 @@ POWER = [
     # Prioritised ORing between the three sources, keeping v2.4.5's best idea.
     # V1/V2/V3 are the inputs in priority order; VS1..3 sense, G1..3 drive the
     # external PMOS pass devices.
-    dict(ref="U20", lib="Power_Management:LTC4417CGN", val="LTC4417CGN",
-         x=48.26, y=95.25,
-         nets={"V1": "VDD_BRICK", "V2": "VDD_SERVO", "V3": "VBUS_USB",
-               "VS1": "VS1_ORING", "VS2": "VS2_ORING", "VS3": "VS3_ORING",
-               "G1": "PGATE1", "G2": "PGATE2", "G3": "PGATE3",
-               "VOUT": "+5V", "GND": "GND", "EN": "+5V",
-               "~{SHDN}": "+5V", "HYS": "GND", "CAS": "GND",
-               "UV1": "UV1_SET", "OV1": "OV1_SET",
-               "UV2": "UV2_SET", "OV2": "OV2_SET",
-               "UV3": "UV3_SET", "OV3": "OV3_SET",
-               "~{VALID1}": "BRICK_VALID", "~{VALID2}": "SERVO_VALID",
-               "~{VALID3}": "USB_VALID"}),
-    # Main 3V3: a buck, not an LDO. At 5 V in, 3V3 out and the measured load
-    # an LDO burns over half a watt - see POWER_BUDGET.md. SW/VOS/FB need the
-    # inductor and feedback network, which are not on the sheet yet.
-    # The FIXED 3.3 V member of the family, not the adjustable one. The
-    # adjustable TPS62130 needs a divider setting FB to 800 mV, and the
-    # divider this design carried - 180k over 100k - sets 0.8 x (1 + 1.8) =
-    # 2.24 V. Not marginal: the board would never have come up, and the
-    # values were labelled a "datasheet-example starting point" the whole
-    # time, which is exactly the kind of note that reads as harmless.
-    #
-    # TPS62132 removes the divider rather than correcting it. Two fewer
-    # parts, no divider tolerance stacking on top of the reference, and the
-    # output voltage becomes a property of the ordering code instead of
-    # something a resistor swap can silently change.
-    #
-    # FSW low = 2.5 MHz (smallest solution size, lowest ripple; datasheet
-    # 9.2.1). DEF low = nominal, not nominal +5%. FB to AGND, which the
-    # datasheet recommends on fixed versions for thermal reasons - it is
-    # pulled down internally.
+    # U20 (LTC4417) and its six pass FETs have moved to the backplane. The
+    # card does not meet the airframe supply any more - it receives an
+    # already-ORed, already-fused +5V_CARRIER on three of its gold fingers,
+    # and the only power part it still needs is the buck that makes its own
+    # core rail.
     dict(ref="U21", lib="Regulator_Switching:TPS62132", val="TPS62132",
          x=125.73, y=69.85,
          nets={"VIN": "+5V", "SW": "SW_3V3", "VOS": "+3V3", "FB": "GND",
@@ -962,17 +936,13 @@ def build_power():
         dparts += [("R%d" % b, rtop, src, "UV%d_SET" % n),
                    ("R%d" % (b + 1), rmid, "UV%d_SET" % n, "OV%d_SET" % n),
                    ("R%d" % (b + 2), rbot, "OV%d_SET" % n, "GND")]
-    for j, (ref, val, a, bnet) in enumerate(dparts):
-        body.extend(two_pin(ref, "Device:R", val,
-                            round(20.32 + (j % 9) * 17.78, 2),
-                            round(148.59 + (j // 9) * 22.86, 2),
-                            a, bnet, ru, dgeom))
-    for k, n in enumerate((1, 2, 3)):
-        body.extend(two_pin("C%d" % (44 + k), "Device:C", "100n",
-                            round(20.32 + k * 17.78, 2), 171.45,
-                            "VS%d_ORING" % n, "GND", ru, dgeom))
+    # The ORing threshold dividers and sense caps moved to the backplane
+    # with U20. They set the under- and over-voltage windows the controller
+    # compares against, so they are only meaningful next to it - left here
+    # they drove VS1..VS3_ORING, three nets with nothing on the far end.
+    _ = dparts
 
-    build_oring(body, ru, pin_list(
+    _ = (lambda *a: None)(pin_list(
         sym_defs(KICAD_SYMS / "Transistor_FET.kicad_sym",
                  "Q_PMOS_GSD", "Transistor_FET")[-1]), place)
 
@@ -1153,8 +1123,12 @@ def build_passives():
                 ("R17", "Device:R", "1k", "+3V3", "LED_R_A"),
                 ("R18", "Device:R", "1k", "+3V3", "LED_G_A"),
                 ("R19", "Device:R", "1k", "+3V3", "LED_B_A"),
-                ("D1", "Device:LED", "RED", "LED_R_A", "LED_R"),
-                ("D2", "Device:LED", "GRN", "LED_G_A", "LED_G"),
+                # Power lamp: cathode to GND, not to an MCU pin, so
+                # it lights on rail-up with no firmware running. A
+                # power lamp the MCU drives tells you the MCU is
+                # alive, which is not what anyone reads it for.
+                ("D1", "Device:LED", "PWR-GRN", "LED_R_A", "GND"),
+                ("D2", "Device:LED", "HB-BLU", "LED_G_A", "LED_G"),
                 ("D3", "Device:LED", "BLU", "LED_B_A", "LED_B"),
                 ("R13", "Device:R", "10k", "+3V3", "IMU1_RAIL_FLG"),
                 ("R14", "Device:R", "10k", "+3V3", "IMU2_RAIL_FLG"),
@@ -1191,8 +1165,11 @@ def build_passives():
 
     # PWR_FLAG so ERC can see the rails as driven
     FLAG_COLS = 7          # 9 flags in one row spans 203 mm; the page is 182
-    for i, rail in enumerate(("+5V", "+3V3", "+3V3A", "GND",
-                              "VDD_BRICK", "VDD_SERVO", "VBUS_USB",
+    # VDD_BRICK, VDD_SERVO and VBUS_USB left with the ORing controller - the
+    # card no longer sees any of the three airframe sources. What arrives on
+    # the gold fingers is +5V_CARRIER, already selected and already fused, so
+    # that is the rail ERC has to be told is driven.
+    for i, rail in enumerate(("+5V", "+5V_CARRIER", "+3V3", "+3V3A", "GND",
                               "GND_ISO1", "GND_ISO2")):
         fx = (i % FLAG_COLS) * 25.4
         y = yflag + (i // FLAG_COLS) * DY
@@ -1337,9 +1314,9 @@ CONNECTORS = [
     # Used at the module, not through the airframe: a bench console, a card
     # slot and a programmer. Putting these on the carrier would mean
     # unbolting the aircraft to read a log.
-    ("J6", 10, "DEBUG", "SWD plus the console UART, USART1",
-     ["+3V3", "SWDIO", "SWCLK", "SWO", "NRST",
-      "USART1_TX", "USART1_RX", "NC", "GND", "GND"]),
+    # J6 has moved to the backplane (J52). One debug port serves the set, and
+    # a header on a card you have to extract to reach is not a debug port.
+    # SWD reaches each card through its gold fingers instead.
     # --- isolated, and deliberately NOT on the mezzanine --------------------
     # 0.5 mm pitch gives ~0.5 mm creepage. Running these beside
     # board-referenced signals would reduce the isolation barrier to that gap
@@ -1355,9 +1332,17 @@ CONNECTORS = [
 # between signal groups rather than grouped at one end, because a 60-pin
 # connector with no local return is the worst discontinuity on the board.
 MEZZ_REF = "J40"
-MEZZ_FP = ("Connector_Hirose:"
-           "Hirose_DF12_DF12C3.0-60DS-0.5V_2x30_P0.50mm_Vertical")
-MEZZ_PINS = ['GND', 'VDD_BRICK', 'VDD_BRICK', 'GND', 'VDD_SERVO', 'VDD_SERVO', 'GND', '+5V_CARRIER', '+5V_CARRIER', 'GND', 'TIM1_CH1', 'TIM1_CH2', 'GND', 'TIM1_CH3', 'TIM1_CH4', 'GND', 'TIM4_CH1', 'TIM4_CH2', 'GND', 'TIM4_CH3', 'TIM4_CH4', 'GND', 'USART2_TX', 'USART2_RX', 'GND', 'USART2_CTS', 'USART2_RTS', 'GND', 'USART3_TX', 'USART3_RX', 'GND', 'USART3_CTS', 'USART3_RTS', 'GND', 'UART4_TX', 'UART4_RX', 'GND', 'I2C2_SCL', 'I2C2_SDA', 'GND', 'UART7_TX', 'UART7_RX', 'GND', 'UART8_RX', 'UART8_TX', 'GND', 'SAFETY_SW', 'SAFETY_LED', 'GND', 'SPI5_SCK', 'SPI5_MISO', 'SPI5_MOSI', 'GND', 'NC', 'NC', 'GND', 'NC', 'NC', 'GND', 'GND']
+# Not a connector any more - gold fingers on the board's own rear edge, so
+# the card slides into a socket on the backplane. 2x30 at 1.27 mm is exactly
+# the 60 contacts MEZZ_PINS already defines.
+MEZZ_FP = ("Connector_PCBEdge:"
+           "Samtec_MECF-30-0_-L-DV_2x30_P1.27mm_Polarized_Edge")
+# Debug, console and the three power-source valid flags now cross
+# here rather than on their own connectors. VDD_BRICK and
+# VDD_SERVO left: the card never sees either rail now, because
+# servo power runs from the backplane straight to the actuator
+# headers and never passes through a card.
+MEZZ_PINS = ['GND', 'SWDIO', 'SWCLK', 'GND', 'NRST', 'USART1_TX', 'GND', '+5V_CARRIER', '+5V_CARRIER', 'GND', 'TIM1_CH1', 'TIM1_CH2', 'GND', 'TIM1_CH3', 'TIM1_CH4', 'GND', 'TIM4_CH1', 'TIM4_CH2', 'GND', 'TIM4_CH3', 'KEY', 'KEY', 'USART2_TX', 'USART2_RX', 'GND', 'USART2_CTS', 'USART2_RTS', 'GND', 'USART3_TX', 'USART3_RX', 'GND', 'USART3_CTS', 'USART3_RTS', 'GND', 'UART4_TX', 'UART4_RX', 'GND', 'I2C2_SCL', 'I2C2_SDA', 'GND', 'UART7_TX', 'UART7_RX', 'GND', 'UART8_RX', 'UART8_TX', 'GND', 'SAFETY_SW', 'SAFETY_LED', 'GND', 'SPI5_SCK', 'SPI5_MISO', 'SPI5_MOSI', 'GND', 'USART1_RX', 'BRICK_VALID', 'GND', 'SERVO_VALID', 'USB_VALID', 'TIM4_CH4', 'GND']
 
 CONN_FP = {
     5:  "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal",
@@ -1428,11 +1413,14 @@ def build_connectors():
     mgeom = pin_list(mlib[-1])
     mx, my = 45.72, 165.1
     body.append(place("Connector_Generic:Conn_02x30_Odd_Even", MEZZ_REF,
-                      "DF12C3.0-60DS", mx, my, ru, [],
+                      "CARD EDGE 2x30 P1.27 (no part)", mx, my, ru, [],
                       label_dy=43.18, fp=MEZZ_FP))
     for (num, _nm, dx, dy, ang), net in zip(
             sorted(mgeom, key=lambda p: int(p[0])), MEZZ_PINS):
-        if net == "NC":
+        if net in ("NC", "KEY"):
+            # KEY is the polarizing moulding: the footprint has
+            # no pad at contacts 21/22 because the connector
+            # body occupies them.
             continue
         ax, ay = round(mx + dx, 2), round(my + dy, 2)
         sx, sy = stub_len(ang, h=3.81)
@@ -1473,9 +1461,10 @@ PROT_NOTE = (
 # tolerate. Unidirectional: these rails are never driven negative in normal
 # use, and a reverse-battery event is the LTC4417's job, not the TVS's.
 TVS = [
-    ("D4", "VDD_BRICK", "brick input"),
-    ("D5", "VDD_SERVO", "servo rail"),
-    ("D6", "VBUS_USB", "USB VBUS"),
+    # One TVS, on the rail the card actually receives. D4/D5/D6 clamped the
+    # three airframe sources, which the card no longer sees - those moved to
+    # the backplane with the ORing controller that selected between them.
+    ("D4", "+5V_CARRIER", "carrier feed, the card's only power input"),
 ]
 
 # Common-mode chokes. These do nothing for signal integrity and everything

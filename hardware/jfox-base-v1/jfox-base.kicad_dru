@@ -1,0 +1,45 @@
+(version 1)
+
+# Custom design rules for JFOX-FMU-v1.
+#
+# Every rule here is an exception scoped to ONE connector, and each exists for
+# the same reason: the pad geometry is fixed by the connector standard, and a
+# board-wide rule cannot be satisfied inside it. Each condition names the
+# reference designator, so the exception cannot quietly relax clearance
+# anywhere else. Lowering the board minimum instead would hide real spacing
+# errors in the routing that has not been done yet.
+#
+# On the syntax: the property is A.Reference. `A.Footprint` and
+# `A.Footprint_Name` are NOT valid DRC expression properties - KiCad accepts
+# a rule containing them, ignores it, and reports no error, so the violation
+# count simply does not change. Verified by forcing a 9 mm clearance through
+# each candidate and watching which ones moved the count:
+#
+#     A.Reference == 'J30'              161 -> 620   applied
+#     A.memberOfFootprint('J30')        161 -> 620   applied
+#     A.Footprint == 'USB_C_...'        161 -> 161   ignored
+#     A.Footprint_Name == 'USB_C_...'   161 -> 161   ignored
+#     A.Parent.Reference == 'J30'       161 -> 161   ignored
+
+# --- pads within one component --------------------------------------------
+# The netclass clearances are ROUTING rules. HighCurrent asks for 0.25 mm
+# because +5V_CARRIER, VDD_BRICK and VDD_SERVO carry several amps between
+# the module and the carrier - and that is the right rule for the tracks.
+# It is not a rule any fine-pitch package can satisfy between its own pins:
+# the LTC4417's pitch is fixed by the part, as is the USB-C receptacle's and
+# the mezzanine's. Applying a routing clearance inside a footprint reports
+# the manufacturer's own geometry as an error and says nothing about the
+# layout.
+#
+# So within a single component, fall back to the fabricator's absolute
+# minimum. 0.1 mm is a floor, not a licence: a footprint whose own pads are
+# closer than that is a broken footprint and still fails here.
+(rule "Pad spacing within one component"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Reference == B.Reference")
+	(constraint clearance (min 0.1mm)))
+
+# The module's per-connector exceptions are not repeated here - J30 and J40
+# are parts on JFOX-FMU-v1, not on this board. Only the general rule above
+# carries over, and it carries over for the same reason: a routing clearance
+# applied between a component's own pins reports the manufacturer's geometry
+# as an error and says nothing about the layout.

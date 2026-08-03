@@ -25,6 +25,8 @@ import re
 import sys
 from pathlib import Path
 
+import kicad_geom
+
 REPO = Path(__file__).resolve().parents[2]
 PCB = REPO / "hardware" / "jfox-fmu-v1" / "jfox-fmu.kicad_pcb"
 
@@ -65,9 +67,27 @@ SENSITIVE = {
     "X2": (10.0, "32.768 kHz LSE - low amplitude, easily disturbed"),
 }
 
-EDGE_PARTS = {"J31": "microSD - the card has to be reachable without "
-                     "dismantling the aircraft"}
-EDGE_TOL = 12.0     # centre-to-edge; the DM3AT is ~15 mm deep
+# Every harness connector, not just the card slot. This listed J31 alone,
+# so it passed while J6, J12 and J13 sat 30 mm inland - the check reported
+# "1 edge-mounted part reaches a board edge" and that was true and useless.
+# A guard that covers one of five cases reads exactly like a guard.
+#
+# J40 is deliberately absent: the mezzanine mates vertically against the
+# carrier and belongs in the middle of the board.
+EDGE_PARTS = {
+    "J31": "microSD - the card has to be reachable without dismantling the "
+           "aircraft",
+    # J6 moved to the backplane (J52) in the card-cage refactor. One debug
+    # port serves the set; SWD reaches each card over its gold fingers. A
+    # checker that still demands it here would fail forever on a board that
+    # is correct.
+    "J12": "isolated CAN1 harness",
+    "J13": "isolated CAN2 harness",
+    "J30": "USB-C - a cable has to reach it",
+}
+# Centre-to-edge, so the tolerance has to cover the deepest part in the set:
+# the DM3AT card slot is ~15 mm front to back, giving a centre ~9 mm in.
+EDGE_TOL = 12.0
 
 
 def positions():
@@ -81,14 +101,25 @@ def positions():
         x, y, ref = float(m.group(1)), float(m.group(2)), m.group(3)
         pos.setdefault(ref, (x, y))
 
+    # Read with the balanced-bracket parser, not a regex. KiCad rewrites the
+    # board into canonical multi-line form, so `(gr_line (start ...)` on one
+    # line stops existing and a single-line regex matches NOTHING - which is
+    # exactly what happened here. The old code then fell back to a
+    # hard-coded (0, 0, 100, 80), so every edge measurement on a 48 x 90
+    # board was taken against an imaginary one, and reported a number the
+    # whole time.
     xs, ys = [], []
-    for m in re.finditer(r'\(gr_(?:line|arc) \(start ([-\d.]+) ([-\d.]+)\)'
-                         r'[^)]*\(end ([-\d.]+) ([-\d.]+)\)', t):
-        a, b, c, d = map(float, m.groups())
-        xs += [a, c]
-        ys += [b, d]
+    for tok in ("gr_line", "gr_arc", "gr_rect"):
+        for e in kicad_geom.sexprs(t, tok):
+            if '(layer "Edge.Cuts")' not in e:
+                continue
+            for mm in re.finditer(r'\((?:start|end|mid) '
+                                  r'(-?[\d.]+) (-?[\d.]+)\)', e):
+                xs.append(float(mm.group(1)))
+                ys.append(float(mm.group(2)))
     if not xs:
-        sys.exit("no board outline found")
+        raise SystemExit("no board outline found - refusing to measure edge "
+                         "distances against a guess")
     return pos, (min(xs), min(ys), max(xs), max(ys))
 
 
