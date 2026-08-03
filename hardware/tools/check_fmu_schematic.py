@@ -386,10 +386,19 @@ def check_regulators(fails, comps, n):
 
 def ohms(v):
     """'180k' -> 180000.0. Values are written the way a BOM writes them."""
-    m = re.fullmatch(r'([\d.]+)([kKmMrR]?)', v.strip())
+    scale = {"": 1, "r": 1, "R": 1, "k": 1e3, "K": 1e3, "m": 1e6, "M": 1e6}
+    s = v.strip()
+    # EIA notation puts the multiplier where the decimal point would go:
+    # 49k9 is 49.9k, 4R7 is 4.7 ohm, 1M5 is 1.5M. It exists so the point
+    # cannot be lost to a smudge, and it is how E96 values are normally
+    # written on a BOM - so a parser that only accepts a trailing suffix
+    # rejects most of the resistors on this board.
+    m = re.fullmatch(r'(\d+)([kKmMrR])(\d+)', s)
+    if m:
+        return float(f"{m.group(1)}.{m.group(3)}") * scale[m.group(2)]
+    m = re.fullmatch(r'([\d.]+)([kKmMrR]?)', s)
     if not m:
         raise ValueError(f"cannot read resistance {v!r}")
-    scale = {"": 1, "r": 1, "R": 1, "k": 1e3, "K": 1e3, "m": 1e6, "M": 1e6}
     return float(m.group(1)) * scale[m.group(2)]
 
 

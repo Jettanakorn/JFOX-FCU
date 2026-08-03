@@ -54,7 +54,12 @@ MEZZ_PINS = G.MEZZ_PINS
 
 # Signals that stay per-channel get a prefix. Everything else is shared, and
 # the list of shared nets is short on purpose.
-SHARED = {"GND", "NC"}
+SHARED = {"GND", "NC",
+          # Feed health is one controller's view of the two
+          # supplies, identical at every socket. Prefixing it
+          # per channel would create three nets the controller
+          # does not drive.
+          "PWR1_VALID", "PWR2_VALID", "PWR_STAT"}
 
 
 
@@ -227,8 +232,8 @@ def build_power():
     # a shorted feed is isolated by its own diode rather than pulling the
     # other one down.
     for k, (ref, lab, rail) in enumerate((
-            ("J50", "PWR 1 RH", "VBAT_RH"),
-            ("J51", "PWR 2 LH", "VBAT_LH"))):
+            ("J50", "PWR 1 RH", "PWR1_IN"),
+            ("J51", "PWR 2 LH", "PWR2_IN"))):
         px = 30.48 + k * 44.45
         body.append(G.place("Connector_Generic:Conn_01x04", ref, lab,
                             px, 39.37, ru, [], label_dy=10.0, fp=JST_FP[4]))
@@ -242,21 +247,27 @@ def build_power():
             body.append(G.glabel(net, "input", round(ax + sx, 2),
                                  round(ay + sy, 2), 0 if sx < 0 else 180))
         body += (G.two_pin(f"D{50 + k}", "Device:D_Schottky", "SS54",
-                           px, 66.04, rail, "VBAT_IN", ru,
+                           px, 66.04, rail, "PWR_ORED", ru,
                            geom, vertical=True))
 
-    # Per-channel chain: VBAT_IN -> fuse -> shunt -> X_VDD_BRICK
+    # Per-channel chain: PWR_ORED -> fuse -> shunt -> X_+5V_CARRIER
+    #
+    # The card rail has to be at the END of the chain, past the shunt, not
+    # in the middle of it. VDD_BRICK used to sit there and the cards read
+    # +5V_CARRIER, so the chain terminated on a net no card was connected
+    # to - which is how the set came to have no power path while both
+    # boards generated and passed DRC.
     for i, ch in enumerate(CHANNELS):
         x = 39.37 + i * 48.26
         y = 96.52
         body += (G.two_pin(f"F{i + 1}", "Device:Fuse", "3A", x, y,
-                              "VBAT_IN", f"{ch}_FUSED", ru,
+                              "PWR_ORED", f"{ch}_FUSED", ru,
                               geom, vertical=True))
         body += (G.two_pin(f"R{i + 1}", "Device:R", "0R010", x, y + 30.48,
-                              f"{ch}_FUSED", used(f"{ch}_VDD_BRICK")[0], ru,
-                              geom, vertical=True))
+                              f"{ch}_FUSED", used(chan_net(ch, "+5V_CARRIER"))[0],
+                              ru, geom, vertical=True))
         body += (G.two_pin(f"C{i + 1}", "Device:C", "10u", x + 20.32,
-                              y + 30.48, f"{ch}_VDD_BRICK", "GND", ru,
+                              y + 30.48, chan_net(ch, "+5V_CARRIER"), "GND", ru,
                               geom, vertical=True))
     return libs, body, ru
 
@@ -273,8 +284,19 @@ def build_power():
 # values, reproduced from the datasheet's worked example rather than
 # recalculated from scratch.
 ORING = [
-    (1, "VBAT_RH", "787k", "49k9", "174k", 4.52, 5.81),
-    (2, "VBAT_LH", "787k", "49k9", "174k", 4.52, 5.81),
+    # 787k / 28k7 / 196k -> UV 4.50 V, OV 5.16 V.
+    #
+    # The binding part is the ISOW1044 at 5.5 V absolute maximum, NOT the
+    # AP2112K at 6.0 V. The previous window accepted up to 5.81 V, which is
+    # 310 mV ABOVE what the isolator survives - so a feed the controller
+    # reported as good would have destroyed it. check_base_schematic.py
+    # found that by comparing against every part downstream rather than the
+    # one that happened to be noticed.
+    #
+    #   ISOW1044   5.5 - 5.16 = +338 mV
+    #   AP2112K    6.0 - 5.16 = +838 mV
+    (1, "PWR1_IN", "787k", "28k7", "196k", 4.50, 5.16),
+    (2, "PWR2_IN", "787k", "28k7", "196k", 4.50, 5.16),
 ]
 
 
@@ -312,14 +334,30 @@ def build_oring():
         "to ground and its pass FET omitted, which is how the datasheet\\n"
         "says to leave an input out.", 0, 0, 1.4)]
 
-    nets = {"V1": "VBAT_RH", "V2": "VBAT_LH", "V3": "GND",
+    # Pin names taken from the symbol, not from the datasheet's block
+    # diagram. They differ, and the lookup is by name:
+    #
+    #   ~{VALID1..3}  active-low, with the overbar in the name
+    #   VOUT          not "OUT"
+    #   HYS           not "HYST"
+    #   ~{SHDN}       exists; EN and shutdown are separate pins
+    #   STAT          DOES NOT EXIST on this part
+    #
+    # Every one of those was wrong, and because nets.get() returns None for
+    # an unknown key the pins were silently left unwired. VOUT was among
+    # them - so the ORing controller's OUTPUT was never connected, PWR_ORED
+    # was fed only by D50/D51, and the whole prioritised-ORing stage has
+    # been decorative. Nothing reported it: an unconnected pin is not a DRC
+    # error, and no checker read this board.
+    nets = {"V1": "PWR1_IN", "V2": "PWR2_IN", "V3": "GND",
             "VS1": "VS1_ORING", "VS2": "VS2_ORING", "VS3": "GND",
             "G1": "PGATE1", "G2": "PGATE2", "G3": "NC_G3",
             "UV1": "UV1_SET", "UV2": "UV2_SET", "UV3": "GND",
             "OV1": "OV1_SET", "OV2": "OV2_SET", "OV3": "GND",
-            "VALID1": "RH_VALID", "VALID2": "LH_VALID", "VALID3": "NC_V3",
-            "OUT": "VBAT_IN", "GND": "GND", "CAS": "GND", "HYST": "GND",
-            "EN": "VBAT_RH", "STAT": "PWR_STAT"}
+            "~{VALID1}": "PWR1_VALID", "~{VALID2}": "PWR2_VALID",
+            "~{VALID3}": "NC_V3",
+            "VOUT": "PWR_ORED", "GND": "GND", "CAS": "GND", "HYS": "GND",
+            "EN": "PWR1_IN", "~{SHDN}": "PWR1_IN"}
     body.append(G.place("Power_Management:LTC4417CGN", "U20", "LTC4417CGN",
                         63.5, 63.5, ru, [], label_dy=27.94,
                         fp="Package_SO:SSOP-24_3.9x8.7mm_P0.635mm"))
@@ -340,7 +378,7 @@ def build_oring():
     # one blocks the reverse path the other's would allow.
     for i, (n, src, *_rest) in enumerate(ORING):
         for k, (ref, drain) in enumerate(((f"Q{n}A", src),
-                                          (f"Q{n}B", "VBAT_IN"))):
+                                          (f"Q{n}B", "PWR_ORED"))):
             qx = 25.4 + i * 76.2 + k * 30.48
             body.append(G.place("Transistor_FET:Q_PMOS_GSD", ref, "PMOS",
                                 qx, 142.24, ru, [], label_dy=11.43,

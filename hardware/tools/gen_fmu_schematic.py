@@ -1349,7 +1349,7 @@ MEZZ_FP = ("Connector_PCBEdge:"
 # VDD_SERVO left: the card never sees either rail now, because
 # servo power runs from the backplane straight to the actuator
 # headers and never passes through a card.
-MEZZ_PINS = ['GND', 'SWDIO', 'SWCLK', 'GND', 'NRST', 'USART1_TX', 'GND', '+5V_CARRIER', '+5V_CARRIER', 'GND', 'TIM1_CH1', 'TIM1_CH2', 'GND', 'TIM1_CH3', 'TIM1_CH4', 'GND', 'TIM4_CH1', 'TIM4_CH2', 'GND', 'TIM4_CH3', 'KEY', 'KEY', 'USART2_TX', 'USART2_RX', 'GND', 'USART2_CTS', 'USART2_RTS', 'GND', 'USART3_TX', 'USART3_RX', 'GND', 'USART3_CTS', 'USART3_RTS', 'GND', 'UART4_TX', 'UART4_RX', 'GND', 'I2C2_SCL', 'I2C2_SDA', 'GND', 'UART7_TX', 'UART7_RX', 'GND', 'UART8_RX', 'UART8_TX', 'GND', 'SAFETY_SW', 'SAFETY_LED', 'GND', 'SPI5_SCK', 'SPI5_MISO', 'SPI5_MOSI', 'GND', 'USART1_RX', 'BRICK_VALID', 'GND', 'SERVO_VALID', 'USB_VALID', 'TIM4_CH4', 'GND']
+MEZZ_PINS = ['GND', 'SWDIO', 'SWCLK', 'GND', 'NRST', 'USART1_TX', 'GND', '+5V_CARRIER', '+5V_CARRIER', 'GND', 'TIM1_CH1', 'TIM1_CH2', 'GND', 'TIM1_CH3', 'TIM1_CH4', 'GND', 'TIM4_CH1', 'TIM4_CH2', 'GND', 'TIM4_CH3', 'KEY', 'KEY', 'USART2_TX', 'USART2_RX', 'GND', 'USART2_CTS', 'USART2_RTS', 'GND', 'USART3_TX', 'USART3_RX', 'GND', 'USART3_CTS', 'USART3_RTS', 'GND', 'UART4_TX', 'UART4_RX', 'GND', 'I2C2_SCL', 'I2C2_SDA', 'GND', 'UART7_TX', 'UART7_RX', 'GND', 'UART8_RX', 'UART8_TX', 'GND', 'SAFETY_SW', 'SAFETY_LED', 'GND', 'SPI5_SCK', 'SPI5_MISO', 'SPI5_MOSI', 'GND', 'USART1_RX', 'PWR1_VALID', 'GND', 'PWR2_VALID', 'NC', 'TIM4_CH4', 'GND']
 
 CONN_FP = {
     5:  "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal",

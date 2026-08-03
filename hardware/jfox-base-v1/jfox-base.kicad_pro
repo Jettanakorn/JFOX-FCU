@@ -236,7 +236,7 @@
       "internal_id": "",
       "mfg": "",
       "mpn": "",
-      "sch_revision": ""
+      "sch_revision": "A"
     },
     "layer_pairs": [],
     "layer_presets": [],
@@ -792,13 +792,54 @@
       {
         "filename": "jfox-base.kicad_sch",
         "name": "jfox-base",
-        "uuid": "00000000-0000-0000-0000-000000000000"
+        "uuid": "bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
       }
     ],
     "used_designators": "",
     "variants": []
   },
-  "sheets": [],
+  "sheets": [
+    [
+      "bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9",
+      "jfox-base"
+    ],
+    [
+      "63637120-6d38-47ca-892f-459aedc84168",
+      "Mezzanine sockets - three channels"
+    ],
+    [
+      "19427a20-921f-4201-9589-224ea12dd2c8",
+      "Power distribution - per channel"
+    ],
+    [
+      "3726cd4d-fe37-4800-aa70-4edb5f081753",
+      "Prioritised ORing - two airframe feeds"
+    ],
+    [
+      "b3956bfc-2098-47f7-af9a-33c7f758f7ba",
+      "CAN FD bus and termination"
+    ],
+    [
+      "21bbfbe6-904f-4b3d-af95-86d386303806",
+      "Actuator outputs - headers only"
+    ],
+    [
+      "0ffff69d-e207-4dbf-a309-ff1b38f21be9",
+      "External I/O breakout"
+    ],
+    [
+      "31be790c-c189-474d-bbb0-9f3e8bc8d0cd",
+      "Fibre-optic link - two channels"
+    ],
+    [
+      "3e899075-45c9-49fd-b8ac-6984651d9b6e",
+      "Master board panel - debug, USB, LEDs"
+    ],
+    [
+      "66273c48-9f28-4717-bfb3-bfc99f8be1e3",
+      "Per-channel expansion header"
+    ]
+  ],
   "text_variables": {},
   "tuning_profiles": {
     "meta": {

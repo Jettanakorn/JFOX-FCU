@@ -36,6 +36,7 @@ TOOLS = REPO / "hardware" / "tools"
 
 # Tools whose printed "[PASS]/[FAIL] label" lines are the verification record.
 EVIDENCE_TOOLS = ["check_fmu_schematic", "check_fmu_objective",
+                  "check_base_schematic",
                   "check_hw_environmental", "check_fmu_placement",
                   "check_fmu_footprints", "check_fmu_sheets"]
 

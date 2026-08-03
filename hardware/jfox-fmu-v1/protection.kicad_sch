@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "32cde475-9ef1-46b7-ae56-00da8e70bbd3")
+	(uuid "b5adc000-9767-4333-8e34-72ca757fe5ea")
 	(paper "A4" portrait)
 	(title_block
 		(title "EMI / EMC Protection")
@@ -1295,14 +1295,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "562be486-ace0-449a-b07e-2f9c4ce1fa63")
+		(uuid "f55e8022-1101-4735-be54-0a268a8d3678")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 66.04 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "5a67110f-e254-4fb8-a9b2-cb8f0dd83dec")
+		(uuid "875407a9-4ad0-4eed-878f-9f76eba08acf")
 		(property "Reference" "D4"
 			(at 66.04 68.58 0)
 			(effects
@@ -1330,7 +1330,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D4")
 					(unit 1)
 				)
@@ -1345,7 +1345,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "bce8f33f-71bd-4d59-a4f1-27516b9a0d36")
+		(uuid "fb0109e7-5174-4a7b-b71f-4c30c86b554a")
 	)
 	(global_label "+5V_CARRIER"
 		(shape input)
@@ -1357,7 +1357,7 @@
 			)
 			(justify left)
 		)
-		(uuid "645173dd-17b8-4a74-be93-5b84dec5a871")
+		(uuid "8718c427-e53c-462b-acf5-45afe64a5ff3")
 	)
 	(wire
 		(pts
@@ -1367,7 +1367,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "1de57e06-448e-4c84-9038-8dc94464135b")
+		(uuid "ee73e0a1-6e7a-4e09-a18a-a32c82a1d450")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1379,14 +1379,14 @@
 			)
 			(justify left)
 		)
-		(uuid "14fdbd5c-05ee-4498-b458-284ab6dd34d7")
+		(uuid "57b71c88-8cc9-45e0-a70f-56a42624c68f")
 	)
 	(symbol
 		(lib_id "Power_Protection:USBLC6-2SC6")
 		(at 66.04 168.91 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "6fc7d3b1-a8f7-44dc-88c3-b7bfc41a4a2f")
+		(uuid "ce9175c2-7e4c-4096-a52c-e9cbde88f4e8")
 		(property "Reference" "U40"
 			(at 66.04 154.94 0)
 			(effects
@@ -1414,7 +1414,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "U40")
 					(unit 1)
 				)
@@ -1429,7 +1429,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d3657a91-58fe-40ef-a14c-890e4beb0357")
+		(uuid "27919af0-7e48-4281-acf1-80d724ee0ef1")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
@@ -1441,7 +1441,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e59f6185-323b-4ed7-998d-3e00d4c75ab4")
+		(uuid "a70e56f8-44d7-4c44-b5fd-f2b75e999fbc")
 	)
 	(wire
 		(pts
@@ -1451,7 +1451,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fcfc9b43-d9de-4a55-aa6c-596f27df8061")
+		(uuid "c3e15c18-fbd7-4df7-bfcb-5daf121d1bdd")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1463,7 +1463,7 @@
 			)
 			(justify left)
 		)
-		(uuid "0fe9dab6-7482-49d6-a65f-c75dfeef4646")
+		(uuid "c61d09ef-a00e-4374-8fae-ec6e7a3b9c42")
 	)
 	(wire
 		(pts
@@ -1473,7 +1473,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "93a57dcd-9e7b-405d-8329-c568ca992e73")
+		(uuid "840e8932-67a5-4505-bf74-1dfd040b15e5")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
@@ -1485,7 +1485,7 @@
 			)
 			(justify left)
 		)
-		(uuid "853742a0-9f10-4fff-b706-32008634976f")
+		(uuid "a0dc63a7-3d80-47c1-aef1-b86f0560cd6f")
 	)
 	(wire
 		(pts
@@ -1495,7 +1495,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ebbfd9c8-197c-4f66-82aa-8790475f1c75")
+		(uuid "3151bd69-ec7a-418f-a31e-c15929802714")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
@@ -1507,7 +1507,7 @@
 			)
 			(justify left)
 		)
-		(uuid "630a5563-e5ee-49fe-bd84-35531a81b132")
+		(uuid "7001356a-7400-401b-86e6-6888187cb15e")
 	)
 	(wire
 		(pts
@@ -1517,7 +1517,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b8a02dac-802e-4891-b8ec-2f71b79e7e5a")
+		(uuid "f1d0f93d-6790-4aa2-8cd5-786b38ace9e9")
 	)
 	(global_label "VBUS_USB"
 		(shape input)
@@ -1529,7 +1529,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d2a3ea73-9ee5-4aa0-ae63-b76aa3924a07")
+		(uuid "7d8f8c46-121e-43ec-a64a-b093ee2c39f0")
 	)
 	(wire
 		(pts
@@ -1539,7 +1539,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9c132a61-3f95-44dd-9019-26e89b886647")
+		(uuid "1177954a-63b3-42a1-ab9b-a4206e4819c6")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
@@ -1551,14 +1551,14 @@
 			)
 			(justify left)
 		)
-		(uuid "9e23f9f8-0b5f-4733-b42a-70f97f177d07")
+		(uuid "b2e39343-683e-4740-a8cb-12ba4977eac6")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
 		(at 139.7 168.91 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "7df66d69-6422-4a37-8dc9-8e8f74ed22d0")
+		(uuid "a96a1166-7b94-4f8d-ac4d-7a1ae162a8c9")
 		(property "Reference" "L5"
 			(at 139.7 157.48 0)
 			(effects
@@ -1586,7 +1586,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L5")
 					(unit 1)
 				)
@@ -1601,7 +1601,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9c16f393-b161-469b-aea9-b72371e61438")
+		(uuid "db1e4f5e-4f0c-4055-a321-24421be25121")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
@@ -1613,7 +1613,7 @@
 			)
 			(justify left)
 		)
-		(uuid "caaf4ca7-4fd4-4fc5-a86b-9ca72bc410b3")
+		(uuid "ab25ac2c-28f9-4e46-ae27-b894809d6674")
 	)
 	(wire
 		(pts
@@ -1623,7 +1623,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "37995d7a-da45-4215-86f9-0b5843293552")
+		(uuid "a281a8ee-05de-4b2b-977b-b64d6f93d6d3")
 	)
 	(global_label "USB_OTG_FS_DP"
 		(shape bidirectional)
@@ -1635,7 +1635,7 @@
 			)
 			(justify left)
 		)
-		(uuid "15799e63-cb37-4d2c-9325-77dbdd8ce15f")
+		(uuid "6be5d02e-0dd1-4e05-86f7-79fa30d864ba")
 	)
 	(wire
 		(pts
@@ -1645,7 +1645,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2acb165d-e6ea-452b-8655-01f395b337dc")
+		(uuid "ba3efe93-1fb5-4b02-837d-23c3c4629336")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
@@ -1657,7 +1657,7 @@
 			)
 			(justify left)
 		)
-		(uuid "efd1d41c-3e79-4ab4-aadc-039a759bae48")
+		(uuid "42941099-58de-4028-862f-f4cce1f9d9ae")
 	)
 	(wire
 		(pts
@@ -1667,7 +1667,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c430e798-e9b5-49e9-ba53-a6cd0e4ab941")
+		(uuid "15587ea1-dd21-4446-ac7e-4533fbb00fcb")
 	)
 	(global_label "USB_OTG_FS_DM"
 		(shape bidirectional)
@@ -1679,14 +1679,14 @@
 			)
 			(justify left)
 		)
-		(uuid "da8a42d0-4f9f-4439-9172-c33848d6ae2f")
+		(uuid "39d7340d-1c55-42df-bcdd-bd71c5af6d31")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
 		(at 71.12 204.47 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ec04d2ff-7237-4850-869a-ab916d2c43d3")
+		(uuid "c35dcda8-1360-44d2-a36e-4e64078ddc3a")
 		(property "Reference" "L3"
 			(at 71.12 193.04 0)
 			(effects
@@ -1714,7 +1714,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L3")
 					(unit 1)
 				)
@@ -1729,7 +1729,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "95b8d845-a184-4010-a90b-e0478c7d5dde")
+		(uuid "85a66465-4915-4fa2-b5de-b2781971d2d3")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
@@ -1741,7 +1741,7 @@
 			)
 			(justify left)
 		)
-		(uuid "36e7c934-37e9-4f7a-b950-35ecf7556bb7")
+		(uuid "a412c020-6111-492d-ab80-442f91c97881")
 	)
 	(wire
 		(pts
@@ -1751,7 +1751,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "bfa99cda-c955-4c64-8732-fd273241708e")
+		(uuid "1b433988-f03b-4a17-a131-15f59d9f14c0")
 	)
 	(global_label "CAN1_H_C"
 		(shape bidirectional)
@@ -1763,7 +1763,7 @@
 			)
 			(justify left)
 		)
-		(uuid "e8889726-cf25-4105-8107-c2675b9ede07")
+		(uuid "8071d8fd-99ee-4486-b4a7-cf7843f69430")
 	)
 	(wire
 		(pts
@@ -1773,7 +1773,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "83c5ff92-be18-4f78-a7ea-58c8de7e88e3")
+		(uuid "3c87d6d5-dc4a-41f2-9a48-fe8fc8344227")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
@@ -1785,7 +1785,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9cffa4a7-9483-495e-b6d3-a6295c5900de")
+		(uuid "1cb64984-c803-4d6c-8561-3f7c7c67ca2a")
 	)
 	(wire
 		(pts
@@ -1795,7 +1795,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "d1e1e6a1-e7f1-4925-9808-d17c150ac8de")
+		(uuid "fd46e572-1a0e-4743-b9d7-19187341c5cf")
 	)
 	(global_label "CAN1_L_C"
 		(shape bidirectional)
@@ -1807,14 +1807,14 @@
 			)
 			(justify left)
 		)
-		(uuid "1fea5344-6900-4adb-884f-df7888298843")
+		(uuid "159fc07e-321f-4b5b-a889-e18da5fa2293")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 144.78 204.47 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8b4a6c86-48af-4037-8e0f-2e980f5b1f35")
+		(uuid "6a7d47ab-b424-4432-bd79-541679e00479")
 		(property "Reference" "D7"
 			(at 144.78 193.04 0)
 			(effects
@@ -1842,7 +1842,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D7")
 					(unit 1)
 				)
@@ -1857,7 +1857,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "a5ed3c03-6835-40dd-84c1-0eff414962c8")
+		(uuid "c3a5d135-bd92-42d2-bf95-cb35e3da036e")
 	)
 	(global_label "CAN1_H_C"
 		(shape bidirectional)
@@ -1869,7 +1869,7 @@
 			)
 			(justify left)
 		)
-		(uuid "584f4534-3ecc-4b88-a7c6-2113ce3fb3cd")
+		(uuid "f1f9b3cd-afe8-488c-a438-2cfda13f099a")
 	)
 	(wire
 		(pts
@@ -1879,7 +1879,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "46084a07-9c24-4151-a211-5b35d6faff4c")
+		(uuid "1f52644c-5f34-467f-9c8e-12f95c24fe0b")
 	)
 	(global_label "CAN1_L_C"
 		(shape bidirectional)
@@ -1891,14 +1891,14 @@
 			)
 			(justify left)
 		)
-		(uuid "e61e85d0-8112-411d-a3fa-7e5d0946071c")
+		(uuid "bc8fbe65-e8de-427b-b5e8-8506ee7088f5")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
 		(at 71.12 234.95 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "da01c79a-afe6-4e33-a1f4-a4576ad7cd94")
+		(uuid "00b2a776-5475-4b73-88ba-b562ad543b2c")
 		(property "Reference" "L4"
 			(at 71.12 223.52 0)
 			(effects
@@ -1926,7 +1926,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L4")
 					(unit 1)
 				)
@@ -1941,7 +1941,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "ccb690c3-f646-4309-a3a8-08ff14afa4f2")
+		(uuid "a1bcdcc1-e500-4355-a7b1-30605e3a7795")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
@@ -1953,7 +1953,7 @@
 			)
 			(justify left)
 		)
-		(uuid "acfc5cbc-ea5b-4a8b-806b-3617b5ce3278")
+		(uuid "655c28cc-9959-42bd-bf3e-21748410a892")
 	)
 	(wire
 		(pts
@@ -1963,7 +1963,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "57583c14-958c-42d0-9241-88a2653be3c0")
+		(uuid "a7592210-8caa-4ab6-9ce9-4848a8dff054")
 	)
 	(global_label "CAN2_H_C"
 		(shape bidirectional)
@@ -1975,7 +1975,7 @@
 			)
 			(justify left)
 		)
-		(uuid "568708ec-a0ac-4a7a-8366-953ffc7d18ed")
+		(uuid "b02c4d82-ce0c-42d2-901a-227bb534336c")
 	)
 	(wire
 		(pts
@@ -1985,7 +1985,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e4f669d7-11b1-484c-853e-6e5f28137f58")
+		(uuid "236d0be8-f1a7-48ed-a0e1-346038342eb0")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
@@ -1997,7 +1997,7 @@
 			)
 			(justify left)
 		)
-		(uuid "08e9928c-c538-4449-8542-f6e4f2322e2b")
+		(uuid "c932e18f-4a0b-4b6b-90d8-f92cfe337803")
 	)
 	(wire
 		(pts
@@ -2007,7 +2007,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "651ebeb4-6852-4589-abf7-5af392933e67")
+		(uuid "65302af5-e7a4-44ea-9e90-93ea3a4901ef")
 	)
 	(global_label "CAN2_L_C"
 		(shape bidirectional)
@@ -2019,14 +2019,14 @@
 			)
 			(justify left)
 		)
-		(uuid "f2a2e796-31f9-4285-bca0-bc83a6290755")
+		(uuid "f4ce9189-f678-46af-ba92-844069a1530e")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
 		(at 144.78 234.95 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "93242381-af22-4ab1-ad90-3ce10a313a6f")
+		(uuid "9cc374c4-0c68-42fe-8298-7c33e33c1e7d")
 		(property "Reference" "D8"
 			(at 144.78 223.52 0)
 			(effects
@@ -2054,7 +2054,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D8")
 					(unit 1)
 				)
@@ -2069,7 +2069,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6e1ead8d-e161-49b2-b8fc-3456b8e15ba1")
+		(uuid "0859ab60-33cd-496c-b476-68a260e3e7b1")
 	)
 	(global_label "CAN2_H_C"
 		(shape bidirectional)
@@ -2081,7 +2081,7 @@
 			)
 			(justify left)
 		)
-		(uuid "fb43ac14-a80c-4dba-a111-3e9526310254")
+		(uuid "f644456d-1acf-4ff2-94b0-2c5120e5e5c1")
 	)
 	(wire
 		(pts
@@ -2091,7 +2091,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5ab2a074-12ef-482e-ac41-0320ca0d2402")
+		(uuid "d30b13b0-b191-49d9-beb2-9683eed08608")
 	)
 	(global_label "CAN2_L_C"
 		(shape bidirectional)
@@ -2103,14 +2103,14 @@
 			)
 			(justify left)
 		)
-		(uuid "7ca1899b-1dc5-4de0-a5c6-de48829360b2")
+		(uuid "1b495294-29e2-4051-be86-57b74d57c2ac")
 	)
 	(symbol
 		(lib_id "Device:FerriteBead")
 		(at 60.96 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "db4b4a07-0394-46d3-9582-ebdc4473e57b")
+		(uuid "edaa36ca-850c-4db9-b4f1-4be2a61d0d1f")
 		(property "Reference" "FB1"
 			(at 60.96 119.38 0)
 			(effects
@@ -2138,7 +2138,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/32cde475-9ef1-46b7-ae56-00da8e70bbd3"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "FB1")
 					(unit 1)
 				)
@@ -2153,7 +2153,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2ba5f66a-f0f2-4bcf-b4d5-58898c6124af")
+		(uuid "204ceb54-a440-4c81-a94f-b7535a922453")
 	)
 	(global_label "+5V"
 		(shape input)
@@ -2165,7 +2165,7 @@
 			)
 			(justify left)
 		)
-		(uuid "ca693eae-cc15-47a4-8a60-6746274d5295")
+		(uuid "edc38fb9-8538-4f0d-b1ef-f7288f5dfc40")
 	)
 	(wire
 		(pts
@@ -2175,7 +2175,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "fe651706-75c4-4075-8709-acb9d3c016f3")
+		(uuid "56c8746a-749c-4c6f-902f-5bcbd7b96251")
 	)
 	(global_label "+5V_CARRIER"
 		(shape input)
@@ -2187,7 +2187,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6ac52300-edeb-46b5-82ae-3790186e435e")
+		(uuid "4faec454-1aea-403e-b70a-cf00f64cc410")
 	)
 	(sheet_instances
 		(path "/"
