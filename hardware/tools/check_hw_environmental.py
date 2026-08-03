@@ -70,8 +70,14 @@ TEMP = {
     "BMP388":        (-40, 85, False,
                       "assumed - operating range is in a table this tool "
                       "could not extract; see FULL_ACCURACY"),
-    "LTC4417CGN":    (-40, 85, False, "assumed - no datasheet in repo"),
+    "LTC4417CGN":    (-40, 85, True,
+                      "ADI 4417fg p2 ordering table, I grade "
+                      "(H grade is -40/+125)"),
     "AP2112K-3.3":   (-40, 85, False, "assumed - no datasheet in repo"),
+    # The ORing pass devices are a generic PMOS symbol; no specific
+    # part is selected yet, so there is nothing to cite.
+    "PMOS":          (-40, 85, False,
+                      "assumed - no part selected for the ORing FETs"),
     "AP22804AW5":    (-40, 85, False, "assumed - no datasheet in repo"),
 }
 

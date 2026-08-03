@@ -37,6 +37,17 @@ STOCK = KICAD / "share" / "kicad" / "footprints"
 # Parts that are drawing symbols, not components: power flags, net ties.
 VIRTUAL = re.compile(r'^#')
 
+# Pin count per part, from its KiCad symbol. Only parts where a wrong
+# footprint is plausible - passives and connectors are covered by their own
+# naming. A footprint with FEWER pads than the symbol has pins cannot be
+# built; more is allowed, since thermal pads and shields add pads.
+PINS = {
+    "STM32H753IIT6": 176, "LTC4417CGN": 24, "ISOW1044": 20,
+    "TPS62132": 16, "BMI088": 16, "ICM-42688-P": 14, "ICM-45686": 14,
+    "BMP388": 10, "ICP-20100": 10, "FM25V02A": 8,
+    "AP2112K-3.3": 5, "AP22804AW5": 5, "PMOS": 3,
+}
+
 
 def cli():
     for c in (KICAD / "bin" / "kicad-cli.exe",
@@ -98,6 +109,16 @@ def resolve(fp):
     return p if p.exists() else None
 
 
+def pad_count(path):
+    """Distinct pad NUMBERS in a footprint. Numbers, not pads: a thermal pad
+    is often repeated under one number, and multi-pad nets like a connector
+    shield share one too."""
+    txt = path.read_text(encoding="utf-8")
+    return len({m.group(1) for m in
+                re.finditer(r'\(pad "([^"]+)"', txt) if m.group(1) != ""})
+
+
+
 def main():
     txt = netlist()
     # Split into per-component blocks and read each field independently.
@@ -123,32 +144,51 @@ def main():
                       val.group(1) if val else "",
                       fp.group(1) if fp else ""))
 
-    missing, unresolved, ok = [], [], 0
+    missing, unresolved, mismatched, ok = [], [], [], 0
     for ref, value, fp in comps:
         if VIRTUAL.match(ref):
             continue
         if not fp:
             missing.append(f"{ref} ({value}) has no footprint")
             continue
-        if resolve(fp) is None:
+        path = resolve(fp)
+        if path is None:
             unresolved.append(f"{ref} ({value}): {fp} does not exist")
             continue
+        # A footprint that resolves can still be the wrong one. The LTC4417
+        # is a 24-pin part and carried SSOP-16 - a real footprint, a real
+        # name, eight pads short, and unbuildable. Resolving a name and
+        # matching a part are different questions, and only the first was
+        # being asked.
+        want = PINS.get(value)
+        if want is not None:
+            got = pad_count(path)
+            if got < want:
+                mismatched.append(
+                    f"{ref} ({value}): {fp} has {got} pads, the symbol has "
+                    f"{want} pins")
+                continue
         ok += 1
 
-    total = ok + len(missing) + len(unresolved)
-    good = not (missing or unresolved)
+    # Every failure category must be in the total. Leaving one out is how
+    # a new check conceals itself: adding `mismatched` without adding it
+    # here made the count silently drop by one and print PASS.
+    total = ok + len(missing) + len(unresolved) + len(mismatched)
+    good = not (missing or unresolved or mismatched)
     # Same [PASS]/[FAIL] line shape the other checkers print, so
     # check_hw_traceability can consume this as verification evidence.
     print(f"  [{'PASS' if good else 'FAIL'}] "
           f"{ok} of {total} components have a footprint that resolves")
-    for m in missing + unresolved:
+    for m in missing + unresolved + mismatched:
         print("      -", m)
 
-    if missing or unresolved:
+    if missing or unresolved or mismatched:
         print(f"\n{len(missing)} without a footprint, "
-              f"{len(unresolved)} pointing at one that does not exist")
+              f"{len(unresolved)} pointing at one that does not exist, "
+              f"{len(mismatched)} with too few pads for the symbol")
         return 1
-    print("\nevery component maps to a footprint that exists on disk")
+    print("\nevery component maps to a footprint that exists and has enough "
+          "pads for its symbol")
     return 0
 
 

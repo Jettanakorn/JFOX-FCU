@@ -157,8 +157,11 @@ FOOTPRINTS = {
     "Sensor_Motion:BMI088":
         "Package_LGA:Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering",
 
-    # LTC4417's GN suffix is the 16-lead narrow SSOP.
-    "Power_Management:LTC4417CGN": "Package_SO:SSOP-16_3.9x4.9mm_P0.635mm",
+    # The GN suffix is the 24-lead narrow SSOP, not 16. This was SSOP-16 -
+    # eight pads short of the part, which resolves as a name and cannot be
+    # built. The datasheet's ordering table lists only I (-40/+85) and H
+    # (-40/+125) grades; specify LTC4417IGN or LTC4417HGN when ordering.
+    "Power_Management:LTC4417CGN": "Package_SO:SSOP-24_3.9x8.7mm_P0.635mm",
     # RGT is the 3x3 VQFN. TI's land drawing (SLVSAG7F 4222419/E) gives the
     # exposed pad as 1.55 mm; KiCad's 1.6 mm variant is the closest and errs
     # slightly large. Thermal vias, because the datasheet is explicit that the
@@ -186,6 +189,7 @@ FOOTPRINTS = {
     # so this is a placeholder land of the right size, not a selected part.
     "Device:L": "Inductor_SMD:L_1210_3225Metric",
     "Device:LED": "LED_SMD:LED_0603_1608Metric",
+    "Transistor_FET:Q_PMOS_GSD": "Package_TO_SOT_SMD:SOT-23",
 
     "power:PWR_FLAG": "",        # virtual - no physical part
 }
@@ -754,7 +758,7 @@ POWER = [
     dict(ref="U20", lib="Power_Management:LTC4417CGN", val="LTC4417CGN",
          x=48.26, y=95.25,
          nets={"V1": "VDD_BRICK", "V2": "VDD_SERVO", "V3": "VBUS_USB",
-               "VS1": "VDD_BRICK", "VS2": "VDD_SERVO", "VS3": "VBUS_USB",
+               "VS1": "VS1_ORING", "VS2": "VS2_ORING", "VS3": "VS3_ORING",
                "G1": "PGATE1", "G2": "PGATE2", "G3": "PGATE3",
                "VOUT": "+5V", "GND": "GND", "EN": "+5V",
                "~{SHDN}": "+5V", "HYS": "GND", "CAS": "GND",
@@ -806,6 +810,68 @@ RAIL_SWITCHES = [
 ]
 
 
+
+# --------------------------------------------------------------------------
+# LTC4417 pass devices and threshold dividers
+# --------------------------------------------------------------------------
+
+# Two back-to-back PMOS per input, sources common, gates both driven from Gn.
+# That is what "blocks reverse AND cross conduction" means on the front page of
+# the datasheet: one FET's body diode faces each way, so neither an input above
+# the output nor an output above an input can push current the wrong way. One
+# FET per channel would leave a permanent diode path.
+#
+# VSn senses the common source node - NOT the input. The design had VS1..VS3
+# wired straight to the input rails, which measures the wrong side of a switch
+# that did not exist.
+#
+# Divider per input, from ADI's Figure 1: top resistor from the input to UVn,
+# middle from UVn to OVn, bottom from OVn to ground. Both comparators trip at
+# 1 V, so with Rtot = Rtop + Rmid + Rbot:
+#
+#     UV threshold = Rtot / (Rmid + Rbot)
+#     OV threshold = Rtot / Rbot
+#
+# Those equations reproduce the datasheet's own example - 806k/39.2k/60.4k
+# gives 9.09 V and 14.99 V on a 12 V adapter, which is what Figure 1 shows.
+#
+# (channel, input net, Rtop, Rmid, Rbot, UV, OV, why)
+ORING = [
+    (1, "VDD_BRICK", "787k", "49k9", "174k", 4.52, 5.81,
+     "Pixhawk power module, nominally 5.0-5.4 V"),
+    (2, "VDD_SERVO", "787k", "68k1", "154k", 4.54, 6.55,
+     "servo BECs are commonly 5 V or 6 V, so the window has to hold both"),
+    (3, "VBUS_USB", "768k", "45k3", "182k", 4.38, 5.47,
+     "USB VBUS is 4.75-5.25 V; a tighter window than the other two"),
+]
+
+
+def build_oring(body, ru, geom_fet, place_fn):
+    """Pass FETs, dividers and bypass caps for all three ORing inputs."""
+    out = []
+    for i, (n, src, rtop, rmid, rbot, _uv, _ov, _why) in enumerate(ORING):
+        x = 30.48 + i * 50.8
+        y = 195.58
+        vs = "VS%d_ORING" % n
+        gate = "PGATE%d" % n
+        # Input-side FET: drain on the supply, source on the common node.
+        for k, (ref, drain) in enumerate(((f"Q{n}A", src), (f"Q{n}B", "+5V"))):
+            qx = x + k * 22.86
+            out.append(place_fn("Transistor_FET:Q_PMOS_GSD", ref, "PMOS",
+                                qx, y, ru, [], label_dy=11.43,
+                                fp="Package_TO_SOT_SMD:SOT-23"))
+            for num, nm, dx, dy, ang in geom_fet:
+                net = {"G": gate, "S": vs, "D": drain}[nm]
+                ax, ay = round(qx + dx, 2), round(y + dy, 2)
+                sx, sy = stub_len(ang, h=5.08, v=3.81)
+                bx, by = round(ax + sx, 2), round(ay + sy, 2)
+                out.append(wire(ax, ay, bx, by))
+                shape = ("input" if net.startswith(("+", "GND", "VDD", "VBUS"))
+                         else "bidirectional")
+                out.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+    body.extend(out)
+
+
 def build_power():
     ru = uid()
     libs, seen = [], set()
@@ -816,6 +882,8 @@ def build_power():
             libs += sym_defs(KICAD_SYMS / f"{lib_nick}.kicad_sym", name, lib_nick)
     libs += sym_defs(KICAD_SYMS / "Power_Management.kicad_sym",
                      "AP22804AW5", "Power_Management")
+    libs += sym_defs(KICAD_SYMS / "Transistor_FET.kicad_sym",
+                     "Q_PMOS_GSD", "Transistor_FET")
 
     geom, parent_geom = {}, {}
     for lib in libs:
@@ -878,6 +946,35 @@ def build_power():
                    "~{FLG}": flg})
         body.append(text(f"{ref}: {rail}", round(sx - 10, 2),
                          round(sy - 16.51, 2), 1.2))
+
+    # Dividers and sense capacitors live here, next to U20, not on the
+    # passives sheet: they are part of the ORing network, and the passives
+    # sheet had also simply run out of A4.
+    dgeom = {}
+    for nm in ("R", "C"):
+        dl = sym_defs(KICAD_SYMS / "Device.kicad_sym", nm, "Device")[-1]
+        dgeom["Device:" + nm] = pin_list(dl)
+        if not any('"Device:%s"' % nm in L for L in libs):
+            libs.append(dl)
+    dparts = []
+    for i, (n, src, rtop, rmid, rbot, _uv, _ov, _why) in enumerate(ORING):
+        b = 20 + i * 3
+        dparts += [("R%d" % b, rtop, src, "UV%d_SET" % n),
+                   ("R%d" % (b + 1), rmid, "UV%d_SET" % n, "OV%d_SET" % n),
+                   ("R%d" % (b + 2), rbot, "OV%d_SET" % n, "GND")]
+    for j, (ref, val, a, bnet) in enumerate(dparts):
+        body.extend(two_pin(ref, "Device:R", val,
+                            round(20.32 + (j % 9) * 17.78, 2),
+                            round(148.59 + (j // 9) * 22.86, 2),
+                            a, bnet, ru, dgeom))
+    for k, n in enumerate((1, 2, 3)):
+        body.extend(two_pin("C%d" % (44 + k), "Device:C", "100n",
+                            round(20.32 + k * 17.78, 2), 171.45,
+                            "VS%d_ORING" % n, "GND", ru, dgeom))
+
+    build_oring(body, ru, pin_list(
+        sym_defs(KICAD_SYMS / "Transistor_FET.kicad_sym",
+                 "Q_PMOS_GSD", "Transistor_FET")[-1]), place)
 
     return ru, document(ru, libs, fit(body, "power"), "Power", (
         "LTC4417 prioritised ORing: brick > servo > USB",
@@ -953,7 +1050,7 @@ def build_passives():
     # The old layout stepped until x > 240, which put the last capacitor of
     # every row about 60 mm off the right-hand edge of any page this design
     # was ever going to be printed on.
-    COLS, DX, DY = 12, 13.97, 20.32
+    COLS, DX, DY = 12, 13.97, 19.05
 
     def row(y, items):
         """Place a row of two-pin parts, wrapping at COLS."""
