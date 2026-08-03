@@ -111,6 +111,14 @@ TONGUE_REF = "J40"
 # overrides it - this module generates both boards.
 BARE_PN = "1101"
 
+# Where the part number goes. Found by searching the placed board for the
+# position whose text box clears every courtyard on that face by the
+# widest margin, not chosen by eye - the corner it sat in put 7 mm of text
+# under the microSD socket, and silkscreen over copper is clipped by the
+# mask, so a part number placed there is a part number that is not on the
+# board. 5.1 mm clear here.
+PN_AT = (5.5, 52.5)
+
 
 def uid():
     return str(_uuid.uuid4())
@@ -1250,7 +1258,7 @@ def main():
     # assembly number is claiming to be something it is not yet.
     body.append(
         f'\t(gr_text "{PN.design(BARE_PN)}"\n'
-        f'\t\t(at {BX + 2.0} {BY + 1.6})\n'
+        f'\t\t(at {BX + PN_AT[0]} {BY + PN_AT[1]})\n'
         f'\t\t(layer "F.SilkS")\n\t\t(uuid "{uid()}")\n'
         f'\t\t(effects (font (size 0.8 0.8) (thickness 0.12))'
         f' (justify left))\n\t)')
