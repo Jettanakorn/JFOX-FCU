@@ -217,6 +217,20 @@ def glabel(name, shape, x, y, angle=0):
             f'\t\t{eff("left")}\n\t\t(uuid "{uid()}")\n\t)')
 
 
+def junction(x, y):
+    """An explicit connection dot.
+
+    KiCad does not connect a wire to another wire just because one's endpoint
+    lies on the other. Crossings are crossings; a T needs a junction. Drawing
+    a rail across fourteen stub ends without these produced a sheet that plots
+    as an obviously-connected power rail and whose netlist carried only the
+    two pins at the ends of the wire - the other fourteen VDD pins floating on
+    a 480 MHz part. It looked right, which is the problem.
+    """
+    return (f'\t(junction\n\t\t(at {x} {y})\n\t\t(diameter 0)\n'
+            f'\t\t(color 0 0 0 0)\n\t\t(uuid "{uid()}")\n\t)')
+
+
 def wire(x1, y1, x2, y2):
     return (f'\t(wire\n\t\t(pts\n\t\t\t(xy {x1} {y1}) (xy {x2} {y2})\n\t\t)\n'
             f'\t\t(stroke\n\t\t\t(width 0)\n\t\t\t(type default)\n\t\t)\n'
@@ -707,6 +721,11 @@ def build_mcu():
             ends.sort()
             (x0, y0), (x1, y1) = ends[0], ends[-1]
             body.append(wire(x0, y0, x1, y1))
+            # Every tap between the two ends needs a junction, or the rail
+            # runs past it without connecting. The endpoints do not: a wire
+            # meeting a wire end-to-end joins on its own.
+            for bx, by in ends[1:-1]:
+                body.append(junction(bx, by))
             body.append(glabel(net, shape, x0, y0, 180 if ang in (90, 270)
                                else (0 if ang == 0 else 180)))
 
@@ -949,6 +968,15 @@ def build_passives():
                 # 9-1); R3 pulls up PG, which is open drain and was
                 # previously wired to a net nothing could ever drive.
                 ("C28", "Device:C", "100n", "+5V", "GND"),
+                # NRST and BOOT0 had no circuit at all - both were inputs
+                # with nothing driving them. NRST carries an internal
+                # 30-50k pull-up (DM00388325 s6.3.16 table 54), so it needs
+                # only the external capacitor of figure 22 "Recommended
+                # NRST pin protection". BOOT0 has no internal pull and must
+                # be held low, or the part may boot the system bootloader
+                # instead of flash on a marginal power-up.
+                ("C34", "Device:C", "100n", "NRST", "GND"),
+                ("R6", "Device:R", "10k", "BOOT0", "GND"),
                 ("C29", "Device:C", "3n3", "SS_3V3", "GND"),
                 ("R3", "Device:R", "100k", "+3V3", "PG_3V3"),
                 # I2C1 is open drain and has no other pull-up. Both the

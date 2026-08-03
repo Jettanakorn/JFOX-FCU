@@ -208,6 +208,59 @@ FEEDBACK_REF = {
 VOLTAGE_TOLERANCE = 0.05    # 5%: covers 1% resistors and reference spread
 
 
+# Every supply pin the STM32H753IIT6 has, from the part's own symbol, and the
+# rail it must land on. Counts are from MCU_ST_STM32H7:STM32H753IITx.
+MCU_SUPPLY = [
+    ("+3V3", ["15", "23", "36", "49", "62", "72", "82", "91", "103", "127",
+              "136", "149", "159", "172"], "VDD"),
+    ("GND",  ["14", "22", "48", "61", "71", "90", "102", "113", "126", "135",
+              "148", "158"], "VSS"),
+]
+
+
+def check_mcu_power(fails, n):
+    """Is every MCU supply pin actually ON its rail, in the netlist?
+
+    Not "is there a wire drawn to it" - the netlist, which is what gets built.
+    This check exists because the schematic passed every other check while
+    thirteen of fourteen VDD pins were floating.
+
+    The cause is worth keeping: the sheet draws a rail across the fourteen VDD
+    stubs, and KiCad does not connect a wire to another wire merely because
+    one's endpoint lies on it. A T needs an explicit junction. Without them
+    the rail joined only the two pins at the very ends of the wire and ran
+    straight past the other fourteen - while plotting as an unmistakably
+    connected power rail. It looked right in the PDF, it looked right in the
+    editor, and the netlist said otherwise.
+
+    Drawings can lie. Netlists are what the board is made from.
+    """
+    # The PROJECT netlist, not the sensor sheet's. `nets()` exports
+    # sensors.kicad_sch alone, which does not contain U10 at all - so reading
+    # it here would report all 26 pins missing on a perfectly good board, and
+    # the check would be permanently, uselessly red.
+    proj = Path(tempfile.gettempdir()) / "fmu_proj.net"
+    if not proj.exists():
+        fails.append("project netlist missing - cannot check MCU supply pins")
+        return 0
+    txt = proj.read_text(encoding="utf-8")
+    n = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            n[m.group(1).lstrip("/")] = set(
+                re.findall(r'\(ref "([^"]+)"\)\s*\n\s*\(pin "([^"]+)"\)', blk))
+
+    for rail, pins, what in MCU_SUPPLY:
+        on = {p for r, p in n.get(rail, set()) if r == "U10"}
+        missing = sorted(set(pins) - on, key=int)
+        if missing:
+            fails.append(
+                f"U10 has {len(missing)} {what} pin(s) not on {rail}: "
+                f"{', '.join(missing)} - floating supply pins")
+    return sum(len(p) for _r, p, _w in MCU_SUPPLY)
+
+
 def check_regulators(fails, comps, n):
     """Does each rail's regulator actually produce the voltage its name claims?
 
@@ -418,6 +471,11 @@ def main():
     check_power(fails)
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"power tree: 4 independent sensor rails, ORing intact")
+
+    before = len(fails)
+    nsupply = check_mcu_power(fails, n)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"all {nsupply} MCU supply pins sit on their rail")
 
     before = len(fails)
     projnet = Path(tempfile.gettempdir()) / "fmu_proj.net"
