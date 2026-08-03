@@ -110,9 +110,50 @@ Checked against the part's own alternate-function table
 | UART instances (RC + telemetry × 2) | 4–6 | 8 | fits |
 | **FDCAN controllers** | **4** | **2** | **does not fit** |
 
-The CAN row is the real constraint and it is not solvable by re-allocation.
+### CAN redundancy: resolved, by using Cyphal
+
+**Decision: FDCAN1 and FDCAN2 become two redundant Cyphal/CAN interfaces on
+two independent isolated buses.** This is option 1 below, and choosing it
+turns out not to be a compromise at all.
+
+Cyphal (the successor to UAVCAN v0 / DroneCAN) handles redundancy *in the
+protocol*, not in application code. The specification defines redundant
+transport groups: a node publishes on every interface in the group and the
+receiver deduplicates, either per transport-frame or per transfer. libcanard
+provides a transmission queue per redundant interface for exactly this;
+PyCyphal implements per-transfer deduplication. Automatic fail-over is a
+property of the stack.
+
+So two controllers is not "one bus short of the requirement" - it is precisely
+the arrangement Cyphal is built around, and it gives *controller-level*
+redundancy rather than the isolator-level redundancy option 2 would have
+bought. One redundant bus beats two unredundant ones for a TMR voting system,
+and the protocol removes the reason to want four controllers.
+
+**And better, if wanted later:** Cyphal supports *heterogeneous* transport
+redundancy - the redundant group does not have to be all CAN. A Cyphal/CAN
+interface paired with Cyphal/UDP over Ethernet gives dissimilar redundancy, so
+a CAN-specific fault cannot take both paths. That is the same argument that
+puts three IMUs from two vendors on this board, applied to the datalink.
+
+Isolation is by **ISOW1044** (U30, U31): isolated CAN FD transceiver with an
+integrated isolated DC-DC, so each bus gets its own supply domain without a
+separate isolated converter. 5 Mbps, ISO 11898-2:2016. Two datasheet shorts
+that are easy to miss and are both mandatory (SLLSFF7A table 7-1): GNDIO and
+GND1 are *not* internally connected, and VISOOUT/VSIN/VISOIN are one node.
+EN/FLT is used as the fault output with a 10k pull-up, because a redundant
+link whose failure is silent is not redundant.
+
+**Firmware gap, unclosed:** `hal/src/can.rs` is a bxCAN driver written for the
+STM32F427. The H753 has FDCAN, a different peripheral - the driver does not
+port, it gets rewritten. And there is no Cyphal stack in this repo at all;
+`flight::redundancy::TmrVoter` does its own voting over hand-rolled frames.
+Adopting Cyphal replaces that transport layer.
+
+### The constraint this resolved
+
 The STM32H753 has exactly two FDCAN controllers. "Two independent paths" for
-two buses needs four. Three ways out, none free:
+two buses needs four. Three ways out, of which the first is now chosen:
 
 1. **One redundant bus instead of two.** FDCAN1 and FDCAN2 become the A and B
    paths of a single TMR voting bus, each with its own isolated transceiver.
@@ -124,9 +165,8 @@ two buses needs four. Three ways out, none free:
 3. **An external CAN controller** (MCP2518FD on SPI5, which is currently spare).
    Four independent controllers, at the price of a part, a bus, and a driver.
 
-This needs a decision before the isolated design can be drawn. Option 1 is the
-honest one for a TMR system: the voting bus is the thing that must not fail,
-and a second unredundant bus is worth less than one redundant bus.
+Option 1 is chosen - see above. Cyphal's native transport redundancy is what
+makes it the right answer rather than merely the affordable one.
 
 ### Power, which is where this really bites
 

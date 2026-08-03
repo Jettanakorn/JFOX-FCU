@@ -167,7 +167,9 @@ FOOTPRINTS = {
         "Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm_ThermalVias",
     "Regulator_Linear:AP2112K-3.3": "Package_TO_SOT_SMD:SOT-23-5",
     "Power_Management:AP22804AW5":  "Package_TO_SOT_SMD:SOT-23-5",
-    "Interface_CAN_LIN:TCAN332":    "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+    # DFM0020A is JEDEC MS-013 (datasheet note 5), i.e. a standard wide-body
+    # SOIC-20 - the creepage comes from the lead frame, not a wider package.
+    "Interface_CAN_LIN:ISOW1044":   "Package_SO:SOIC-20W_7.5x12.8mm_P1.27mm",
 
     "Connector:USB_C_Receptacle_USB2.0_14P":
         "Connector_USB:USB_C_Receptacle_GCT_USB4085",
@@ -615,7 +617,7 @@ def build_sensors():
             if net == "NC":
                 continue
             ax, ay = round(px + dx, 2), round(py + dy, 2)
-            sx, sy = stub_len(ang)
+            sx, sy = stub_len(ang, v=3.81)
             bx, by = round(ax + sx, 2), round(ay + sy, 2)
             body.append(wire(ax, ay, bx, by))
             shape = ("input" if net.startswith(("+", "GND")) else "bidirectional")
@@ -847,7 +849,7 @@ def build_power():
             if net in (None, "NC"):
                 continue
             ax, ay = round(x + dx, 2), round(y + dy, 2)
-            sx, sy = stub_len(ang)
+            sx, sy = stub_len(ang, v=3.81)
             bx, by = round(ax + sx, 2), round(ay + sy, 2)
             body.append(wire(ax, ay, bx, by))
             shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
@@ -884,7 +886,11 @@ def two_pin(ref, lib_id, value, x, y, a_net, b_net, root_uuid, geom, vertical=Tr
     for _num, _name, dx, dy, ang in geom[lib_id]:
         net = a_net if dy < 0 else b_net
         ax, ay = round(x + dx, 2), round(y + dy, 2)
-        sx, sy = stub_len(ang)
+        # Short vertical stubs. A two-pin part is stacked vertically and its
+        # stubs are pure page height - 52 of them at the default 7.62 mm push
+        # the passives sheet off A4 on their own, and nothing is gained by the
+        # extra length because both labels are short rail names.
+        sx, sy = stub_len(ang, v=3.81)
         bx, by = round(ax + sx, 2), round(ay + sy, 2)
         out.append(wire(ax, ay, bx, by))
         shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
@@ -929,7 +935,7 @@ def build_passives():
     # The old layout stepped until x > 240, which put the last capacitor of
     # every row about 60 mm off the right-hand edge of any page this design
     # was ever going to be printed on.
-    COLS, DX, DY = 10, 15.24, 30.48
+    COLS, DX, DY = 11, 15.24, 22.86
 
     def row(y, items):
         """Place a row of two-pin parts, wrapping at COLS."""
@@ -979,6 +985,26 @@ def build_passives():
                 ("R6", "Device:R", "10k", "BOOT0", "GND"),
                 ("C29", "Device:C", "3n3", "SS_3V3", "GND"),
                 ("R3", "Device:R", "100k", "+3V3", "PG_3V3"),
+                # ISOW1044 bypassing, SLLSFF7A s10.3: 10u + 1u + 10n on BOTH
+                # the VDD side and the isolated VISO side, per transceiver.
+                # The 10n must sit within 1 mm of the pin for the radiated
+                # emissions figure to mean anything - a layout constraint, not
+                # just a BOM line.
+                ("C35", "Device:C", "10u",  "+5V", "GND"),
+                ("C36", "Device:C", "1u",   "+5V", "GND"),
+                ("C37", "Device:C", "10n",  "+5V", "GND"),
+                ("C38", "Device:C", "10u",  "VISO1", "GND_ISO1"),
+                ("C39", "Device:C", "1u",   "VISO1", "GND_ISO1"),
+                ("C40", "Device:C", "10n",  "VISO1", "GND_ISO1"),
+                ("C41", "Device:C", "10u",  "VISO2", "GND_ISO2"),
+                ("C42", "Device:C", "1u",   "VISO2", "GND_ISO2"),
+                ("C43", "Device:C", "10n",  "VISO2", "GND_ISO2"),
+                # EN/FLT is used as the fault output, which needs >=5k to VIO.
+                # Worth having: it is how firmware learns an isolated supply
+                # has failed, and a redundant link whose failure is silent is
+                # not redundant.
+                ("R7", "Device:R", "10k", "+3V3", "CAN1_FLT"),
+                ("R8", "Device:R", "10k", "+3V3", "CAN2_FLT"),
                 # I2C1 is open drain and has no other pull-up. Both the
                 # ICP-20100 (DS-000416 fig 10 note) and the BMM150
                 # (BST-BMM150 s6.2) say so outright; without these the
@@ -993,11 +1019,11 @@ def build_passives():
         0, round(y - DY - 20.32, 2), 1.1))
 
     # Crystals with their load capacitors, each beside its own crystal
-    body.append(place("Device:Crystal_GND24", "X1", "16MHz", 0, y, ru, [],
+    body.append(place("Device:Crystal_GND24", "X1", "16MHz", 7 * DX, y, ru, [],
                       fp=footprint("Device:Crystal_GND24", "X1")))
     y2 = row(y, [("C22", "Device:C", "12p", "OSC_IN", "GND"),
                  ("C23", "Device:C", "12p", "OSC_OUT", "GND")])
-    body.append(place("Device:Crystal_GND24", "X2", "32.768kHz", 3 * DX, y,
+    body.append(place("Device:Crystal_GND24", "X2", "32.768kHz", 9 * DX, y,
                       ru, [], fp=footprint("Device:Crystal_GND24", "X2")))
     for i, (ref, net) in enumerate((("C24", "OSC32_IN"), ("C25", "OSC32_OUT"))):
         body.extend(two_pin(ref, "Device:C", "6p8", (4 + i) * DX, y,
@@ -1006,22 +1032,26 @@ def build_passives():
     body.append(text("X1 16 MHz HSE.   X2 32.768 kHz LSE.",
                      0, round(y - 17.78, 2), 1.1))
     y = y2
+    yflag = y
 
     # PWR_FLAG so ERC can see the rails as driven
+    FLAG_COLS = 7          # 9 flags in one row spans 203 mm; the page is 182
     for i, rail in enumerate(("+5V", "+3V3", "+3V3A", "GND",
-                              "VDD_BRICK", "VDD_SERVO", "VBUS_USB")):
-        fx = i * 25.4
+                              "VDD_BRICK", "VDD_SERVO", "VBUS_USB",
+                              "GND_ISO1", "GND_ISO2")):
+        fx = (i % FLAG_COLS) * 25.4
+        y = yflag + (i // FLAG_COLS) * DY
         body.append(place("power:PWR_FLAG", f"#FLG{i+1}", "PWR_FLAG",
                           fx, y, ru, []))
         for _num, _nm, dx, dy, ang in geom["power:PWR_FLAG"]:
             ax, ay = round(fx + dx, 2), round(y + dy, 2)
-            sx, sy = stub_len(ang)
+            sx, sy = stub_len(ang, v=3.81)
             bx, by = round(ax + sx, 2), round(ay + sy, 2)
             body.append(wire(ax, ay, bx, by))
             body.append(glabel(rail, "input", bx, by, 0 if sx < 0 else 180))
     body.append(text("PWR_FLAG marks each rail as driven, so ERC's "
                      "power-pin check means something.",
-                     0, round(y - 16.51, 2), 1.1))
+                     0, round(yflag - 16.51, 2), 1.1))
 
     print(f"  passives: {n} two-pin parts, 2 crystals, 7 power flags")
     return ru, document(ru, libs, fit(body, "passives"),
@@ -1043,7 +1073,7 @@ def build_comms():
     ru = uid()
     libs = []
     libs += sym_defs(KICAD_SYMS / "Interface_CAN_LIN.kicad_sym",
-                     "TCAN332", "Interface_CAN_LIN")
+                     "ISOW1044", "Interface_CAN_LIN")
     libs += sym_defs(KICAD_SYMS / "Jumper.kicad_sym",
                      "SolderJumper_2_Bridged", "Jumper")
     libs += sym_defs(KICAD_SYMS / "Connector.kicad_sym",
@@ -1075,7 +1105,7 @@ def build_comms():
             if net in (None, "NC"):
                 continue
             ax, ay = round(x + dx, 2), round(y + dy, 2)
-            sx, sy = stub_len(ang)
+            sx, sy = stub_len(ang, v=3.81)
             bx, by = round(ax + sx, 2), round(ay + sy, 2)
             body.append(wire(ax, ay, bx, by))
             shape = "input" if net.startswith(("+", "GND")) else "bidirectional"
@@ -1083,10 +1113,21 @@ def build_comms():
 
     for i, (ref, bus) in enumerate((("U30", "FDCAN1"), ("U31", "FDCAN2"))):
         n = i + 1
-        y = 50.8 + i * 44.45
-        wire_part(ref, "Interface_CAN_LIN:TCAN332", "TCAN332", 30.48, y,
+        y = 60.96 + i * 55.88
+        # Isolated CAN FD with its own integrated isolated DC-DC. Datasheet
+        # SLLSFF7A table 7-1. Two shorts there are easy to miss and both are
+        # mandatory: GNDIO and GND1 are NOT internally connected, and
+        # VISOOUT/VSIN/VISOIN are one node. STB must go to GNDIO or the
+        # driver sits in standby and the bus looks dead.
+        wire_part(ref, "Interface_CAN_LIN:ISOW1044", "ISOW1044", 30.48, y,
                   {"TXD": f"{bus}_TX", "RXD": f"{bus}_RX",
-                   "VCC": "+3V3", "GND": "GND",
+                   "VIO": "+3V3", "VDD": "+5V",
+                   "GNDIO": "GND", "GND1": "GND",
+                   "STB": "GND", "IN": "GND",
+                   "EN/FLT": f"CAN{n}_FLT",
+                   "VISOOUT": f"VISO{n}", "VSIN": f"VISO{n}",
+                   "VISOIN": f"VISO{n}",
+                   "GND2": f"GND_ISO{n}", "GISOIN": f"GND_ISO{n}",
                    "CANH": f"CAN{n}_H", "CANL": f"CAN{n}_L"})
         # 120R in series with the jumper, across the pair
         body.append(text(

@@ -218,6 +218,72 @@ MCU_SUPPLY = [
 ]
 
 
+# Rails that must never share a node with each other. Shorting any pair is
+# not a subtle fault - it is a board that destroys itself at power-up.
+DISTINCT_RAILS = ["+5V", "+3V3", "+3V3A", "GND", "VCAP",
+                  "+3V3_IMU1", "+3V3_IMU2", "+3V3_IMU3", "+3V3_SENS",
+                  "VISO1", "VISO2", "GND_ISO1", "GND_ISO2"]
+
+
+def check_rails_distinct(fails):
+    """Are the supply rails still separate nets?
+
+    Two symbols placed on top of each other, or a row pitch smaller than the
+    parts in it, merges everything their pins touch - silently, because the
+    result is a perfectly valid schematic that simply describes a different
+    circuit. A re-flow of the passives sheet did exactly that here and shorted
+    +3V3 to GND across the whole board: one net with 171 pins, and GND with
+    none at all.
+
+    Nothing else noticed. ERC was happy - a short is well-formed. The
+    footprint and page-fit checks were happy. Even "all MCU supply pins sit on
+    their rail" passed for +3V3, because the pins were all on it; they were
+    just on GND too.
+
+    So: assert the rails are pairwise disjoint, and that each one still has
+    pins. An empty GND is the signature of a merge.
+    """
+    proj = Path(tempfile.gettempdir()) / "fmu_proj.net"
+    if not proj.exists():
+        fails.append("project netlist missing - cannot check rail separation")
+        return 0
+    txt = proj.read_text(encoding="utf-8")
+    nets = {}
+    for blk in re.split(r'\n\t\t\(net\b', txt)[1:]:
+        m = re.search(r'\(name "([^"]*)"\)', blk)
+        if m:
+            nets[m.group(1).lstrip("/")] = set(
+                re.findall(r'\(ref "([^"]+)"\)\s*\n\s*\(pin "([^"]+)"\)', blk))
+
+    # A merged rail does not appear as an empty net - it does not appear AT
+    # ALL, because KiCad names the surviving net after one of them and the
+    # others simply cease to exist. The first version of this check said
+    # `for r in DISTINCT_RAILS if r in nets`, so the loudest possible signal -
+    # GND gone from a flight controller - was the one case it skipped, and it
+    # printed "10 supply rails are separate nets" on a board whose ground was
+    # shorted to +3V3. That is the third self-concealing check in this file's
+    # history. Absence must be an error, never a skip.
+    missing = [r for r in DISTINCT_RAILS if r not in nets]
+    if missing:
+        fails.append(f"rail(s) absent from the netlist entirely: "
+                     f"{', '.join(missing)} - a rail that vanishes has been "
+                     f"merged into another net, not deleted")
+    present = [r for r in DISTINCT_RAILS if r in nets]
+    for r in present:
+        if not nets[r]:
+            fails.append(f"{r} exists but has no pins")
+    # A merge shows up as one rail's pins appearing on another rail's net.
+    for i, a in enumerate(present):
+        for b in present[i + 1:]:
+            both = nets[a] & nets[b]
+            if both:
+                ex = ", ".join(f"{r}.{p}" for r, p in sorted(both)[:4])
+                fails.append(
+                    f"{a} and {b} share {len(both)} pin(s) - they are shorted "
+                    f"({ex})")
+    return len(present)
+
+
 def check_mcu_power(fails, n):
     """Is every MCU supply pin actually ON its rail, in the netlist?
 
@@ -471,6 +537,11 @@ def main():
     check_power(fails)
     print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
           f"power tree: 4 independent sensor rails, ORing intact")
+
+    before = len(fails)
+    nrails = check_rails_distinct(fails)
+    print(f"  [{'PASS' if len(fails) == before else 'FAIL'}] "
+          f"{nrails} supply rails are separate nets")
 
     before = len(fails)
     nsupply = check_mcu_power(fails, n)

@@ -179,7 +179,7 @@ def main():
     p = []
     isolators = [r for r, v in comps.items()
                  if any(k in v.upper() for k in
-                        ("ADUM", "SI86", "ISO10", "ISO12", "6N137", "HCPL",
+                        ("ADUM", "SI86", "ISO10", "ISOW10", "ISO12", "6N137", "HCPL",
                          "TLP", "ISO7", "MAX146"))]
     if not isolators:
         p.append("no isolator parts on the board - every off-board signal "
