@@ -176,7 +176,7 @@ FOOTPRINTS = {
 
     "Connector:USB_C_Receptacle_USB2.0_14P":
         "Connector_USB:USB_C_Receptacle_GCT_USB4085",
-    "Connector:SD_Card_Device":
+    "Connector:Micro_SD_Card_Det_Hirose_DM3AT":
         "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5",
     "Jumper:SolderJumper_2_Bridged":
         "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm",
@@ -1138,6 +1138,18 @@ def build_passives():
                 # Status LEDs. LED_R/G/B were allocated MCU pins and drove
                 # nothing; the board had no way to say anything. Common anode
                 # so the MCU sinks, 1k for ~1.5 mA per colour.
+                # SD bus pull-ups. The SD specification requires CMD and
+                # DAT0-3 pulled high; DAT3 doubles as the card's own detect
+                # pin, so it must not float during initialisation. The STM32
+                # has internal pull-ups but they are weak and only enabled
+                # after GPIO configuration, which is after the card has
+                # already sampled the bus.
+                ("R30", "Device:R", "10k", "+3V3", "SDMMC1_CMD"),
+                ("R31", "Device:R", "10k", "+3V3", "SDMMC1_D0"),
+                ("R32", "Device:R", "10k", "+3V3", "SDMMC1_D1"),
+                ("R33", "Device:R", "10k", "+3V3", "SDMMC1_D2"),
+                ("R34", "Device:R", "10k", "+3V3", "SDMMC1_D3"),
+                ("R35", "Device:R", "10k", "+3V3", "SD_DETECT"),
                 ("R17", "Device:R", "1k", "+3V3", "LED_R_A"),
                 ("R18", "Device:R", "1k", "+3V3", "LED_G_A"),
                 ("R19", "Device:R", "1k", "+3V3", "LED_B_A"),
@@ -1222,7 +1234,7 @@ def build_comms():
     libs += sym_defs(KICAD_SYMS / "Connector.kicad_sym",
                      "USB_C_Receptacle_USB2.0_14P", "Connector")
     libs += sym_defs(KICAD_SYMS / "Connector.kicad_sym",
-                     "SD_Card_Device", "Connector")
+                     "Micro_SD_Card_Det_Hirose_DM3AT", "Connector")
 
     geom = {}
     for lib in libs:
@@ -1287,16 +1299,22 @@ def build_comms():
                "CC2": "USB_CC2", "D+": "USB_OTG_FS_DP",
                "D-": "USB_OTG_FS_DM", "SHIELD": "GND"})
 
-    # The symbol's pin is "CD/DAT3", not "DAT3/CS". wire_part matches by pin
-    # NAME, so the old key matched nothing and SDMMC1_D3 reached only the MCU
-    # - the card would have run in 1-bit mode at best. "VSS2" and "DET" were
-    # invented too: this symbol has neither, so those keys also wired nothing
-    # and SD_DETECT had no source at all. Card detect needs a socket symbol
-    # that exposes it; recorded rather than faked.
-    wire_part("J31", "Connector:SD_Card_Device", "microSD", 129.54, 165.1,
+    # Micro_SD_Card_Det_Hirose_DM3AT, not SD_Card_Device: same socket, but
+    # this symbol exposes the DET_A/DET_B mechanical switch and the shield.
+    # SD_Card_Device has neither, which is why SD_DETECT had no source and
+    # the shield floated.
+    #
+    # DET_A/DET_B close when a card is seated. DET_B to ground, DET_A pulled
+    # up and read by the MCU, so firmware can tell "no card" from "card
+    # present but failing" - which matter differently: the first is a
+    # pre-flight nag, the second is a logging fault.
+    wire_part("J31", "Connector:Micro_SD_Card_Det_Hirose_DM3AT", "microSD",
+              129.54, 165.1,
               {"CLK": "SDMMC1_CK", "CMD": "SDMMC1_CMD",
                "DAT0": "SDMMC1_D0", "DAT1": "SDMMC1_D1",
-               "DAT2": "SDMMC1_D2", "CD/DAT3": "SDMMC1_D3",
+               "DAT2": "SDMMC1_D2", "DAT3/CD": "SDMMC1_D3",
+               "DET_A": "SD_DETECT", "DET_B": "GND",
+               "SHIELD": "GND",
                "VDD": "+3V3", "VSS": "GND"})
 
     return ru, document(ru, libs, fit(body, "comms"), "Comms and Storage", (

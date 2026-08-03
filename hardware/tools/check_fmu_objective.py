@@ -170,6 +170,21 @@ def main():
     check("FRAM present", ["FM25V02A missing"] if "FM25V02A" not in present
           else [])
 
+    # --- removable storage for logging -------------------------------------
+    # Distinct from HWR-IFC-006's FRAM: parameters belong in FRAM, logs
+    # belong on a card. Card detect is what lets firmware tell "no card"
+    # apart from "card present and failing".
+    p = []
+    sd = [r for r, v in comps.items() if "microSD" in v]
+    if not sd:
+        p.append("no microSD socket - nowhere to write flight logs")
+    else:
+        det = nets.get("SD_DETECT", set())
+        if not any(r in [s for s in sd] for r, _ in det):
+            p.append("SD_DETECT does not reach the socket - firmware cannot "
+                     "tell an empty slot from a failing card")
+    check("microSD socket with card detect", p)
+
     # --- isolated I/O ------------------------------------------------------
     # ARCHITECTURE.md "Isolated I/O": every off-board signal crosses a
     # galvanic barrier, twice, by independent paths; actuator links are
