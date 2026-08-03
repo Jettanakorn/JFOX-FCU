@@ -132,6 +132,73 @@ def _one_sym(s, name, lib_nick):
 
 
 # --------------------------------------------------------------------------
+# footprints
+# --------------------------------------------------------------------------
+
+# One footprint per part, chosen against the package the datasheet specifies.
+# Checked against the installed libraries by check_fmu_footprints.py - a name
+# that does not resolve is a board that cannot be laid out, and KiCad reports
+# that late and unhelpfully.
+FOOTPRINTS = {
+    "MCU_ST_STM32H7:STM32H753IITx":
+        "Package_QFP:LQFP-176_24x24mm_P0.5mm",
+
+    # Both InvenSense IMUs share one land - their package tables are identical
+    # in every dimension that matters. Drawn here, because KiCad ships nothing
+    # that fits; see gen_fmu_footprints.py.
+    "jfox-fmu:ICM-42688-P": "jfox-fmu:InvenSense_LGA-14_2.5x3mm_P0.5mm",
+    "jfox-fmu:ICM-45686":   "jfox-fmu:InvenSense_LGA-14_2.5x3mm_P0.5mm",
+    "jfox-fmu:BMP388":      "jfox-fmu:Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder2x3y",
+    "jfox-fmu:FM25V02A":    "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+    "Sensor_Motion:BMI088":
+        "Package_LGA:Bosch_LGA-16_4.5x3mm_P0.5mm_LayoutBorder7x1y_ClockwisePinNumbering",
+
+    # LTC4417's GN suffix is the 16-lead narrow SSOP.
+    "Power_Management:LTC4417CGN": "Package_SO:SSOP-16_3.9x4.9mm_P0.635mm",
+    # RGT is the 3x3 VQFN. TI's land drawing (SLVSAG7F 4222419/E) gives the
+    # exposed pad as 1.55 mm; KiCad's 1.6 mm variant is the closest and errs
+    # slightly large. Thermal vias, because the datasheet is explicit that the
+    # pad must be soldered and that dissipation limits output power.
+    "Regulator_Switching:TPS62132":
+        "Package_DFN_QFN:VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm_ThermalVias",
+    "Regulator_Linear:AP2112K-3.3": "Package_TO_SOT_SMD:SOT-23-5",
+    "Power_Management:AP22804AW5":  "Package_TO_SOT_SMD:SOT-23-5",
+    "Interface_CAN_LIN:TCAN332":    "Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
+
+    "Connector:USB_C_Receptacle_USB2.0_14P":
+        "Connector_USB:USB_C_Receptacle_GCT_USB4085",
+    "Connector:SD_Card_Device":
+        "Connector_Card:microSD_HC_Hirose_DM3AT-SF-PEJM5",
+    "Jumper:SolderJumper_2_Bridged":
+        "Jumper:SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm",
+
+    "Device:Crystal_GND24": "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm",
+    "Device:R": "Resistor_SMD:R_0402_1005Metric",
+    "Device:C": "Capacitor_SMD:C_0402_1005Metric",
+    # Generic 1210 land. The 2.2 uH part itself is not chosen yet - saturation
+    # current and DCR still have to be picked against the real 550 mA peak -
+    # so this is a placeholder land of the right size, not a selected part.
+    "Device:L": "Inductor_SMD:L_1210_3225Metric",
+
+    "power:PWR_FLAG": "",        # virtual - no physical part
+}
+
+# Capacitance that will not fit an 0402. Bulk and the buck's output cap need
+# the bigger body; assigning every capacitor an 0402 would produce a board
+# that cannot be built from the BOM it ships with.
+BIG_CAPS = {"4u7", "10u", "22u"}
+
+
+def footprint(lib_id, ref, value=None):
+    fp = FOOTPRINTS.get(lib_id)
+    if fp is None:
+        raise SystemExit(f"no footprint assigned for {lib_id} ({ref})")
+    if lib_id == "Device:C" and value in BIG_CAPS:
+        return "Capacitor_SMD:C_0805_2012Metric"
+    return fp or None
+
+
+# --------------------------------------------------------------------------
 # schematic primitives
 # --------------------------------------------------------------------------
 
@@ -494,7 +561,8 @@ def build_sensors():
     for i, s in enumerate(allparts):
         px = 45.72 + (i % 2) * 88.9
         py = 45.72 + (i // 2) * 66.04
-        body.append(place(s["lib"], s["ref"], s["val"], px, py, ru, s["nets"]))
+        body.append(place(s["lib"], s["ref"], s["val"], px, py, ru, s["nets"],
+                          fp=footprint(s["lib"], s["ref"])))
         pins = geom[s["lib"]]
         wanted = dict(s["nets"])
 
@@ -565,7 +633,8 @@ def build_mcu():
     # block - it lives in the title block and in PINMAP.md instead.
     px, py = 99.06, 124.46
     body = [place("MCU_ST_STM32H7:STM32H753IITx", "U10", "STM32H753IIT6",
-                  px, py, ru, [], label_dy=116.84)]
+                  px, py, ru, [], label_dy=116.84,
+                  fp=footprint("MCU_ST_STM32H7:STM32H753IITx", "U10"))]
 
     # Every PHYSICAL pin, not every pin NAME. pin_positions keys by name, and
     # this part puts 14 pins on VDD, 12 on VSS and 2 on VCAP - so a name-keyed
@@ -729,7 +798,8 @@ def build_power():
         0, 0, 1.4)]
 
     def wire_part(ref, lib_id, val, x, y, nets):
-        body.append(place(lib_id, ref, val, x, y, ru, []))
+        body.append(place(lib_id, ref, val, x, y, ru, [],
+                          fp=footprint(lib_id, ref)))
         for name, (dx, dy, ang) in geom[lib_id].items():
             net = nets.get(name)
             if net in (None, "NC"):
@@ -767,7 +837,8 @@ def two_pin(ref, lib_id, value, x, y, a_net, b_net, root_uuid, geom, vertical=Tr
     Uses pin_list, not pin_positions: passives name both pins "~", so a
     name-keyed lookup would wire only one end.
     """
-    out = [place(lib_id, ref, value, x, y, root_uuid, [])]
+    out = [place(lib_id, ref, value, x, y, root_uuid, [],
+                 fp=footprint(lib_id, ref, value))]
     for _num, _name, dx, dy, ang in geom[lib_id]:
         net = a_net if dy < 0 else b_net
         ax, ay = round(x + dx, 2), round(y + dy, 2)
@@ -866,11 +937,11 @@ def build_passives():
 
     # Crystals with their load capacitors, each beside its own crystal
     body.append(place("Device:Crystal_GND24", "X1", "16MHz", 0, y, ru, [],
-                      fp="Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"))
+                      fp=footprint("Device:Crystal_GND24", "X1")))
     y2 = row(y, [("C22", "Device:C", "12p", "OSC_IN", "GND"),
                  ("C23", "Device:C", "12p", "OSC_OUT", "GND")])
     body.append(place("Device:Crystal_GND24", "X2", "32.768kHz", 3 * DX, y,
-                      ru, [], fp="Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"))
+                      ru, [], fp=footprint("Device:Crystal_GND24", "X2")))
     for i, (ref, net) in enumerate((("C24", "OSC32_IN"), ("C25", "OSC32_OUT"))):
         body.extend(two_pin(ref, "Device:C", "6p8", (4 + i) * DX, y,
                             net, "GND", ru, geom))
@@ -940,7 +1011,8 @@ def build_comms():
         0, 0, 1.4)]
 
     def wire_part(ref, lib_id, val, x, y, nets):
-        body.append(place(lib_id, ref, val, x, y, ru, []))
+        body.append(place(lib_id, ref, val, x, y, ru, [],
+                          fp=footprint(lib_id, ref)))
         for name, (dx, dy, ang) in geom[lib_id].items():
             net = nets.get(name)
             if net in (None, "NC"):
