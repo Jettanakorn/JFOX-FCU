@@ -834,6 +834,25 @@ def embed_footprint(path, ref, value, x, y, side, nets_for_ref):
     # footprint with two of each, which KiCad loads and DRC then reports as
     # the same pad colliding with itself - 90 phantom clearance violations
     # that no amount of moving parts apart would ever fix.
+    # Redirect any model path that does not resolve to a locally generated
+    # body, if we have one. KiCad's footprints sometimes name a .step the
+    # install does not ship - the 3D library is packaged separately and does
+    # not cover every land pattern - and the part then renders as bare pads
+    # with nothing reporting it. U6's WLCSP-12 and U21's VQFN-16 were both
+    # in that gap.
+    #
+    # The stock footprint is left alone; only the copy embedded in this
+    # board is changed. Editing KiCad's library would be undone by the next
+    # install and would silently alter every other project on this machine.
+    local3d = REPO / "hardware" / "jfox-fmu-v1" / "3dmodels"
+    mm = re.search(r'\(model "([^"]+)"', body)
+    if mm:
+        want = local3d / (path.stem + ".wrl")
+        if want.exists():
+            body = body.replace(
+                mm.group(1),
+                "${KIPRJMOD}/3dmodels/" + want.name, 1)
+
     body = strip_edge_cuts(body)
     for field in ("version", "generator", "generator_version",
                   "layer", "uuid", "at"):

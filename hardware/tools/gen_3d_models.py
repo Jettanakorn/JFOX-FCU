@@ -30,6 +30,9 @@ import kicad_geom
 REPO = Path(__file__).resolve().parents[2]
 BOARD = REPO / "hardware" / "jfox-fmu-v1"
 OUT = BOARD / "3dmodels"
+# The backplane resolves ${KIPRJMOD} to its own directory, so a
+# single shared folder would not be found from both projects.
+OUT2 = REPO / "hardware" / "jfox-base-v1" / "3dmodels"
 
 KICAD = Path(r"C:\Users\Jetta\AppData\Local\Programs\KiCad\10.0")
 STOCK = KICAD / "share" / "kicad" / "footprints"
@@ -44,10 +47,43 @@ STOCK = KICAD / "share" / "kicad" / "footprints"
 # any of them, which is why they have no 3D model either.
 LOCAL = BOARD / "jfox-fmu.pretty"
 
+# Some footprints KiCad DOES ship reference a 3D model it does NOT - the
+# model library is packaged separately and does not cover every land
+# pattern. U6's WLCSP-12 and U21's VQFN-16 are both in that gap: the
+# footprint names a .step that is not in the install, so the part renders as
+# bare pads and nothing reports it. The footprint is read from the stock
+# library, the body is generated here.
+STOCK_FP = {
+    "WLCSP-12_1.56x1.56mm_P0.4mm": "Package_CSP",
+    "VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm_ThermalVias": "Package_DFN_QFN",
+    "Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal":
+        "Connector_PCBEdge",
+    "AGILENT_HFBR-152x": "OptoDevice",
+    "AGILENT_HFBR-252x": "OptoDevice",
+}
+
 BODIES = {
     "InvenSense_LGA-14_2.5x3mm_P0.5mm": (0.91, (0.15, 0.15, 0.17)),
     "InvenSense_LGA-10_2x2mm_P0.5mm":   (0.75, (0.15, 0.15, 0.17)),
     "Bosch_LGA-10_2x2mm_P0.5mm_LayoutBorder2x3y": (0.80, (0.20, 0.20, 0.22)),
+    # BMM150 magnetometer, WLCSP - 0.6 mm is the datasheet maximum
+    # (BST-BMM150-DS001 s7.1). A die-scale package, so the body IS the die.
+    "WLCSP-12_1.56x1.56mm_P0.4mm": (0.60, (0.15, 0.15, 0.17)),
+    # TPS62132 buck, VQFN-16. 1.0 mm max (SLVSBM3 s8.1). This one matters
+    # beyond looks: it is the tallest part on the back face, so it sets the
+    # clearance to whatever the card is mounted against.
+    "VQFN-16-1EP_3x3mm_P0.5mm_EP1.6x1.6mm_ThermalVias": (1.00, (0.12, 0.12, 0.13)),
+    # Card-edge socket. 7.6 mm is the connector height above the board; it
+    # sets how far a card sits from the backplane face and therefore the
+    # slot pitch, so this one is dimensional rather than decorative.
+    "Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal":
+        (7.60, (0.10, 0.10, 0.11)),
+    # Versatile Link optical housings. Heights are NOMINAL - the part
+    # numbers are still unverified (no datasheet in the repo), so these
+    # bodies show roughly where the housings are, not exactly. Do not take a
+    # clearance off them until the parts are confirmed.
+    "AGILENT_HFBR-152x": (10.00, (0.55, 0.55, 0.58)),
+    "AGILENT_HFBR-252x": (10.00, (0.30, 0.30, 0.32)),
 }
 
 VRML = """#VRML V2.0 utf8
@@ -136,7 +172,8 @@ def main():
     OUT.mkdir(parents=True, exist_ok=True)
     written = []
     for fp, (height, colour) in BODIES.items():
-        src = LOCAL / f"{fp}.kicad_mod"
+        src = (STOCK / f"{STOCK_FP[fp]}.pretty" / f"{fp}.kicad_mod"
+               if fp in STOCK_FP else LOCAL / f"{fp}.kicad_mod")
         if not src.exists():
             sys.exit(f"{src} not found - cannot derive a body from a "
                      f"footprint that is not there")
@@ -151,8 +188,10 @@ def main():
             "r": r, "g": g, "b": b,
             "points": "\n".join("        %.4f %.4f %.4f," % p for p in pts),
         }
+        for d in (OUT, OUT2):
+            d.mkdir(parents=True, exist_ok=True)
+            (d / f"{fp}.wrl").write_text(body, encoding="utf-8")
         dst = OUT / f"{fp}.wrl"
-        dst.write_text(body, encoding="utf-8")
         written.append((fp, x1 - x0, y1 - y0, height))
 
     print(f"  wrote {len(written)} model(s) to "

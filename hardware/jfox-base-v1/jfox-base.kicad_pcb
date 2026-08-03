@@ -200,39 +200,39 @@
 	(net 157 "unconnected-(U20-~{VALID3}-Pad12)")
 	(gr_line (start 32.0 30.0) (end 128.0 30.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "33e1f6c3-c7cb-448e-b823-937a73472ecc")
+		(uuid "adea4ba7-ff3c-41ff-b8fc-fbed639098fb")
 	)
 	(gr_arc (start 128.0 30.0) (mid 129.41422 30.58578) (end 130.0 32.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "88d5f36b-9a1a-48f1-9456-0f9d97f5b145")
+		(uuid "fd4fbc0b-0e56-4d33-a429-4573a09075c4")
 	)
 	(gr_line (start 130.0 32.0) (end 130.0 128.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "126e34a9-fc2f-4f96-886f-1f427d0f8821")
+		(uuid "0f557119-529b-4965-b51b-e59824ff3776")
 	)
 	(gr_arc (start 130.0 128.0) (mid 129.41422 129.41422) (end 128.0 130.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "bee34bea-348a-476f-962b-d6769b649651")
+		(uuid "44b1d5de-637d-4cdb-a415-70da541703d6")
 	)
 	(gr_line (start 128.0 130.0) (end 32.0 130.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "06bc2563-e231-4e86-9d50-c416f6414c89")
+		(uuid "4e1d0c3b-2512-47d4-9e1b-2fe88846099e")
 	)
 	(gr_arc (start 32.0 130.0) (mid 30.58578 129.41422) (end 30.0 128.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "6f5b7cd2-2ea0-4e6f-b82b-d14b157fca3f")
+		(uuid "67fa1fb6-4980-446d-ab7f-c9b447ceb3ee")
 	)
 	(gr_line (start 30.0 128.0) (end 30.0 32.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "648ddebd-049e-4641-8bbf-ee87885d9e34")
+		(uuid "eef35c31-fe74-4226-bbad-7f749ace53e2")
 	)
 	(gr_arc (start 30.0 32.0) (mid 30.58578 30.58578) (end 32.0 30.0)
 		(stroke (width 0.1) (type solid)) (layer "Edge.Cuts")
-		(uuid "c1cf50e4-5ed3-4b67-a0f9-845bc21e1049")
+		(uuid "721facec-db60-4096-aa0d-9476eda55304")
 	)
 	(footprint "Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal"
 		(layer "F.Cu")
-		(uuid "853decb9-27bb-4cfd-af2c-37d5df2b57ef")
+		(uuid "fc386e31-0507-4502-a1c2-2d8ace9a8709")
 		(at 80.01 53.31)
 	(descr "Highspeed card edge connector for 1.6mm PCB's with 30 contacts (polarized)")
 	(tags "conn samtec card-edge high-speed")
@@ -739,7 +739,7 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Connector_PCBEdge.3dshapes/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.step"
+	(model "${KIPRJMOD}/3dmodels/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -753,7 +753,7 @@
 	)
 	(footprint "Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal"
 		(layer "F.Cu")
-		(uuid "99612dab-175a-49c3-bb57-956f828d9ab1")
+		(uuid "a7048ba2-94c0-42de-89bb-b02f694f3735")
 		(at 80.01 79.31)
 	(descr "Highspeed card edge connector for 1.6mm PCB's with 30 contacts (polarized)")
 	(tags "conn samtec card-edge high-speed")
@@ -1260,7 +1260,7 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Connector_PCBEdge.3dshapes/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.step"
+	(model "${KIPRJMOD}/3dmodels/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -1274,7 +1274,7 @@
 	)
 	(footprint "Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal"
 		(layer "F.Cu")
-		(uuid "f9fe6bd4-7b81-4905-9957-19ba89bed93e")
+		(uuid "12e7b84d-9428-42f1-b7c8-d987ada2632b")
 		(at 80.01 105.31)
 	(descr "Highspeed card edge connector for 1.6mm PCB's with 30 contacts (polarized)")
 	(tags "conn samtec card-edge high-speed")
@@ -1781,7 +1781,7 @@
 		(layers "F.Cu" "F.Mask" "F.Paste")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/Connector_PCBEdge.3dshapes/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.step"
+	(model "${KIPRJMOD}/3dmodels/Samtec_MECF-30-01-L-DV_2x30_P1.27mm_Polarized_Socket_Horizontal.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -1795,7 +1795,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "cbca072c-4852-4761-8bd6-2a84680dcb0c")
+		(uuid "ed1ffe3e-5dcb-450e-b19d-2bcd05d1aa14")
 		(at 114.0 125.3)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -2148,7 +2148,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "236357d0-58e9-4b4e-9c47-ba6ec0adb42e")
+		(uuid "88c79c05-68db-4a82-8821-5f40bc7371fc")
 		(at 50.5 125.3)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -2501,7 +2501,7 @@
 	)
 	(footprint "JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "51697fae-0c56-4cf1-9a55-3f7d3ce5fff0")
+		(uuid "7971756b-10dc-48ba-985a-d26ce8d3973a")
 		(at 106.7 34.7)
 	(descr "JST GH series connector, SM05B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -2861,7 +2861,7 @@
 	)
 	(footprint "JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "e22e4036-ce2e-49d8-99ba-61bade105f45")
+		(uuid "a80d7f89-f10f-42b9-8368-2bf56b9e71e4")
 		(at 120.02 112.0)
 	(descr "JST GH series connector, SM10B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -3256,7 +3256,7 @@
 	)
 	(footprint "JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "2fd6813d-ed04-4659-aac0-6e59d380c958")
+		(uuid "8bc7888d-494f-4a26-8c3d-498d461a4aba")
 		(at 39.98 112.0)
 	(descr "JST GH series connector, SM10B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -3651,7 +3651,7 @@
 	)
 	(footprint "JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "57d23d79-fad1-483c-9773-d213f9289cdd")
+		(uuid "7b9fa3da-e179-4634-b35c-6917cc2caaed")
 		(at 100.0 125.3)
 	(descr "JST GH series connector, SM10B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -4046,7 +4046,7 @@
 	)
 	(footprint "JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "aa8ccbed-5c62-4d1d-b890-10103e4eff0d")
+		(uuid "f4ea8ecd-6f5f-48bd-863d-46be21bc86b8")
 		(at 50.5 34.7)
 	(descr "JST GH series connector, SM10B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -4441,7 +4441,7 @@
 	)
 	(footprint "JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "8ca0d603-69ec-4e93-a8d9-c3c72676f9a1")
+		(uuid "1e871228-894c-42d7-8dab-7c82053fcb1f")
 		(at 66.3 34.7)
 	(descr "JST GH series connector, SM05B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -4801,7 +4801,7 @@
 	)
 	(footprint "JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "b7e5c9ed-6df3-46ce-b9f6-0fb31fcc1747")
+		(uuid "15a904a7-6fb3-4827-805c-9c0a2aac2508")
 		(at 79.6 34.7)
 	(descr "JST GH series connector, SM06B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -5168,7 +5168,7 @@
 	)
 	(footprint "JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "94f5fdb1-ac98-4ef3-9027-ee5c39403aab")
+		(uuid "f1afd0cb-e6ec-465e-9ff7-2c0afd5a125c")
 		(at 93.5 34.7)
 	(descr "JST GH series connector, SM06B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -5535,7 +5535,7 @@
 	)
 	(footprint "AGILENT_HFBR-152x"
 		(layer "F.Cu")
-		(uuid "ac3f8427-6d2e-4f0c-aaa4-29415a229a9a")
+		(uuid "08dabd4a-3221-4f37-9662-5672d6154c1f")
 		(at 119.39 58.2)
 	(descr "Fiberoptic Transmitter TX, HFBR series (https://docs.broadcom.com/docs/AV02-3283EN)")
 	(tags "Fiberoptic Transmitter")
@@ -6396,7 +6396,7 @@
 		(uuid "da3d9bed-f1ad-4130-aa94-118ae3fbe8db")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/OptoDevice.3dshapes/AGILENT_HFBR-152x.step"
+	(model "${KIPRJMOD}/3dmodels/AGILENT_HFBR-152x.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -6410,7 +6410,7 @@
 	)
 	(footprint "AGILENT_HFBR-252x"
 		(layer "F.Cu")
-		(uuid "339a9be3-6f43-4097-a044-79eff7fa95e7")
+		(uuid "9c16bef9-106d-4965-a767-97bbdb54413e")
 		(at 119.39 82.2)
 	(descr "Fiberoptic Receiver RX, HFBR series (https://docs.broadcom.com/docs/AV02-3283EN)")
 	(tags "Fiberoptic Transmitter")
@@ -7271,7 +7271,7 @@
 		(uuid "b89c8998-26f4-4a33-8251-8da33147f357")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/OptoDevice.3dshapes/AGILENT_HFBR-252x.step"
+	(model "${KIPRJMOD}/3dmodels/AGILENT_HFBR-252x.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -7285,7 +7285,7 @@
 	)
 	(footprint "AGILENT_HFBR-152x"
 		(layer "F.Cu")
-		(uuid "f44a834b-7277-485d-b1ec-367fcc08088c")
+		(uuid "bd4d241a-e698-40fa-811b-3a8f1b92b5f4")
 		(at 34.99 58.2)
 	(descr "Fiberoptic Transmitter TX, HFBR series (https://docs.broadcom.com/docs/AV02-3283EN)")
 	(tags "Fiberoptic Transmitter")
@@ -8146,7 +8146,7 @@
 		(uuid "da3d9bed-f1ad-4130-aa94-118ae3fbe8db")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/OptoDevice.3dshapes/AGILENT_HFBR-152x.step"
+	(model "${KIPRJMOD}/3dmodels/AGILENT_HFBR-152x.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -8160,7 +8160,7 @@
 	)
 	(footprint "AGILENT_HFBR-252x"
 		(layer "F.Cu")
-		(uuid "8f03d306-3884-4738-a58e-e1f029ef2435")
+		(uuid "49a7edd6-5a76-402e-9a44-d0cc8451a6af")
 		(at 34.99 82.2)
 	(descr "Fiberoptic Receiver RX, HFBR series (https://docs.broadcom.com/docs/AV02-3283EN)")
 	(tags "Fiberoptic Transmitter")
@@ -9021,7 +9021,7 @@
 		(uuid "b89c8998-26f4-4a33-8251-8da33147f357")
 	)
 	(embedded_fonts no)
-	(model "${KICAD10_3DMODEL_DIR}/OptoDevice.3dshapes/AGILENT_HFBR-252x.step"
+	(model "${KIPRJMOD}/3dmodels/AGILENT_HFBR-252x.wrl"
 		(offset
 			(xyz 0 0 0)
 		)
@@ -9035,7 +9035,7 @@
 	)
 	(footprint "JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "18410384-7763-43a6-8c80-f560ee7398b3")
+		(uuid "0fab8039-ef1a-4070-94e9-8e6b27f8d91d")
 		(at 70.0 125.3)
 	(descr "JST GH series connector, SM06B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -9402,7 +9402,7 @@
 	)
 	(footprint "JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "b3f853c3-8ad1-4ec7-8aee-4849f6915a15")
+		(uuid "5ebf16e8-fd4e-4cd6-b836-f2905df9d300")
 		(at 86.0 125.3)
 	(descr "JST GH series connector, SM05B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -9762,7 +9762,7 @@
 	)
 	(footprint "Fuse_1206_3216Metric"
 		(layer "F.Cu")
-		(uuid "887e114b-8f7b-474b-9e41-f332a0e74f52")
+		(uuid "45b179fd-56f2-485e-927d-2b1ea58e51aa")
 		(at 47.28 47.13)
 	(descr "Fuse SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "fuse")
@@ -9875,7 +9875,7 @@
 	)
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "dc7a3601-3b28-40b1-98c6-6cf7b5e2a255")
+		(uuid "f49a534c-111e-40d2-a5e5-d902be6cd464")
 		(at 52.06 46.98)
 	(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "capacitor")
@@ -9988,7 +9988,7 @@
 	)
 	(footprint "LED_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "c3ba749f-573e-48ac-b5ef-119928f25605")
+		(uuid "f02623b5-d9bc-4bea-875a-4e2c06b3ae5c")
 		(at 46.68 50.01)
 	(descr "LED SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "LED")
@@ -10145,7 +10145,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "8a15a175-a2ad-451e-b01f-c2658846a62a")
+		(uuid "cf2d7fa0-cc18-43f6-93b1-6b8dcff93318")
 		(at 50.09 49.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -10258,7 +10258,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "380bf048-3a89-41de-aabb-99b9e629dcac")
+		(uuid "37f23aba-7621-4118-9bf6-7dfa7da3aedf")
 		(at 52.45 49.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -10371,7 +10371,7 @@
 	)
 	(footprint "Fuse_1206_3216Metric"
 		(layer "F.Cu")
-		(uuid "66d1d645-364e-4731-aba0-7533acddc1e5")
+		(uuid "6439c833-8b30-4c6e-b059-4fd9d3d669e5")
 		(at 47.28 73.13)
 	(descr "Fuse SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "fuse")
@@ -10484,7 +10484,7 @@
 	)
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "b3640815-440e-49b2-84c2-f20d6f0a4fc6")
+		(uuid "fae7fa1d-3f45-4e7f-9218-ff27a003a42f")
 		(at 52.06 72.98)
 	(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "capacitor")
@@ -10597,7 +10597,7 @@
 	)
 	(footprint "LED_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "fcccb627-46ba-473e-bdf9-deba69fda6de")
+		(uuid "72f78ee2-da71-4e9d-bc00-64b9e3dcc62e")
 		(at 46.68 76.01)
 	(descr "LED SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "LED")
@@ -10754,7 +10754,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "61507e95-4dc5-454a-91a5-1ecc5a4ba5e2")
+		(uuid "1d80aca8-198c-41c7-8b7f-c0177597db1e")
 		(at 50.09 75.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -10867,7 +10867,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "e789c2b5-0744-4f05-9754-63101612d84d")
+		(uuid "cd27d8a8-0c8f-492c-bcc7-c181c68f2036")
 		(at 52.45 75.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -10980,7 +10980,7 @@
 	)
 	(footprint "Fuse_1206_3216Metric"
 		(layer "F.Cu")
-		(uuid "4dbf7a65-7d5f-4cc2-8fcf-3caefb157a67")
+		(uuid "7da88f63-63a9-4de0-aaba-402d95c173be")
 		(at 47.28 99.13)
 	(descr "Fuse SMD 1206 (3216 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: http://www.tortai-tech.com/upload/download/2011102023233369053.pdf)")
 	(tags "fuse")
@@ -11093,7 +11093,7 @@
 	)
 	(footprint "C_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "0e1301cf-cd71-48f1-9ba8-4f96050a0a71")
+		(uuid "cf33cb0b-b455-4372-90c6-b4fc71468ab6")
 		(at 52.06 98.98)
 	(descr "Capacitor SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf, https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "capacitor")
@@ -11206,7 +11206,7 @@
 	)
 	(footprint "LED_0805_2012Metric"
 		(layer "F.Cu")
-		(uuid "a0a6e269-c988-4523-aa06-e08962695116")
+		(uuid "a7549697-7e98-4ed8-8ee8-fae1e3a6e820")
 		(at 46.68 102.01)
 	(descr "LED SMD 0805 (2012 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: https://docs.google.com/spreadsheets/d/1BsfQQcO9C6DZCsRaXUlFlo91Tg2WpOkGARC1WS5S8t0/edit?usp=sharing)")
 	(tags "LED")
@@ -11363,7 +11363,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "00eec4fa-85a5-48e4-8163-59bb50d42dda")
+		(uuid "1d89744d-442e-40ce-a0a6-6fe0b893d00d")
 		(at 50.09 101.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -11476,7 +11476,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "97250aa4-05d6-4912-8366-6c29e41c04ad")
+		(uuid "7911a2d7-f08a-4736-8a07-7aa65a9250c2")
 		(at 52.45 101.53)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -11589,7 +11589,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "b1b27a0b-de42-4cb0-ad8c-118cab44528b")
+		(uuid "dc237288-547a-410b-a264-dbf0b0ca00f5")
 		(at 107.73 49.2)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -11942,7 +11942,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "83112294-ddb5-4360-aed3-e796e9ce5e6a")
+		(uuid "a7e6b47d-110d-4df6-8418-2683d7fc3383")
 		(at 107.73 56.4)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -12295,7 +12295,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "c0371843-4b4d-4943-b01c-8b4dfd3c2a28")
+		(uuid "18e75b24-a9b2-4ff2-9c88-e5f6d1da4b83")
 		(at 107.73 63.6)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -12648,7 +12648,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "e4bef4a4-a710-4cbc-beed-62b867485004")
+		(uuid "5387910a-923f-4251-8253-98d25e40b0f8")
 		(at 107.73 70.8)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -13001,7 +13001,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "3a88b93a-e48f-4f22-9d22-8e5401257389")
+		(uuid "e2e00db6-4e03-4aaa-a287-6c7a91527ecf")
 		(at 107.73 78.0)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -13354,7 +13354,7 @@
 	)
 	(footprint "JST_GH_SM04B-GHS-TB_1x04-1MP_P1.25mm_Horizontal"
 		(layer "F.Cu")
-		(uuid "6b09efb7-5dda-4ce3-aa2c-f175b654f403")
+		(uuid "e54f4e2e-d87c-49c1-af4a-55956700d0f7")
 		(at 107.73 85.2)
 	(descr "JST GH series connector, SM04B-GHS-TB (http://www.jst-mfg.com/product/pdf/eng/eGH.pdf)")
 	(tags "connector JST GH horizontal")
@@ -13707,7 +13707,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "7c5a1ea7-0211-4506-aa71-56f0e15b34ba")
+		(uuid "d84a3647-832b-472f-ac2a-1591b908b1d4")
 		(at 103.93 89.67)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -13820,7 +13820,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "F.Cu")
-		(uuid "c4fad727-39f6-465c-a682-4d6808725e83")
+		(uuid "b6f11802-2abb-42e4-b3ce-958df355354b")
 		(at 106.29 89.67)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -13933,7 +13933,7 @@
 	)
 	(footprint "PinHeader_2x10_P1.27mm_Vertical_SMD"
 		(layer "B.Cu")
-		(uuid "ef58e616-ddb6-4fb3-aa10-6bab6a708b94")
+		(uuid "f3f07700-91a4-4e63-9726-19809e9a8563")
 		(at 60.29 66.85)
 	(descr "surface-mounted straight pin header, 2x10, 1.27mm pitch, double rows")
 	(tags "Surface mounted pin header SMD 2x10 1.27mm double row")
@@ -14776,7 +14776,7 @@
 	)
 	(footprint "PinHeader_2x10_P1.27mm_Vertical_SMD"
 		(layer "B.Cu")
-		(uuid "d74ebe88-24aa-446d-a2cd-2c90b653e5be")
+		(uuid "1d2447f9-febd-4a63-8752-b8bbd0ba3c45")
 		(at 70.07 66.85)
 	(descr "surface-mounted straight pin header, 2x10, 1.27mm pitch, double rows")
 	(tags "Surface mounted pin header SMD 2x10 1.27mm double row")
@@ -15619,7 +15619,7 @@
 	)
 	(footprint "PinHeader_2x10_P1.27mm_Vertical_SMD"
 		(layer "B.Cu")
-		(uuid "957543ff-4c9a-41e9-8bb6-569c868f3c6b")
+		(uuid "0ffc5fbe-eef8-4833-8aa8-af041b322033")
 		(at 79.85 66.85)
 	(descr "surface-mounted straight pin header, 2x10, 1.27mm pitch, double rows")
 	(tags "Surface mounted pin header SMD 2x10 1.27mm double row")
@@ -16462,7 +16462,7 @@
 	)
 	(footprint "C_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "254e7ca9-c074-4c81-bdb8-d24c1345d497")
+		(uuid "f54b545c-d0a1-4698-a904-31539f21a937")
 		(at 86.25 60.46)
 	(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "capacitor")
@@ -16579,7 +16579,7 @@
 	)
 	(footprint "C_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "9c24c18f-0b9b-4bb0-9cb7-00262808c7ba")
+		(uuid "b54b2774-98da-4860-9a22-ee14938d8e00")
 		(at 88.57 60.46)
 	(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "capacitor")
@@ -16696,7 +16696,7 @@
 	)
 	(footprint "SSOP-24_3.9x8.7mm_P0.635mm"
 		(layer "F.Cu")
-		(uuid "ca72ae3a-3b36-4687-b8ed-b9bc070bdf31")
+		(uuid "91237a50-69ac-48ae-91e6-e3b470135254")
 		(at 59.45 90.65)
 	(descr "SSOP24: plastic shrink small outline package; 24 leads; body width 3.9 mm; lead pitch 0.635; (see NXP SSOP-TSSOP-VSO-REFLOW.pdf and sot556-1_po.pdf)")
 	(tags "SSOP 0.635")
@@ -17105,7 +17105,7 @@
 	)
 	(footprint "D_SMA"
 		(layer "F.Cu")
-		(uuid "ba095191-4197-4e82-92c6-efe07107178f")
+		(uuid "a9bd5bcf-cd69-4dfc-a328-445674a9825d")
 		(at 67.6 87.75)
 	(descr "Diode SMA (DO-214AC)")
 	(tags "Diode SMA (DO-214AC)")
@@ -17370,7 +17370,7 @@
 	)
 	(footprint "D_SMA"
 		(layer "F.Cu")
-		(uuid "7c7e8a52-32f4-416b-a9dd-9d815d8f095a")
+		(uuid "662f4131-6d20-4818-8d7d-7c205d379e49")
 		(at 75.4 87.75)
 	(descr "Diode SMA (DO-214AC)")
 	(tags "Diode SMA (DO-214AC)")
@@ -17635,7 +17635,7 @@
 	)
 	(footprint "SOT-23"
 		(layer "F.Cu")
-		(uuid "fd12690c-6a90-4750-81c9-a7f9adb61d4c")
+		(uuid "8111c92e-d4ed-48f8-9e17-da83a7823ba0")
 		(at 81.63 87.7)
 	(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 	(tags "SOT TO_SOT_SMD")
@@ -17952,7 +17952,7 @@
 	)
 	(footprint "SOT-23"
 		(layer "F.Cu")
-		(uuid "0509b1b4-f93c-48ed-a2f9-f37da80428dd")
+		(uuid "c9050b56-ea4e-4e23-95da-ec725780d59d")
 		(at 86.29 87.7)
 	(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 	(tags "SOT TO_SOT_SMD")
@@ -18269,7 +18269,7 @@
 	)
 	(footprint "SOT-23"
 		(layer "F.Cu")
-		(uuid "cbe0d60f-e4b4-4dff-aacf-31257d765896")
+		(uuid "9537b12c-8913-4514-aa07-af05360dcd8d")
 		(at 90.95 87.7)
 	(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 	(tags "SOT TO_SOT_SMD")
@@ -18586,7 +18586,7 @@
 	)
 	(footprint "SOT-23"
 		(layer "F.Cu")
-		(uuid "e4886a28-d28a-4401-bf6c-304c947f8dd0")
+		(uuid "743d85b6-5be2-44b0-8e94-bb1d7e7557c4")
 		(at 95.61 87.7)
 	(descr "SOT, 3 Pin (JEDEC TO-236 Var AB https://www.jedec.org/document_search?search_api_views_fulltext=TO-236)")
 	(tags "SOT TO_SOT_SMD")
@@ -18903,7 +18903,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "9328ef47-1fd5-4df6-932b-077d4b14fc26")
+		(uuid "8e5864a1-40a7-4890-88cf-13c25e8491ba")
 		(at 99.27 86.47)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19020,7 +19020,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "acbd7ed8-8da7-48ef-85ba-7ccf74c7014d")
+		(uuid "33a759e2-ae51-46f5-af36-e1392107ae19")
 		(at 101.63 86.47)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19137,7 +19137,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "f465f81e-c387-40ea-8f00-4f6818239ec0")
+		(uuid "99c39861-6450-4055-a52c-e46689038afb")
 		(at 56.93 96.57)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19254,7 +19254,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "5018ffab-a1eb-4706-bdac-4a7e700614e3")
+		(uuid "7da873b0-0f19-4a69-bce9-48f838b5037c")
 		(at 59.29 96.57)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19371,7 +19371,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "1064a870-564c-4a31-aeba-16131c3ba62c")
+		(uuid "072bbf33-17bf-4e6c-a874-9c6e40270100")
 		(at 61.65 96.57)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19488,7 +19488,7 @@
 	)
 	(footprint "R_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "a7942e5b-7b87-4879-91ab-da6a67dbef6a")
+		(uuid "9830090f-811b-43ce-b35c-d6723800e39c")
 		(at 64.01 96.57)
 	(descr "Resistor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 72, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "resistor")
@@ -19605,7 +19605,7 @@
 	)
 	(footprint "C_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "8e9be007-27ef-4887-ab1e-d3f1da72d49b")
+		(uuid "0e0ae05b-be4a-4efb-99ca-de67f7b3be0c")
 		(at 66.35 96.56)
 	(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "capacitor")
@@ -19722,7 +19722,7 @@
 	)
 	(footprint "C_0402_1005Metric"
 		(layer "B.Cu")
-		(uuid "3e08b61b-d1a5-4114-8a87-889979326af8")
+		(uuid "9440a576-6878-4fa9-8b8c-d318772b9bf2")
 		(at 68.67 96.56)
 	(descr "Capacitor SMD 0402 (1005 Metric), square (rectangular) end terminal, IPC-7351 nominal, (Body size source: IPC-SM-782 page 76, https://www.pcb-3d.com/wordpress/wp-content/uploads/ipc-sm-782a_amendment_1_and_2.pdf)")
 	(tags "capacitor")
@@ -19840,12 +19840,12 @@
 	(gr_text "JXK-1-1102-A"
 		(at 63.0 65.5)
 		(layer "F.SilkS")
-		(uuid "6d4fba02-f6c0-4cf9-9025-f8aaffea6636")
+		(uuid "3af25937-82a2-4f10-8b8e-f1ecaa61b1db")
 		(effects (font (size 0.8 0.8) (thickness 0.12)) (justify left))
 	)
 	(footprint "JFOX_Logo"
 		(layer "F.Cu")
-		(uuid "50c386d8-f84d-4e91-8399-ed8ed6769f77")
+		(uuid "b5828a75-5259-49d6-94f1-c43210fec078")
 		(at 36.0 122.0)
 	(descr "JFOX Aircraft Co., Ltd. logo, front silkscreen. Generated from hardware/brand/jfox-logo-white.png - edit that and re-run gen_jfox_logo.py, do not hand-edit this file.")
 	(tags "logo graphic")
@@ -20553,37 +20553,37 @@
 	(gr_text "CH_A"
 		(at 46.0 47.5)
 		(layer "Cmts.User")
-		(uuid "cae02fdd-e31d-4b66-b85e-426d7b7d4571")
+		(uuid "dd69f1d5-58d8-41bc-964b-9afd5cbef4d2")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 	(gr_text "CH_B"
 		(at 46.0 73.5)
 		(layer "Cmts.User")
-		(uuid "b841c99f-00b7-4a65-aaf1-db8724b78e21")
+		(uuid "175fc7f5-7ddc-497d-822b-fa97fe466f19")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 	(gr_text "CH_C"
 		(at 46.0 99.5)
 		(layer "Cmts.User")
-		(uuid "57383a74-12fc-4f2b-a804-33802ad743d4")
+		(uuid "dcbf8d68-7b88-4829-b2dd-dcd621aa8377")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 	(gr_text "CAN"
 		(at 104.0 47.5)
 		(layer "Cmts.User")
-		(uuid "59d9b379-16ac-4659-ba03-15cb51770bcd")
+		(uuid "4dfc5367-f8a0-40bc-802d-ade00575a2e8")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 	(gr_text "EXP"
 		(at 57.0 61.5)
 		(layer "Cmts.User")
-		(uuid "4475c0c6-99dd-43b5-a187-2ed500fea05d")
+		(uuid "e80a8087-7108-47bd-aa64-b225b7206330")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 	(gr_text "ORING"
 		(at 57.0 87.5)
 		(layer "Cmts.User")
-		(uuid "80b3ca14-e0b9-4154-aa08-3d851c3de157")
+		(uuid "ade705c9-a0dc-4419-8a4f-1cbefb23d71e")
 		(effects (font (size 1.5 1.5) (thickness 0.2)) (justify left top))
 	)
 )
