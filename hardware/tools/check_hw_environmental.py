@@ -93,7 +93,10 @@ FULL_ACCURACY = {
 # Passives and connectors. Standard MLCC/thick-film parts comfortably exceed
 # the declared category; they are excluded by class rather than listed, and
 # the exclusion is stated so it is a decision rather than an oversight.
-PASSIVE_PREFIX = ("C", "R", "L", "X", "JP", "#")
+# "J" added: JST-GH connectors and the USB/SD sockets are rated well
+# past this category and are excluded by class, like the passives.
+# "D" covers the status LEDs.
+PASSIVE_PREFIX = ("C", "R", "L", "X", "JP", "#", "J", "D")
 CONNECTOR_VALUES = {"USB-C", "microSD", "SolderJumper_2_Bridged", "PWR_FLAG"}
 
 

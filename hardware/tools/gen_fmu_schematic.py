@@ -185,6 +185,7 @@ FOOTPRINTS = {
     # current and DCR still have to be picked against the real 550 mA peak -
     # so this is a placeholder land of the right size, not a selected part.
     "Device:L": "Inductor_SMD:L_1210_3225Metric",
+    "Device:LED": "LED_SMD:LED_0603_1608Metric",
 
     "power:PWR_FLAG": "",        # virtual - no physical part
 }
@@ -892,8 +893,16 @@ def two_pin(ref, lib_id, value, x, y, a_net, b_net, root_uuid, geom, vertical=Tr
     """
     out = [place(lib_id, ref, value, x, y, root_uuid, [],
                  fp=footprint(lib_id, ref, value))]
-    for _num, _name, dx, dy, ang in geom[lib_id]:
-        net = a_net if dy < 0 else b_net
+    # Split the two pins along whichever axis actually separates them.
+    # Deciding on dy alone assumes a vertically drawn part: Device:LED is
+    # horizontal, both its pins sit at dy = 0, so both took b_net and the LED
+    # shorted its own anode to its cathode while the anode net kept only the
+    # series resistor. It looked wired and was a short.
+    pins = geom[lib_id]
+    vertical = len({round(p[3], 3) for p in pins}) > 1
+    for _num, _name, dx, dy, ang in pins:
+        first = (dy < 0) if vertical else (dx < 0)
+        net = a_net if first else b_net
         ax, ay = round(x + dx, 2), round(y + dy, 2)
         # Short vertical stubs. A two-pin part is stacked vertically and its
         # stubs are pure page height - 52 of them at the default 7.62 mm push
@@ -919,7 +928,7 @@ def build_passives():
     """
     ru = uid()
     libs = []
-    for nm in ("R", "C", "L", "Crystal_GND24"):
+    for nm in ("R", "C", "L", "LED", "Crystal_GND24"):
         lib = "Device"
         libs += sym_defs(KICAD_SYMS / f"{lib}.kicad_sym", nm, lib)
     libs += sym_defs(KICAD_SYMS / "power.kicad_sym", "PWR_FLAG", "power")
@@ -944,7 +953,7 @@ def build_passives():
     # The old layout stepped until x > 240, which put the last capacitor of
     # every row about 60 mm off the right-hand edge of any page this design
     # was ever going to be printed on.
-    COLS, DX, DY = 11, 15.24, 22.86
+    COLS, DX, DY = 12, 13.97, 20.32
 
     def row(y, items):
         """Place a row of two-pin parts, wrapping at COLS."""
@@ -966,7 +975,10 @@ def build_passives():
     # VCAP, analog rail, and the sensor/transceiver decoupling
     y = row(y, [("C18", "Device:C", "2u2", "VCAP", "GND"),
                 ("C19", "Device:C", "2u2", "VCAP", "GND"),
-                ("C20", "Device:C", "100n", "VDDA", "GND"),
+                # The MCU's VDDA pin is on +3V3A (MCU_FIXED). This capacitor was
+                # on a net called "VDDA" that nothing else joined, so it
+                # decoupled nothing at all.
+                ("C20", "Device:C", "100n", "+3V3A", "GND"),
                 ("C21", "Device:C", "1u", "+3V3A", "GND"),
                 ("C30", "Device:C", "100n", "+3V3_IMU1", "GND"),
                 ("C31", "Device:C", "100n", "+3V3_IMU2", "GND"),
@@ -1026,6 +1038,15 @@ def build_passives():
                 ("R12", "Device:R", "10k", "VBUS_SENSE", "GND"),
                 # Load-switch fault outputs are open drain and need pull-ups
                 # to be readable at all.
+                # Status LEDs. LED_R/G/B were allocated MCU pins and drove
+                # nothing; the board had no way to say anything. Common anode
+                # so the MCU sinks, 1k for ~1.5 mA per colour.
+                ("R17", "Device:R", "1k", "+3V3", "LED_R_A"),
+                ("R18", "Device:R", "1k", "+3V3", "LED_G_A"),
+                ("R19", "Device:R", "1k", "+3V3", "LED_B_A"),
+                ("D1", "Device:LED", "RED", "LED_R_A", "LED_R"),
+                ("D2", "Device:LED", "GRN", "LED_G_A", "LED_G"),
+                ("D3", "Device:LED", "BLU", "LED_B_A", "LED_B"),
                 ("R13", "Device:R", "10k", "+3V3", "IMU1_RAIL_FLG"),
                 ("R14", "Device:R", "10k", "+3V3", "IMU2_RAIL_FLG"),
                 ("R15", "Device:R", "10k", "+3V3", "IMU3_RAIL_FLG"),
@@ -1186,6 +1207,116 @@ def build_comms():
         "Termination is jumpered: clear JPn on the middle module of a chain"))
 
 
+
+# --------------------------------------------------------------------------
+# the connector sheet
+# --------------------------------------------------------------------------
+
+# Pinouts follow the Pixhawk connector standard where one exists, because the
+# ecosystem's GPS units, telemetry radios and power modules are built to it -
+# a novel pinout here means a custom loom for every peripheral.
+#
+# (ref, ways, value, description, nets from pin 1)
+CONNECTORS = [
+    ("J1", 6, "TELEM1", "Pixhawk TELEM: USART2 with flow control",
+     ["+5V", "USART2_TX", "USART2_RX", "USART2_CTS", "USART2_RTS", "GND"]),
+    ("J2", 6, "TELEM2", "Pixhawk TELEM: USART3 with flow control",
+     ["+5V", "USART3_TX", "USART3_RX", "USART3_CTS", "USART3_RTS", "GND"]),
+    ("J3", 6, "GPS1", "Pixhawk GPS: UART4 plus the external compass I2C",
+     ["+5V", "UART4_TX", "UART4_RX", "I2C2_SCL", "I2C2_SDA", "GND"]),
+    ("J4", 6, "GPS2", "Second GNSS on UART7",
+     ["+5V", "UART7_TX", "UART7_RX", "NC", "NC", "GND"]),
+    ("J5", 5, "RC_IN", "RC receiver on UART8",
+     ["+5V", "UART8_RX", "UART8_TX", "NC", "GND"]),
+    # Ten ways, not six: SWD plus a bidirectional console needs both USART1
+    # lines, and six could only carry TX. Matches the Pixhawk debug pin count.
+    ("J6", 10, "DEBUG", "SWD plus the console UART, USART1",
+     ["+3V3", "SWDIO", "SWCLK", "SWO", "NRST",
+      "USART1_TX", "USART1_RX", "NC", "GND", "GND"]),
+    ("J7", 6, "SPI_EXT", "External SPI5",
+     ["+3V3", "SPI5_SCK", "SPI5_MISO", "SPI5_MOSI", "NC", "GND"]),
+    ("J8", 6, "PWR_BRICK", "Primary power input, U20's first priority",
+     ["VDD_BRICK", "VDD_BRICK", "NC", "NC", "GND", "GND"]),
+    ("J9", 6, "PWR_SERVO", "Servo rail, U20's second ORing input",
+     ["VDD_SERVO", "VDD_SERVO", "NC", "NC", "GND", "GND"]),
+    ("J10", 5, "SAFETY", "Safety switch and its lamp",
+     ["+3V3", "SAFETY_SW", "SAFETY_LED", "NC", "GND"]),
+    # Eight motor signals on one header rather than eight 3-way headers: the
+    # rail and the return are shared anyway, and eight separate connectors is
+    # 24 crimps for no gain.
+    ("J11", 10, "PWM_OUT", "TIM1 CH1-4 and TIM4 CH1-4",
+     ["TIM1_CH1", "TIM1_CH2", "TIM1_CH3", "TIM1_CH4",
+      "TIM4_CH1", "TIM4_CH2", "TIM4_CH3", "TIM4_CH4", "GND", "GND"]),
+]
+
+CONN_FP = {
+    5:  "Connector_JST:JST_GH_SM05B-GHS-TB_1x05-1MP_P1.25mm_Horizontal",
+    6:  "Connector_JST:JST_GH_SM06B-GHS-TB_1x06-1MP_P1.25mm_Horizontal",
+    10: "Connector_JST:JST_GH_SM10B-GHS-TB_1x10-1MP_P1.25mm_Horizontal",
+}
+
+
+# The note KiCad renders. Line breaks must be the two-character escape
+# \n, not a real newline - a real one inside the quoted string makes the
+# file unloadable, and KiCad's response is to draw a blank page rather
+# than complain, so the sheet looks merely empty.
+NOTE = (
+    "Pinouts follow the Pixhawk connector standard where one exists.\\n"
+    "The ecosystem's GPS units, telemetry radios and power modules are\\n"
+    "built to it; a novel pinout here means a custom loom for every\\n"
+    "peripheral.\\n"
+    "\\n"
+    "JST-GH 1.25 mm throughout - the same family Pixhawk uses, chosen\\n"
+    "for its positive latch rather than its size.")
+
+
+def build_connectors():
+    """Everything that leaves the board.
+
+    Until this sheet, 48 nets terminated at a single pin - eight PWM channels,
+    sixteen serial lines, the debug port, both power inputs. The schematic was
+    complete in the sense that the parts were wired to each other, and useless
+    in the sense that nothing could be plugged into it.
+    """
+    ru = uid()
+    libs, seen = [], set()
+    for _ref, n, *_rest in CONNECTORS:
+        nm = "Conn_01x%02d" % n
+        if nm not in seen:
+            seen.add(nm)
+            libs += sym_defs(KICAD_SYMS / "Connector_Generic.kicad_sym",
+                             nm, "Connector_Generic")
+    geom = {}
+    for lib in libs:
+        m = re.search(r'\(symbol "([^"]+)"', lib)
+        geom[m.group(1)] = pin_list(lib)
+
+    body = [text(NOTE, 0, 0, 1.4)]
+
+    for i, (ref, n, val, _descr, nets) in enumerate(CONNECTORS):
+        lib_id = "Connector_Generic:Conn_01x%02d" % n
+        cx = 33.02 + (i % 3) * 57.15
+        cy = 50.8 + (i // 3) * 48.26
+        body.append(place(lib_id, ref, val, cx, cy, ru, [],
+                          label_dy=round(n * 1.27 + 6.35, 2),
+                          fp=CONN_FP[n]))
+        for (num, _nm, dx, dy, ang), net in zip(geom[lib_id], nets):
+            if net == "NC":
+                continue
+            ax, ay = round(cx + dx, 2), round(cy + dy, 2)
+            sx, sy = stub_len(ang, h=5.08)
+            bx, by = round(ax + sx, 2), round(ay + sy, 2)
+            body.append(wire(ax, ay, bx, by))
+            shape = ("input" if net.startswith(("+", "GND", "VDD"))
+                     else "bidirectional")
+            body.append(glabel(net, shape, bx, by, 0 if sx < 0 else 180))
+
+    print("  connectors: %d headers" % len(CONNECTORS))
+    return ru, document(ru, libs, fit(body, "connectors"), "Connectors", (
+        "Pixhawk-standard pinouts on JST-GH 1.25 mm",
+        "TELEM x2, GPS x2, RC, debug, external SPI, 2 power inputs, 8 PWM"))
+
+
 def sheet_block(name, filename, x, y, root_uuid, page):
     """A hierarchical sheet with no pins: every cross-sheet net here is a
     global label, so the sheets need only be *in* the project, not wired
@@ -1235,12 +1366,17 @@ def build_root():
                                   ("SENSORS", "sensors.kicad_sch"),
                                   ("POWER", "power.kicad_sch"),
                                   ("COMMS", "comms.kicad_sch"),
-                                  ("PASSIVES", "passives.kicad_sch")]):
-        body.append(sheet_block(nm, fn, 20.32, 60.96 + i * 34.29, ru, i + 2))
+                                  ("PASSIVES", "passives.kicad_sch"),
+                                  ("CONNECTORS", "connectors.kicad_sch")]):
+        # One column, tighter pitch. Two columns fit the anchors but not
+        # the Sheetfile text, which fit() does not measure - the render
+        # ran 15 mm past the frame.
+        body.append(sheet_block(nm, fn, 20.32, 45.72 + i * 27.94,
+                                ru, i + 2))
     return ru, document(ru, [], fit(body, "root"), "JFOX-FMU v1", (
         "STM32H753IIT6 - 3 IMUs, 2 barometers, magnetometer, CAN FD",
         "Generated by hardware/tools/gen_fmu_schematic.py - regenerate, do not edit",
-        "Sheet 1 of 6"))
+        "Sheet 1 of 7"))
 
 
 def build_stub(title, note):
@@ -1269,9 +1405,11 @@ def main():
     _, power = build_power()
     _, comms = build_comms()
     _, passives = build_passives()
+    _, connectors = build_connectors()
     _, root = build_root()
     files = {BOARD / "comms.kicad_sch": comms,
              BOARD / "passives.kicad_sch": passives,
+             BOARD / "connectors.kicad_sch": connectors,
              BOARD / "sensors.kicad_sch": sensors,
              BOARD / "mcu.kicad_sch": mcu,
              BOARD / "power.kicad_sch": power,

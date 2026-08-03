@@ -2,7 +2,7 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "a6368173-4767-4029-9dbb-58b53e25a1da")
+	(uuid "44633006-b665-4998-988e-03599448e657")
 	(paper "A4" portrait)
 	(title_block
 		(title "Passives and Clocks")
@@ -486,6 +486,207 @@
 			)
 			(embedded_fonts no)
 		)
+	(symbol "Device:LED"
+			(pin_numbers
+				(hide yes)
+			)
+			(pin_names
+				(offset 1.016)
+				(hide yes)
+			)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "D"
+				(at 0 2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "LED"
+				(at 0 -2.54 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Light emitting diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Sim.Pins" "1=K 2=A"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "LED diode"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "LED* LED_SMD:* LED_THT:*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "LED_0_1"
+				(polyline
+					(pts
+						(xy -3.048 -0.762) (xy -4.572 -2.286) (xy -3.81 -2.286) (xy -4.572 -2.286) (xy -4.572 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.778 -0.762) (xy -3.302 -2.286) (xy -2.54 -2.286) (xy -3.302 -2.286) (xy -3.302 -1.524)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 0) (xy 1.27 0)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy -1.27 -1.27) (xy -1.27 1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 1.27 -1.27) (xy 1.27 1.27) (xy -1.27 0) (xy 1.27 -1.27)
+					)
+					(stroke
+						(width 0.254)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(symbol "LED_1_1"
+				(pin passive line
+					(at -3.81 0 0)
+					(length 2.54)
+					(name "K"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 3.81 0 180)
+					(length 2.54)
+					(name "A"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 	(symbol "Device:Crystal_GND24"
 			(pin_names
 				(offset 1.016)
@@ -893,14 +1094,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "a68402c4-504b-4f46-99df-09a2d2931f97")
+		(uuid "9345a946-e4f1-4003-9ab2-57d390ee904a")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 21.59 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8ea1102b-8150-4b18-a94a-02e74855e3d1")
+		(uuid "ef4f5d6d-1db3-4af4-987e-b1ca1fe22855")
 		(property "Reference" "C1"
 			(at 21.59 42.61 0)
 			(effects
@@ -928,7 +1129,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C1")
 					(unit 1)
 				)
@@ -943,7 +1144,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "95e1eecf-2cbe-427b-8f1f-706bce50ce45")
+		(uuid "7c8141ec-153d-4aaa-a30a-d4639767e9e3")
 	)
 	(global_label "+3V3"
 		(shape input)
@@ -955,7 +1156,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2cd5470e-1eaa-4600-acc6-f4a53667386d")
+		(uuid "2cf29749-797d-4c30-a6f1-5fe1d2f6799b")
 	)
 	(wire
 		(pts
@@ -965,7 +1166,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "80cf0ffa-7773-4aed-8527-eda6c573db35")
+		(uuid "e987af6e-9072-4666-bc5a-2d734c757142")
 	)
 	(global_label "GND"
 		(shape input)
@@ -977,16 +1178,16 @@
 			)
 			(justify left)
 		)
-		(uuid "952307b1-8553-495f-96e5-5e705f949c87")
+		(uuid "b2a47d04-974b-425a-8848-d91bb307c7e4")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 36.83 54.61 0)
+		(at 35.56 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "2f690569-b879-4d2a-a835-e5a098f802ba")
+		(uuid "b21c3085-8e54-4815-b122-cdfdeee6824e")
 		(property "Reference" "C2"
-			(at 36.83 42.61 0)
+			(at 35.56 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -994,7 +1195,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 36.83 66.61 0)
+			(at 35.56 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1002,7 +1203,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 36.83 54.61 0)
+			(at 35.56 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1012,7 +1213,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C2")
 					(unit 1)
 				)
@@ -1021,17 +1222,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 50.8) (xy 36.83 46.99)
+			(xy 35.56 50.8) (xy 35.56 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0c030275-85ef-42f3-91c5-4eb9b3b7fec5")
+		(uuid "301b68c8-eaf8-4329-b1f3-c6e83164f997")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 36.83 46.99 180)
+		(at 35.56 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1039,21 +1240,21 @@
 			)
 			(justify left)
 		)
-		(uuid "0e5bac95-8f07-438f-bd83-8da7d55627ed")
+		(uuid "d3c83c35-2966-481b-b75f-1d9c3fc5ce66")
 	)
 	(wire
 		(pts
-			(xy 36.83 58.42) (xy 36.83 62.23)
+			(xy 35.56 58.42) (xy 35.56 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1aed84af-b046-4171-878c-5b3a39bd6a6a")
+		(uuid "45734031-9187-4115-8a7a-b36a5d9ffeea")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 36.83 62.23 180)
+		(at 35.56 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1061,16 +1262,16 @@
 			)
 			(justify left)
 		)
-		(uuid "51397ed3-83e9-4633-8dad-b9cdf6d72ae4")
+		(uuid "0655d088-7c90-462e-8859-c8ef83df85e2")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 52.07 54.61 0)
+		(at 49.53 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "08a567db-f38d-495e-b3cf-a90364587d7f")
+		(uuid "2028a097-37fe-4972-a214-442c98504a83")
 		(property "Reference" "C3"
-			(at 52.07 42.61 0)
+			(at 49.53 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1078,7 +1279,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 52.07 66.61 0)
+			(at 49.53 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1086,7 +1287,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 52.07 54.61 0)
+			(at 49.53 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1096,7 +1297,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C3")
 					(unit 1)
 				)
@@ -1105,17 +1306,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 50.8) (xy 52.07 46.99)
+			(xy 49.53 50.8) (xy 49.53 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fe50b55f-1ca2-4892-b166-daad041ca5a4")
+		(uuid "0e6c8dc1-56d1-4ad7-bbd1-d6907d902953")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 52.07 46.99 180)
+		(at 49.53 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1123,21 +1324,21 @@
 			)
 			(justify left)
 		)
-		(uuid "76426e2f-634e-4271-a81d-426960482343")
+		(uuid "e0f834e1-dcc7-4be6-84fd-3479b225c077")
 	)
 	(wire
 		(pts
-			(xy 52.07 58.42) (xy 52.07 62.23)
+			(xy 49.53 58.42) (xy 49.53 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "22fab9d6-7426-4f7e-9352-a0fa617ff606")
+		(uuid "be2b23a0-15ae-42e5-9eb9-d22533062ad2")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 52.07 62.23 180)
+		(at 49.53 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1145,16 +1346,16 @@
 			)
 			(justify left)
 		)
-		(uuid "ae9e5835-c2d0-4ae7-b8e5-48faae11d72b")
+		(uuid "d2a1d905-310c-4c9a-be21-fb3defd0bf4f")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 67.31 54.61 0)
+		(at 63.5 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ac7fe59b-dbfd-4fc7-856b-be5700094e15")
+		(uuid "52fc88ed-b4e0-4ede-a95d-9006fc83b0a5")
 		(property "Reference" "C4"
-			(at 67.31 42.61 0)
+			(at 63.5 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1162,7 +1363,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 67.31 66.61 0)
+			(at 63.5 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1170,7 +1371,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 67.31 54.61 0)
+			(at 63.5 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1180,7 +1381,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C4")
 					(unit 1)
 				)
@@ -1189,17 +1390,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 50.8) (xy 67.31 46.99)
+			(xy 63.5 50.8) (xy 63.5 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5cdde338-1273-4346-af64-7550b7f1f898")
+		(uuid "ba1562a9-5745-4ad4-89cf-9cda0750fd15")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 67.31 46.99 180)
+		(at 63.5 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1207,21 +1408,21 @@
 			)
 			(justify left)
 		)
-		(uuid "504c32d0-f6c8-4704-9264-f4847d612d3e")
+		(uuid "c8ac0557-1f93-4421-b268-12ac92f6f4cf")
 	)
 	(wire
 		(pts
-			(xy 67.31 58.42) (xy 67.31 62.23)
+			(xy 63.5 58.42) (xy 63.5 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cf1deb17-1c74-4bf8-90ed-5582cc0dbded")
+		(uuid "15c4ac59-667d-40f4-bc32-12796e8e93c8")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 67.31 62.23 180)
+		(at 63.5 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1229,16 +1430,16 @@
 			)
 			(justify left)
 		)
-		(uuid "7ae180cb-13f2-4151-a754-d546545d23b4")
+		(uuid "476465b3-2e43-40d6-b115-41378a85bb81")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 54.61 0)
+		(at 77.47 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4c74f4f5-c9c0-432f-bbf3-a8438eac9d15")
+		(uuid "b463a0e2-9c14-4763-9b99-cb1a890594ee")
 		(property "Reference" "C5"
-			(at 82.55 42.61 0)
+			(at 77.47 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1246,7 +1447,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 82.55 66.61 0)
+			(at 77.47 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1254,7 +1455,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 82.55 54.61 0)
+			(at 77.47 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1264,7 +1465,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C5")
 					(unit 1)
 				)
@@ -1273,17 +1474,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 50.8) (xy 82.55 46.99)
+			(xy 77.47 50.8) (xy 77.47 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "89e7abd6-9f0d-419b-a0bb-f0e414609322")
+		(uuid "ca51ecf5-b6f8-43aa-a5fa-ce93eab0c3ce")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 82.55 46.99 180)
+		(at 77.47 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1291,21 +1492,21 @@
 			)
 			(justify left)
 		)
-		(uuid "52725e80-e1e2-4de8-ad73-95fed241ac19")
+		(uuid "2d43bbae-cb70-4db6-9e2a-85f83f583933")
 	)
 	(wire
 		(pts
-			(xy 82.55 58.42) (xy 82.55 62.23)
+			(xy 77.47 58.42) (xy 77.47 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d55997a7-83f4-468e-8ec9-ecb94b8a99ed")
+		(uuid "bf464ea6-4e43-4266-8f08-7823fe67f440")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 82.55 62.23 180)
+		(at 77.47 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1313,16 +1514,16 @@
 			)
 			(justify left)
 		)
-		(uuid "c8c465e2-cc13-433f-975e-f5db0ac00b47")
+		(uuid "1d1d861d-3082-4dfa-854d-2ec1bd888d9d")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 54.61 0)
+		(at 91.44 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "65d2064e-e23f-4e7a-824e-180cd05a3628")
+		(uuid "604d2881-9a1e-4602-8024-e7b17a3bef74")
 		(property "Reference" "C6"
-			(at 97.79 42.61 0)
+			(at 91.44 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1330,7 +1531,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 97.79 66.61 0)
+			(at 91.44 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1338,7 +1539,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 97.79 54.61 0)
+			(at 91.44 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1348,7 +1549,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C6")
 					(unit 1)
 				)
@@ -1357,17 +1558,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 50.8) (xy 97.79 46.99)
+			(xy 91.44 50.8) (xy 91.44 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e2b53d23-35c9-4ec9-8886-4499cfeab7e9")
+		(uuid "6c36b55c-8a0c-4120-af92-350dc3c3e5c3")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 97.79 46.99 180)
+		(at 91.44 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1375,21 +1576,21 @@
 			)
 			(justify left)
 		)
-		(uuid "ee41cd63-b3b8-4c03-aaf1-c4795b779dc6")
+		(uuid "b4f4ae9a-b2a7-4ca6-a740-f7c402146311")
 	)
 	(wire
 		(pts
-			(xy 97.79 58.42) (xy 97.79 62.23)
+			(xy 91.44 58.42) (xy 91.44 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "eaaa2ae8-01b0-4684-aaa4-cfe5973720fe")
+		(uuid "cab10c19-293d-4398-b6a9-f00e1b53dd94")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 62.23 180)
+		(at 91.44 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1397,16 +1598,16 @@
 			)
 			(justify left)
 		)
-		(uuid "6d279a5b-245b-4f01-8739-7e0fa554647d")
+		(uuid "122ea039-c86d-467b-80af-abb9a4aefadd")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 113.03 54.61 0)
+		(at 105.41 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8ac3423e-06c3-4d9f-98eb-2ed7d8354ce9")
+		(uuid "94b2ea65-9c5f-4b04-8728-47c606a6949a")
 		(property "Reference" "C7"
-			(at 113.03 42.61 0)
+			(at 105.41 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1414,7 +1615,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 113.03 66.61 0)
+			(at 105.41 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1422,7 +1623,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 113.03 54.61 0)
+			(at 105.41 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1432,7 +1633,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C7")
 					(unit 1)
 				)
@@ -1441,17 +1642,17 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 50.8) (xy 113.03 46.99)
+			(xy 105.41 50.8) (xy 105.41 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6e899ac1-029a-4be7-aa93-cfafb391240a")
+		(uuid "d237803b-5843-4743-bffc-8821903b8028")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 113.03 46.99 180)
+		(at 105.41 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1459,21 +1660,21 @@
 			)
 			(justify left)
 		)
-		(uuid "28dd59b8-99a3-48ab-94f8-f436c2ed8470")
+		(uuid "5d2163f9-09e5-40bf-95cc-20a079087c0d")
 	)
 	(wire
 		(pts
-			(xy 113.03 58.42) (xy 113.03 62.23)
+			(xy 105.41 58.42) (xy 105.41 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6e5ebf41-e4dd-4d43-9063-58d827c99193")
+		(uuid "b707a9e7-fa85-464b-b9fb-b0f1f2dc1ca1")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 113.03 62.23 180)
+		(at 105.41 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1481,16 +1682,16 @@
 			)
 			(justify left)
 		)
-		(uuid "53fc3208-7231-4a9b-b5c5-fb168f8cdadd")
+		(uuid "a41eecae-f60d-4ba2-93db-2ef34f4a108c")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 128.27 54.61 0)
+		(at 119.38 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8de735fe-88d4-44f6-92be-c93b0483c332")
+		(uuid "f6853e7b-2c14-4a6b-a600-7597ead283e2")
 		(property "Reference" "C8"
-			(at 128.27 42.61 0)
+			(at 119.38 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1498,7 +1699,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 128.27 66.61 0)
+			(at 119.38 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1506,7 +1707,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 128.27 54.61 0)
+			(at 119.38 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1516,7 +1717,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C8")
 					(unit 1)
 				)
@@ -1525,17 +1726,17 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 50.8) (xy 128.27 46.99)
+			(xy 119.38 50.8) (xy 119.38 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0b7cab5c-6d19-4d89-983d-c269269abe4b")
+		(uuid "83f5dbc8-6c1e-4c05-9c55-a7a6433a2d55")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 128.27 46.99 180)
+		(at 119.38 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1543,21 +1744,21 @@
 			)
 			(justify left)
 		)
-		(uuid "a16774e7-603b-4806-98b0-d1b4262fd399")
+		(uuid "bfea54db-1eae-4928-9323-b3e1a4183413")
 	)
 	(wire
 		(pts
-			(xy 128.27 58.42) (xy 128.27 62.23)
+			(xy 119.38 58.42) (xy 119.38 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "59f07225-da01-4913-9270-4a64278f0459")
+		(uuid "03fc8bfc-c355-4285-84ed-741ae776e45a")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 128.27 62.23 180)
+		(at 119.38 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1565,16 +1766,16 @@
 			)
 			(justify left)
 		)
-		(uuid "62b2c6a0-7689-4f0b-96ad-a42a63ae156c")
+		(uuid "33dd31b9-bc76-4dfb-9a50-db369d251ea3")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 143.51 54.61 0)
+		(at 133.35 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "87bccc62-5572-4d60-80eb-1b54cc7d2013")
+		(uuid "67a167dc-d1c3-4156-b281-4fa94ef879db")
 		(property "Reference" "C9"
-			(at 143.51 42.61 0)
+			(at 133.35 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1582,7 +1783,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 143.51 66.61 0)
+			(at 133.35 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1590,7 +1791,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 143.51 54.61 0)
+			(at 133.35 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1600,7 +1801,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C9")
 					(unit 1)
 				)
@@ -1609,17 +1810,17 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 50.8) (xy 143.51 46.99)
+			(xy 133.35 50.8) (xy 133.35 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c6843d49-9de0-4f3c-94b1-ba1491c557f4")
+		(uuid "40bf6ad6-da3e-40b0-9265-e0a17fcfff04")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 143.51 46.99 180)
+		(at 133.35 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1627,21 +1828,21 @@
 			)
 			(justify left)
 		)
-		(uuid "0f3a94b6-19a9-4ce9-b4d1-c4c433abcad3")
+		(uuid "3951842b-3388-4136-8475-c908a19c0116")
 	)
 	(wire
 		(pts
-			(xy 143.51 58.42) (xy 143.51 62.23)
+			(xy 133.35 58.42) (xy 133.35 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8648299d-c574-443f-a171-0f697ce39cdc")
+		(uuid "c41d3fb5-744a-48f4-9d77-8871ec509205")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 143.51 62.23 180)
+		(at 133.35 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1649,16 +1850,16 @@
 			)
 			(justify left)
 		)
-		(uuid "d66ada77-9f39-4484-bc45-b8c6c80a684f")
+		(uuid "4f67f88b-4b2f-41c9-9f41-9cea3789058e")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 158.75 54.61 0)
+		(at 147.32 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "7e78c7c3-19cb-4d55-b235-5445cc499cde")
+		(uuid "5344c584-4f7e-463a-abcd-930b90bf10ef")
 		(property "Reference" "C10"
-			(at 158.75 42.61 0)
+			(at 147.32 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1666,7 +1867,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 158.75 66.61 0)
+			(at 147.32 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1674,7 +1875,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 158.75 54.61 0)
+			(at 147.32 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1684,7 +1885,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C10")
 					(unit 1)
 				)
@@ -1693,17 +1894,17 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 50.8) (xy 158.75 46.99)
+			(xy 147.32 50.8) (xy 147.32 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "498826da-a021-438c-9b73-6372bf24ae60")
+		(uuid "819bc164-6599-41f7-b292-7f3008496bc6")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 158.75 46.99 180)
+		(at 147.32 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1711,21 +1912,21 @@
 			)
 			(justify left)
 		)
-		(uuid "114b68f9-7160-45fa-ba84-d35c20561cbd")
+		(uuid "990a29c2-39a8-4fb4-a43d-b45430c08448")
 	)
 	(wire
 		(pts
-			(xy 158.75 58.42) (xy 158.75 62.23)
+			(xy 147.32 58.42) (xy 147.32 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2ebc29ba-6d40-43c6-a72b-382f133f1960")
+		(uuid "d95f1bc8-83e1-484c-9c7d-d2f724f0a029")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 158.75 62.23 180)
+		(at 147.32 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1733,16 +1934,16 @@
 			)
 			(justify left)
 		)
-		(uuid "0ab66381-302c-41d6-ab87-e7fa97d4f91e")
+		(uuid "0e317cc9-6f2b-4103-86f0-0616aca5e10a")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 173.99 54.61 0)
+		(at 161.29 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "e9cb8e77-e032-4ccc-9a19-534cfd8e4962")
+		(uuid "9f32abc8-5edb-4e2e-bdba-fd98db2f8783")
 		(property "Reference" "C11"
-			(at 173.99 42.61 0)
+			(at 161.29 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1750,7 +1951,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 173.99 66.61 0)
+			(at 161.29 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1758,7 +1959,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 173.99 54.61 0)
+			(at 161.29 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1768,7 +1969,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C11")
 					(unit 1)
 				)
@@ -1777,17 +1978,17 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 50.8) (xy 173.99 46.99)
+			(xy 161.29 50.8) (xy 161.29 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7fba3fd0-9439-476a-b774-847f89c114ae")
+		(uuid "388d1b48-33ff-4f4f-bd85-ad289b4a2f8d")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 173.99 46.99 180)
+		(at 161.29 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1795,21 +1996,21 @@
 			)
 			(justify left)
 		)
-		(uuid "3cccd12a-b1c5-4a45-830e-39140649b752")
+		(uuid "61714147-408b-437e-ab57-dc125017fc50")
 	)
 	(wire
 		(pts
-			(xy 173.99 58.42) (xy 173.99 62.23)
+			(xy 161.29 58.42) (xy 161.29 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f31a1383-26ab-416d-bf47-806d7f92302c")
+		(uuid "81dd10fd-3a42-4714-b154-3f7c25ea21fe")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 173.99 62.23 180)
+		(at 161.29 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1817,16 +2018,16 @@
 			)
 			(justify left)
 		)
-		(uuid "8d9f0409-9de6-4bd0-8ed2-40684194ccb6")
+		(uuid "476c5e2b-560f-45c5-b0b1-7e07a36a7c0c")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 21.59 77.47 0)
+		(at 175.26 54.61 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "f41d8a81-e4d7-41f9-b0e3-bb23803a79a2")
+		(uuid "afe72719-c618-4841-ab04-2f172e88eb5c")
 		(property "Reference" "C12"
-			(at 21.59 65.47 0)
+			(at 175.26 42.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1834,7 +2035,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 21.59 89.47 0)
+			(at 175.26 66.61 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1842,7 +2043,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 21.59 77.47 0)
+			(at 175.26 54.61 0)
 			(hide yes)
 			(effects
 			(font
@@ -1852,7 +2053,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C12")
 					(unit 1)
 				)
@@ -1861,17 +2062,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 73.66) (xy 21.59 69.85)
+			(xy 175.26 50.8) (xy 175.26 46.99)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3b2541d0-7c52-4cc0-8989-7dec4236b973")
+		(uuid "8a548f6d-ea94-46b5-9fb5-6fa1c1e41718")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 21.59 69.85 180)
+		(at 175.26 46.99 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1879,21 +2080,21 @@
 			)
 			(justify left)
 		)
-		(uuid "26b3ea02-05b6-44b4-98e0-5182b8a5109e")
+		(uuid "511c0a6a-8bd5-45df-8825-fb00720de526")
 	)
 	(wire
 		(pts
-			(xy 21.59 81.28) (xy 21.59 85.09)
+			(xy 175.26 58.42) (xy 175.26 62.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2f78caa4-9c17-4c28-815a-e46f64ed962b")
+		(uuid "80fb3297-c9c8-4295-a41d-10330b56c4ac")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 21.59 85.09 180)
+		(at 175.26 62.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1901,16 +2102,16 @@
 			)
 			(justify left)
 		)
-		(uuid "96b3cff6-8243-4657-8d45-30967b09d16b")
+		(uuid "906702d8-fcb8-44a4-9a1c-2ee405f307e2")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 36.83 77.47 0)
+		(at 21.59 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "82d206fc-ecb4-49ee-965d-c7af397c388a")
+		(uuid "dda7413a-a9f4-4e9e-9d9a-c72890d10e17")
 		(property "Reference" "C13"
-			(at 36.83 65.47 0)
+			(at 21.59 62.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1918,7 +2119,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 36.83 89.47 0)
+			(at 21.59 86.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1926,7 +2127,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 36.83 77.47 0)
+			(at 21.59 74.93 0)
 			(hide yes)
 			(effects
 			(font
@@ -1936,7 +2137,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C13")
 					(unit 1)
 				)
@@ -1945,17 +2146,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 73.66) (xy 36.83 69.85)
+			(xy 21.59 71.12) (xy 21.59 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "de0e95da-7fb3-4ad8-8809-c8b513fd2de2")
+		(uuid "fe088a7e-e749-4089-984a-5bb88f71f409")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 36.83 69.85 180)
+		(at 21.59 67.31 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1963,21 +2164,21 @@
 			)
 			(justify left)
 		)
-		(uuid "f39e0349-15e3-474a-acd4-faebabf6d0ff")
+		(uuid "7abda9e2-415f-402d-81c6-a30543c76ac3")
 	)
 	(wire
 		(pts
-			(xy 36.83 81.28) (xy 36.83 85.09)
+			(xy 21.59 78.74) (xy 21.59 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cf79c8f8-9236-4f6d-b9f8-f9ac062231d7")
+		(uuid "d7f4597a-2f7d-4422-b652-a1cd872ebd90")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 36.83 85.09 180)
+		(at 21.59 82.55 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1985,16 +2186,16 @@
 			)
 			(justify left)
 		)
-		(uuid "07c1a017-80fe-4a79-8f46-43dca56c321e")
+		(uuid "45d3098d-7194-4927-81b9-917c9c8832bc")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 52.07 77.47 0)
+		(at 35.56 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "47ad7d50-8248-454d-ab01-f20ecdcb6e6e")
+		(uuid "500cd9d8-83f5-437f-b36d-79a774494c38")
 		(property "Reference" "C14"
-			(at 52.07 65.47 0)
+			(at 35.56 62.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2002,7 +2203,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 52.07 89.47 0)
+			(at 35.56 86.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2010,7 +2211,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 52.07 77.47 0)
+			(at 35.56 74.93 0)
 			(hide yes)
 			(effects
 			(font
@@ -2020,7 +2221,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C14")
 					(unit 1)
 				)
@@ -2029,17 +2230,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 73.66) (xy 52.07 69.85)
+			(xy 35.56 71.12) (xy 35.56 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e59491fc-4510-4940-bc05-141793f96f05")
+		(uuid "c94d27fa-ab6e-4891-ab69-8d29eb7cec99")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 52.07 69.85 180)
+		(at 35.56 67.31 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2047,21 +2248,21 @@
 			)
 			(justify left)
 		)
-		(uuid "d3592c4f-7b40-4c1f-9fad-1c5048fcc095")
+		(uuid "426fb1cf-987f-4dc2-b789-b41675d5759f")
 	)
 	(wire
 		(pts
-			(xy 52.07 81.28) (xy 52.07 85.09)
+			(xy 35.56 78.74) (xy 35.56 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d8dbcf1a-7485-4823-8d11-6ee15c8a3131")
+		(uuid "648b4743-aa28-441b-8ce2-a9578179bfd8")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 52.07 85.09 180)
+		(at 35.56 82.55 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2069,16 +2270,16 @@
 			)
 			(justify left)
 		)
-		(uuid "e11019de-b0bd-40af-87f3-e943c440a7c3")
+		(uuid "8adae116-483a-4fd5-8c09-12591e7d4fb1")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 67.31 77.47 0)
+		(at 49.53 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "6f04ab29-e0a5-495b-9a28-5042f314e6a3")
+		(uuid "a5caec48-1505-40fc-9d62-2d8cf430513d")
 		(property "Reference" "C15"
-			(at 67.31 65.47 0)
+			(at 49.53 62.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2086,7 +2287,7 @@
 		)
 		)
 		(property "Value" "4u7"
-			(at 67.31 89.47 0)
+			(at 49.53 86.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2094,7 +2295,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 67.31 77.47 0)
+			(at 49.53 74.93 0)
 			(hide yes)
 			(effects
 			(font
@@ -2104,7 +2305,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C15")
 					(unit 1)
 				)
@@ -2113,17 +2314,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 73.66) (xy 67.31 69.85)
+			(xy 49.53 71.12) (xy 49.53 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2a225cdd-6354-4eb1-9090-f0b9de38e6af")
+		(uuid "a284bd21-8dac-4b75-b967-7ccfbfe29fd7")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 67.31 69.85 180)
+		(at 49.53 67.31 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2131,21 +2332,21 @@
 			)
 			(justify left)
 		)
-		(uuid "488d0d77-de00-44fd-a9b4-80ce61817155")
+		(uuid "ef3e17ec-b2c5-4e8d-8ba2-32a4b1dad4fd")
 	)
 	(wire
 		(pts
-			(xy 67.31 81.28) (xy 67.31 85.09)
+			(xy 49.53 78.74) (xy 49.53 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "99be7d3c-829e-4bee-9aad-921883bf369b")
+		(uuid "39815b54-70dd-418b-8f66-302adac3f94a")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 67.31 85.09 180)
+		(at 49.53 82.55 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2153,16 +2354,16 @@
 			)
 			(justify left)
 		)
-		(uuid "386b831c-bc5d-4df9-86a7-9f4b52584e05")
+		(uuid "c0a81128-a5e4-49ef-978b-45869276d1ec")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 77.47 0)
+		(at 63.5 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "db101b77-09e5-44cf-8ec5-8dbb209290b0")
+		(uuid "39b86702-34d3-4cc6-b025-43cbd639e87a")
 		(property "Reference" "C16"
-			(at 82.55 65.47 0)
+			(at 63.5 62.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2170,7 +2371,7 @@
 		)
 		)
 		(property "Value" "4u7"
-			(at 82.55 89.47 0)
+			(at 63.5 86.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2178,7 +2379,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 82.55 77.47 0)
+			(at 63.5 74.93 0)
 			(hide yes)
 			(effects
 			(font
@@ -2188,7 +2389,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C16")
 					(unit 1)
 				)
@@ -2197,17 +2398,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 73.66) (xy 82.55 69.85)
+			(xy 63.5 71.12) (xy 63.5 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ce9f88d4-c08b-4d09-968c-80eeb515b8f5")
+		(uuid "6d56006a-6e0e-4c56-b5ab-3612b369c3b3")
 	)
 	(global_label "+3V3A"
 		(shape input)
-		(at 82.55 69.85 180)
+		(at 63.5 67.31 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2215,21 +2416,21 @@
 			)
 			(justify left)
 		)
-		(uuid "becaf429-1d53-4a98-93d9-24d639165184")
+		(uuid "b1419351-d09a-4267-8a84-a3716713e65c")
 	)
 	(wire
 		(pts
-			(xy 82.55 81.28) (xy 82.55 85.09)
+			(xy 63.5 78.74) (xy 63.5 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fa57d4b1-087d-4832-8117-3a7baa5fae79")
+		(uuid "9db61728-166f-4cd3-8054-617317912592")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 82.55 85.09 180)
+		(at 63.5 82.55 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2237,16 +2438,16 @@
 			)
 			(justify left)
 		)
-		(uuid "110c6faf-fee9-41fc-a0a3-4645de363a0e")
+		(uuid "fe8cec2e-e44e-454e-98af-e8773164cac0")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 77.47 0)
+		(at 77.47 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "f49478f3-3032-4a69-b208-430dd1bafdbd")
+		(uuid "e0fcd33e-2d89-4395-81ab-95206087ac3e")
 		(property "Reference" "C17"
-			(at 97.79 65.47 0)
+			(at 77.47 62.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2254,7 +2455,7 @@
 		)
 		)
 		(property "Value" "4u7"
-			(at 97.79 89.47 0)
+			(at 77.47 86.93 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2262,7 +2463,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 97.79 77.47 0)
+			(at 77.47 74.93 0)
 			(hide yes)
 			(effects
 			(font
@@ -2272,7 +2473,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C17")
 					(unit 1)
 				)
@@ -2281,17 +2482,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 73.66) (xy 97.79 69.85)
+			(xy 77.47 71.12) (xy 77.47 67.31)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "56755916-9ea3-4ad9-aade-0ae719033c7b")
+		(uuid "cdd268b4-ed17-4799-a85b-b24346de31ba")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 97.79 69.85 180)
+		(at 77.47 67.31 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2299,21 +2500,21 @@
 			)
 			(justify left)
 		)
-		(uuid "9df0054f-1a0a-4b56-9288-7dcfae7059eb")
+		(uuid "8e1cbbcb-5310-4415-980c-d2b661a7f1b4")
 	)
 	(wire
 		(pts
-			(xy 97.79 81.28) (xy 97.79 85.09)
+			(xy 77.47 78.74) (xy 77.47 82.55)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a8bfd529-c77a-4b9b-be00-2035c460504f")
+		(uuid "2759d9fe-88e2-43b2-b07a-697e820e3476")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 85.09 180)
+		(at 77.47 82.55 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2321,16 +2522,16 @@
 			)
 			(justify left)
 		)
-		(uuid "7c8b263c-8eb3-496a-abd7-5b573fe30f85")
+		(uuid "34b2c5a8-9135-4ab1-813e-8c1e0fee6149")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 21.59 100.33 0)
+		(at 21.59 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "f185d545-10e2-44a5-b8b8-deff7c08756d")
+		(uuid "e140fd37-ceb7-4465-8222-f0193e5d7529")
 		(property "Reference" "C18"
-			(at 21.59 88.33 0)
+			(at 21.59 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2338,7 +2539,7 @@
 		)
 		)
 		(property "Value" "2u2"
-			(at 21.59 112.33 0)
+			(at 21.59 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2346,7 +2547,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 21.59 100.33 0)
+			(at 21.59 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2356,7 +2557,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C18")
 					(unit 1)
 				)
@@ -2365,17 +2566,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 96.52) (xy 21.59 92.71)
+			(xy 21.59 91.44) (xy 21.59 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "30b8e44c-c565-4a20-8a9e-2922ab6bc895")
+		(uuid "ada2a3b0-10dc-4e3c-bfab-0f4907177d44")
 	)
 	(global_label "VCAP"
 		(shape bidirectional)
-		(at 21.59 92.71 180)
+		(at 21.59 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2383,21 +2584,21 @@
 			)
 			(justify left)
 		)
-		(uuid "67b03068-af80-4879-9887-dd06e09f4a12")
+		(uuid "0f5e9687-6843-4719-bb2b-2429efea3850")
 	)
 	(wire
 		(pts
-			(xy 21.59 104.14) (xy 21.59 107.95)
+			(xy 21.59 99.06) (xy 21.59 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "90bbb37d-9dff-4241-a9a3-f0b4047ab041")
+		(uuid "530981eb-e8cd-437e-b2af-b04771fa639c")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 21.59 107.95 180)
+		(at 21.59 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2405,16 +2606,16 @@
 			)
 			(justify left)
 		)
-		(uuid "3b69a6c0-aff3-4732-9fcc-ef20e0d31e87")
+		(uuid "ba3acb4f-9685-4be9-9b42-f06bc2a0849c")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 36.83 100.33 0)
+		(at 35.56 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "feeac643-1878-42c9-9956-43672928d910")
+		(uuid "838fb3f1-959c-4524-beaa-e63fb6ec5883")
 		(property "Reference" "C19"
-			(at 36.83 88.33 0)
+			(at 35.56 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2422,7 +2623,7 @@
 		)
 		)
 		(property "Value" "2u2"
-			(at 36.83 112.33 0)
+			(at 35.56 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2430,7 +2631,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 36.83 100.33 0)
+			(at 35.56 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2440,7 +2641,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C19")
 					(unit 1)
 				)
@@ -2449,17 +2650,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 96.52) (xy 36.83 92.71)
+			(xy 35.56 91.44) (xy 35.56 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4169dcd3-53ef-4e76-9687-37c5138106a3")
+		(uuid "57e299d1-1a3b-48f3-9cb1-2e191cc81ad1")
 	)
 	(global_label "VCAP"
 		(shape bidirectional)
-		(at 36.83 92.71 180)
+		(at 35.56 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2467,21 +2668,21 @@
 			)
 			(justify left)
 		)
-		(uuid "d39e2c81-e658-4183-96ca-968a0b24be82")
+		(uuid "3aa819d7-f732-4dec-8840-a4f3ddb9fa81")
 	)
 	(wire
 		(pts
-			(xy 36.83 104.14) (xy 36.83 107.95)
+			(xy 35.56 99.06) (xy 35.56 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ef5eb1e0-f15b-48d5-92c4-a05c84b3f108")
+		(uuid "371e38be-2ee7-4e2e-aec7-4be68d3c1566")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 36.83 107.95 180)
+		(at 35.56 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2489,16 +2690,16 @@
 			)
 			(justify left)
 		)
-		(uuid "3bcb303c-4236-4563-95bf-534cee8c4d62")
+		(uuid "dea210a0-682c-4a08-8f3b-8c944365ceea")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 52.07 100.33 0)
+		(at 49.53 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "3107c4f6-dfb1-4b2a-93a4-3581c23b5b45")
+		(uuid "db8b7bc3-0131-49fc-ac7e-c7c73f871820")
 		(property "Reference" "C20"
-			(at 52.07 88.33 0)
+			(at 49.53 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2506,7 +2707,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 52.07 112.33 0)
+			(at 49.53 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2514,7 +2715,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 52.07 100.33 0)
+			(at 49.53 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2524,7 +2725,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C20")
 					(unit 1)
 				)
@@ -2533,17 +2734,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 96.52) (xy 52.07 92.71)
+			(xy 49.53 91.44) (xy 49.53 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5f2a1208-e624-478e-bc9c-8187b5a4f78a")
+		(uuid "82a9cd3f-d34c-4496-bf31-d017c6ef1c42")
 	)
-	(global_label "VDDA"
-		(shape bidirectional)
-		(at 52.07 92.71 180)
+	(global_label "+3V3A"
+		(shape input)
+		(at 49.53 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2551,21 +2752,21 @@
 			)
 			(justify left)
 		)
-		(uuid "dc26ddd6-aabe-4951-b226-6c03e815eee3")
+		(uuid "eb0e9a42-b7db-4cdf-9fd9-46315b2ffab0")
 	)
 	(wire
 		(pts
-			(xy 52.07 104.14) (xy 52.07 107.95)
+			(xy 49.53 99.06) (xy 49.53 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6f2cb99f-5aca-4570-a5ca-09cbb16c049f")
+		(uuid "23b032ab-9e23-481c-bfe8-5e2eaa2b4557")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 52.07 107.95 180)
+		(at 49.53 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2573,16 +2774,16 @@
 			)
 			(justify left)
 		)
-		(uuid "0c22347d-1079-4884-ad1b-0d8934cf069f")
+		(uuid "64402741-80a7-49e3-afcd-b79467abac56")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 67.31 100.33 0)
+		(at 63.5 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "3bcc9db1-c9da-4b2b-bf3b-636ce7f8bf38")
+		(uuid "44fc0637-b023-406c-bb2b-0646fdcea8dd")
 		(property "Reference" "C21"
-			(at 67.31 88.33 0)
+			(at 63.5 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2590,7 +2791,7 @@
 		)
 		)
 		(property "Value" "1u"
-			(at 67.31 112.33 0)
+			(at 63.5 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2598,7 +2799,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 67.31 100.33 0)
+			(at 63.5 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2608,7 +2809,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C21")
 					(unit 1)
 				)
@@ -2617,17 +2818,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 96.52) (xy 67.31 92.71)
+			(xy 63.5 91.44) (xy 63.5 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3bf31d5e-fc2d-4fd7-808c-e8d49a68a51a")
+		(uuid "8407898a-80a4-4854-b50e-abd573317e32")
 	)
 	(global_label "+3V3A"
 		(shape input)
-		(at 67.31 92.71 180)
+		(at 63.5 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2635,21 +2836,21 @@
 			)
 			(justify left)
 		)
-		(uuid "9113606f-1a18-4f28-a5e7-de123af25f1b")
+		(uuid "84c7f218-7f2b-45a1-ab83-d12f955c9b1d")
 	)
 	(wire
 		(pts
-			(xy 67.31 104.14) (xy 67.31 107.95)
+			(xy 63.5 99.06) (xy 63.5 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8fcd0c65-d724-4d2f-977a-0be12d0b20f1")
+		(uuid "21673781-57c0-4c2c-835a-8b535dac10e3")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 67.31 107.95 180)
+		(at 63.5 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2657,16 +2858,16 @@
 			)
 			(justify left)
 		)
-		(uuid "76b3fa87-c333-4c68-99f2-3977e5eaeb46")
+		(uuid "f6d9e4a0-7f7d-484d-b8b7-f456af4ae274")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 100.33 0)
+		(at 77.47 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ec946b00-a864-4d6b-b50e-609aa803ce21")
+		(uuid "a81d145b-8193-4f75-8a2b-8431e42c0628")
 		(property "Reference" "C30"
-			(at 82.55 88.33 0)
+			(at 77.47 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2674,7 +2875,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 82.55 112.33 0)
+			(at 77.47 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2682,7 +2883,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 82.55 100.33 0)
+			(at 77.47 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2692,7 +2893,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C30")
 					(unit 1)
 				)
@@ -2701,17 +2902,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 96.52) (xy 82.55 92.71)
+			(xy 77.47 91.44) (xy 77.47 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cd3564ba-78b8-474c-a1fe-58eff02f9a3c")
+		(uuid "51a2316b-069d-47e9-827b-1e96fa4b6643")
 	)
 	(global_label "+3V3_IMU1"
 		(shape input)
-		(at 82.55 92.71 180)
+		(at 77.47 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2719,21 +2920,21 @@
 			)
 			(justify left)
 		)
-		(uuid "707e8587-b0eb-4663-9f55-ded92033843c")
+		(uuid "37f0a18c-eb32-4524-acf2-ae821a72f923")
 	)
 	(wire
 		(pts
-			(xy 82.55 104.14) (xy 82.55 107.95)
+			(xy 77.47 99.06) (xy 77.47 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "cd30c6b1-392a-4117-9d35-501440aef72a")
+		(uuid "49554c52-08ea-4eaf-9eee-f50109e8664f")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 82.55 107.95 180)
+		(at 77.47 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2741,16 +2942,16 @@
 			)
 			(justify left)
 		)
-		(uuid "49c7a462-c20e-4dbb-9c6b-e100a273dd6a")
+		(uuid "09dac42b-855c-4f93-9167-1a60f4054856")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 100.33 0)
+		(at 91.44 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "9457735a-bcf8-4b35-9d37-8f9c088c8edc")
+		(uuid "071d8e31-bb59-4439-9525-d312031b4e8f")
 		(property "Reference" "C31"
-			(at 97.79 88.33 0)
+			(at 91.44 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2758,7 +2959,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 97.79 112.33 0)
+			(at 91.44 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2766,7 +2967,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 97.79 100.33 0)
+			(at 91.44 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2776,7 +2977,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C31")
 					(unit 1)
 				)
@@ -2785,17 +2986,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 96.52) (xy 97.79 92.71)
+			(xy 91.44 91.44) (xy 91.44 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c3387f34-ef5a-4f8a-8e80-09a00ea80cec")
+		(uuid "36a18c05-7026-4def-a835-e7198a136865")
 	)
 	(global_label "+3V3_IMU2"
 		(shape input)
-		(at 97.79 92.71 180)
+		(at 91.44 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2803,21 +3004,21 @@
 			)
 			(justify left)
 		)
-		(uuid "d384db95-342b-4f01-99ab-79ff423e12ae")
+		(uuid "e1f297ca-f3a3-4675-bcb4-e1685077acb3")
 	)
 	(wire
 		(pts
-			(xy 97.79 104.14) (xy 97.79 107.95)
+			(xy 91.44 99.06) (xy 91.44 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "76aa840c-3a89-4e5e-a087-76bbcc4d11f5")
+		(uuid "a91d3ee7-575d-4be4-afd3-a3f8a919b31c")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 107.95 180)
+		(at 91.44 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2825,16 +3026,16 @@
 			)
 			(justify left)
 		)
-		(uuid "661238d3-5e41-44cd-bce2-de29c0690235")
+		(uuid "f4469c67-f589-4dc5-ab5a-1db8547894c3")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 113.03 100.33 0)
+		(at 105.41 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "9867d030-4ace-4c51-bd6c-7e8a7852c402")
+		(uuid "3b945ef5-b0c3-4178-89f4-fc7ee40dbbc3")
 		(property "Reference" "C32"
-			(at 113.03 88.33 0)
+			(at 105.41 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2842,7 +3043,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 113.03 112.33 0)
+			(at 105.41 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2850,7 +3051,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 113.03 100.33 0)
+			(at 105.41 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2860,7 +3061,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C32")
 					(unit 1)
 				)
@@ -2869,17 +3070,17 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 96.52) (xy 113.03 92.71)
+			(xy 105.41 91.44) (xy 105.41 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "65b5b1ab-58e5-4989-b76d-2867f67a9893")
+		(uuid "10367b20-8888-4c62-9871-9b319e614522")
 	)
 	(global_label "+3V3_IMU3"
 		(shape input)
-		(at 113.03 92.71 180)
+		(at 105.41 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2887,21 +3088,21 @@
 			)
 			(justify left)
 		)
-		(uuid "f59b87aa-7d3c-4cbf-a360-cd931a7288b7")
+		(uuid "46224549-aa4c-44eb-a579-5510bd8646fb")
 	)
 	(wire
 		(pts
-			(xy 113.03 104.14) (xy 113.03 107.95)
+			(xy 105.41 99.06) (xy 105.41 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "74f2e885-935e-45c6-b9d7-f09bdf1555c5")
+		(uuid "94c23161-4980-4411-8571-73d5993b5998")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 113.03 107.95 180)
+		(at 105.41 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2909,16 +3110,16 @@
 			)
 			(justify left)
 		)
-		(uuid "444ab804-781e-4e63-a946-e1681c26db3d")
+		(uuid "7d7dfc26-0ab8-411c-9a0b-3cbd66223a4c")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 128.27 100.33 0)
+		(at 119.38 95.25 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "3c57c32f-a15a-4651-90bb-3f6dc4553d61")
+		(uuid "ac225750-7a9a-4821-b821-cc715ea1c3d5")
 		(property "Reference" "C33"
-			(at 128.27 88.33 0)
+			(at 119.38 83.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2926,7 +3127,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 128.27 112.33 0)
+			(at 119.38 107.25 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2934,7 +3135,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 128.27 100.33 0)
+			(at 119.38 95.25 0)
 			(hide yes)
 			(effects
 			(font
@@ -2944,7 +3145,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C33")
 					(unit 1)
 				)
@@ -2953,17 +3154,17 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 96.52) (xy 128.27 92.71)
+			(xy 119.38 91.44) (xy 119.38 87.63)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d658bcff-614f-4c72-bccc-66371628f852")
+		(uuid "56f344e5-7409-4a61-820f-73db1e7583b2")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
-		(at 128.27 92.71 180)
+		(at 119.38 87.63 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2971,21 +3172,21 @@
 			)
 			(justify left)
 		)
-		(uuid "1441e1b0-4103-4564-a6a9-266789859760")
+		(uuid "374a3ab2-cc8f-4291-9746-ad10f6e7c530")
 	)
 	(wire
 		(pts
-			(xy 128.27 104.14) (xy 128.27 107.95)
+			(xy 119.38 99.06) (xy 119.38 102.87)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4ba3d2a1-b2ea-4297-a9a3-0207e19967b1")
+		(uuid "9aa7cdf0-f030-4c0e-958b-bc8d27c31d9d")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 128.27 107.95 180)
+		(at 119.38 102.87 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2993,16 +3194,16 @@
 			)
 			(justify left)
 		)
-		(uuid "0d53df9f-b234-448b-aff8-5430211d39c2")
+		(uuid "390a318b-e234-4fcb-9338-ba84cd93f9ea")
 	)
 	(symbol
 		(lib_id "Device:L")
-		(at 21.59 123.19 0)
+		(at 21.59 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "82dabf86-ea04-4dc2-b97f-5235bebbb989")
+		(uuid "146e2da9-244a-4f4b-8cfc-ab059c2bed79")
 		(property "Reference" "L1"
-			(at 21.59 111.19 0)
+			(at 21.59 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3010,7 +3211,7 @@
 		)
 		)
 		(property "Value" "2u2"
-			(at 21.59 135.19 0)
+			(at 21.59 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3018,7 +3219,7 @@
 		)
 		)
 		(property "Footprint" "Inductor_SMD:L_1210_3225Metric"
-			(at 21.59 123.19 0)
+			(at 21.59 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3028,7 +3229,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "L1")
 					(unit 1)
 				)
@@ -3037,17 +3238,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 119.38) (xy 21.59 115.57)
+			(xy 21.59 111.76) (xy 21.59 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5331b91b-77fa-45cf-b646-b481413f714a")
+		(uuid "f6eeef00-d655-4531-8a4b-42d95d1925a6")
 	)
 	(global_label "SW_3V3"
 		(shape bidirectional)
-		(at 21.59 115.57 180)
+		(at 21.59 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3055,21 +3256,21 @@
 			)
 			(justify left)
 		)
-		(uuid "cbc7eb46-bb5d-439c-a152-0a8d6802eadb")
+		(uuid "bf72ab76-9020-4f32-b6a6-756496082699")
 	)
 	(wire
 		(pts
-			(xy 21.59 127.0) (xy 21.59 130.81)
+			(xy 21.59 119.38) (xy 21.59 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ed3ff27d-dcfe-4618-b08f-434b3ea6f468")
+		(uuid "74f783c7-000f-4d34-b209-befcdf6348ae")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 21.59 130.81 180)
+		(at 21.59 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3077,16 +3278,16 @@
 			)
 			(justify left)
 		)
-		(uuid "bb576aac-ef93-479e-88cb-3719f67aa0dc")
+		(uuid "14797325-74d4-45da-a4cc-6e399d1716e5")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 36.83 123.19 0)
+		(at 35.56 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "d5e982e7-eb31-4395-93b5-721679392258")
+		(uuid "d55ff2d7-e954-4392-9ce4-8c8388b49383")
 		(property "Reference" "C26"
-			(at 36.83 111.19 0)
+			(at 35.56 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3094,7 +3295,7 @@
 		)
 		)
 		(property "Value" "10u"
-			(at 36.83 135.19 0)
+			(at 35.56 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3102,7 +3303,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 36.83 123.19 0)
+			(at 35.56 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3112,7 +3313,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C26")
 					(unit 1)
 				)
@@ -3121,17 +3322,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 119.38) (xy 36.83 115.57)
+			(xy 35.56 111.76) (xy 35.56 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "59c3e989-084a-45a6-acbc-09021113e768")
+		(uuid "dc2cd05a-449e-49c4-b95a-2f699d62e2c8")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 36.83 115.57 180)
+		(at 35.56 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3139,21 +3340,21 @@
 			)
 			(justify left)
 		)
-		(uuid "b18fa18e-eeaa-4e9a-b97d-424810be07fb")
+		(uuid "b3887573-33dc-499e-b7fd-9b5566bcc4c4")
 	)
 	(wire
 		(pts
-			(xy 36.83 127.0) (xy 36.83 130.81)
+			(xy 35.56 119.38) (xy 35.56 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a916fa4c-6b1d-4737-9205-f350c631c238")
+		(uuid "bee7507a-bf2b-4fdf-b05f-8fd68d7f46df")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 36.83 130.81 180)
+		(at 35.56 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3161,16 +3362,16 @@
 			)
 			(justify left)
 		)
-		(uuid "014ba1b2-5900-400a-a035-dd9c76c0413e")
+		(uuid "5f834829-cef8-4fc2-9f29-5d2c5c8f4ee5")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 52.07 123.19 0)
+		(at 49.53 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "389f5826-d192-4216-8df6-cd5f652cb570")
+		(uuid "95b91c24-74d6-4ce5-9fa3-49edb3913717")
 		(property "Reference" "C27"
-			(at 52.07 111.19 0)
+			(at 49.53 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3178,7 +3379,7 @@
 		)
 		)
 		(property "Value" "22u"
-			(at 52.07 135.19 0)
+			(at 49.53 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3186,7 +3387,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 52.07 123.19 0)
+			(at 49.53 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3196,7 +3397,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C27")
 					(unit 1)
 				)
@@ -3205,17 +3406,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 119.38) (xy 52.07 115.57)
+			(xy 49.53 111.76) (xy 49.53 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e7d6f1a2-2c90-4239-8d1e-8a001b6a0a6f")
+		(uuid "2ce58e10-6903-4c9d-83ce-1fe6ed9b88c2")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 52.07 115.57 180)
+		(at 49.53 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3223,21 +3424,21 @@
 			)
 			(justify left)
 		)
-		(uuid "73023a16-93d4-4c9c-8757-8c78afbe53a1")
+		(uuid "4c7177fc-b20d-459b-863f-aba690d6a6e4")
 	)
 	(wire
 		(pts
-			(xy 52.07 127.0) (xy 52.07 130.81)
+			(xy 49.53 119.38) (xy 49.53 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3254a817-b3dc-4224-b534-2f2f07686d7f")
+		(uuid "540b4620-0d22-435e-8ef7-92d4d3506549")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 52.07 130.81 180)
+		(at 49.53 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3245,16 +3446,16 @@
 			)
 			(justify left)
 		)
-		(uuid "c933635d-0efc-4db7-9713-0b780fcf9292")
+		(uuid "40ea6dd8-df4c-4450-9516-c8e212b4eefa")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 67.31 123.19 0)
+		(at 63.5 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "38fe9adc-0693-465f-b540-dd182dfa41fa")
+		(uuid "37931506-fca2-4272-9df4-fba8650bb7fe")
 		(property "Reference" "C28"
-			(at 67.31 111.19 0)
+			(at 63.5 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3262,7 +3463,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 67.31 135.19 0)
+			(at 63.5 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3270,7 +3471,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 67.31 123.19 0)
+			(at 63.5 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3280,7 +3481,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C28")
 					(unit 1)
 				)
@@ -3289,17 +3490,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 119.38) (xy 67.31 115.57)
+			(xy 63.5 111.76) (xy 63.5 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dde97fd2-c766-42b8-ab6c-76458ebf0d4b")
+		(uuid "5d5493c7-588c-46d1-a672-af2db47ba6b7")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 67.31 115.57 180)
+		(at 63.5 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3307,21 +3508,21 @@
 			)
 			(justify left)
 		)
-		(uuid "e04b29aa-4468-47f1-8e85-b3d67aa18441")
+		(uuid "7c4db521-7e70-4ccd-9993-101c2f2713c9")
 	)
 	(wire
 		(pts
-			(xy 67.31 127.0) (xy 67.31 130.81)
+			(xy 63.5 119.38) (xy 63.5 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "43f722c1-cdc8-46c3-a4e5-19d405fa6c2c")
+		(uuid "12452511-f027-4518-82ef-6deb7132c8b4")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 67.31 130.81 180)
+		(at 63.5 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3329,16 +3530,16 @@
 			)
 			(justify left)
 		)
-		(uuid "cad34ed5-861e-4d8c-8435-c67569ecf90a")
+		(uuid "8e8c2a79-0fac-4201-8a65-8e58d2b58503")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 123.19 0)
+		(at 77.47 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4da33d97-d476-499f-a896-72070817eb53")
+		(uuid "eb012f2f-3c2f-4f8e-925b-18c4e7a0eb6d")
 		(property "Reference" "C34"
-			(at 82.55 111.19 0)
+			(at 77.47 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3346,7 +3547,7 @@
 		)
 		)
 		(property "Value" "100n"
-			(at 82.55 135.19 0)
+			(at 77.47 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3354,7 +3555,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 82.55 123.19 0)
+			(at 77.47 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3364,7 +3565,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C34")
 					(unit 1)
 				)
@@ -3373,17 +3574,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 119.38) (xy 82.55 115.57)
+			(xy 77.47 111.76) (xy 77.47 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b3814b07-5ced-48b0-9e4a-b149eac2ff28")
+		(uuid "e82a9076-3fc2-4314-ae0f-2ab19ecd165c")
 	)
 	(global_label "NRST"
 		(shape bidirectional)
-		(at 82.55 115.57 180)
+		(at 77.47 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3391,21 +3592,21 @@
 			)
 			(justify left)
 		)
-		(uuid "11026660-78da-4168-84af-db3298a347f6")
+		(uuid "6ab4fe0b-6cf2-4407-9171-a592a9ebfa4e")
 	)
 	(wire
 		(pts
-			(xy 82.55 127.0) (xy 82.55 130.81)
+			(xy 77.47 119.38) (xy 77.47 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "64efacf1-6630-48f0-9d76-6c44f77f1710")
+		(uuid "e68a3866-c7ef-4e9f-9ce2-3e023a2d4bfc")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 82.55 130.81 180)
+		(at 77.47 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3413,16 +3614,16 @@
 			)
 			(justify left)
 		)
-		(uuid "59914baf-261a-4af9-8dbd-44008c4cca76")
+		(uuid "05e5324e-1303-42ae-9de8-9fd32e67ebe4")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 97.79 123.19 0)
+		(at 91.44 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "588d3a93-08cf-4160-9a74-f2726dde0105")
+		(uuid "a04039fe-8d34-48e8-ab06-530130cc3007")
 		(property "Reference" "R6"
-			(at 97.79 111.19 0)
+			(at 91.44 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3430,7 +3631,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 97.79 135.19 0)
+			(at 91.44 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3438,7 +3639,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 97.79 123.19 0)
+			(at 91.44 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3448,7 +3649,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R6")
 					(unit 1)
 				)
@@ -3457,17 +3658,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 119.38) (xy 97.79 115.57)
+			(xy 91.44 111.76) (xy 91.44 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "607bf81a-cb69-418c-a763-46bb06cc834d")
+		(uuid "650c5a55-f0e3-4f46-9a67-3e9650c304d6")
 	)
 	(global_label "BOOT0"
 		(shape bidirectional)
-		(at 97.79 115.57 180)
+		(at 91.44 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3475,21 +3676,21 @@
 			)
 			(justify left)
 		)
-		(uuid "addf5bf2-4a74-4f6f-b1db-4f4fd776d868")
+		(uuid "3c77875b-2c98-41eb-a9ef-dea5eb4758ee")
 	)
 	(wire
 		(pts
-			(xy 97.79 127.0) (xy 97.79 130.81)
+			(xy 91.44 119.38) (xy 91.44 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4457ed37-11ba-47ef-97ee-e843283aa74c")
+		(uuid "7ef84f71-61b9-4768-b6c3-1733d5f981db")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 130.81 180)
+		(at 91.44 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3497,16 +3698,16 @@
 			)
 			(justify left)
 		)
-		(uuid "fbddc9c9-5cb7-48ef-8ab7-4d297f5bd174")
+		(uuid "02f2cb34-d36c-40e5-879f-5d184354ea0c")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 113.03 123.19 0)
+		(at 105.41 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "c7780b8f-9615-4f39-967d-3f49e91ba96e")
+		(uuid "da13573f-ade0-4ae7-9286-3dcd8b46b350")
 		(property "Reference" "C29"
-			(at 113.03 111.19 0)
+			(at 105.41 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3514,7 +3715,7 @@
 		)
 		)
 		(property "Value" "3n3"
-			(at 113.03 135.19 0)
+			(at 105.41 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3522,7 +3723,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 113.03 123.19 0)
+			(at 105.41 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3532,7 +3733,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C29")
 					(unit 1)
 				)
@@ -3541,17 +3742,17 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 119.38) (xy 113.03 115.57)
+			(xy 105.41 111.76) (xy 105.41 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6d7738fb-237a-4b9a-828a-14a97cb58f30")
+		(uuid "a4c69bcb-d016-447c-878f-55da6c7f869b")
 	)
 	(global_label "SS_3V3"
 		(shape bidirectional)
-		(at 113.03 115.57 180)
+		(at 105.41 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3559,21 +3760,21 @@
 			)
 			(justify left)
 		)
-		(uuid "cb146e3d-8b31-4556-b5dc-835b6acd3498")
+		(uuid "5bed2007-7d6e-467f-aad3-a3127c77c865")
 	)
 	(wire
 		(pts
-			(xy 113.03 127.0) (xy 113.03 130.81)
+			(xy 105.41 119.38) (xy 105.41 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a9ce4742-4484-4db7-9862-b09a4b261227")
+		(uuid "5d72c58b-d155-4884-b089-743405c66291")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 113.03 130.81 180)
+		(at 105.41 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3581,16 +3782,16 @@
 			)
 			(justify left)
 		)
-		(uuid "2f8de669-7e6b-49a0-903c-88a9fc15e583")
+		(uuid "f5492efc-1902-4c1b-b2f9-99ceee462a10")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 128.27 123.19 0)
+		(at 119.38 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "eec7b7d0-7b07-49d8-9e87-b7a018622855")
+		(uuid "d26efaf9-37b8-4068-ab74-56af38349081")
 		(property "Reference" "R3"
-			(at 128.27 111.19 0)
+			(at 119.38 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3598,7 +3799,7 @@
 		)
 		)
 		(property "Value" "100k"
-			(at 128.27 135.19 0)
+			(at 119.38 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3606,7 +3807,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 128.27 123.19 0)
+			(at 119.38 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3616,7 +3817,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R3")
 					(unit 1)
 				)
@@ -3625,17 +3826,17 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 119.38) (xy 128.27 115.57)
+			(xy 119.38 111.76) (xy 119.38 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d6117919-d577-4ec8-bdc5-474b9461c88d")
+		(uuid "f973255c-89b0-4a8c-864a-9150fe0b43ea")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 128.27 115.57 180)
+		(at 119.38 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3643,21 +3844,21 @@
 			)
 			(justify left)
 		)
-		(uuid "8e8ea300-966e-4c14-95f1-318433334c6e")
+		(uuid "69c5dfde-f008-4829-8602-53f3712ae7cd")
 	)
 	(wire
 		(pts
-			(xy 128.27 127.0) (xy 128.27 130.81)
+			(xy 119.38 119.38) (xy 119.38 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f9131233-d6dc-4069-bde5-3ed120aa72d7")
+		(uuid "0d2da854-4456-40ba-bd84-03b1e331ed8e")
 	)
 	(global_label "PG_3V3"
 		(shape bidirectional)
-		(at 128.27 130.81 180)
+		(at 119.38 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3665,16 +3866,16 @@
 			)
 			(justify left)
 		)
-		(uuid "9b340c4a-ee85-44cc-aacf-ca1348d5ddb2")
+		(uuid "566bd0b7-072e-4e71-83ad-a9a6b833f0c3")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 143.51 123.19 0)
+		(at 133.35 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "3db5033a-aecd-4db9-b76d-aabf48dfd7da")
+		(uuid "8a7e6089-7a90-423a-b229-2c28d72ea07c")
 		(property "Reference" "C35"
-			(at 143.51 111.19 0)
+			(at 133.35 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3682,7 +3883,7 @@
 		)
 		)
 		(property "Value" "10u"
-			(at 143.51 135.19 0)
+			(at 133.35 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3690,7 +3891,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 143.51 123.19 0)
+			(at 133.35 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3700,7 +3901,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C35")
 					(unit 1)
 				)
@@ -3709,17 +3910,17 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 119.38) (xy 143.51 115.57)
+			(xy 133.35 111.76) (xy 133.35 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "90d5c81f-0f8b-4b78-86b9-a4efe256fe70")
+		(uuid "1786a61c-c297-46cc-aba8-04dc49b2e405")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 143.51 115.57 180)
+		(at 133.35 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3727,21 +3928,21 @@
 			)
 			(justify left)
 		)
-		(uuid "7494eae2-1372-489b-a080-75754680a2c8")
+		(uuid "046d950e-218e-4917-accd-4a4d5afe7d94")
 	)
 	(wire
 		(pts
-			(xy 143.51 127.0) (xy 143.51 130.81)
+			(xy 133.35 119.38) (xy 133.35 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6913b196-955d-4e41-b82d-13329738ceda")
+		(uuid "d91a3ef0-58d1-4191-bc15-0d41151c6e9c")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 143.51 130.81 180)
+		(at 133.35 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3749,16 +3950,16 @@
 			)
 			(justify left)
 		)
-		(uuid "440fe365-4475-455f-8776-20b7ce20e2d1")
+		(uuid "4f2f67b5-36fe-406d-9c96-d299603e68cd")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 158.75 123.19 0)
+		(at 147.32 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ef88a8f6-bd68-445f-829d-62423286fb45")
+		(uuid "db3a0689-81d3-42d0-a38b-574e93e10a4f")
 		(property "Reference" "C36"
-			(at 158.75 111.19 0)
+			(at 147.32 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3766,7 +3967,7 @@
 		)
 		)
 		(property "Value" "1u"
-			(at 158.75 135.19 0)
+			(at 147.32 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3774,7 +3975,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 158.75 123.19 0)
+			(at 147.32 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3784,7 +3985,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C36")
 					(unit 1)
 				)
@@ -3793,17 +3994,17 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 119.38) (xy 158.75 115.57)
+			(xy 147.32 111.76) (xy 147.32 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3f8ae51a-e651-4a57-8b9f-1a6e409d0a27")
+		(uuid "76bb80fb-c8cf-4a50-a9ad-bb87a902783d")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 158.75 115.57 180)
+		(at 147.32 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3811,21 +4012,21 @@
 			)
 			(justify left)
 		)
-		(uuid "ef03e27c-4d22-43c9-8ba2-75fb2ce19221")
+		(uuid "abe681de-1476-48f4-abab-5cacb31196ae")
 	)
 	(wire
 		(pts
-			(xy 158.75 127.0) (xy 158.75 130.81)
+			(xy 147.32 119.38) (xy 147.32 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1ed99669-d658-4550-85d8-06140797a4b6")
+		(uuid "b7f3ea05-41f5-46c7-9b9e-6c2dbc5e96e4")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 158.75 130.81 180)
+		(at 147.32 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3833,16 +4034,16 @@
 			)
 			(justify left)
 		)
-		(uuid "92157ad7-1031-40a0-ba73-38bad55b41fc")
+		(uuid "40233eef-face-456a-87dd-477595e88e56")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 173.99 123.19 0)
+		(at 161.29 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8dbfbc84-bed4-402e-a27a-fed4621717cb")
+		(uuid "574d5600-1660-45fa-9895-111dc028494b")
 		(property "Reference" "C37"
-			(at 173.99 111.19 0)
+			(at 161.29 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3850,7 +4051,7 @@
 		)
 		)
 		(property "Value" "10n"
-			(at 173.99 135.19 0)
+			(at 161.29 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3858,7 +4059,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 173.99 123.19 0)
+			(at 161.29 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3868,7 +4069,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C37")
 					(unit 1)
 				)
@@ -3877,17 +4078,17 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 119.38) (xy 173.99 115.57)
+			(xy 161.29 111.76) (xy 161.29 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "8677b66b-535f-4b92-9c03-e375988d4aca")
+		(uuid "67b6b331-4c7e-4450-af75-cdfcecbc0c68")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 173.99 115.57 180)
+		(at 161.29 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3895,21 +4096,21 @@
 			)
 			(justify left)
 		)
-		(uuid "0a04a0c3-9e67-4b62-8c97-0b54db342917")
+		(uuid "040a289b-11fa-4734-b58c-9308cb0562db")
 	)
 	(wire
 		(pts
-			(xy 173.99 127.0) (xy 173.99 130.81)
+			(xy 161.29 119.38) (xy 161.29 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "295f4f0f-b43b-406c-b7dd-76668b09497a")
+		(uuid "61b7f855-3c73-486b-995b-c784aa749a89")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 173.99 130.81 180)
+		(at 161.29 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3917,16 +4118,16 @@
 			)
 			(justify left)
 		)
-		(uuid "b6a53257-1dd9-4971-aaf4-0873af3c7bf8")
+		(uuid "794f6da2-05e9-4d8e-ab2d-0532840cb210")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 21.59 146.05 0)
+		(at 175.26 115.57 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "903c6dd5-951d-4b34-9044-dcb48aa8cfa6")
+		(uuid "8eb25144-ddef-44bf-b5bb-dfe5f5d27af8")
 		(property "Reference" "C38"
-			(at 21.59 134.05 0)
+			(at 175.26 103.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3934,7 +4135,7 @@
 		)
 		)
 		(property "Value" "10u"
-			(at 21.59 158.05 0)
+			(at 175.26 127.57 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -3942,7 +4143,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 21.59 146.05 0)
+			(at 175.26 115.57 0)
 			(hide yes)
 			(effects
 			(font
@@ -3952,7 +4153,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C38")
 					(unit 1)
 				)
@@ -3961,17 +4162,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 142.24) (xy 21.59 138.43)
+			(xy 175.26 111.76) (xy 175.26 107.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a3722642-0867-4f74-ab76-8caa8121f758")
+		(uuid "1af69d7b-3d41-45a3-8872-ce752d3e817e")
 	)
 	(global_label "VISO1"
 		(shape bidirectional)
-		(at 21.59 138.43 180)
+		(at 175.26 107.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3979,21 +4180,21 @@
 			)
 			(justify left)
 		)
-		(uuid "ecb34dff-0416-4f03-b82f-ea7fe737092f")
+		(uuid "7d367673-915f-42ef-aa49-ee76130a331e")
 	)
 	(wire
 		(pts
-			(xy 21.59 149.86) (xy 21.59 153.67)
+			(xy 175.26 119.38) (xy 175.26 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fc01e652-18bf-48f8-ac78-0dff25a9afbe")
+		(uuid "226eaec6-4cbf-4498-a4d7-b1fcc1799fd4")
 	)
 	(global_label "GND_ISO1"
 		(shape input)
-		(at 21.59 153.67 180)
+		(at 175.26 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4001,16 +4202,16 @@
 			)
 			(justify left)
 		)
-		(uuid "eca36a32-961e-4352-98b8-3976845eafd1")
+		(uuid "15302206-e5a2-4460-9372-15e8ab6cab20")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 36.83 146.05 0)
+		(at 21.59 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "1fecced9-a420-4a9c-969b-75853ebe4ee2")
+		(uuid "9ed4419e-c89d-46b5-8faf-f69761dd60c2")
 		(property "Reference" "C39"
-			(at 36.83 134.05 0)
+			(at 21.59 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4018,7 +4219,7 @@
 		)
 		)
 		(property "Value" "1u"
-			(at 36.83 158.05 0)
+			(at 21.59 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4026,7 +4227,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 36.83 146.05 0)
+			(at 21.59 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4036,7 +4237,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C39")
 					(unit 1)
 				)
@@ -4045,17 +4246,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 142.24) (xy 36.83 138.43)
+			(xy 21.59 132.08) (xy 21.59 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ddc0159a-62e6-47d1-88c1-cd12a81a2b1a")
+		(uuid "771f9d5b-4d40-44bb-a88b-77bd13803bf3")
 	)
 	(global_label "VISO1"
 		(shape bidirectional)
-		(at 36.83 138.43 180)
+		(at 21.59 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4063,21 +4264,21 @@
 			)
 			(justify left)
 		)
-		(uuid "917b60a3-222e-4d4c-be70-1d7f1407d71a")
+		(uuid "e7cfb36d-574a-4c78-911a-dda0a1388ebb")
 	)
 	(wire
 		(pts
-			(xy 36.83 149.86) (xy 36.83 153.67)
+			(xy 21.59 139.7) (xy 21.59 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3bdf1059-983a-42d9-a070-9773a391c260")
+		(uuid "5ca5bc57-109e-42c8-b57f-359667b655a7")
 	)
 	(global_label "GND_ISO1"
 		(shape input)
-		(at 36.83 153.67 180)
+		(at 21.59 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4085,16 +4286,16 @@
 			)
 			(justify left)
 		)
-		(uuid "596c8fda-8312-4aa4-ad13-4e0a646000ed")
+		(uuid "1807bec5-effe-4053-8259-04b72ce7a7d2")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 52.07 146.05 0)
+		(at 35.56 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "3bfb7dc4-19f7-4e15-99b8-03ecd56a074a")
+		(uuid "dab4734a-d5f8-4a79-93eb-6d9f0119b146")
 		(property "Reference" "C40"
-			(at 52.07 134.05 0)
+			(at 35.56 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4102,7 +4303,7 @@
 		)
 		)
 		(property "Value" "10n"
-			(at 52.07 158.05 0)
+			(at 35.56 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4110,7 +4311,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 52.07 146.05 0)
+			(at 35.56 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4120,7 +4321,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C40")
 					(unit 1)
 				)
@@ -4129,17 +4330,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 142.24) (xy 52.07 138.43)
+			(xy 35.56 132.08) (xy 35.56 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b3fe0c7d-d9be-4768-8765-c8bd50b81d1f")
+		(uuid "e875decc-5531-4af9-8220-7c3f7951de8d")
 	)
 	(global_label "VISO1"
 		(shape bidirectional)
-		(at 52.07 138.43 180)
+		(at 35.56 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4147,21 +4348,21 @@
 			)
 			(justify left)
 		)
-		(uuid "9f8f3d79-f522-49e4-a9ca-5056ad7a081d")
+		(uuid "352816f1-2ba2-432d-92a0-4b146af70261")
 	)
 	(wire
 		(pts
-			(xy 52.07 149.86) (xy 52.07 153.67)
+			(xy 35.56 139.7) (xy 35.56 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9d550685-9c5d-4def-a20d-c03e67c98324")
+		(uuid "617379cb-ce00-47a5-8426-bca4917b80bb")
 	)
 	(global_label "GND_ISO1"
 		(shape input)
-		(at 52.07 153.67 180)
+		(at 35.56 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4169,16 +4370,16 @@
 			)
 			(justify left)
 		)
-		(uuid "4684d4ea-a80a-4ba9-86d8-7f60ac7bc0de")
+		(uuid "f5cc209a-86d3-4589-a613-4c873a64f010")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 67.31 146.05 0)
+		(at 49.53 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "2606293a-bb64-474c-8ff1-68a00356c840")
+		(uuid "5c6e2985-e58b-4efa-a53f-08acc5200579")
 		(property "Reference" "C41"
-			(at 67.31 134.05 0)
+			(at 49.53 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4186,7 +4387,7 @@
 		)
 		)
 		(property "Value" "10u"
-			(at 67.31 158.05 0)
+			(at 49.53 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4194,7 +4395,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric"
-			(at 67.31 146.05 0)
+			(at 49.53 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4204,7 +4405,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C41")
 					(unit 1)
 				)
@@ -4213,17 +4414,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 142.24) (xy 67.31 138.43)
+			(xy 49.53 132.08) (xy 49.53 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d8db4743-2cd7-4d8a-8ba4-b86f3d171459")
+		(uuid "4af68623-b7e6-4607-8c0a-f32c4f2ee8c4")
 	)
 	(global_label "VISO2"
 		(shape bidirectional)
-		(at 67.31 138.43 180)
+		(at 49.53 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4231,21 +4432,21 @@
 			)
 			(justify left)
 		)
-		(uuid "5166f382-180e-4218-8ce7-bfcd61094828")
+		(uuid "e9630358-3611-48a7-9400-fb492f808b36")
 	)
 	(wire
 		(pts
-			(xy 67.31 149.86) (xy 67.31 153.67)
+			(xy 49.53 139.7) (xy 49.53 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b290bc0b-76b8-4f32-99b9-411301d94d7b")
+		(uuid "eb6996ae-4fa3-43ef-97f7-5d84022613ff")
 	)
 	(global_label "GND_ISO2"
 		(shape input)
-		(at 67.31 153.67 180)
+		(at 49.53 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4253,16 +4454,16 @@
 			)
 			(justify left)
 		)
-		(uuid "3f247773-92ea-415c-bca9-0ad7b44c8714")
+		(uuid "ddbc3482-9252-495d-948f-aa7766dfcfbc")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 146.05 0)
+		(at 63.5 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "b1e8d78d-d64a-4118-8725-98cb6dcc5052")
+		(uuid "6b703e59-244d-483e-8322-e4ea69c4766d")
 		(property "Reference" "C42"
-			(at 82.55 134.05 0)
+			(at 63.5 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4270,7 +4471,7 @@
 		)
 		)
 		(property "Value" "1u"
-			(at 82.55 158.05 0)
+			(at 63.5 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4278,7 +4479,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 82.55 146.05 0)
+			(at 63.5 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4288,7 +4489,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C42")
 					(unit 1)
 				)
@@ -4297,17 +4498,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 142.24) (xy 82.55 138.43)
+			(xy 63.5 132.08) (xy 63.5 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6ff1f47d-f19c-4b84-ab39-35b6e304ec79")
+		(uuid "8a975c3e-63fc-4b7d-ae40-87cdf6ad8ecd")
 	)
 	(global_label "VISO2"
 		(shape bidirectional)
-		(at 82.55 138.43 180)
+		(at 63.5 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4315,21 +4516,21 @@
 			)
 			(justify left)
 		)
-		(uuid "a1a8006d-f328-4d84-9143-f7127ee66700")
+		(uuid "f0982468-1d32-4a24-bbd2-ba3aee71ab59")
 	)
 	(wire
 		(pts
-			(xy 82.55 149.86) (xy 82.55 153.67)
+			(xy 63.5 139.7) (xy 63.5 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "90ac364b-fe18-4400-ab2c-e99c66af1dee")
+		(uuid "6f185a7a-8101-480c-a558-7b5ef36c0eea")
 	)
 	(global_label "GND_ISO2"
 		(shape input)
-		(at 82.55 153.67 180)
+		(at 63.5 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4337,16 +4538,16 @@
 			)
 			(justify left)
 		)
-		(uuid "df06abfd-bc9b-4f21-9d23-313871d60e3a")
+		(uuid "e95dd3ae-fbcf-4be6-8d92-e3b50d415a97")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 146.05 0)
+		(at 77.47 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "bf386d81-c069-430f-bfc8-974070f5ecec")
+		(uuid "ee886ae0-2288-4c9d-a891-9de0441ad351")
 		(property "Reference" "C43"
-			(at 97.79 134.05 0)
+			(at 77.47 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4354,7 +4555,7 @@
 		)
 		)
 		(property "Value" "10n"
-			(at 97.79 158.05 0)
+			(at 77.47 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4362,7 +4563,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 97.79 146.05 0)
+			(at 77.47 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4372,7 +4573,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C43")
 					(unit 1)
 				)
@@ -4381,17 +4582,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 142.24) (xy 97.79 138.43)
+			(xy 77.47 132.08) (xy 77.47 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ec795689-d371-4fba-b773-f533a089c8d2")
+		(uuid "07695279-4812-46f8-a96b-4ec389530459")
 	)
 	(global_label "VISO2"
 		(shape bidirectional)
-		(at 97.79 138.43 180)
+		(at 77.47 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4399,21 +4600,21 @@
 			)
 			(justify left)
 		)
-		(uuid "0eb8e0e9-c53a-4f37-afa6-4f3f65a89c7c")
+		(uuid "e4c93957-05e9-4d61-b9b1-687a27d7dc82")
 	)
 	(wire
 		(pts
-			(xy 97.79 149.86) (xy 97.79 153.67)
+			(xy 77.47 139.7) (xy 77.47 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7d40ce59-e043-46d1-9ca8-763e1b13dacf")
+		(uuid "735e3738-26dc-47fb-98ce-4b189f7ca79e")
 	)
 	(global_label "GND_ISO2"
 		(shape input)
-		(at 97.79 153.67 180)
+		(at 77.47 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4421,16 +4622,16 @@
 			)
 			(justify left)
 		)
-		(uuid "1362a5a6-9923-4af7-884c-6cdad9bfaca5")
+		(uuid "75cab327-1422-4b8d-8e81-e87a4e7b7f88")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 113.03 146.05 0)
+		(at 91.44 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "1d7f5466-698a-4bb6-9735-b8351b479f78")
+		(uuid "4af425d5-7733-4ae4-bacf-89fdd27bc48e")
 		(property "Reference" "R7"
-			(at 113.03 134.05 0)
+			(at 91.44 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4438,7 +4639,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 113.03 158.05 0)
+			(at 91.44 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4446,7 +4647,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 113.03 146.05 0)
+			(at 91.44 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4456,7 +4657,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R7")
 					(unit 1)
 				)
@@ -4465,17 +4666,17 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 142.24) (xy 113.03 138.43)
+			(xy 91.44 132.08) (xy 91.44 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "dec16448-418e-45f8-a6d5-1eff268986f6")
+		(uuid "a583f145-d664-4c2d-a033-51c5190b08ce")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 113.03 138.43 180)
+		(at 91.44 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4483,21 +4684,21 @@
 			)
 			(justify left)
 		)
-		(uuid "ec0a999c-047a-432f-97f6-16a9f2026782")
+		(uuid "72cc5275-1911-44e4-825f-052c1f9ea65a")
 	)
 	(wire
 		(pts
-			(xy 113.03 149.86) (xy 113.03 153.67)
+			(xy 91.44 139.7) (xy 91.44 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "88bb7a32-d1a3-418f-ae31-ba885c5b0840")
+		(uuid "14bf3934-d2ac-4869-8ea5-7e95abf71101")
 	)
 	(global_label "CAN1_FLT"
 		(shape bidirectional)
-		(at 113.03 153.67 180)
+		(at 91.44 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4505,16 +4706,16 @@
 			)
 			(justify left)
 		)
-		(uuid "88674f5f-f84d-475c-a14c-7c94df4179ef")
+		(uuid "824829c3-297c-4ae1-b8c8-6d0d7336cc8f")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 128.27 146.05 0)
+		(at 105.41 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "72cda5fb-b42a-466c-992f-1140d6cff60d")
+		(uuid "49195f5e-64f5-4820-a5a8-255df7e60e2d")
 		(property "Reference" "R8"
-			(at 128.27 134.05 0)
+			(at 105.41 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4522,7 +4723,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 128.27 158.05 0)
+			(at 105.41 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4530,7 +4731,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 128.27 146.05 0)
+			(at 105.41 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4540,7 +4741,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R8")
 					(unit 1)
 				)
@@ -4549,17 +4750,17 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 142.24) (xy 128.27 138.43)
+			(xy 105.41 132.08) (xy 105.41 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "74b3b381-e5ac-48d9-a2c4-a08c843aa1fc")
+		(uuid "4d04b79e-8dd8-4051-bed9-f5115fcb5978")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 128.27 138.43 180)
+		(at 105.41 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4567,21 +4768,21 @@
 			)
 			(justify left)
 		)
-		(uuid "32d4e56b-7f57-4f21-8ef7-1a59d3eba287")
+		(uuid "0a0fe363-68e3-4389-8dc8-3fd6898b2dbb")
 	)
 	(wire
 		(pts
-			(xy 128.27 149.86) (xy 128.27 153.67)
+			(xy 105.41 139.7) (xy 105.41 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5f3c4e11-d6c9-4e47-9ed2-b2896a3d361f")
+		(uuid "920437ef-f9a4-47d1-92e9-73267993051b")
 	)
 	(global_label "CAN2_FLT"
 		(shape bidirectional)
-		(at 128.27 153.67 180)
+		(at 105.41 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4589,16 +4790,16 @@
 			)
 			(justify left)
 		)
-		(uuid "b50fd601-6d71-4970-9b4f-05d88e808d5e")
+		(uuid "d62b4ad1-c784-48f4-9974-936c6309b672")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 143.51 146.05 0)
+		(at 119.38 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "830e9318-55c0-4940-b8ca-9fd7ed85d69b")
+		(uuid "fe17ad88-6a3f-462e-917e-119141c8d5a8")
 		(property "Reference" "R9"
-			(at 143.51 134.05 0)
+			(at 119.38 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4606,7 +4807,7 @@
 		)
 		)
 		(property "Value" "5k1"
-			(at 143.51 158.05 0)
+			(at 119.38 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4614,7 +4815,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 143.51 146.05 0)
+			(at 119.38 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4624,7 +4825,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R9")
 					(unit 1)
 				)
@@ -4633,17 +4834,17 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 142.24) (xy 143.51 138.43)
+			(xy 119.38 132.08) (xy 119.38 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "9f9166c9-863e-457e-9857-1b0f5e2c636c")
+		(uuid "a2d25e77-232e-4c45-8751-acf2bb328b9d")
 	)
 	(global_label "USB_CC1"
 		(shape bidirectional)
-		(at 143.51 138.43 180)
+		(at 119.38 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4651,21 +4852,21 @@
 			)
 			(justify left)
 		)
-		(uuid "52bba732-f9d0-4580-a6c9-97238061489c")
+		(uuid "32d8a488-05ca-4b84-bce3-63fb0907d7e7")
 	)
 	(wire
 		(pts
-			(xy 143.51 149.86) (xy 143.51 153.67)
+			(xy 119.38 139.7) (xy 119.38 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "40f8b24a-4103-4a86-9f92-7f7de7cbb0c2")
+		(uuid "339daa5a-c20e-499d-8050-7c1bab809ccf")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 143.51 153.67 180)
+		(at 119.38 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4673,16 +4874,16 @@
 			)
 			(justify left)
 		)
-		(uuid "7f2e4fba-187b-457a-b85f-d09bb2ba3cf3")
+		(uuid "1270282a-619a-4d46-9529-cf35e7589233")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 158.75 146.05 0)
+		(at 133.35 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4a75ff9b-25fb-4ce8-b7c8-4cb9a7b75186")
+		(uuid "da1b7de8-60e2-4958-8e43-e59e71c67299")
 		(property "Reference" "R10"
-			(at 158.75 134.05 0)
+			(at 133.35 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4690,7 +4891,7 @@
 		)
 		)
 		(property "Value" "5k1"
-			(at 158.75 158.05 0)
+			(at 133.35 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4698,7 +4899,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 158.75 146.05 0)
+			(at 133.35 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4708,7 +4909,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R10")
 					(unit 1)
 				)
@@ -4717,17 +4918,17 @@
 	)
 	(wire
 		(pts
-			(xy 158.75 142.24) (xy 158.75 138.43)
+			(xy 133.35 132.08) (xy 133.35 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "142e7d04-caca-475b-9f97-d109d2dbb789")
+		(uuid "5735cbac-ce71-4d08-9e93-392132ce9c15")
 	)
 	(global_label "USB_CC2"
 		(shape bidirectional)
-		(at 158.75 138.43 180)
+		(at 133.35 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4735,21 +4936,21 @@
 			)
 			(justify left)
 		)
-		(uuid "bd7334dc-0aaa-49d7-b710-ca47139976b3")
+		(uuid "50fcd080-a850-4f12-8243-d60d71133411")
 	)
 	(wire
 		(pts
-			(xy 158.75 149.86) (xy 158.75 153.67)
+			(xy 133.35 139.7) (xy 133.35 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "bebd9c3a-f34e-41f6-bf38-84fe414d2ed5")
+		(uuid "d8006368-8e3a-42d4-88df-f9e07ca14ef2")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 158.75 153.67 180)
+		(at 133.35 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4757,16 +4958,16 @@
 			)
 			(justify left)
 		)
-		(uuid "92f56e16-d0c4-41a5-bf8b-e6df0e0aaaa6")
+		(uuid "11a237a3-8cd3-42a5-ba76-e0df3b7d4d6f")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 173.99 146.05 0)
+		(at 147.32 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "12d59511-c7e3-4899-90a3-4dd250a3fddb")
+		(uuid "33aa309d-3c04-441d-9d06-a908bbd8c776")
 		(property "Reference" "R11"
-			(at 173.99 134.05 0)
+			(at 147.32 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4774,7 +4975,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 173.99 158.05 0)
+			(at 147.32 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4782,7 +4983,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 173.99 146.05 0)
+			(at 147.32 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4792,7 +4993,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R11")
 					(unit 1)
 				)
@@ -4801,17 +5002,17 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 142.24) (xy 173.99 138.43)
+			(xy 147.32 132.08) (xy 147.32 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ee28f801-2395-4cd7-8a19-2312b9796f59")
+		(uuid "cded6383-c9f5-43f2-a139-6a9cd71f74d6")
 	)
 	(global_label "VBUS_USB"
 		(shape bidirectional)
-		(at 173.99 138.43 180)
+		(at 147.32 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4819,21 +5020,21 @@
 			)
 			(justify left)
 		)
-		(uuid "d2115f24-0000-4757-ac02-82d3b638cea8")
+		(uuid "b3064845-9785-4dce-9c0c-62b28a39f577")
 	)
 	(wire
 		(pts
-			(xy 173.99 149.86) (xy 173.99 153.67)
+			(xy 147.32 139.7) (xy 147.32 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c486e6fd-7dfe-48a8-83b3-02cc51270857")
+		(uuid "ca2d3ba4-903e-4676-9d9e-84eef3d4f63e")
 	)
 	(global_label "VBUS_SENSE"
 		(shape bidirectional)
-		(at 173.99 153.67 180)
+		(at 147.32 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4841,16 +5042,16 @@
 			)
 			(justify left)
 		)
-		(uuid "f99a0722-ff15-44e4-8d95-08f1d7797a7b")
+		(uuid "85c743ae-8f81-463d-97ae-d1c8bbd48679")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 21.59 168.91 0)
+		(at 161.29 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "e9af52e2-fbd7-42cc-8020-fe60335dbb76")
+		(uuid "c3a25146-4145-47a5-929b-2f88bb78c1f3")
 		(property "Reference" "R12"
-			(at 21.59 156.91 0)
+			(at 161.29 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4858,7 +5059,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 21.59 180.91 0)
+			(at 161.29 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4866,7 +5067,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 21.59 168.91 0)
+			(at 161.29 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4876,7 +5077,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R12")
 					(unit 1)
 				)
@@ -4885,17 +5086,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 165.1) (xy 21.59 161.29)
+			(xy 161.29 132.08) (xy 161.29 128.27)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "deaad69c-116e-425d-9a2e-5f12541eb93e")
+		(uuid "37b3c311-943c-41fb-8bbb-11da503c4ef8")
 	)
 	(global_label "VBUS_SENSE"
 		(shape bidirectional)
-		(at 21.59 161.29 180)
+		(at 161.29 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4903,21 +5104,21 @@
 			)
 			(justify left)
 		)
-		(uuid "4394d1d5-b260-476c-957f-4f0400933065")
+		(uuid "a242b249-2dbd-42af-b564-939d65394363")
 	)
 	(wire
 		(pts
-			(xy 21.59 172.72) (xy 21.59 176.53)
+			(xy 161.29 139.7) (xy 161.29 143.51)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "79a111a7-d2e9-4a76-a65c-d5638c82af22")
+		(uuid "48a9b821-728a-456b-8557-d928299cb826")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 21.59 176.53 180)
+		(at 161.29 143.51 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4925,24 +5126,24 @@
 			)
 			(justify left)
 		)
-		(uuid "a95927ee-47d1-4747-bad6-ee4a15d9bdb9")
+		(uuid "978a9230-f3b2-484a-8b44-a54ed40bcaba")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 36.83 168.91 0)
+		(at 175.26 135.89 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "a2326471-41af-4708-9163-53c566e85fab")
-		(property "Reference" "R13"
-			(at 36.83 156.91 0)
+		(uuid "7beb1bc1-ecd3-4327-8893-06a00c573b3a")
+		(property "Reference" "R17"
+			(at 175.26 123.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
 		)
-		(property "Value" "10k"
-			(at 36.83 180.91 0)
+		(property "Value" "1k"
+			(at 175.26 147.89 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -4950,7 +5151,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 36.83 168.91 0)
+			(at 175.26 135.89 0)
 			(hide yes)
 			(effects
 			(font
@@ -4960,7 +5161,511 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "R17")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 175.26 132.08) (xy 175.26 128.27)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3e5926cd-42da-4caf-b154-a6f1fe4f78d0")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 175.26 128.27 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1688a9bc-9dba-4f13-8466-c4da31b9b596")
+	)
+	(wire
+		(pts
+			(xy 175.26 139.7) (xy 175.26 143.51)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "3a090fdc-f7de-4014-9971-e118d677f907")
+	)
+	(global_label "LED_R_A"
+		(shape bidirectional)
+		(at 175.26 143.51 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1b1d8fee-ce85-4514-b92c-7241e903bc0a")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 21.59 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "0a0d89b8-95a8-458f-aa02-85cf590889b8")
+		(property "Reference" "R18"
+			(at 21.59 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "1k"
+			(at 21.59 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 21.59 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "R18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 21.59 152.4) (xy 21.59 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0eda86b5-7a03-41d2-9d06-766dec8bb4de")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 21.59 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "56b76293-d1c9-4d0c-bf6a-df584850e4a6")
+	)
+	(wire
+		(pts
+			(xy 21.59 160.02) (xy 21.59 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "789ddb1f-124c-440f-a0bb-3704dcabded4")
+	)
+	(global_label "LED_G_A"
+		(shape bidirectional)
+		(at 21.59 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "bb687e67-60c3-4e03-aa2b-fc9f67c5c777")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 35.56 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "d0efa6a5-391d-406c-a50d-2e550bcdd61c")
+		(property "Reference" "R19"
+			(at 35.56 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "1k"
+			(at 35.56 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 35.56 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "R19")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 35.56 152.4) (xy 35.56 148.59)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "03d51b6d-9876-447b-b68c-0eb5fc112d53")
+	)
+	(global_label "+3V3"
+		(shape input)
+		(at 35.56 148.59 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "5c351426-9231-49a2-bc42-1793045e458f")
+	)
+	(wire
+		(pts
+			(xy 35.56 160.02) (xy 35.56 163.83)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "00ea03da-3670-42c7-b393-15679323407c")
+	)
+	(global_label "LED_B_A"
+		(shape bidirectional)
+		(at 35.56 163.83 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7bcbe5ed-116a-473f-944f-cdb60c3ce339")
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 49.53 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "dc0d8baa-4f34-4382-9706-305c39bb1295")
+		(property "Reference" "D1"
+			(at 49.53 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "RED"
+			(at 49.53 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 49.53 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "D1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 45.72 156.21) (xy 38.1 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "0d052223-daef-4bc4-9add-565b36f53dfa")
+	)
+	(global_label "LED_R_A"
+		(shape bidirectional)
+		(at 38.1 156.21 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "7ae3662b-0cf1-4d17-995e-99636f1dabf8")
+	)
+	(wire
+		(pts
+			(xy 53.34 156.21) (xy 60.96 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "32641772-1634-42ad-8a75-bdd0810b1f8a")
+	)
+	(global_label "LED_R"
+		(shape bidirectional)
+		(at 60.96 156.21 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "278d6924-6998-4270-9415-5cb11476f7ce")
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 63.5 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "15c936fe-7f39-4c6f-a163-ac647cac173e")
+		(property "Reference" "D2"
+			(at 63.5 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "GRN"
+			(at 63.5 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 63.5 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "D2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 59.69 156.21) (xy 52.07 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "efa786eb-7bcf-49fd-9c81-58927771f560")
+	)
+	(global_label "LED_G_A"
+		(shape bidirectional)
+		(at 52.07 156.21 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "61415fef-8089-4bcf-b652-47cb182bec8a")
+	)
+	(wire
+		(pts
+			(xy 67.31 156.21) (xy 74.93 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "94f90455-44f6-40bf-9119-b1dfa9b33613")
+	)
+	(global_label "LED_G"
+		(shape bidirectional)
+		(at 74.93 156.21 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "ce32ce0c-3dcb-4ff7-9fc6-851af0ded564")
+	)
+	(symbol
+		(lib_id "Device:LED")
+		(at 77.47 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "f3fd67d4-e223-4048-bcc7-0e92bd6d588c")
+		(property "Reference" "D3"
+			(at 77.47 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "BLU"
+			(at 77.47 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "LED_SMD:LED_0603_1608Metric"
+			(at 77.47 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "D3")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 73.66 156.21) (xy 66.04 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "f78430a9-08b5-48ce-9009-b3e8edd84f5a")
+	)
+	(global_label "LED_B_A"
+		(shape bidirectional)
+		(at 66.04 156.21 0)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "038bddf8-f1e0-4dc3-b0a3-d74144cfb5e4")
+	)
+	(wire
+		(pts
+			(xy 81.28 156.21) (xy 88.9 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b562ef72-49cd-4c3f-a2f4-70b24858732f")
+	)
+	(global_label "LED_B"
+		(shape bidirectional)
+		(at 88.9 156.21 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "3e726b1d-2ff9-44e3-b848-8ca02e68795e")
+	)
+	(symbol
+		(lib_id "Device:R")
+		(at 91.44 156.21 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "88da7bfe-bbf9-47c3-9738-cb1d2b393fc0")
+		(property "Reference" "R13"
+			(at 91.44 144.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "10k"
+			(at 91.44 168.21 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
+			(at 91.44 156.21 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R13")
 					(unit 1)
 				)
@@ -4969,17 +5674,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 165.1) (xy 36.83 161.29)
+			(xy 91.44 152.4) (xy 91.44 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4be973b2-5ef3-4dd1-972a-97507ea84914")
+		(uuid "3775671d-4303-4411-bfdf-3c4fbedacea0")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 36.83 161.29 180)
+		(at 91.44 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -4987,21 +5692,21 @@
 			)
 			(justify left)
 		)
-		(uuid "2451199e-1210-42a1-89fd-02c715502aea")
+		(uuid "460fae22-de54-47c1-bdae-7b9ffd4dee96")
 	)
 	(wire
 		(pts
-			(xy 36.83 172.72) (xy 36.83 176.53)
+			(xy 91.44 160.02) (xy 91.44 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "aee50b25-c9c0-4839-949f-a8733a012023")
+		(uuid "f4180927-01b6-4b5c-be41-f5a08177555e")
 	)
 	(global_label "IMU1_RAIL_FLG"
 		(shape bidirectional)
-		(at 36.83 176.53 180)
+		(at 91.44 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5009,16 +5714,16 @@
 			)
 			(justify left)
 		)
-		(uuid "439c732d-c44e-4b48-9a39-952a2675c361")
+		(uuid "b1821749-732b-4cd8-b24a-4465bd33c85e")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 52.07 168.91 0)
+		(at 105.41 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "5e57dca9-1d84-4153-9e2e-ca7ab3d9f1f2")
+		(uuid "076fdde2-0020-448a-978c-f14e6dd74d36")
 		(property "Reference" "R14"
-			(at 52.07 156.91 0)
+			(at 105.41 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5026,7 +5731,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 52.07 180.91 0)
+			(at 105.41 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5034,7 +5739,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 52.07 168.91 0)
+			(at 105.41 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5044,7 +5749,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R14")
 					(unit 1)
 				)
@@ -5053,17 +5758,17 @@
 	)
 	(wire
 		(pts
-			(xy 52.07 165.1) (xy 52.07 161.29)
+			(xy 105.41 152.4) (xy 105.41 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "a787b5f4-9235-4979-b5cb-13b3ded7cff5")
+		(uuid "63e876f0-a72e-4afc-8c98-cf2e22ed35e2")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 52.07 161.29 180)
+		(at 105.41 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5071,21 +5776,21 @@
 			)
 			(justify left)
 		)
-		(uuid "809a0e73-3a72-4f61-b622-3be7a3acc1ab")
+		(uuid "26a38a2b-74fe-44af-9d00-e65005a66c76")
 	)
 	(wire
 		(pts
-			(xy 52.07 172.72) (xy 52.07 176.53)
+			(xy 105.41 160.02) (xy 105.41 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "425daf43-220b-43a1-85e7-28f15fb7110b")
+		(uuid "05b5cc53-069a-4dff-baaa-181524cee488")
 	)
 	(global_label "IMU2_RAIL_FLG"
 		(shape bidirectional)
-		(at 52.07 176.53 180)
+		(at 105.41 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5093,16 +5798,16 @@
 			)
 			(justify left)
 		)
-		(uuid "774fd865-fca6-4e47-b599-b601a212240f")
+		(uuid "fc02b6cf-fbf3-4003-94c9-a830861f3f14")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 67.31 168.91 0)
+		(at 119.38 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "a6cf9b5f-34f4-4e99-9b49-1fb46c6d27a8")
+		(uuid "7e84d9da-14c7-4a2f-ac21-cc360dc7fce3")
 		(property "Reference" "R15"
-			(at 67.31 156.91 0)
+			(at 119.38 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5110,7 +5815,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 67.31 180.91 0)
+			(at 119.38 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5118,7 +5823,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 67.31 168.91 0)
+			(at 119.38 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5128,7 +5833,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R15")
 					(unit 1)
 				)
@@ -5137,17 +5842,17 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 165.1) (xy 67.31 161.29)
+			(xy 119.38 152.4) (xy 119.38 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "440bd233-ccfc-4f71-af14-fdfc22f2f210")
+		(uuid "68afdcaf-b9c6-4950-a771-9c18600820f1")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 67.31 161.29 180)
+		(at 119.38 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5155,21 +5860,21 @@
 			)
 			(justify left)
 		)
-		(uuid "e4f9a183-de7d-4b16-9048-641cddfe31b0")
+		(uuid "bbb1aba9-f58b-4246-a550-ef37b338bfed")
 	)
 	(wire
 		(pts
-			(xy 67.31 172.72) (xy 67.31 176.53)
+			(xy 119.38 160.02) (xy 119.38 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4da3c0fa-b813-4171-8c24-a2c567f8f0c1")
+		(uuid "c61c896c-b97d-4028-b5e0-dabb053cf636")
 	)
 	(global_label "IMU3_RAIL_FLG"
 		(shape bidirectional)
-		(at 67.31 176.53 180)
+		(at 119.38 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5177,16 +5882,16 @@
 			)
 			(justify left)
 		)
-		(uuid "4d947bfb-1290-4206-bab6-cd1eeb69d78e")
+		(uuid "47d2ecdd-7966-4453-971d-69f38acf137a")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 82.55 168.91 0)
+		(at 133.35 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ac15788e-cd3d-4c48-a3be-0476d4a3bad9")
+		(uuid "f1c1832c-0ce9-4fcb-8f59-92b085cc9758")
 		(property "Reference" "R16"
-			(at 82.55 156.91 0)
+			(at 133.35 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5194,7 +5899,7 @@
 		)
 		)
 		(property "Value" "10k"
-			(at 82.55 180.91 0)
+			(at 133.35 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5202,7 +5907,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 82.55 168.91 0)
+			(at 133.35 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5212,7 +5917,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R16")
 					(unit 1)
 				)
@@ -5221,17 +5926,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 165.1) (xy 82.55 161.29)
+			(xy 133.35 152.4) (xy 133.35 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d063b299-0cb4-4556-bf61-2bd31456cdd6")
+		(uuid "3087e198-cf7b-4c4d-ba02-ff7f2546d586")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 82.55 161.29 180)
+		(at 133.35 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5239,21 +5944,21 @@
 			)
 			(justify left)
 		)
-		(uuid "e1dfa8f6-fbc9-499e-a1d2-97da474ce615")
+		(uuid "5889e1f0-34b6-4cb2-a106-466cec9d3450")
 	)
 	(wire
 		(pts
-			(xy 82.55 172.72) (xy 82.55 176.53)
+			(xy 133.35 160.02) (xy 133.35 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b3364fb4-8318-4c40-bc6a-dfb6c3fbbc43")
+		(uuid "57905a80-96e2-4364-a177-1f4db567e3bb")
 	)
 	(global_label "SENS_RAIL_FLG"
 		(shape bidirectional)
-		(at 82.55 176.53 180)
+		(at 133.35 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5261,16 +5966,16 @@
 			)
 			(justify left)
 		)
-		(uuid "cac27716-46fa-4590-bea9-91839aa45dbe")
+		(uuid "19f3aa88-fb9c-4190-9171-17a30db87fa0")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 97.79 168.91 0)
+		(at 147.32 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "01a024ae-8242-42da-aee0-fe70e6d15693")
+		(uuid "c7bb2d61-ac72-43d1-865e-506cdd4b527b")
 		(property "Reference" "R4"
-			(at 97.79 156.91 0)
+			(at 147.32 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5278,7 +5983,7 @@
 		)
 		)
 		(property "Value" "4k7"
-			(at 97.79 180.91 0)
+			(at 147.32 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5286,7 +5991,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 97.79 168.91 0)
+			(at 147.32 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5296,7 +6001,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R4")
 					(unit 1)
 				)
@@ -5305,17 +6010,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 165.1) (xy 97.79 161.29)
+			(xy 147.32 152.4) (xy 147.32 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "392a6c60-3d75-4b1d-8bcb-43509938d11a")
+		(uuid "71f0b75f-3be2-435b-b152-79f0c22f2635")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
-		(at 97.79 161.29 180)
+		(at 147.32 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5323,21 +6028,21 @@
 			)
 			(justify left)
 		)
-		(uuid "c4957511-0f47-41ec-a3ad-f5c8bd62f511")
+		(uuid "55631224-d807-46f3-aaca-2fcc098a4160")
 	)
 	(wire
 		(pts
-			(xy 97.79 172.72) (xy 97.79 176.53)
+			(xy 147.32 160.02) (xy 147.32 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6422b55d-0929-4a38-bf91-ddf0ea4b3d48")
+		(uuid "c0fa8f76-36b2-43da-8edb-eab523abbe95")
 	)
 	(global_label "I2C1_SCL"
 		(shape bidirectional)
-		(at 97.79 176.53 180)
+		(at 147.32 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5345,16 +6050,16 @@
 			)
 			(justify left)
 		)
-		(uuid "5bce8704-1163-4673-9e3e-334b1c40fe85")
+		(uuid "b17b7030-85f3-49f2-bce0-6a11945f6c2d")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 113.03 168.91 0)
+		(at 161.29 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ceca05fa-d484-48d5-8e28-f1f882d46135")
+		(uuid "17a53eb6-bec9-4f80-82a5-c13d271b0f8a")
 		(property "Reference" "R5"
-			(at 113.03 156.91 0)
+			(at 161.29 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5362,7 +6067,7 @@
 		)
 		)
 		(property "Value" "4k7"
-			(at 113.03 180.91 0)
+			(at 161.29 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5370,7 +6075,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 113.03 168.91 0)
+			(at 161.29 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5380,7 +6085,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R5")
 					(unit 1)
 				)
@@ -5389,17 +6094,17 @@
 	)
 	(wire
 		(pts
-			(xy 113.03 165.1) (xy 113.03 161.29)
+			(xy 161.29 152.4) (xy 161.29 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "98add7c6-5624-4cb6-88ef-b51f91e89cbe")
+		(uuid "6c2766b7-a9b4-43ec-9157-47cbdbf2e049")
 	)
 	(global_label "+3V3_SENS"
 		(shape input)
-		(at 113.03 161.29 180)
+		(at 161.29 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5407,21 +6112,21 @@
 			)
 			(justify left)
 		)
-		(uuid "19357c01-0bf3-4c23-8cf2-0b2de13ecbe3")
+		(uuid "72baa2f9-9429-4af5-8228-174bde1d2b05")
 	)
 	(wire
 		(pts
-			(xy 113.03 172.72) (xy 113.03 176.53)
+			(xy 161.29 160.02) (xy 161.29 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6067757f-e188-45f2-83a8-636f8fe6bcd2")
+		(uuid "aab4d612-8735-4fe5-8b11-c7b5d6968f7e")
 	)
 	(global_label "I2C1_SDA"
 		(shape bidirectional)
-		(at 113.03 176.53 180)
+		(at 161.29 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5429,16 +6134,16 @@
 			)
 			(justify left)
 		)
-		(uuid "cf4ba628-09eb-4caa-95e8-bbc08750bd6c")
+		(uuid "a8b57301-1826-4962-9f08-ae6fd68b9512")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 128.27 168.91 0)
+		(at 175.26 156.21 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "dcb710ab-dda0-4186-844f-32f154c129b8")
+		(uuid "e6652fbd-242d-4af6-a687-0f83005e1fd8")
 		(property "Reference" "R41"
-			(at 128.27 156.91 0)
+			(at 175.26 144.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5446,7 +6151,7 @@
 		)
 		)
 		(property "Value" "120"
-			(at 128.27 180.91 0)
+			(at 175.26 168.21 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5454,7 +6159,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 128.27 168.91 0)
+			(at 175.26 156.21 0)
 			(hide yes)
 			(effects
 			(font
@@ -5464,7 +6169,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R41")
 					(unit 1)
 				)
@@ -5473,17 +6178,17 @@
 	)
 	(wire
 		(pts
-			(xy 128.27 165.1) (xy 128.27 161.29)
+			(xy 175.26 152.4) (xy 175.26 148.59)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ea6bab3a-553b-4e3a-8a7e-601a66a70b4c")
+		(uuid "ea9cf57a-b88a-48b2-8fa4-9aa25a751bb8")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
-		(at 128.27 161.29 180)
+		(at 175.26 148.59 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5491,21 +6196,21 @@
 			)
 			(justify left)
 		)
-		(uuid "e5000e06-7d2d-43e4-a725-856ecf0b02da")
+		(uuid "0e84b73a-1638-45f8-87fd-519868f05a3e")
 	)
 	(wire
 		(pts
-			(xy 128.27 172.72) (xy 128.27 176.53)
+			(xy 175.26 160.02) (xy 175.26 163.83)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "20a41f67-624a-4b3c-8654-9e3893cf1d53")
+		(uuid "251f5f71-6035-4458-81d6-a20c6cab349a")
 	)
 	(global_label "CAN1_TERM"
 		(shape bidirectional)
-		(at 128.27 176.53 180)
+		(at 175.26 163.83 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5513,16 +6218,16 @@
 			)
 			(justify left)
 		)
-		(uuid "f340bb24-560a-492d-a0e4-e8decf1137bb")
+		(uuid "da1f6da1-83fb-4448-87e9-445d728be552")
 	)
 	(symbol
 		(lib_id "Device:R")
-		(at 143.51 168.91 0)
+		(at 21.59 176.53 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "fe2491b9-2d79-4126-bdaa-6ec76c2358f3")
+		(uuid "0585d75d-197b-4075-9df2-962a53313913")
 		(property "Reference" "R42"
-			(at 143.51 156.91 0)
+			(at 21.59 164.53 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5530,7 +6235,7 @@
 		)
 		)
 		(property "Value" "120"
-			(at 143.51 180.91 0)
+			(at 21.59 188.53 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5538,7 +6243,7 @@
 		)
 		)
 		(property "Footprint" "Resistor_SMD:R_0402_1005Metric"
-			(at 143.51 168.91 0)
+			(at 21.59 176.53 0)
 			(hide yes)
 			(effects
 			(font
@@ -5548,7 +6253,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "R42")
 					(unit 1)
 				)
@@ -5557,17 +6262,17 @@
 	)
 	(wire
 		(pts
-			(xy 143.51 165.1) (xy 143.51 161.29)
+			(xy 21.59 172.72) (xy 21.59 168.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "460e5a2e-d490-4d5c-b78a-dac6ee53f7ca")
+		(uuid "870ec96d-386c-421e-8e3f-7651b0fb4d8f")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
-		(at 143.51 161.29 180)
+		(at 21.59 168.91 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5575,131 +6280,19 @@
 			)
 			(justify left)
 		)
-		(uuid "b836e1d3-76a0-477c-9e60-dfb19ab03825")
+		(uuid "83c3c6db-c0ea-49b0-a431-40bac555a9aa")
 	)
 	(wire
 		(pts
-			(xy 143.51 172.72) (xy 143.51 176.53)
+			(xy 21.59 180.34) (xy 21.59 184.15)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "01303e50-6078-40c4-ad45-e84581972646")
+		(uuid "38e9cccf-ed95-4e4c-801e-33d0014f7ed0")
 	)
 	(global_label "CAN2_TERM"
-		(shape bidirectional)
-		(at 143.51 176.53 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "2d089ba7-72c6-42cf-9e42-fb2c529e06f7")
-	)
-	(text "L1 2u2 + C27 22u is the TPS6213x datasheet's own recommended standard LC filter (table 9-2). Output is fixed by the part."
-		(at 21.59 148.59 0)
-		(effects
-			(font
-				(size 1.1 1.1)
-			)
-			(justify left top)
-		)
-		(uuid "e6a5d02a-399e-41a4-933e-7ff94d799956")
-	)
-	(symbol
-		(lib_id "Device:Crystal_GND24")
-		(at 128.27 191.77 0)
-		(unit 1)
-		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "15a7746a-1f57-4dd1-9afa-89f65fb5cfe5")
-		(property "Reference" "X1"
-			(at 128.27 179.77 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Value" "16MHz"
-			(at 128.27 203.77 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Footprint" "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"
-			(at 128.27 191.77 0)
-			(hide yes)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(instances
-			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
-					(reference "X1")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "Device:C")
-		(at 21.59 191.77 0)
-		(unit 1)
-		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "362e061b-c911-4561-b67c-d34be2826dae")
-		(property "Reference" "C22"
-			(at 21.59 179.77 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Value" "12p"
-			(at 21.59 203.77 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 21.59 191.77 0)
-			(hide yes)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(instances
-			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
-					(reference "C22")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 21.59 187.96) (xy 21.59 184.15)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "da6a4d23-7605-43bc-a645-9c6d5ea168f7")
-	)
-	(global_label "OSC_IN"
 		(shape bidirectional)
 		(at 21.59 184.15 180)
 		(fields_autoplaced yes)
@@ -5709,54 +6302,42 @@
 			)
 			(justify left)
 		)
-		(uuid "826a94dc-af9c-4e9c-8b50-1afb6bc2dab7")
+		(uuid "70b71502-9702-4a87-ab4c-6b5ae98ffcad")
 	)
-	(wire
-		(pts
-			(xy 21.59 195.58) (xy 21.59 199.39)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a6d65d4d-b82a-4967-956c-944659a5b1d4")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 21.59 199.39 180)
-		(fields_autoplaced yes)
+	(text "L1 2u2 + C27 22u is the TPS6213x datasheet's own recommended standard LC filter (table 9-2). Output is fixed by the part."
+		(at 21.59 156.21 0)
 		(effects
 			(font
-				(size 1.27 1.27)
+				(size 1.1 1.1)
 			)
-			(justify left)
+			(justify left top)
 		)
-		(uuid "821e1e5d-e33a-4df4-b0e2-ae506fb843a9")
+		(uuid "531a9d84-c409-4264-b879-cee2d6dbce38")
 	)
 	(symbol
-		(lib_id "Device:C")
-		(at 36.83 191.77 0)
+		(lib_id "Device:Crystal_GND24")
+		(at 119.38 196.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "07d7c5f4-aaa9-40ce-bbbe-5352f46e068c")
-		(property "Reference" "C23"
-			(at 36.83 179.77 0)
+		(uuid "017555b3-cc59-4098-be5b-25fbda2d3a49")
+		(property "Reference" "X1"
+			(at 119.38 184.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
 		)
-		(property "Value" "12p"
-			(at 36.83 203.77 0)
+		(property "Value" "16MHz"
+			(at 119.38 208.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
 			)
 		)
 		)
-		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 36.83 191.77 0)
+		(property "Footprint" "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"
+			(at 119.38 196.85 0)
 			(hide yes)
 			(effects
 			(font
@@ -5766,7 +6347,131 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "X1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 21.59 196.85 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "92ec7487-8aad-41ec-8b63-090f4f327ef4")
+		(property "Reference" "C22"
+			(at 21.59 184.85 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "12p"
+			(at 21.59 208.85 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 21.59 196.85 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
+					(reference "C22")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(wire
+		(pts
+			(xy 21.59 193.04) (xy 21.59 189.23)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "b76d037a-34bc-41d9-96e6-6f49a82e8a0d")
+	)
+	(global_label "OSC_IN"
+		(shape bidirectional)
+		(at 21.59 189.23 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "6a830cea-a83c-466e-86d1-5624a9accd53")
+	)
+	(wire
+		(pts
+			(xy 21.59 200.66) (xy 21.59 204.47)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "cd18f00e-02ab-4706-ac19-f9081d904248")
+	)
+	(global_label "GND"
+		(shape input)
+		(at 21.59 204.47 180)
+		(fields_autoplaced yes)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "2589720a-02c5-43f6-9257-78ce1a22e416")
+	)
+	(symbol
+		(lib_id "Device:C")
+		(at 35.56 196.85 0)
+		(unit 1)
+		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
+		(uuid "c58b8710-5837-43d7-a89d-19a76c6b1cb6")
+		(property "Reference" "C23"
+			(at 35.56 184.85 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Value" "12p"
+			(at 35.56 208.85 0)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
+			(at 35.56 196.85 0)
+			(hide yes)
+			(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		)
+		(instances
+			(project "jfox-fmu"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C23")
 					(unit 1)
 				)
@@ -5775,17 +6480,17 @@
 	)
 	(wire
 		(pts
-			(xy 36.83 187.96) (xy 36.83 184.15)
+			(xy 35.56 193.04) (xy 35.56 189.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "46296b96-f4f6-4537-b994-567dc835e421")
+		(uuid "d3c0acb9-b93b-4e73-b36c-8d37f9b06c49")
 	)
 	(global_label "OSC_OUT"
 		(shape bidirectional)
-		(at 36.83 184.15 180)
+		(at 35.56 189.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5793,21 +6498,21 @@
 			)
 			(justify left)
 		)
-		(uuid "170ab1bc-7b30-4ba8-97c3-645178a06321")
+		(uuid "29d1bf62-2a0f-4188-b4ab-84d4401b738b")
 	)
 	(wire
 		(pts
-			(xy 36.83 195.58) (xy 36.83 199.39)
+			(xy 35.56 200.66) (xy 35.56 204.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c9e63166-f843-4712-a783-f36ab7fe4085")
+		(uuid "a0ebe2a3-0128-4884-a892-47140173ac42")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 36.83 199.39 180)
+		(at 35.56 204.47 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5815,16 +6520,16 @@
 			)
 			(justify left)
 		)
-		(uuid "f9639fda-6d2b-445e-a965-e957cb453516")
+		(uuid "17ea31cd-a27a-44c7-a71b-857bf4fab4bd")
 	)
 	(symbol
 		(lib_id "Device:Crystal_GND24")
-		(at 158.75 191.77 0)
+		(at 147.32 196.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "24227165-6da5-4ffb-8776-c0984c1f78a8")
+		(uuid "19b7ad4b-8a36-4ab4-8dc2-c5b9210303ac")
 		(property "Reference" "X2"
-			(at 158.75 179.77 0)
+			(at 147.32 184.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5832,7 +6537,7 @@
 		)
 		)
 		(property "Value" "32.768kHz"
-			(at 158.75 203.77 0)
+			(at 147.32 208.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5840,7 +6545,7 @@
 		)
 		)
 		(property "Footprint" "Crystal:Crystal_SMD_3225-4Pin_3.2x2.5mm"
-			(at 158.75 191.77 0)
+			(at 147.32 196.85 0)
 			(hide yes)
 			(effects
 			(font
@@ -5850,7 +6555,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "X2")
 					(unit 1)
 				)
@@ -5859,12 +6564,12 @@
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 82.55 191.77 0)
+		(at 77.47 196.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "a9a42bd9-83ee-4a23-a0ae-c9b6d856ed00")
+		(uuid "d8b0add1-3e60-4845-88f2-e5103a4ffdc0")
 		(property "Reference" "C24"
-			(at 82.55 179.77 0)
+			(at 77.47 184.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5872,7 +6577,7 @@
 		)
 		)
 		(property "Value" "6p8"
-			(at 82.55 203.77 0)
+			(at 77.47 208.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5880,7 +6585,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 82.55 191.77 0)
+			(at 77.47 196.85 0)
 			(hide yes)
 			(effects
 			(font
@@ -5890,7 +6595,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C24")
 					(unit 1)
 				)
@@ -5899,17 +6604,17 @@
 	)
 	(wire
 		(pts
-			(xy 82.55 187.96) (xy 82.55 184.15)
+			(xy 77.47 193.04) (xy 77.47 189.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "87326f8e-ae7a-430a-aeb5-0892237a0cd5")
+		(uuid "cf3fdb77-8a24-4163-9d12-88a5adb07710")
 	)
 	(global_label "OSC32_IN"
 		(shape bidirectional)
-		(at 82.55 184.15 180)
+		(at 77.47 189.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5917,21 +6622,21 @@
 			)
 			(justify left)
 		)
-		(uuid "da434b86-ad6b-4a59-82f3-4406ebe02b40")
+		(uuid "38e566bb-1bf7-4f93-aafd-396e09f532f4")
 	)
 	(wire
 		(pts
-			(xy 82.55 195.58) (xy 82.55 199.39)
+			(xy 77.47 200.66) (xy 77.47 204.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "37e7da96-857a-462c-b60e-f8b15fa7e21b")
+		(uuid "2dc222e5-0fdb-4a65-8b37-17ff6776424d")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 82.55 199.39 180)
+		(at 77.47 204.47 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -5939,16 +6644,16 @@
 			)
 			(justify left)
 		)
-		(uuid "9ba6e96b-c88c-4657-b8e2-c1c095dcb97a")
+		(uuid "6bc29ddb-9d72-4928-a806-e428b481f1ca")
 	)
 	(symbol
 		(lib_id "Device:C")
-		(at 97.79 191.77 0)
+		(at 91.44 196.85 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "bcb3d8c3-2643-4332-a80a-293b847dda1f")
+		(uuid "8162ab2b-dfcc-4540-98ed-17fc19241291")
 		(property "Reference" "C25"
-			(at 97.79 179.77 0)
+			(at 91.44 184.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5956,7 +6661,7 @@
 		)
 		)
 		(property "Value" "6p8"
-			(at 97.79 203.77 0)
+			(at 91.44 208.85 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -5964,7 +6669,7 @@
 		)
 		)
 		(property "Footprint" "Capacitor_SMD:C_0402_1005Metric"
-			(at 97.79 191.77 0)
+			(at 91.44 196.85 0)
 			(hide yes)
 			(effects
 			(font
@@ -5974,7 +6679,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "C25")
 					(unit 1)
 				)
@@ -5983,17 +6688,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 187.96) (xy 97.79 184.15)
+			(xy 91.44 193.04) (xy 91.44 189.23)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "26e8a982-e9a9-4dc3-9e7a-54581c0f9539")
+		(uuid "73f73409-fc45-4ab5-b1d2-8ee7bacb9d7e")
 	)
 	(global_label "OSC32_OUT"
 		(shape bidirectional)
-		(at 97.79 184.15 180)
+		(at 91.44 189.23 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6001,21 +6706,21 @@
 			)
 			(justify left)
 		)
-		(uuid "119b06ae-4dbd-4322-a21d-2f4bb111bcda")
+		(uuid "31509f39-9489-4a0e-a5cf-1c05003d58dd")
 	)
 	(wire
 		(pts
-			(xy 97.79 195.58) (xy 97.79 199.39)
+			(xy 91.44 200.66) (xy 91.44 204.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7830703d-b67d-46d7-b4dd-8545486523c4")
+		(uuid "887c7c00-a71c-4b48-bfbd-8e8c23772ab5")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 199.39 180)
+		(at 91.44 204.47 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6023,26 +6728,26 @@
 			)
 			(justify left)
 		)
-		(uuid "2151bb3e-ff33-46b2-b6f1-5e3d585f96d1")
+		(uuid "ebf87b0b-4f92-4e46-b81d-642ae2fb4d79")
 	)
 	(text "X1 16 MHz HSE.   X2 32.768 kHz LSE."
-		(at 21.59 173.99 0)
+		(at 21.59 179.07 0)
 		(effects
 			(font
 				(size 1.1 1.1)
 			)
 			(justify left top)
 		)
-		(uuid "861d6421-c383-47ee-a63a-9a5324a1b317")
+		(uuid "35bbeb24-c026-42a8-8a70-d0422935aa19")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 21.59 214.63 0)
+		(at 21.59 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "b45de26b-aa2d-4cee-8514-a0b341c0a726")
+		(uuid "2c42162a-db1c-4452-939f-20f28b115114")
 		(property "Reference" "#FLG1"
-			(at 21.59 202.63 0)
+			(at 21.59 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6050,7 +6755,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 21.59 226.63 0)
+			(at 21.59 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6059,7 +6764,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG1")
 					(unit 1)
 				)
@@ -6068,17 +6773,17 @@
 	)
 	(wire
 		(pts
-			(xy 21.59 214.63) (xy 21.59 218.44)
+			(xy 21.59 217.17) (xy 21.59 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "91af6418-29d5-4ada-82c1-4176da3ad311")
+		(uuid "6f10ee5a-24e9-48c1-acb4-5d3e028a7461")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 21.59 218.44 180)
+		(at 21.59 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6086,16 +6791,16 @@
 			)
 			(justify left)
 		)
-		(uuid "15bc2de6-85fd-44ca-9c5f-be2f0472178e")
+		(uuid "81900ece-d951-41a8-81f3-cdc40e8ddb7a")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 46.99 214.63 0)
+		(at 46.99 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "d9a9d94f-f985-4c07-9090-985e8ccfd60f")
+		(uuid "4161072c-36e2-4e85-83f7-672b7e626723")
 		(property "Reference" "#FLG2"
-			(at 46.99 202.63 0)
+			(at 46.99 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6103,7 +6808,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 46.99 226.63 0)
+			(at 46.99 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6112,7 +6817,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG2")
 					(unit 1)
 				)
@@ -6121,17 +6826,17 @@
 	)
 	(wire
 		(pts
-			(xy 46.99 214.63) (xy 46.99 218.44)
+			(xy 46.99 217.17) (xy 46.99 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "14a55a71-511d-4422-a984-d3551d242852")
+		(uuid "2b74a999-7f3d-4147-8437-55544b273317")
 	)
 	(global_label "+3V3"
 		(shape input)
-		(at 46.99 218.44 180)
+		(at 46.99 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6139,16 +6844,16 @@
 			)
 			(justify left)
 		)
-		(uuid "2fbf45d9-a0df-48a9-99a3-e583299eba93")
+		(uuid "0681737e-762c-4810-9ce6-425febca3d74")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 72.39 214.63 0)
+		(at 72.39 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "a2b01897-53d3-4263-b849-63ccb3df818e")
+		(uuid "885a9019-05a6-4605-85fc-6cb20ef7617c")
 		(property "Reference" "#FLG3"
-			(at 72.39 202.63 0)
+			(at 72.39 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6156,7 +6861,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 72.39 226.63 0)
+			(at 72.39 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6165,7 +6870,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG3")
 					(unit 1)
 				)
@@ -6174,17 +6879,17 @@
 	)
 	(wire
 		(pts
-			(xy 72.39 214.63) (xy 72.39 218.44)
+			(xy 72.39 217.17) (xy 72.39 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2b24632d-02e9-4d75-8d2d-3e9b4c47d784")
+		(uuid "3257309f-0d0c-42e1-a5c8-76ff2d6c02a1")
 	)
 	(global_label "+3V3A"
 		(shape input)
-		(at 72.39 218.44 180)
+		(at 72.39 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6192,16 +6897,16 @@
 			)
 			(justify left)
 		)
-		(uuid "c9462668-3068-4681-8198-b4031141c8d4")
+		(uuid "4359da88-08fb-43a5-8013-2e76ff8cfad7")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 97.79 214.63 0)
+		(at 97.79 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "ccdba311-660a-450b-b68c-f1a7f7a0d58d")
+		(uuid "bbc74835-9f41-4d82-9f1e-a462f3b894ff")
 		(property "Reference" "#FLG4"
-			(at 97.79 202.63 0)
+			(at 97.79 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6209,7 +6914,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 97.79 226.63 0)
+			(at 97.79 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6218,7 +6923,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG4")
 					(unit 1)
 				)
@@ -6227,17 +6932,17 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 214.63) (xy 97.79 218.44)
+			(xy 97.79 217.17) (xy 97.79 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "74f4aa1e-1298-4622-a6ec-87417b48f64b")
+		(uuid "9ae43325-c93a-45ca-be38-be1b3e4cfebd")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 97.79 218.44 180)
+		(at 97.79 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6245,16 +6950,16 @@
 			)
 			(justify left)
 		)
-		(uuid "a6885e5c-9bf6-45f0-b3f9-61ae2cf1a72e")
+		(uuid "2d2a1da9-e73b-488a-a85c-a02e69081eaf")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 123.19 214.63 0)
+		(at 123.19 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "48c6daf2-1b47-4786-83a0-eedac1129570")
+		(uuid "1fcc25e8-7d63-46ae-8820-371681143f9b")
 		(property "Reference" "#FLG5"
-			(at 123.19 202.63 0)
+			(at 123.19 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6262,7 +6967,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 123.19 226.63 0)
+			(at 123.19 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6271,7 +6976,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG5")
 					(unit 1)
 				)
@@ -6280,17 +6985,17 @@
 	)
 	(wire
 		(pts
-			(xy 123.19 214.63) (xy 123.19 218.44)
+			(xy 123.19 217.17) (xy 123.19 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "adeda93d-44e7-48b2-afb8-eef9e1d36f74")
+		(uuid "209b6dbe-d76a-4003-81ca-294df71d4e9c")
 	)
 	(global_label "VDD_BRICK"
 		(shape input)
-		(at 123.19 218.44 180)
+		(at 123.19 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6298,16 +7003,16 @@
 			)
 			(justify left)
 		)
-		(uuid "b7d3a709-0cfa-4f86-a161-e74dc8cf9d50")
+		(uuid "f981bb10-1677-430d-a91d-eb38c50f375c")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 148.59 214.63 0)
+		(at 148.59 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8c43fd18-59c1-4818-9b71-79e3378babf6")
+		(uuid "8773ab1b-8e27-4ef5-ba68-9e34aaad9589")
 		(property "Reference" "#FLG6"
-			(at 148.59 202.63 0)
+			(at 148.59 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6315,7 +7020,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 148.59 226.63 0)
+			(at 148.59 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6324,7 +7029,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG6")
 					(unit 1)
 				)
@@ -6333,17 +7038,17 @@
 	)
 	(wire
 		(pts
-			(xy 148.59 214.63) (xy 148.59 218.44)
+			(xy 148.59 217.17) (xy 148.59 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c7fd738b-5c9e-4002-bfa5-ad6dac329b2b")
+		(uuid "ac6364d7-e9cb-44b8-b7e1-e7b3952dd92f")
 	)
 	(global_label "VDD_SERVO"
 		(shape input)
-		(at 148.59 218.44 180)
+		(at 148.59 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6351,16 +7056,16 @@
 			)
 			(justify left)
 		)
-		(uuid "fd9f6b3e-0554-420c-bfca-a53a76a0e478")
+		(uuid "aabd69dd-e8a2-4ee6-bfc2-7cfd9a6b219d")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
-		(at 173.99 214.63 0)
+		(at 173.99 217.17 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "57dba273-5784-448d-9070-309aa8907754")
+		(uuid "da249a1a-0a86-4e60-9c71-538b340d1e74")
 		(property "Reference" "#FLG7"
-			(at 173.99 202.63 0)
+			(at 173.99 205.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6368,7 +7073,7 @@
 		)
 		)
 		(property "Value" "PWR_FLAG"
-			(at 173.99 226.63 0)
+			(at 173.99 229.17 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -6377,7 +7082,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG7")
 					(unit 1)
 				)
@@ -6386,17 +7091,17 @@
 	)
 	(wire
 		(pts
-			(xy 173.99 214.63) (xy 173.99 218.44)
+			(xy 173.99 217.17) (xy 173.99 220.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "50a265ea-b559-42c1-87a4-635f95549f28")
+		(uuid "dea6bc28-1cea-43cf-a88b-9c53940190aa")
 	)
 	(global_label "VBUS_USB"
 		(shape input)
-		(at 173.99 218.44 180)
+		(at 173.99 220.98 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -6404,14 +7109,14 @@
 			)
 			(justify left)
 		)
-		(uuid "7bdd112c-888a-4f62-88ca-063726794c0a")
+		(uuid "0d70a7ad-8942-4950-a469-ebc14571d434")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 21.59 237.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "0e0eedaa-0de8-4045-9c31-ae632ea557d9")
+		(uuid "cdeb2806-8482-4e85-b5be-40f0a2aee908")
 		(property "Reference" "#FLG8"
 			(at 21.59 225.49 0)
 			(effects
@@ -6430,7 +7135,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG8")
 					(unit 1)
 				)
@@ -6445,7 +7150,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "91b60c13-d23f-4f6b-b6aa-298abbaa2737")
+		(uuid "efc034cb-cc76-46d0-be7d-f548cbec2bb0")
 	)
 	(global_label "GND_ISO1"
 		(shape input)
@@ -6457,14 +7162,14 @@
 			)
 			(justify left)
 		)
-		(uuid "37b879f5-9691-4f78-bf9a-08845b518ba5")
+		(uuid "e3f6a054-120d-4ae7-8896-41c47e5cebd7")
 	)
 	(symbol
 		(lib_id "power:PWR_FLAG")
 		(at 46.99 237.49 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4fdfbec0-5bc2-4f7b-95a7-6c99394e279f")
+		(uuid "e8a844c2-0630-410f-b719-709c2de35fbc")
 		(property "Reference" "#FLG9"
 			(at 46.99 225.49 0)
 			(effects
@@ -6483,7 +7188,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/a6368173-4767-4029-9dbb-58b53e25a1da"
+				(path "/44633006-b665-4998-988e-03599448e657"
 					(reference "#FLG9")
 					(unit 1)
 				)
@@ -6498,7 +7203,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "14c677bb-99f3-4a9e-aeaf-9085f3894c33")
+		(uuid "df59c708-3a19-4388-bcbc-022b44e8de93")
 	)
 	(global_label "GND_ISO2"
 		(shape input)
@@ -6510,17 +7215,17 @@
 			)
 			(justify left)
 		)
-		(uuid "01843d3b-287e-493b-8463-8cc737702609")
+		(uuid "6c5e0ac0-7729-4978-90ce-0a33c10b2fd2")
 	)
 	(text "PWR_FLAG marks each rail as driven, so ERC's power-pin check means something."
-		(at 21.59 198.12 0)
+		(at 21.59 200.66 0)
 		(effects
 			(font
 				(size 1.1 1.1)
 			)
 			(justify left top)
 		)
-		(uuid "eac73074-73b7-4341-be0d-029b9442b68c")
+		(uuid "a84c62b4-50fd-404f-8304-5fa94e94bcba")
 	)
 	(sheet_instances
 		(path "/"
