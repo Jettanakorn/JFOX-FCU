@@ -136,7 +136,11 @@ def main():
         ok += 1
 
     total = ok + len(missing) + len(unresolved)
-    print(f"  {ok} of {total} components have a footprint that resolves")
+    good = not (missing or unresolved)
+    # Same [PASS]/[FAIL] line shape the other checkers print, so
+    # check_hw_traceability can consume this as verification evidence.
+    print(f"  [{'PASS' if good else 'FAIL'}] "
+          f"{ok} of {total} components have a footprint that resolves")
     for m in missing + unresolved:
         print("      -", m)
 

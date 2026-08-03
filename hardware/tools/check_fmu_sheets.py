@@ -148,11 +148,13 @@ def main():
             for e in errs:
                 print(f"      - {e}")
             bad += bool(errs)
+        print(f"  [{'PASS' if not bad else 'FAIL'}] "
+              f"all {len(svgs)} sheets fit inside the frame and clear the "
+              f"title block")
         print()
         if bad:
             print(f"{bad} sheet(s) do not fit the page")
             return 1
-        print("every sheet fits inside its frame and clears the title block")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
