@@ -117,6 +117,64 @@ absent from the current schematic:
 - **Vibration** (§8): IMU placement and mounting stiffness are a layout
   decision that has not been made.
 
+
+## Thermal control — sensors, heater, cooler
+
+Asked directly, and worth recording because the answers differ.
+
+### Temperature sensing: already present, and better placed than anything added
+
+Every IMU and both barometers carry on-die temperature sensors — ICM-42688-P,
+ICM-45686, BMI088, BMP388, ICP-20100. On-die is the correct location: it
+measures the sensor die, which is what a compensation model needs. Discrete
+parts placed nearby would be strictly worse data.
+
+**What is missing is board-level sensing.** The dies cannot protect the
+TPS62132 or the two ISOW1044 converters, which are the parts that dissipate.
+One small I2C sensor on the existing I2C1 bus covers it. Recorded as
+HWR-ENV-009, open.
+
+### Heater: deferred, with reasons, not omitted
+
+FMUv6X temperature-controls its IMUs with onboard heating resistors; FMUv5 did
+not. Since this board follows FMUv6X's sensor architecture, a heater is a
+reasonable future step.
+
+It is not the next step, and the reason is not cost:
+
+- **Power.** Pixhawk-class heaters draw 1–3 W against a board budgeted at
+  ~1–1.8 W. That roughly doubles board power, on a design that already carries
+  an unresolved ~960 mA fibre-transmitter demand. Two large unfunded loads at
+  once is how a power architecture gets designed twice.
+- **It fights the barometers.** Heating produces local gradients, and the
+  BMP388 holds full accuracy only from −20 to +65 °C. Pixhawk separates the
+  baro from the heated block; this board has two baros to place.
+- **It fights the switchable rails.** Each IMU has its own power-enable so a
+  wedged sensor can be power-cycled. Whether the heater cycles with it, and
+  what that transient does to the other two, has no answer yet.
+- **It is a new failure mode.** A stuck-on heater cooks the sensor cluster.
+  That needs an over-temperature cutout, and at DAL A one independent of the
+  controller that failed.
+- **Warm-up becomes a pre-arm condition.**
+
+The cheaper half of what a heater buys is available with no board change:
+characterise gyro bias against temperature per unit and store the curve in the
+FRAM that is already fitted, compensating with each IMU's own temperature
+output. `flight/src/calibration/gyro_bias.rs` already states the problem it
+solves. Recorded as HWR-ENV-011.
+
+`check_hw_environmental.py` asserts the heater is **absent**, the same way the
+absent IO co-processor is asserted, so that adding one is a visible decision
+that forces this section to be revisited rather than something that appears in
+a layout unannounced.
+
+### Cooler: no
+
+No flight controller in this class uses active cooling, and the physics does
+not support it: 1–2 W in moving air has no cooling problem, and a
+thermoelectric cooler would consume more than the board does. If the +85 °C
+ceiling ever binds, the answer is placement and airflow, not a Peltier.
+
 ## Environmental Qualification Form
 
 DO-160G expects an EQF summarising the categories the equipment holds. The

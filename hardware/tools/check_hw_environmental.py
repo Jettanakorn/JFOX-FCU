@@ -173,8 +173,12 @@ def main():
     # headroom the BOM has before the limiting part becomes the problem.
     rated = [(v, TEMP[v][0], TEMP[v][1]) for v in seen if v in TEMP]
     if rated:
-        cold = max(rated, key=lambda r: r[1])
-        hot = min(rated, key=lambda r: r[2])
+        # Tie-broken by name. Most of this BOM is -40/+85, so "the limiting
+        # part" is a tie and picking arbitrarily made the line name a
+        # different part on each run - which reads like the design changed
+        # when nothing did.
+        cold = max(rated, key=lambda r: (r[1], r[0]))
+        hot = min(rated, key=lambda r: (r[2], r[0]))
         print(f"\n  limiting parts: {cold[0]} sets the cold floor at "
               f"{cold[1]:+d} C, {hot[0]} the hot ceiling at {hot[2]:+d} C")
         print(f"  so no DO-160 category below {cold[1]:+d} C is reachable "
@@ -186,7 +190,41 @@ def main():
         for u in unverified:
             print("      -", u)
 
-    if fails or unverified:
+    # ----------------------------------------------------------------------
+    # Thermal management. See DO160_ENVIRONMENTAL.md, "Thermal control".
+    # ----------------------------------------------------------------------
+    vals = set(parts.values())
+
+    # Board hot-spot monitoring. The five sensor dies each report their own
+    # temperature, which is the right measurement for compensating a sensor
+    # and the wrong one for protecting a regulator. Nothing on this board
+    # measures the TPS62132 or the two ISOW1044 converters.
+    monitors = [r for r, v in parts.items()
+                if re.match(r'^(TMP\d|LM7[45]|ADT7|MCP98|STTS|SI705|TMP1)',
+                            v, re.I)]
+    have_monitor = bool(monitors)
+    print(f"\n  [{'PASS' if have_monitor else 'FAIL'}] board hot-spot "
+          f"temperature monitor present")
+    if not have_monitor:
+        print("      - no board-level temperature sensor; the only thermal "
+              "data comes from sensor dies, which cannot protect the "
+              "regulator or the isolators")
+
+    # Heater, deliberately absent. Asserted the same way the absent IO
+    # co-processor is: so that adding one is a visible decision that forces
+    # the power budget and the baro thermal separation to be revisited,
+    # rather than something that appears in a layout unannounced.
+    heaters = [r for r, v in parts.items()
+               if re.search(r'heat|htr', v, re.I) or r.startswith("HTR")]
+    print(f"  [{'PASS' if not heaters else 'FAIL'}] no IMU heater "
+          f"(deferred - see DO160_ENVIRONMENTAL.md)")
+    if heaters:
+        print(f"      - heater part(s) {heaters} present, but the deferred "
+              "decision in DO160_ENVIRONMENTAL.md has not been revisited: "
+              "power budget, baro thermal separation, rail-cycling "
+              "interaction and an independent over-temperature cutout")
+
+    if fails or unverified or not have_monitor or heaters:
         return 1
     print("\nevery active part is rated for the declared category, from a "
           "cited datasheet")
