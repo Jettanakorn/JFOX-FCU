@@ -42,6 +42,8 @@ import tempfile
 import uuid as _uuid
 from pathlib import Path
 
+import part_numbers as PN
+
 import kicad_geom
 
 REPO = Path(__file__).resolve().parents[2]
@@ -104,6 +106,10 @@ M3_FP = "MountingHole:MountingHole_3.2mm_M3"
 # the fingers cannot disagree. The body is shortened by the tongue depth, so
 # the overall envelope is unchanged.
 TONGUE_REF = "J40"
+
+# Bare-board part number for the silkscreen. gen_base_pcb.py
+# overrides it - this module generates both boards.
+BARE_PN = "1101"
 
 
 def uid():
@@ -1237,6 +1243,17 @@ def main():
                     f"Move one of them; a via is a hole through every layer, "
                     f"so opposite sides is not clearance.")
 
+
+    # --- part number, on the silkscreen -----------------------------------
+    # The BARE BOARD number, not the assembly number. Silkscreen is applied
+    # at fabrication, before a component is fitted - a board carrying the
+    # assembly number is claiming to be something it is not yet.
+    body.append(
+        f'\t(gr_text "{PN.design(BARE_PN)}"\n'
+        f'\t\t(at {BX + 2.0} {BY + 1.6})\n'
+        f'\t\t(layer "F.SilkS")\n\t\t(uuid "{uid()}")\n'
+        f'\t\t(effects (font (size 0.8 0.8) (thickness 0.12))'
+        f' (justify left))\n\t)')
 
     # --- company mark ------------------------------------------------------
     # Board-only artwork, so it is emitted here rather than coming from the

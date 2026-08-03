@@ -2,13 +2,14 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "eb49d9b0-bf8a-4d2f-9ea5-3928afbece3a")
+	(uuid "a145d2db-5488-458f-9800-926fe6020032")
 	(paper "A4" portrait)
 	(title_block
 		(title "Master board panel - debug, USB, LEDs")
 		(date "2026-08-03")
 		(rev "A")
 		(company "JFOX Aircraft Co., Ltd.")
+		(comment 9 "P/N JXK-1-1001-A")
 		(comment 1 "JFOX-BASE-v1 three-channel module base board")
 	)
 	(lib_symbols
@@ -881,14 +882,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "6db112b4-fbed-4c3f-bccc-9dd8367e816c")
+		(uuid "5fdb30a1-63eb-4067-9721-bc70099fa373")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x06")
 		(at 80.01 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "cde4a3b8-ac01-4963-90fc-eb951b671581")
+		(uuid "6a6c264b-83d5-46c5-aa58-115e4417605d")
 		(property "Reference" "J52"
 			(at 80.01 63.5 0)
 			(effects
@@ -916,7 +917,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "J52")
 					(unit 1)
 				)
@@ -931,7 +932,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5370eb35-690e-4c13-b080-f470011ebf06")
+		(uuid "92a4ac4f-1e77-437f-a095-d927bfa4852b")
 	)
 	(global_label "A_SPI5_SCK"
 		(shape bidirectional)
@@ -943,7 +944,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6d8b8bd2-d73f-4b44-97e6-3adce14fe86d")
+		(uuid "8c1b863a-d1f8-445d-ad9b-3efb471c388b")
 	)
 	(wire
 		(pts
@@ -953,7 +954,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b509dc1e-87a7-414d-90ce-9f67b68eb0f9")
+		(uuid "96337f38-8741-4739-b67b-e090b7c6fea1")
 	)
 	(global_label "A_SPI5_MISO"
 		(shape bidirectional)
@@ -965,7 +966,7 @@
 			)
 			(justify left)
 		)
-		(uuid "53bb21d6-236b-416c-99ca-bedab8064e76")
+		(uuid "14c5843e-2d82-432e-910d-ddf3c8adad47")
 	)
 	(wire
 		(pts
@@ -975,7 +976,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "02085ecb-631a-4da3-9562-dd19f672fe34")
+		(uuid "dd5b30ca-5544-45f9-8ad5-7f5831e0faac")
 	)
 	(global_label "A_SPI5_MOSI"
 		(shape bidirectional)
@@ -987,7 +988,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b0ec639f-fd1a-4a0b-8068-11b1889f7b99")
+		(uuid "51b923f8-46fa-4a0a-92f8-b381bfff122f")
 	)
 	(wire
 		(pts
@@ -997,7 +998,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dd237f6f-c06e-496f-9024-de9290724867")
+		(uuid "9a111a1e-7517-4069-b816-5fb0d988b40f")
 	)
 	(global_label "A_UART4_TX"
 		(shape bidirectional)
@@ -1009,7 +1010,7 @@
 			)
 			(justify left)
 		)
-		(uuid "04b9a96a-49ca-4411-a938-dc7018243623")
+		(uuid "5be1ca1b-6e8d-4bf1-8a73-1415218c7ed2")
 	)
 	(wire
 		(pts
@@ -1019,7 +1020,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b5dea12e-fee8-46bb-bb4f-230240bbefa2")
+		(uuid "c343c90e-9ceb-42ac-b4ab-1b71429bb087")
 	)
 	(global_label "A_UART4_RX"
 		(shape bidirectional)
@@ -1031,7 +1032,7 @@
 			)
 			(justify left)
 		)
-		(uuid "68c74a44-5fce-48d2-a326-e5217c2bccb7")
+		(uuid "2615b796-9f6c-4633-bdea-acc0ab69d3f3")
 	)
 	(wire
 		(pts
@@ -1041,7 +1042,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "82549b4c-6802-4db1-890f-e260b92a6070")
+		(uuid "905e5e70-f62d-403b-8193-fbc77f2ae8d3")
 	)
 	(global_label "GND"
 		(shape bidirectional)
@@ -1053,14 +1054,14 @@
 			)
 			(justify left)
 		)
-		(uuid "5d23216d-b561-4727-a6e2-c0035234e75a")
+		(uuid "57d7dad9-6885-4fdb-a303-de55dbfca7a9")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x05")
 		(at 161.29 74.93 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "9d13f9aa-5d31-4637-957e-65d67e46f9b9")
+		(uuid "20f54c0e-948b-4879-9b6c-72cd405d8fb5")
 		(property "Reference" "J54"
 			(at 161.29 64.77 0)
 			(effects
@@ -1088,7 +1089,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "J54")
 					(unit 1)
 				)
@@ -1103,7 +1104,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5aac84db-9732-46e4-837f-e2a93f1cbd0f")
+		(uuid "31f706e7-9055-4cf2-bf0d-0a7e2b1b52a5")
 	)
 	(global_label "A_USART2_TX"
 		(shape bidirectional)
@@ -1115,7 +1116,7 @@
 			)
 			(justify left)
 		)
-		(uuid "6f60c30e-b122-4a62-8ff1-7ce5055eeecd")
+		(uuid "ba3b56ee-e525-4275-892d-86709b954225")
 	)
 	(wire
 		(pts
@@ -1125,7 +1126,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3862f169-add8-47a5-a0c7-7a9153c41966")
+		(uuid "3fb4f430-25c2-4f5b-afc0-10830e3b40bb")
 	)
 	(global_label "A_USART2_RX"
 		(shape bidirectional)
@@ -1137,7 +1138,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a999ab4f-3484-41ac-847e-d2e69200fab0")
+		(uuid "156cf464-3fe7-48f9-ba7c-607b606b89a9")
 	)
 	(wire
 		(pts
@@ -1147,7 +1148,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f9496472-3578-4dfe-8798-c00a8c5a10a3")
+		(uuid "d0ca46de-858c-4f40-a221-d9c6bd5664e6")
 	)
 	(global_label "A_USART2_CTS"
 		(shape bidirectional)
@@ -1159,7 +1160,7 @@
 			)
 			(justify left)
 		)
-		(uuid "c181757f-5a05-442f-89bc-5e17043db6fa")
+		(uuid "fa10e055-ad70-4554-bdd3-0cce4664eb1a")
 	)
 	(wire
 		(pts
@@ -1169,7 +1170,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8b51ce51-2883-46bc-a83b-6b11724d5211")
+		(uuid "7d9d7e63-47fc-4519-a696-7decd5b8d86d")
 	)
 	(global_label "A_USART2_RTS"
 		(shape bidirectional)
@@ -1181,7 +1182,7 @@
 			)
 			(justify left)
 		)
-		(uuid "a39a0053-d0cd-49cd-bad8-b986abaafc5a")
+		(uuid "282566f1-42cf-48b9-a9d5-7e13bcc72bb3")
 	)
 	(wire
 		(pts
@@ -1191,7 +1192,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "667dd5ea-c013-4771-8edd-e578dcacfec9")
+		(uuid "f2237b6a-2ebe-4b12-8ae7-c84016bcc158")
 	)
 	(global_label "GND"
 		(shape bidirectional)
@@ -1203,14 +1204,14 @@
 			)
 			(justify left)
 		)
-		(uuid "3119eb4f-1131-44a7-bd07-3bd435ec8fe1")
+		(uuid "37977983-ff44-4365-bc66-21a042d85f16")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 83.82 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "548e5047-69a9-441c-958b-5c264431e2c3")
+		(uuid "4a977c54-6af6-4255-97ed-24235d767cee")
 		(property "Reference" "R60"
 			(at 83.82 139.13 0)
 			(effects
@@ -1238,7 +1239,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "R60")
 					(unit 1)
 				)
@@ -1253,7 +1254,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "86c0973d-72b5-48a8-92fe-05c040319a6e")
+		(uuid "630599ad-3003-4ff3-84ab-d15d35b6998c")
 	)
 	(global_label "A_SAFETY_LED"
 		(shape bidirectional)
@@ -1265,7 +1266,7 @@
 			)
 			(justify left)
 		)
-		(uuid "2d2d1704-8353-4d4f-8e0c-e2a03c9687b8")
+		(uuid "6062a695-5d56-47fe-b847-98e9c35471ae")
 	)
 	(wire
 		(pts
@@ -1275,7 +1276,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "000b304d-87e4-4fa7-b5c4-19c696e752a9")
+		(uuid "67e91eb6-ab2e-4701-9441-376de9c2a9da")
 	)
 	(global_label "A_LED_A"
 		(shape bidirectional)
@@ -1287,14 +1288,14 @@
 			)
 			(justify left)
 		)
-		(uuid "6ddd53d7-b6ae-45ca-b21c-c8cc472006ef")
+		(uuid "7fb124e0-c3cd-4afb-9b0f-8f18f2a020f8")
 	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 83.82 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "958fa07e-1266-4766-9779-9110170c2560")
+		(uuid "e4a1af1b-6e4f-4224-80c9-8f9c317ac5e9")
 		(property "Reference" "D1"
 			(at 83.82 167.07 0)
 			(effects
@@ -1322,7 +1323,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "D1")
 					(unit 1)
 				)
@@ -1337,7 +1338,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9beb896d-e5e2-43e7-992a-c3e7ff6e0ed1")
+		(uuid "135c89a7-e297-4eb2-ac3c-0d1938c2f50e")
 	)
 	(global_label "A_LED_A"
 		(shape bidirectional)
@@ -1349,7 +1350,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f848d936-1e1f-4434-8f44-412294be9cc5")
+		(uuid "c53a9036-2f53-48a8-999f-be23860c8586")
 	)
 	(wire
 		(pts
@@ -1359,7 +1360,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5f448b3c-c200-4050-9ebf-56798f20c321")
+		(uuid "5644ac03-cd48-4b3c-8195-3a4bf355b45d")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1371,14 +1372,14 @@
 			)
 			(justify left)
 		)
-		(uuid "d7f950a6-68f8-42bf-bb50-ead247de5f4c")
+		(uuid "42e05cc8-5ddc-406c-841d-6dede8241611")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 116.84 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "bdaa1e00-9e19-4fa6-b7ae-dca7c876662c")
+		(uuid "b743de45-7f10-4ff0-b605-d80af34cbe8c")
 		(property "Reference" "R61"
 			(at 116.84 139.13 0)
 			(effects
@@ -1406,7 +1407,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "R61")
 					(unit 1)
 				)
@@ -1421,7 +1422,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "87d578b0-fa94-4387-88b4-76576133b4ad")
+		(uuid "0c2aa5d2-bb23-4042-a2d3-f65191069350")
 	)
 	(global_label "B_SAFETY_LED"
 		(shape bidirectional)
@@ -1433,7 +1434,7 @@
 			)
 			(justify left)
 		)
-		(uuid "9c13a7c8-428e-4886-b50a-1640b3818547")
+		(uuid "4440b048-d3b1-49f4-8df8-e0726cc84213")
 	)
 	(wire
 		(pts
@@ -1443,7 +1444,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f4631bdc-37a7-4da6-8bfc-183ff0dd47f3")
+		(uuid "45ca125e-edb6-41df-9e84-cf80a9a26e97")
 	)
 	(global_label "B_LED_A"
 		(shape bidirectional)
@@ -1455,14 +1456,14 @@
 			)
 			(justify left)
 		)
-		(uuid "ff292b96-6ea5-4dfb-adfd-657130518a5f")
+		(uuid "9d98cbd6-9bda-415c-81b3-892a978df4ca")
 	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 116.84 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "afe27c5a-af31-4584-8f92-2385278fc8d9")
+		(uuid "cfb2dad9-76c5-4c7c-a80d-e19ed6aa1c21")
 		(property "Reference" "D2"
 			(at 116.84 167.07 0)
 			(effects
@@ -1490,7 +1491,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "D2")
 					(unit 1)
 				)
@@ -1505,7 +1506,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "c90b3495-a859-4761-b28e-3630957afaf7")
+		(uuid "4d47abe9-c50f-4190-9458-4601bce82d28")
 	)
 	(global_label "B_LED_A"
 		(shape bidirectional)
@@ -1517,7 +1518,7 @@
 			)
 			(justify left)
 		)
-		(uuid "87f99b80-5926-4840-a263-616b92ab8215")
+		(uuid "f83515a4-fcd4-4f86-acd3-28ed361b4eee")
 	)
 	(wire
 		(pts
@@ -1527,7 +1528,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7c31ae68-d8ea-4da2-98c0-d8dec0f4a469")
+		(uuid "927fa039-5390-4316-bfcb-e58be0c3b978")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1539,14 +1540,14 @@
 			)
 			(justify left)
 		)
-		(uuid "09452055-250b-42af-ae86-3cea8a639549")
+		(uuid "8e25e1c9-4e41-4c4b-8d9f-6a281c09b289")
 	)
 	(symbol
 		(lib_id "Device:R")
 		(at 149.86 151.13 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "7c3f3a49-cc4f-499f-aa68-2374ec0945d6")
+		(uuid "ed43152c-2995-43b3-9d0e-817f1dac727e")
 		(property "Reference" "R62"
 			(at 149.86 139.13 0)
 			(effects
@@ -1574,7 +1575,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "R62")
 					(unit 1)
 				)
@@ -1589,7 +1590,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "19c15574-218a-491e-a489-ea091dbdadff")
+		(uuid "c9baa92f-3b60-49d1-8d72-3306afcf2713")
 	)
 	(global_label "C_SAFETY_LED"
 		(shape bidirectional)
@@ -1601,7 +1602,7 @@
 			)
 			(justify left)
 		)
-		(uuid "42a2dd7f-120a-4aa2-a32d-43b8877996c0")
+		(uuid "fbb60eb5-c169-4897-9872-1e31b66e91c5")
 	)
 	(wire
 		(pts
@@ -1611,7 +1612,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "8473ba82-2b96-4862-993f-a0dca5f355f1")
+		(uuid "e952ed5f-ba2f-4efd-a9a4-b994396e1ec6")
 	)
 	(global_label "C_LED_A"
 		(shape bidirectional)
@@ -1623,14 +1624,14 @@
 			)
 			(justify left)
 		)
-		(uuid "d7d324c2-7c95-47d0-b166-6e2331b5ea8e")
+		(uuid "c97a22b4-1d68-4f35-9a3e-d87ddea6c75c")
 	)
 	(symbol
 		(lib_id "Device:LED")
 		(at 149.86 179.07 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "39af9328-c1e8-4fbb-ab7b-d1655348ec5f")
+		(uuid "5b94f0cd-70f3-4c30-af06-2ae9007a5509")
 		(property "Reference" "D3"
 			(at 149.86 167.07 0)
 			(effects
@@ -1658,7 +1659,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/ca057202-e300-4022-9594-1600fd3214e2"
+				(path "/ac9106c3-76e4-4171-b499-5f2b015daf93"
 					(reference "D3")
 					(unit 1)
 				)
@@ -1673,7 +1674,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "29c98a5d-e995-495c-8230-6401bae38bdd")
+		(uuid "07157bfa-a97c-4a84-808e-1a80468ef3c2")
 	)
 	(global_label "C_LED_A"
 		(shape bidirectional)
@@ -1685,7 +1686,7 @@
 			)
 			(justify left)
 		)
-		(uuid "49e530d0-94b1-4f97-adfb-aed2d8cf000a")
+		(uuid "fc54ffc2-aaca-415b-ab76-43313e01e74c")
 	)
 	(wire
 		(pts
@@ -1695,7 +1696,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b03b0746-0755-4083-a4cd-62da5358ae2c")
+		(uuid "14bff025-59f6-4efe-9f31-cf3f953b47cc")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1707,7 +1708,7 @@
 			)
 			(justify left)
 		)
-		(uuid "79fdbe64-292e-45d2-984e-1decb66bc917")
+		(uuid "771a5531-33ce-4ea1-a19d-88b6d0fa878c")
 	)
 	(sheet_instances
 		(path "/"

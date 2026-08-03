@@ -23,7 +23,10 @@ import re
 import subprocess
 import sys
 import uuid as _uuid
+import json
 from pathlib import Path
+
+import part_numbers as PN
 
 REPO = Path(__file__).resolve().parents[2]
 BOARD = REPO / "hardware" / "jfox-fmu-v1"
@@ -334,7 +337,10 @@ def place(lib_id, ref, value, x, y, root_uuid, pins, label_dy=12, fp=None):
 # --------------------------------------------------------------------------
 
 COMPANY = "JFOX Aircraft Co., Ltd."
-REV = "A"
+# Revision comes from part_numbers.py. Typed here it
+# would drift from the silkscreen and the BOM.
+PART_NO = "1001"
+REV = PN.PARTS[PART_NO][0]
 DATE = "2026-08-03"
 
 # A4 portrait, not landscape, and the reason is not taste. The
@@ -495,7 +501,8 @@ def title_block(title, comments=()):
          f'\t\t(date "{DATE}")',
          f'\t\t(rev "{REV}")',
          f'\t\t(company "{COMPANY}")']
-    for i, c in enumerate(comments[:9], start=1):
+    o.append(f'\t\t(comment 9 "P/N {PN.design(PART_NO)}")')
+    for i, c in enumerate(comments[:8], start=1):
         o.append(f'\t\t(comment {i} "{c}")')
     o.append('\t)')
     return "\n".join(o)
@@ -1663,10 +1670,24 @@ def main():
              BOARD / "power.kicad_sch": power,
              BOARD / f"{PROJECT}.kicad_sch": root}
 
-    (BOARD / f"{PROJECT}.kicad_pro").write_text(
-        '{\n  "meta": {"filename": "jfox-fmu.kicad_pro", "version": 1},\n'
-        '  "schematic": {},\n  "sheets": [],\n  "text_variables": {}\n}\n',
-        encoding="utf-8")
+        # MERGE, do not overwrite. The PCB generator puts the net classes and
+    # the design rules in this same file, because that is where KiCad reads
+    # them - the board file rejects them. Overwriting it here meant the
+    # order the two generators happened to run in decided whether the board
+    # had any rules at all, and running this one last silently cost the
+    # board its drill minimum.
+    pro = BOARD / f"{PROJECT}.kicad_pro"
+    doc = {}
+    if pro.exists():
+        try:
+            doc = json.loads(pro.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            doc = {}
+    doc.setdefault("meta", {"filename": pro.name, "version": 1})
+    doc.setdefault("text_variables", {})
+    doc["schematic"] = doc.get("schematic", {})
+    doc["sheets"] = doc.get("sheets", [])
+    pro.write_text(json.dumps(doc, indent=2) + "\n", encoding="utf-8")
     (BOARD / "sym-lib-table").write_text(
         '(sym_lib_table\n  (version 7)\n'
         '  (lib (name "jfox-fmu")(type "KiCad")'

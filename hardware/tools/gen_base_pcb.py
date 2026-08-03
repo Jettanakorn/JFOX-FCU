@@ -279,6 +279,7 @@ def main():
     # No single part dominates this board the way the MCU dominates the
     # module, so nothing is anchored at the centre.
     P.MCU_CENTRE = None
+    P.BARE_PN = "1102"          # this board's bare-board number
     P.main()
 
 

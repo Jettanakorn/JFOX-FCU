@@ -32,6 +32,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import part_numbers as PN
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import gen_fmu_schematic as G          # noqa: E402  page geometry and helpers

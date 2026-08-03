@@ -2,13 +2,14 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "06ecc874-cab5-4cc2-8ce6-7ea7d63700ec")
+	(uuid "bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9")
 	(paper "A4" portrait)
 	(title_block
 		(title "JFOX-BASE-v1 - root")
 		(date "2026-08-03")
 		(rev "A")
 		(company "JFOX Aircraft Co., Ltd.")
+		(comment 9 "P/N JXK-1-1001-A")
 		(comment 1 "Three JFOX-FMU-v1 modules, one per channel")
 		(comment 2 "See STACK_ARCHITECTURE.md for the mechanical stack")
 	)
@@ -21,7 +22,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "91e12ccb-65d8-4870-9352-bdd21936b5bc")
+		(uuid "63637120-6d38-47ca-892f-459aedc84168")
 		(property "Sheetname" "Mezzanine sockets - three channels"
 			(at 25.4 39.93 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -32,7 +33,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "2")
 				)
 			)
@@ -44,7 +45,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "99d15f7c-671d-46ff-8d86-dbb573e18ac4")
+		(uuid "19427a20-921f-4201-9589-224ea12dd2c8")
 		(property "Sheetname" "Power distribution - per channel"
 			(at 114.30000000000001 39.93 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -55,7 +56,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "3")
 				)
 			)
@@ -67,7 +68,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "97b3d6dc-c5f2-45c4-8194-1587e634062e")
+		(uuid "3726cd4d-fe37-4800-aa70-4edb5f081753")
 		(property "Sheetname" "Prioritised ORing - two airframe feeds"
 			(at 25.4 100.89 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -78,7 +79,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "4")
 				)
 			)
@@ -90,7 +91,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "c0308eb9-c4e3-4d8c-8188-f88d61abc422")
+		(uuid "b3956bfc-2098-47f7-af9a-33c7f758f7ba")
 		(property "Sheetname" "CAN FD bus and termination"
 			(at 114.30000000000001 100.89 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -101,7 +102,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "5")
 				)
 			)
@@ -113,7 +114,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "7b8602fc-bb1d-4b26-b659-ed19880d2ee9")
+		(uuid "21bbfbe6-904f-4b3d-af95-86d386303806")
 		(property "Sheetname" "Actuator outputs - headers only"
 			(at 25.4 161.85 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -124,7 +125,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "6")
 				)
 			)
@@ -136,7 +137,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "7c1df696-1dc9-406f-bb7c-51f99b286e55")
+		(uuid "0ffff69d-e207-4dbf-a309-ff1b38f21be9")
 		(property "Sheetname" "External I/O breakout"
 			(at 114.30000000000001 161.85 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -147,7 +148,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "7")
 				)
 			)
@@ -159,7 +160,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "41d40ac2-4108-4116-8a78-9ce242fb5a0c")
+		(uuid "31be790c-c189-474d-bbb0-9f3e8bc8d0cd")
 		(property "Sheetname" "Fibre-optic link - two channels"
 			(at 25.4 222.81 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -170,7 +171,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "8")
 				)
 			)
@@ -182,7 +183,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "8a431000-db58-485d-b60f-ead966cd5f18")
+		(uuid "3e899075-45c9-49fd-b8ac-6984651d9b6e")
 		(property "Sheetname" "Master board panel - debug, USB, LEDs"
 			(at 114.30000000000001 222.81 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -193,7 +194,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "9")
 				)
 			)
@@ -205,7 +206,7 @@
 		(fields_autoplaced yes)
 		(stroke (width 0.1524)(type solid))
 		(fill (color 0 0 0 0.0000))
-		(uuid "961175e3-1b42-4b2c-9e84-aa690c13452f")
+		(uuid "66273c48-9f28-4717-bfb3-bfc99f8be1e3")
 		(property "Sheetname" "Per-channel expansion header"
 			(at 25.4 283.77 0)
 			(effects (font (size 1.27 1.27))(justify left bottom))
@@ -216,7 +217,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/06ecc874-cab5-4cc2-8ce6-7ea7d63700ec"
+				(path "/bbf3d1ed-348f-42b1-9bc5-5e8ed16ee1f9"
 					(page "10")
 				)
 			)

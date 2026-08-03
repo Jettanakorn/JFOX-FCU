@@ -2,13 +2,14 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "7fbcab98-4b40-4dfb-96e2-dd991f1d7a2f")
+	(uuid "306c77d3-afd1-43b7-846e-f0c1072b83d9")
 	(paper "A4" portrait)
 	(title_block
 		(title "Fibre-optic link - two channels")
 		(date "2026-08-03")
 		(rev "A")
 		(company "JFOX Aircraft Co., Ltd.")
+		(comment 9 "P/N JXK-1-1001-A")
 		(comment 1 "JFOX-BASE-v1 three-channel module base board")
 	)
 	(lib_symbols
@@ -503,14 +504,14 @@
 			)
 			(justify left top)
 		)
-		(uuid "12118f78-bfac-4494-abc0-6fb28c95b1b6")
+		(uuid "42683e93-9ed0-441d-b3d8-26456db0b588")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 91.44 93.98 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "0b14f589-e123-4ce5-b020-e9b4b45d599a")
+		(uuid "299d7e2d-1aba-45f7-8e13-f46d9af62b6f")
 		(property "Reference" "U50"
 			(at 91.44 85.98 0)
 			(effects
@@ -538,7 +539,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "U50")
 					(unit 1)
 				)
@@ -553,7 +554,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "6e1ddb68-44cf-4f02-96eb-efa7706bbf21")
+		(uuid "705a098c-2174-4646-b291-f9ffbe7e7600")
 	)
 	(global_label "A_UART7_TX"
 		(shape input)
@@ -565,7 +566,7 @@
 			)
 			(justify left)
 		)
-		(uuid "87a85062-9393-4f11-9f59-d42885dae3b4")
+		(uuid "83154b90-0262-460c-ba3e-06f5553d2b20")
 	)
 	(wire
 		(pts
@@ -575,7 +576,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "36340aa5-ab90-4946-8724-307066503681")
+		(uuid "2640daaf-e4d0-409d-88df-0b2ebd4a8ee8")
 	)
 	(global_label "A_VDD_BRICK"
 		(shape input)
@@ -587,7 +588,7 @@
 			)
 			(justify left)
 		)
-		(uuid "01002dd1-8ed0-4869-839e-caf4f051a8cf")
+		(uuid "8e2c4456-27ee-4903-ac4c-b3d20dbef64e")
 	)
 	(wire
 		(pts
@@ -597,7 +598,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "e8172dfd-9ec5-4e88-bdb7-4d7527270a2f")
+		(uuid "84bc8d2c-8964-485f-9917-d0b82476941c")
 	)
 	(global_label "GND"
 		(shape input)
@@ -609,14 +610,14 @@
 			)
 			(justify left)
 		)
-		(uuid "a20ca998-b779-4b96-9ccd-2e3a58494790")
+		(uuid "94535f28-efab-4d12-8506-5295ad38e8b2")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 165.1 93.98 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "4e94a8d4-bd92-4b27-a5f0-7ac9969b3748")
+		(uuid "a6043efa-6ed1-48f1-8bce-871004a92e69")
 		(property "Reference" "U51"
 			(at 165.1 85.98 0)
 			(effects
@@ -644,7 +645,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "U51")
 					(unit 1)
 				)
@@ -659,7 +660,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "2c12b078-bed6-4e45-a1ab-6e13fa1e6687")
+		(uuid "efa7da21-6b8e-400a-b0a2-f1451bd45f96")
 	)
 	(global_label "A_UART7_RX"
 		(shape output)
@@ -671,7 +672,7 @@
 			)
 			(justify left)
 		)
-		(uuid "0618749b-c180-445d-9e7e-72b845b3501b")
+		(uuid "5b4fbf28-0992-423f-a1f5-fd9274366bb8")
 	)
 	(wire
 		(pts
@@ -681,7 +682,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "f386281a-6331-4fa2-9324-5f8e6c149dad")
+		(uuid "349496ae-abb9-456d-a37d-b8b64a364c56")
 	)
 	(global_label "A_VDD_BRICK"
 		(shape output)
@@ -693,7 +694,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d783b325-c926-4d33-9cea-e30345bf676a")
+		(uuid "911c75c0-ebc6-4c05-ac73-0d6534de2a91")
 	)
 	(wire
 		(pts
@@ -703,7 +704,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "5c5c9ab8-c165-4025-a5fb-df832a871df4")
+		(uuid "7c549f80-6cc9-4b53-bb5e-733e96bb2d85")
 	)
 	(global_label "GND"
 		(shape output)
@@ -715,14 +716,14 @@
 			)
 			(justify left)
 		)
-		(uuid "fc67b299-a613-439e-887e-39009ca56d2f")
+		(uuid "41afb94c-deda-46f1-a5b6-eeb2257056e2")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 120.65 124.46 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "1b099e7a-08fe-45f5-9f5e-3bb58484696a")
+		(uuid "e0044b04-3c9d-45c0-bbe3-91654bdc9a78")
 		(property "Reference" "C50"
 			(at 120.65 112.46 0)
 			(effects
@@ -750,7 +751,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "C50")
 					(unit 1)
 				)
@@ -765,7 +766,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "3b385ce1-5e8c-4e1f-bf86-25e4d44f3dfa")
+		(uuid "c7f2a686-0d0d-4305-95b1-9bb4037f31bc")
 	)
 	(global_label "A_VDD_BRICK"
 		(shape bidirectional)
@@ -777,7 +778,7 @@
 			)
 			(justify left)
 		)
-		(uuid "172d51ba-04c7-48f5-9494-4a4de9373f59")
+		(uuid "7d6bbc66-b8d6-47bb-baac-d0356279e093")
 	)
 	(wire
 		(pts
@@ -787,7 +788,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "9dec0c75-62c8-4659-841c-f6422420ee02")
+		(uuid "08afbe56-40da-4bae-b6a9-91653ffe6fcf")
 	)
 	(global_label "GND"
 		(shape input)
@@ -799,14 +800,14 @@
 			)
 			(justify left)
 		)
-		(uuid "e23f5b80-7376-43ac-a59d-4581f2aacd03")
+		(uuid "e5cde022-abd6-4589-9cee-95d84a894683")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 91.44 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "651b1e2a-4d0a-42f3-8102-b9250ebded45")
+		(uuid "fc7eac3d-aa8b-44c0-b951-67c25617bbc9")
 		(property "Reference" "U52"
 			(at 91.44 174.88 0)
 			(effects
@@ -834,7 +835,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "U52")
 					(unit 1)
 				)
@@ -849,7 +850,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "347f4a45-7eb0-4a63-ba90-24c3b3f98aab")
+		(uuid "a616b43f-f7e0-4602-9c4f-0d4ff94512e8")
 	)
 	(global_label "B_UART7_TX"
 		(shape input)
@@ -861,7 +862,7 @@
 			)
 			(justify left)
 		)
-		(uuid "99d1301f-4eb4-42f9-a278-b07487bd2751")
+		(uuid "8b630f7c-563a-47a3-afc8-a10a91d0611e")
 	)
 	(wire
 		(pts
@@ -871,7 +872,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b847c097-19ad-4ce5-bf9d-2841ca4e9a7e")
+		(uuid "19985369-1f9b-44a3-92ea-5463c750d959")
 	)
 	(global_label "B_VDD_BRICK"
 		(shape input)
@@ -883,7 +884,7 @@
 			)
 			(justify left)
 		)
-		(uuid "b6127af3-e528-4a33-8c55-ca3cb24cccce")
+		(uuid "4f6c8433-158f-424c-b41f-d8b2952cad0a")
 	)
 	(wire
 		(pts
@@ -893,7 +894,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "894bf8eb-7c84-4b55-a379-587def4dbfb4")
+		(uuid "b7964411-f174-4e37-8f3c-182ea907cdf6")
 	)
 	(global_label "GND"
 		(shape input)
@@ -905,14 +906,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b744ece8-c786-4f51-8c73-1ce0873532fa")
+		(uuid "f3b2092d-9815-4bad-9e0b-d7ff721bc331")
 	)
 	(symbol
 		(lib_id "Connector_Generic:Conn_01x03")
 		(at 165.1 182.88 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "500d1cab-3fe4-41ba-aef6-c3932a0e618c")
+		(uuid "ad731e9e-fa32-4804-86e5-75d19861f260")
 		(property "Reference" "U53"
 			(at 165.1 174.88 0)
 			(effects
@@ -940,7 +941,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "U53")
 					(unit 1)
 				)
@@ -955,7 +956,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "b909f5fd-b5c4-4b2b-8936-1f6dd6372477")
+		(uuid "9a779d67-f5d0-4eae-afae-9b6dba828799")
 	)
 	(global_label "B_UART7_RX"
 		(shape output)
@@ -967,7 +968,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f553b42d-dc82-466f-9ba6-8cf7e3a82c0f")
+		(uuid "81017e6b-e915-47cf-b045-34a01a010e4c")
 	)
 	(wire
 		(pts
@@ -977,7 +978,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "7e85b77f-14e4-4f22-915b-5a8ee8e84e2e")
+		(uuid "734d6e5d-e57a-4570-bb58-49eb1c0ec812")
 	)
 	(global_label "B_VDD_BRICK"
 		(shape output)
@@ -989,7 +990,7 @@
 			)
 			(justify left)
 		)
-		(uuid "d2a04025-fa07-45c3-a54f-183f6a9f5bf1")
+		(uuid "0a02e5b1-cea1-4487-9afa-f2a24af55afe")
 	)
 	(wire
 		(pts
@@ -999,7 +1000,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dab4559e-c53e-4b0a-b1bf-3002e515656d")
+		(uuid "6e577aca-c203-4a1a-b9ed-e78e78e8ce23")
 	)
 	(global_label "GND"
 		(shape output)
@@ -1011,14 +1012,14 @@
 			)
 			(justify left)
 		)
-		(uuid "b42d44e7-1186-428d-a4c3-30a5c6a3841d")
+		(uuid "e3fb2f20-cffc-44d0-804e-dc6b4b2bb258")
 	)
 	(symbol
 		(lib_id "Device:C")
 		(at 120.65 213.36 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "8a904e3e-3947-45de-b634-964c5cd5ec01")
+		(uuid "16edf94a-ebcb-4bd2-bd73-8ece82b17d02")
 		(property "Reference" "C51"
 			(at 120.65 201.36 0)
 			(effects
@@ -1046,7 +1047,7 @@
 		)
 		(instances
 			(project "jfox-base"
-				(path "/923eca36-db31-4d1b-832d-f4c479c1a8a9"
+				(path "/15fbb40f-190f-4729-8a0c-7d408eb45610"
 					(reference "C51")
 					(unit 1)
 				)
@@ -1061,7 +1062,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "dc33a0cb-052b-4b77-ba46-345652c586e2")
+		(uuid "1938678f-bea7-4ef6-be1a-20c451d90126")
 	)
 	(global_label "B_VDD_BRICK"
 		(shape bidirectional)
@@ -1073,7 +1074,7 @@
 			)
 			(justify left)
 		)
-		(uuid "f0036b5f-345c-41cd-b9af-49523644b6c1")
+		(uuid "8913386e-335a-4b3c-91ab-e1d3f9ab9869")
 	)
 	(wire
 		(pts
@@ -1083,7 +1084,7 @@
 			(width 0)
 			(type default)
 		)
-		(uuid "926a6abf-0a3f-404c-a65b-553ab1de3514")
+		(uuid "be960c04-1f43-4585-b5a9-903a913e7936")
 	)
 	(global_label "GND"
 		(shape input)
@@ -1095,7 +1096,7 @@
 			)
 			(justify left)
 		)
-		(uuid "7ea29c7c-9ed4-4855-894b-1ad10973d5ea")
+		(uuid "01253cea-f724-49e5-85a5-34ecb382294c")
 	)
 	(sheet_instances
 		(path "/"
