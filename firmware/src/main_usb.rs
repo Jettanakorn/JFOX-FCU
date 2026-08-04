@@ -188,6 +188,17 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
     loop {
         // Poll USB - CRITICAL for USB operation!
         if usb_dev.poll(&mut [&mut serial]) {
+            // Drain the CDC OUT endpoint and discard what arrives. This
+            // binary has no command link, so the bytes are genuinely not
+            // wanted - but an OUT endpoint that is never read fills after
+            // one packet and then NAKs every transaction that follows. The
+            // host's driver buffer backs up behind it and every host-side
+            // write blocks: the port opens, reads fine, and times out on
+            // write. That is what hung QGroundControl, and it is why this
+            // read is not optional just because the data is unused.
+            let mut discard = [0u8; 64];
+            let _ = serial.read(&mut discard);
+
             if !startup_sent {
                 let _ = serial.write(startup_msg);
                 startup_sent = true;
