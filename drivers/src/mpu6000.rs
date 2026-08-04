@@ -39,8 +39,37 @@ const MPU6000_GYRO_XOUT_H: u8 = 0x43;
 const MPU6000_SIGNAL_PATH_RESET: u8 = 0x68;
 const MPU6000_USER_CTRL: u8 = 0x6A;
 
-// Expected WHO_AM_I value
+// Expected WHO_AM_I values. The two ICM parts are register-compatible with
+// the MPU-6000 for everything this driver uses - see `init()`.
 const MPU6000_WHO_AM_I_VALUE: u8 = 0x68;
+const ICM20602_WHO_AM_I_VALUE: u8 = 0x12;
+const ICM20608_WHO_AM_I_VALUE: u8 = 0xAF;
+
+/// Which part actually answered on the primary IMU chip select.
+#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+pub enum ImuVariant {
+    Mpu6000,
+    /// Accepted on register compatibility; not verified on silicon here.
+    Icm20602,
+    /// Accepted on register compatibility; not verified on silicon here.
+    Icm20608,
+}
+
+impl ImuVariant {
+    pub fn name(&self) -> &'static str {
+        match self {
+            ImuVariant::Mpu6000 => "MPU-6000",
+            ImuVariant::Icm20602 => "ICM-20602",
+            ImuVariant::Icm20608 => "ICM-20608",
+        }
+    }
+
+    /// Whether this part has been confirmed working on real hardware by this
+    /// project, as opposed to accepted from its datasheet.
+    pub fn is_hardware_verified(&self) -> bool {
+        matches!(self, ImuVariant::Mpu6000)
+    }
+}
 
 /// Gyroscope full-scale range
 #[derive(Clone, Copy, Debug, defmt::Format)]
@@ -114,23 +143,47 @@ where
         self.cs.set_high().map_err(|_| ())
     }
 
-    /// Initialize MPU-6000
+    /// Initialize the IMU.
     ///
-    /// Performs device reset, verifies WHO_AM_I, and configures sensor.
-    pub fn init(&mut self) -> Result<(), ()> {
-        info!("Initializing MPU-6000...");
+    /// Performs device reset, verifies WHO_AM_I, and configures the sensor.
+    ///
+    /// # Accepted parts
+    ///
+    /// The MPU-6000 (`0x68`) and two register-compatible InvenSense successors
+    /// commonly substituted for it on Pixhawk 2.4.8 clones: the ICM-20602
+    /// (`0x12`) and ICM-20608 (`0xAF`). Every register this driver touches -
+    /// `PWR_MGMT_1`, `USER_CTRL`, `CONFIG`, `GYRO_CONFIG`, `ACCEL_CONFIG`,
+    /// `SMPLRT_DIV`, and the `ACCEL_XOUT_H` burst - has the same address,
+    /// meaning and data layout on all three, and the ±2000 °/s and ±16 g
+    /// full-scale codes and sensitivities are identical.
+    ///
+    /// **This compatibility is read from the parts' register maps, not
+    /// verified on silicon here.** It is accepted because refusing a working
+    /// sensor outright is worse: the previous behaviour was to return `Err`,
+    /// which left the fusion filter permanently unfed and the attitude pinned
+    /// at zero with no indication of why. Which part actually answered is
+    /// returned so the caller can report it.
+    pub fn init(&mut self) -> Result<ImuVariant, ()> {
+        info!("Initializing IMU...");
 
         // Small delay after power-on
         delay_ms(50);
 
         // Check WHO_AM_I register
         let who_am_i = self.read_register(MPU6000_WHO_AM_I)?;
-        if who_am_i != MPU6000_WHO_AM_I_VALUE {
-            warn!("MPU-6000 WHO_AM_I mismatch: expected 0x{:02X}, got 0x{:02X}",
-                  MPU6000_WHO_AM_I_VALUE, who_am_i);
-            return Err(());
-        }
-        info!("MPU-6000 WHO_AM_I OK: 0x{:02X}", who_am_i);
+        let variant = match who_am_i {
+            MPU6000_WHO_AM_I_VALUE => ImuVariant::Mpu6000,
+            ICM20602_WHO_AM_I_VALUE => ImuVariant::Icm20602,
+            ICM20608_WHO_AM_I_VALUE => ImuVariant::Icm20608,
+            other => {
+                warn!(
+                    "IMU WHO_AM_I unrecognised: got 0x{:02X}, expected 0x68 (MPU-6000), 0x12 (ICM-20602) or 0xAF (ICM-20608)",
+                    other
+                );
+                return Err(());
+            }
+        };
+        info!("IMU WHO_AM_I 0x{:02X} -> {}", who_am_i, variant.name());
 
         // Reset device
         self.write_register(MPU6000_PWR_MGMT_1, 0x80)?;
@@ -165,8 +218,8 @@ where
         // Enable data ready interrupt
         self.write_register(MPU6000_INT_ENABLE, 0x01)?;
 
-        info!("MPU-6000 initialization complete");
-        Ok(())
+        info!("{} initialization complete", variant.name());
+        Ok(variant)
     }
 
     /// Set gyroscope range

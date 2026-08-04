@@ -55,13 +55,15 @@ fn main() -> ! {
     let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
     let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
     match mpu6000.init() {
-        Ok(()) => {
-            info!("MPU-6000 initialized successfully");
-            uart.write_str("[OK]   MPU-6000 ready!\r\n");
+        Ok(variant) => {
+            info!("IMU initialized: {}", variant.name());
+            uart.write_str("[OK]   IMU ready: ");
+            uart.write_str(variant.name());
+            uart.write_str("\r\n");
         }
         Err(()) => {
-            warn!("MPU-6000 initialization failed!");
-            uart.write_str("[WARN] MPU-6000 failed!\r\n");
+            warn!("IMU initialization failed!");
+            uart.write_str("[WARN] IMU failed - check WHO_AM_I\r\n");
         }
     }
 

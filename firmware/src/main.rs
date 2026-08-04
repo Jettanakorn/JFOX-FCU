@@ -247,12 +247,21 @@ mod app {
         let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
         let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
         let imu_ok = match mpu6000.init() {
-            Ok(()) => {
-                info!("MPU-6000 initialized successfully");
+            Ok(variant) => {
+                info!("IMU initialized: {}", variant.name());
+                if !variant.is_hardware_verified() {
+                    // Accepted on register compatibility with the MPU-6000, not
+                    // on evidence. Worth saying out loud in the flight
+                    // application specifically.
+                    warn!(
+                        "IMU {} accepted on datasheet compatibility, never verified on silicon by this project",
+                        variant.name()
+                    );
+                }
                 true
             }
             Err(()) => {
-                error!("MPU-6000 initialization failed! Arming will be refused.");
+                error!("IMU initialization failed! Arming will be refused.");
                 false
             }
         };

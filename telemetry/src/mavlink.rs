@@ -290,6 +290,8 @@ const PARAM_SET_MSG_ID: u8 = 23;
 const PARAM_SET_CRC_EXTRA: u8 = 168;
 const AUTOPILOT_VERSION_MSG_ID: u8 = 148;
 const AUTOPILOT_VERSION_CRC_EXTRA: u8 = 178;
+const STATUSTEXT_MSG_ID: u8 = 253;
+const STATUSTEXT_CRC_EXTRA: u8 = 83;
 
 /// MAVLink's fixed-width `param_id` field.
 pub const PARAM_ID_LEN: usize = 16;
@@ -606,6 +608,36 @@ pub fn encode_autopilot_version(seq: u8, flight_sw_version: u32) -> [u8; 68] {
 
     let mut out = [0u8; 68];
     build_frame(&mut out, seq, AUTOPILOT_VERSION_MSG_ID, AUTOPILOT_VERSION_CRC_EXTRA, &payload);
+    out
+}
+
+/// `MAV_SEVERITY` values for STATUSTEXT.
+pub mod severity {
+    pub const CRITICAL: u8 = 2;
+    pub const ERROR: u8 = 3;
+    pub const WARNING: u8 = 4;
+    pub const NOTICE: u8 = 5;
+    pub const INFO: u8 = 6;
+}
+
+/// STATUSTEXT (msg 253) - free text into the GCS message panel.
+///
+/// This is the only diagnostic channel this firmware has to an operator
+/// without a debug probe. `defmt` output requires SWD hardware that is not
+/// always available, so anything a person needs to see at boot - which sensors
+/// answered, which failed - has to come out here or it is invisible.
+///
+/// `text` is a fixed 50-byte field, NUL padded, and is truncated rather than
+/// refused if longer: losing the tail of a message is better than losing the
+/// message.
+pub fn encode_statustext(seq: u8, severity: u8, text: &[u8]) -> [u8; 59] {
+    let mut payload = [0u8; 51];
+    payload[0] = severity;
+    let n = if text.len() > 50 { 50 } else { text.len() };
+    payload[1..1 + n].copy_from_slice(&text[..n]);
+
+    let mut out = [0u8; 59];
+    build_frame(&mut out, seq, STATUSTEXT_MSG_ID, STATUSTEXT_CRC_EXTRA, &payload);
     out
 }
 

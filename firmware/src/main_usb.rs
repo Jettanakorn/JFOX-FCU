@@ -30,7 +30,7 @@ use drivers::Mpu6000;
 use flight::MadgwickFilter;
 use flight::arming::{ArmingFsm, ArmRequest, PreArmChecks};
 use flight::bit::{BitReport, BitTestId};
-use telemetry::mavlink::{self, sensor_bits};
+use telemetry::mavlink::{self, sensor_bits, severity};
 use common::params::{ParamTable, MAV_PARAM_TYPE_REAL32};
 
 /// Reported in AUTOPILOT_VERSION. Encoded as MAVLink expects: one byte each of
@@ -174,16 +174,18 @@ fn main() -> ! {
     let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
     let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
     let mut bit_report = BitReport::new();
-    match mpu6000.init() {
-        Ok(()) => {
-            info!("MPU-6000 initialized successfully");
+    let imu_variant = match mpu6000.init() {
+        Ok(v) => {
+            info!("IMU initialized: {}", v.name());
             bit_report.record(BitTestId::ImuCommunication, true);
+            Some(v)
         }
         Err(()) => {
-            warn!("MPU-6000 initialization failed!");
+            warn!("IMU initialization failed!");
             bit_report.record(BitTestId::ImuCommunication, false);
+            None
         }
-    }
+    };
 
     // Barometer, if one answered the probe.
     //
@@ -274,6 +276,7 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
     let mut params = ParamTable::new();
     let mut param_stream: Option<u16> = None;
     let mut send_version = false;
+    let mut status_report: Option<u8> = None;
 
     loop {
         // Poll USB - CRITICAL for USB operation!
@@ -358,6 +361,13 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
             if !startup_sent {
                 let _ = serial.write(startup_msg);
                 startup_sent = true;
+                // Queue the boot report. Without a debug probe, STATUSTEXT is
+                // the only way an operator sees which sensors answered - and
+                // "attitude is frozen at zero" is indistinguishable from a
+                // dozen other faults until you know whether the IMU is even
+                // there. Queued rather than sent here so the frames go out one
+                // per tick and do not overrun the IN endpoint.
+                status_report = Some(0);
             }
         }
 
@@ -406,6 +416,55 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
                 warn!("GCS heartbeat lost after {}ms", gcs_heartbeat_age_ms);
                 link_up = false;
             }
+        }
+
+        // Boot report over STATUSTEXT, one line per tick.
+        if let Some(line) = status_report {
+            let (sev, text): (u8, &[u8]) = match line {
+                0 => (
+                    severity::INFO,
+                    match imu_variant {
+                        Some(drivers::mpu6000::ImuVariant::Mpu6000) => b"IMU: MPU-6000 OK" as &[u8],
+                        Some(drivers::mpu6000::ImuVariant::Icm20602) => b"IMU: ICM-20602 OK (compat)",
+                        Some(drivers::mpu6000::ImuVariant::Icm20608) => b"IMU: ICM-20608 OK (compat)",
+                        None => b"IMU: INIT FAILED - attitude will not work",
+                    },
+                ),
+                1 => (
+                    if imu_variant.is_some() { severity::INFO } else { severity::ERROR },
+                    match scan.imu {
+                        Device::Absent => b"IMU bus: nothing answered at CS PC2" as &[u8],
+                        Device::Unknown(_) => b"IMU bus: unknown device ID at CS PC2",
+                        _ => b"IMU bus: device detected at CS PC2",
+                    },
+                ),
+                2 => (
+                    severity::INFO,
+                    if scan.baro == Device::Ms5611 {
+                        b"Baro: MS5611 OK" as &[u8]
+                    } else {
+                        b"Baro: none fitted"
+                    },
+                ),
+                3 => (
+                    severity::INFO,
+                    match scan.gyro {
+                        Device::Absent => b"Gyro2: none" as &[u8],
+                        _ => b"Gyro2: detected, no driver",
+                    },
+                ),
+                _ => (
+                    severity::INFO,
+                    match scan.accel_mag {
+                        Device::Absent => b"AccelMag: none" as &[u8],
+                        _ => b"AccelMag: detected, no driver",
+                    },
+                ),
+            };
+            let frame = mavlink::encode_statustext(mav_seq, sev, text);
+            mav_seq = mav_seq.wrapping_add(1);
+            let _ = serial.write(&frame);
+            status_report = if line < 4 { Some(line + 1) } else { None };
         }
 
         // Stream the parameter list, one per tick. A GCS tracks which indices
