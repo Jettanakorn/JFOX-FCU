@@ -246,23 +246,51 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
 [OK] USB CDC ready\r\n\
 [OK] MAVLink HEARTBEAT/SYS_STATUS/ATTITUDE enabled\r\n\r\n";
 
+    /// How long without a GCS HEARTBEAT before the command link is considered
+    /// lost. 3 seconds is three missed 1Hz beats - long enough not to trip on
+    /// one dropped frame, short enough to matter.
+    const GCS_LINK_TIMEOUT_MS: u32 = 3000;
+
     let mut time_boot_ms: u32 = 0;
     let mut last_gyro = math::Vec3::zero();
     let mut last_imu: Option<drivers::mpu6000::ImuData> = None;
 
+    // Command link state.
+    let mut parser = mavlink::Parser::new();
+    let mut pending_arm: Option<bool> = None;
+    let mut gcs_heartbeat_age_ms: u32 = 0;
+    let mut link_up = false;
+
     loop {
         // Poll USB - CRITICAL for USB operation!
+        //
+        // Draining the OUT endpoint is mandatory regardless of whether the
+        // bytes are wanted: an endpoint that is never read fills after one
+        // packet, NAKs everything after it, backs up the host's driver buffer
+        // and blocks every host-side write. That is what froze QGroundControl
+        // before 63eaee0. Now the bytes are also *used*.
         if usb_dev.poll(&mut [&mut serial]) {
-            // Drain the CDC OUT endpoint and discard what arrives. This
-            // binary has no command link, so the bytes are genuinely not
-            // wanted - but an OUT endpoint that is never read fills after
-            // one packet and then NAKs every transaction that follows. The
-            // host's driver buffer backs up behind it and every host-side
-            // write blocks: the port opens, reads fine, and times out on
-            // write. That is what hung QGroundControl, and it is why this
-            // read is not optional just because the data is unused.
-            let mut discard = [0u8; 64];
-            let _ = serial.read(&mut discard);
+            let mut buf = [0u8; 64];
+            if let Ok(n) = serial.read(&mut buf) {
+                for &b in &buf[..n] {
+                    if let Some(msg) = parser.push(b) {
+                        match msg {
+                            mavlink::Message::Heartbeat => {
+                                // Link liveness. Nothing acts on it yet, but a
+                                // failsafe times out on the absence of this.
+                                gcs_heartbeat_age_ms = 0;
+                                link_up = true;
+                            }
+                            mavlink::Message::CommandLong { command, param1, .. } => {
+                                let result = handle_command(command, param1, &mut pending_arm);
+                                let ack = mavlink::encode_command_ack(mav_seq, command, result);
+                                mav_seq = mav_seq.wrapping_add(1);
+                                let _ = serial.write(&ack);
+                            }
+                        }
+                    }
+                }
+            }
 
             if !startup_sent {
                 let _ = serial.write(startup_msg);
@@ -287,8 +315,35 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
         // above where `arming` is constructed), so this genuinely never
         // arms - still real state, driven every tick like the real
         // control_task will be.
+        // Arming FSM, now driven by a real command link. `pending_arm` is set
+        // by an inbound COMMAND_LONG and held until cleared, so a single
+        // command produces a sustained request - the FSM requires a debounced
+        // hold to arm, which a one-tick pulse would never satisfy.
+        let request = match pending_arm {
+            Some(true) => ArmRequest::Arm,
+            Some(false) => ArmRequest::Disarm,
+            None => ArmRequest::None,
+        };
         let checks = PreArmChecks { bit_passed: bit_report.all_passed(), attitude_valid: imu_ok };
-        arming.update(ArmRequest::None, checks, IMU_DT_S);
+        arming.update(request, checks, IMU_DT_S);
+
+        // A disarm request is instantaneous by design, so it is consumed as
+        // soon as the FSM has seen it. An arm request is held until the FSM
+        // reaches Armed, or until the GCS countermands it.
+        if pending_arm == Some(false) || (pending_arm == Some(true) && arming.output_allowed()) {
+            pending_arm = None;
+        }
+
+        // Command-link liveness. Nothing acts on the timeout yet - this binary
+        // drives no outputs - but the age is tracked so a failsafe has
+        // something real to read when there is something to fail safe.
+        if link_up {
+            gcs_heartbeat_age_ms = gcs_heartbeat_age_ms.saturating_add(1);
+            if gcs_heartbeat_age_ms > GCS_LINK_TIMEOUT_MS {
+                warn!("GCS heartbeat lost after {}ms", gcs_heartbeat_age_ms);
+                link_up = false;
+            }
+        }
 
         // Barometer conversions advance one tick at a time and never block -
         // see drivers::ms5611. A completed reading is held for the next
@@ -392,5 +447,53 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
 fn delay_cycles(cycles: u32) {
     for _ in 0..cycles {
         cortex_m::asm::nop();
+    }
+}
+
+/// Dispatch one inbound COMMAND_LONG, returning the `MAV_RESULT` to ACK with.
+///
+/// Every command gets an honest answer, including the ones this firmware
+/// cannot do. `UNSUPPORTED` is a useful reply; silence is not - a GCS that
+/// receives no ACK simply retries forever, and the operator learns nothing
+/// about why the vehicle ignored them.
+///
+/// Note what is deliberately *not* here: nothing in this binary drives a motor
+/// output. Arming sets a state flag that HEARTBEAT then reports. That is what
+/// makes accepting an arm command over USB reasonable at this stage - the
+/// property under test is the FSM's debounce and pre-arm gating, not thrust.
+fn handle_command(command: u16, param1: f32, pending_arm: &mut Option<bool>) -> u8 {
+    use telemetry::mavlink::{cmd, result};
+
+    match command {
+        cmd::COMPONENT_ARM_DISARM => {
+            // param1: 1 = arm, 0 = disarm. Anything else is a malformed
+            // request rather than a a default-to-disarm, and is refused so the
+            // sender finds out.
+            if param1 == 1.0 {
+                info!("COMMAND_LONG: arm requested");
+                *pending_arm = Some(true);
+                result::ACCEPTED
+            } else if param1 == 0.0 {
+                info!("COMMAND_LONG: disarm requested");
+                *pending_arm = Some(false);
+                result::ACCEPTED
+            } else {
+                warn!("COMMAND_LONG: ARM_DISARM with invalid param1, refusing");
+                result::DENIED
+            }
+        }
+
+        cmd::NAV_RETURN_TO_LAUNCH => {
+            // Refused honestly rather than accepted and ignored. RTL needs a
+            // position estimate and a navigation controller, and this binary
+            // has neither a GPS nor any navigation at all.
+            warn!("COMMAND_LONG: RTL requested but unsupported - no GPS, no navigation");
+            result::UNSUPPORTED
+        }
+
+        other => {
+            warn!("COMMAND_LONG: unsupported command {}", other);
+            result::UNSUPPORTED
+        }
     }
 }

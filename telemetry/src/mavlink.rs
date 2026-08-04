@@ -271,6 +271,245 @@ pub fn encode_attitude(seq: u8, time_boot_ms: u32, roll: f32, pitch: f32, yaw: f
     out
 }
 
+// ===========================================================================
+// Receive path
+// ===========================================================================
+
+const COMMAND_LONG_MSG_ID: u8 = 76;
+const COMMAND_LONG_CRC_EXTRA: u8 = 152;
+const COMMAND_LONG_PAYLOAD_LEN: u8 = 33;
+const COMMAND_ACK_MSG_ID: u8 = 77;
+const COMMAND_ACK_CRC_EXTRA: u8 = 143;
+
+/// `MAV_CMD` values this firmware recognises.
+pub mod cmd {
+    pub const COMPONENT_ARM_DISARM: u16 = 400;
+    pub const NAV_RETURN_TO_LAUNCH: u16 = 20;
+}
+
+/// `MAV_RESULT` values, for COMMAND_ACK.
+pub mod result {
+    pub const ACCEPTED: u8 = 0;
+    pub const TEMPORARILY_REJECTED: u8 = 1;
+    pub const DENIED: u8 = 2;
+    pub const UNSUPPORTED: u8 = 3;
+    pub const FAILED: u8 = 4;
+}
+
+/// A decoded, CRC-validated inbound message.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum Message {
+    /// HEARTBEAT from a GCS. Carries nothing this firmware needs, but its
+    /// *arrival* is the link-liveness signal a failsafe would time out on.
+    Heartbeat,
+    CommandLong {
+        command: u16,
+        param1: f32,
+        target_system: u8,
+        target_component: u8,
+        confirmation: u8,
+    },
+}
+
+/// `CRC_EXTRA` for the messages this parser accepts.
+///
+/// A MAVLink frame cannot be CRC-checked without knowing its message's
+/// `CRC_EXTRA`, so an unknown message ID is *unverifiable*, not merely
+/// unsupported. Those frames are dropped rather than passed along
+/// unvalidated - accepting a command whose integrity was never checked is
+/// exactly the failure a command link must not have.
+fn crc_extra_for(msg_id: u8) -> Option<u8> {
+    match msg_id {
+        HEARTBEAT_MSG_ID => Some(HEARTBEAT_CRC_EXTRA),
+        COMMAND_LONG_MSG_ID => Some(COMMAND_LONG_CRC_EXTRA),
+        _ => None,
+    }
+}
+
+#[derive(Clone, Copy, PartialEq, Eq)]
+enum RxState {
+    /// Hunting for STX.
+    Idle,
+    Len,
+    Seq,
+    SysId,
+    CompId,
+    MsgId,
+    Payload,
+    CrcLo,
+    CrcHi,
+}
+
+/// Incremental MAVLink v1 frame parser.
+///
+/// Fed one byte at a time; returns a [`Message`] only for a frame whose CRC
+/// (including `CRC_EXTRA`) validates and whose ID this firmware understands.
+/// Resynchronises on its own - a corrupt frame costs the frame, not the link.
+pub struct Parser {
+    state: RxState,
+    len: u8,
+    seq: u8,
+    sys_id: u8,
+    comp_id: u8,
+    msg_id: u8,
+    payload: [u8; 255],
+    idx: usize,
+    crc_lo: u8,
+    /// Frames dropped for a CRC mismatch. A link that is up but corrupting is
+    /// worth being able to see, rather than presenting as silence.
+    pub crc_errors: u32,
+    /// Frames dropped because the message ID has no known `CRC_EXTRA`.
+    pub unknown_msgs: u32,
+}
+
+impl Default for Parser {
+    fn default() -> Self {
+        Self::new()
+    }
+}
+
+impl Parser {
+    pub const fn new() -> Self {
+        Self {
+            state: RxState::Idle,
+            len: 0,
+            seq: 0,
+            sys_id: 0,
+            comp_id: 0,
+            msg_id: 0,
+            payload: [0u8; 255],
+            idx: 0,
+            crc_lo: 0,
+            crc_errors: 0,
+            unknown_msgs: 0,
+        }
+    }
+
+    /// Feed one received byte. Returns a decoded message only when a frame
+    /// completes *and* its CRC validates *and* its ID is one we understand.
+    pub fn push(&mut self, b: u8) -> Option<Message> {
+        match self.state {
+            RxState::Idle => {
+                if b == MAVLINK_STX {
+                    self.state = RxState::Len;
+                }
+                None
+            }
+            RxState::Len => {
+                self.len = b;
+                self.idx = 0;
+                self.state = RxState::Seq;
+                None
+            }
+            RxState::Seq => {
+                self.seq = b;
+                self.state = RxState::SysId;
+                None
+            }
+            RxState::SysId => {
+                self.sys_id = b;
+                self.state = RxState::CompId;
+                None
+            }
+            RxState::CompId => {
+                self.comp_id = b;
+                self.state = RxState::MsgId;
+                None
+            }
+            RxState::MsgId => {
+                self.msg_id = b;
+                // A zero-length payload jumps straight to the checksum.
+                self.state = if self.len == 0 { RxState::CrcLo } else { RxState::Payload };
+                None
+            }
+            RxState::Payload => {
+                self.payload[self.idx] = b;
+                self.idx += 1;
+                if self.idx >= self.len as usize {
+                    self.state = RxState::CrcLo;
+                }
+                None
+            }
+            RxState::CrcLo => {
+                self.crc_lo = b;
+                self.state = RxState::CrcHi;
+                None
+            }
+            RxState::CrcHi => {
+                let received = ((b as u16) << 8) | self.crc_lo as u16;
+                self.state = RxState::Idle;
+                self.validate(received)
+            }
+        }
+    }
+
+    /// Recompute the frame's CRC and decode it if it holds up.
+    fn validate(&mut self, received: u16) -> Option<Message> {
+        // Unknown IDs cannot be checked at all - their CRC_EXTRA is unknown -
+        // so they are counted and dropped, never guessed at.
+        let Some(crc_extra) = crc_extra_for(self.msg_id) else {
+            self.unknown_msgs = self.unknown_msgs.wrapping_add(1);
+            return None;
+        };
+
+        // Same coverage as the transmit path: LEN..MSGID, then payload, then
+        // CRC_EXTRA last. The STX byte is not included.
+        let mut crc: u16 = 0xFFFF;
+        crc_accumulate(self.len, &mut crc);
+        crc_accumulate(self.seq, &mut crc);
+        crc_accumulate(self.sys_id, &mut crc);
+        crc_accumulate(self.comp_id, &mut crc);
+        crc_accumulate(self.msg_id, &mut crc);
+        for &p in &self.payload[..self.len as usize] {
+            crc_accumulate(p, &mut crc);
+        }
+        crc_accumulate(crc_extra, &mut crc);
+
+        if crc != received {
+            self.crc_errors = self.crc_errors.wrapping_add(1);
+            return None;
+        }
+
+        self.decode()
+    }
+
+    fn decode(&self) -> Option<Message> {
+        match self.msg_id {
+            HEARTBEAT_MSG_ID => Some(Message::Heartbeat),
+            COMMAND_LONG_MSG_ID => {
+                // A short payload with a valid CRC is a truncated sender, not
+                // corruption. Decoding it would read stale bytes from the
+                // buffer, so it is refused.
+                if self.len < COMMAND_LONG_PAYLOAD_LEN {
+                    return None;
+                }
+                let p = &self.payload;
+                Some(Message::CommandLong {
+                    param1: f32::from_le_bytes([p[0], p[1], p[2], p[3]]),
+                    command: u16::from_le_bytes([p[28], p[29]]),
+                    target_system: p[30],
+                    target_component: p[31],
+                    confirmation: p[32],
+                })
+            }
+            _ => None,
+        }
+    }
+}
+
+/// COMMAND_ACK (msg 77) - every COMMAND_LONG must be answered, including ones
+/// that are refused. A GCS that gets no ACK retries, and a command link that
+/// silently ignores what it cannot do is indistinguishable from a dead one.
+pub fn encode_command_ack(seq: u8, command: u16, result: u8) -> [u8; 11] {
+    let mut payload = [0u8; 3];
+    payload[0..2].copy_from_slice(&command.to_le_bytes());
+    payload[2] = result;
+
+    let mut out = [0u8; 11];
+    build_frame(&mut out, seq, COMMAND_ACK_MSG_ID, COMMAND_ACK_CRC_EXTRA, &payload);
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -363,6 +602,160 @@ mod tests {
         assert_eq!(e & ABSOLUTE_PRESSURE, 0);
         assert_eq!(h & ABSOLUTE_PRESSURE, 0);
         assert_eq!(p & MAG_3D, 0);
+    }
+
+    // --- receive path ---
+
+    /// COMMAND_LONG, MAV_CMD_COMPONENT_ARM_DISARM, param1 = 1.0 (arm),
+    /// from sysid 255 / compid 0 as a GCS sends it.
+    const ARM_FRAME: [u8; 41] = [
+        0xFE, 0x21, 0x03, 0xFF, 0x00, 0x4C, 0x00, 0x00, 0x80, 0x3F, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x01, 0x01, 0x01, 0x00, 0xA7, 0x70,
+    ];
+
+    const DISARM_FRAME: [u8; 41] = [
+        0xFE, 0x21, 0x04, 0xFF, 0x00, 0x4C, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x01, 0x01, 0x01, 0x00, 0x8A, 0x58,
+    ];
+
+    const GCS_HEARTBEAT_FRAME: [u8; 17] = [
+        0xFE, 0x09, 0x05, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x06, 0x08, 0x00, 0x00,
+        0x03, 0xF2, 0x52,
+    ];
+
+    fn feed(p: &mut Parser, bytes: &[u8]) -> Option<Message> {
+        let mut last = None;
+        for &b in bytes {
+            if let Some(m) = p.push(b) {
+                last = Some(m);
+            }
+        }
+        last
+    }
+
+    #[test]
+    fn parses_arm_command_from_pymavlink_frame() {
+        let mut p = Parser::new();
+        match feed(&mut p, &ARM_FRAME) {
+            Some(Message::CommandLong { command, param1, target_system, target_component, confirmation }) => {
+                assert_eq!(command, cmd::COMPONENT_ARM_DISARM);
+                assert_eq!(param1, 1.0);
+                assert_eq!(target_system, 1);
+                assert_eq!(target_component, 1);
+                assert_eq!(confirmation, 0);
+            }
+            other => panic!("expected CommandLong, got {:?}", other),
+        }
+        assert_eq!(p.crc_errors, 0);
+    }
+
+    #[test]
+    fn parses_disarm_command() {
+        let mut p = Parser::new();
+        match feed(&mut p, &DISARM_FRAME) {
+            Some(Message::CommandLong { command, param1, .. }) => {
+                assert_eq!(command, cmd::COMPONENT_ARM_DISARM);
+                assert_eq!(param1, 0.0);
+            }
+            other => panic!("expected CommandLong, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn parses_gcs_heartbeat() {
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &GCS_HEARTBEAT_FRAME), Some(Message::Heartbeat));
+    }
+
+    /// A single flipped payload bit must be rejected. This is the property the
+    /// whole CRC path exists for - an unvalidated command link is worse than
+    /// no command link.
+    #[test]
+    fn rejects_frame_with_corrupted_payload() {
+        let mut bad = ARM_FRAME;
+        bad[6] ^= 0x01;
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &bad), None);
+        assert_eq!(p.crc_errors, 1);
+    }
+
+    /// A corrupted CRC must be rejected just as firmly as a corrupted payload.
+    #[test]
+    fn rejects_frame_with_corrupted_crc() {
+        let mut bad = ARM_FRAME;
+        bad[40] ^= 0xFF;
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &bad), None);
+        assert_eq!(p.crc_errors, 1);
+    }
+
+    /// An unknown message ID has no known CRC_EXTRA, so it cannot be verified
+    /// and must be dropped rather than guessed at.
+    #[test]
+    fn drops_unverifiable_unknown_message() {
+        let mut unknown = ARM_FRAME;
+        unknown[5] = 0xFD; // an ID this firmware has no CRC_EXTRA for
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &unknown), None);
+        assert_eq!(p.unknown_msgs, 1);
+        assert_eq!(p.crc_errors, 0, "unknown IDs are not CRC failures");
+    }
+
+    /// Leading garbage costs nothing: bytes that are not STX are discarded
+    /// while idle, and the next real frame parses.
+    #[test]
+    fn resynchronises_after_leading_garbage() {
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &[0x00, 0xFF, 0x12, 0xAB]), None);
+        assert!(matches!(feed(&mut p, &ARM_FRAME), Some(Message::CommandLong { .. })));
+    }
+
+    /// A frame truncated mid-payload costs the *next* frame as well, and the
+    /// one after that recovers.
+    ///
+    /// This is inherent to MAVLink v1, not a defect here: the framing has no
+    /// byte stuffing, so nothing makes `0xFE` unambiguous. While the parser is
+    /// still counting payload bytes it consumes the next frame's start byte as
+    /// payload, that frame then fails its CRC, and only the following frame is
+    /// seen cleanly. Asserted explicitly because a command link that quietly
+    /// eats a frame after every truncation is a property worth knowing about -
+    /// it is why a GCS retrying an unacknowledged command matters.
+    #[test]
+    fn truncated_frame_costs_the_following_frame_then_recovers() {
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &ARM_FRAME[..20]), None); // cut mid-payload
+
+        // The frame immediately after the truncation is swallowed.
+        assert_eq!(feed(&mut p, &ARM_FRAME), None);
+        assert_eq!(p.crc_errors, 1, "the swallowed frame fails its CRC");
+
+        // The one after that is clean.
+        assert!(matches!(feed(&mut p, &ARM_FRAME), Some(Message::CommandLong { .. })));
+    }
+
+    /// Bytes arriving one at a time across many calls must parse identically
+    /// to a single burst - the endpoint delivers whatever chunk size it likes.
+    #[test]
+    fn parses_identically_when_split_across_calls() {
+        let mut p = Parser::new();
+        let mut got = None;
+        for &b in ARM_FRAME.iter() {
+            if let Some(m) = p.push(b) {
+                got = Some(m);
+            }
+        }
+        assert!(matches!(got, Some(Message::CommandLong { .. })));
+    }
+
+    #[test]
+    fn command_ack_matches_pymavlink_reference() {
+        let expected: [u8; 11] = [0xFE, 0x03, 0x09, 0x01, 0x01, 0x4D, 0x90, 0x01, 0x00, 0x58, 0xDA];
+        assert_eq!(
+            encode_command_ack(9, cmd::COMPONENT_ARM_DISARM, result::ACCEPTED),
+            expected
+        );
     }
 
     #[test]
