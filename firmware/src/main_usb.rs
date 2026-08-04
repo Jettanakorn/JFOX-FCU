@@ -31,6 +31,11 @@ use flight::MadgwickFilter;
 use flight::arming::{ArmingFsm, ArmRequest, PreArmChecks};
 use flight::bit::{BitReport, BitTestId};
 use telemetry::mavlink::{self, sensor_bits};
+use common::params::{ParamTable, MAV_PARAM_TYPE_REAL32};
+
+/// Reported in AUTOPILOT_VERSION. Encoded as MAVLink expects: one byte each of
+/// major, minor, patch, and release type, packed little-endian.
+const FLIGHT_SW_VERSION: u32 = 0x0001_0000; // 0.1.0
 
 // USB imports
 use usb_device::prelude::*;
@@ -261,6 +266,15 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
     let mut gcs_heartbeat_age_ms: u32 = 0;
     let mut link_up = false;
 
+    // Parameter protocol state. `param_stream` is the index of the next
+    // PARAM_VALUE to send during a full-list download; one goes out per
+    // millisecond tick rather than all at once, because 26 x 33 bytes pushed
+    // into the IN endpoint in a single pass would overrun it and the frames
+    // would be dropped silently by `let _ = serial.write(..)`.
+    let mut params = ParamTable::new();
+    let mut param_stream: Option<u16> = None;
+    let mut send_version = false;
+
     loop {
         // Poll USB - CRITICAL for USB operation!
         //
@@ -282,10 +296,59 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
                                 link_up = true;
                             }
                             mavlink::Message::CommandLong { command, param1, .. } => {
-                                let result = handle_command(command, param1, &mut pending_arm);
+                                let result = handle_command(
+                                    command,
+                                    param1,
+                                    &mut pending_arm,
+                                    &mut send_version,
+                                );
                                 let ack = mavlink::encode_command_ack(mav_seq, command, result);
                                 mav_seq = mav_seq.wrapping_add(1);
                                 let _ = serial.write(&ack);
+                            }
+
+                            mavlink::Message::ParamRequestList => {
+                                info!("PARAM_REQUEST_LIST: streaming {} parameters", params.count());
+                                param_stream = Some(0);
+                            }
+
+                            mavlink::Message::ParamRequestRead { param_index, param_id } => {
+                                // index -1 means "by name" - how a GCS
+                                // re-requests a parameter whose reply it lost.
+                                let idx = if param_index >= 0 {
+                                    Some(param_index as usize)
+                                } else {
+                                    ParamTable::index_of(&param_id)
+                                };
+                                if let Some(i) = idx {
+                                    send_param(&mut serial, &params, i, &mut mav_seq);
+                                } else {
+                                    warn!("PARAM_REQUEST_READ for an unknown parameter");
+                                }
+                            }
+
+                            mavlink::Message::ParamSet { param_id, param_value } => {
+                                match params.set(&param_id, param_value) {
+                                    Ok(i) => {
+                                        info!("PARAM_SET accepted, index {}", i);
+                                        // Echoing the stored value back is how
+                                        // a GCS confirms the write. Echoing
+                                        // what we stored - not what was sent -
+                                        // is what makes a clamped or refused
+                                        // write visible to the operator.
+                                        send_param(&mut serial, &params, i, &mut mav_seq);
+                                    }
+                                    Err(e) => {
+                                        warn!("PARAM_SET refused: {}", defmt::Debug2Format(&e));
+                                        // Refusals still echo the *current*
+                                        // value, so the GCS updates its view
+                                        // to the truth rather than keeping the
+                                        // value it optimistically displayed.
+                                        if let Some(i) = ParamTable::index_of(&param_id) {
+                                            send_param(&mut serial, &params, i, &mut mav_seq);
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -343,6 +406,21 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
                 warn!("GCS heartbeat lost after {}ms", gcs_heartbeat_age_ms);
                 link_up = false;
             }
+        }
+
+        // Stream the parameter list, one per tick. A GCS tracks which indices
+        // it has received and re-requests gaps, so what matters is that every
+        // index is sent exactly once with the true count - not the rate.
+        if let Some(i) = param_stream {
+            send_param(&mut serial, &params, i as usize, &mut mav_seq);
+            param_stream = if i + 1 < params.count() { Some(i + 1) } else { None };
+        }
+
+        if send_version {
+            send_version = false;
+            let frame = mavlink::encode_autopilot_version(mav_seq, FLIGHT_SW_VERSION);
+            mav_seq = mav_seq.wrapping_add(1);
+            let _ = serial.write(&frame);
         }
 
         // Barometer conversions advance one tick at a time and never block -
@@ -461,10 +539,48 @@ fn delay_cycles(cycles: u32) {
 /// output. Arming sets a state flag that HEARTBEAT then reports. That is what
 /// makes accepting an arm command over USB reasonable at this stage - the
 /// property under test is the FSM's debounce and pre-arm gating, not thrust.
-fn handle_command(command: u16, param1: f32, pending_arm: &mut Option<bool>) -> u8 {
+/// Send one PARAM_VALUE.
+///
+/// `param_index` is the parameter's real position and `param_count` the true
+/// total, on every message. A GCS tracks which indices it has seen and
+/// re-requests the gaps, so sending a running counter instead of the true index
+/// is the classic way to make a parameter download stall just short of
+/// complete.
+fn send_param<B: usb_device::bus::UsbBus>(
+    serial: &mut SerialPort<'_, B>,
+    params: &ParamTable,
+    index: usize,
+    mav_seq: &mut u8,
+) {
+    let (Some(id), Some(value)) = (ParamTable::name_bytes(index), params.get(index)) else {
+        return;
+    };
+    let frame = mavlink::encode_param_value(
+        *mav_seq,
+        &id,
+        value,
+        MAV_PARAM_TYPE_REAL32,
+        params.count(),
+        index as u16,
+    );
+    *mav_seq = mav_seq.wrapping_add(1);
+    let _ = serial.write(&frame);
+}
+
+fn handle_command(
+    command: u16,
+    param1: f32,
+    pending_arm: &mut Option<bool>,
+    send_version: &mut bool,
+) -> u8 {
     use telemetry::mavlink::{cmd, result};
 
     match command {
+        cmd::REQUEST_AUTOPILOT_CAPABILITIES => {
+            *send_version = true;
+            result::ACCEPTED
+        }
+
         cmd::COMPONENT_ARM_DISARM => {
             // param1: 1 = arm, 0 = disarm. Anything else is a malformed
             // request rather than a a default-to-disarm, and is refused so the

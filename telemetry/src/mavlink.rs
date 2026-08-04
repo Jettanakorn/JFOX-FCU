@@ -280,11 +280,25 @@ const COMMAND_LONG_CRC_EXTRA: u8 = 152;
 const COMMAND_LONG_PAYLOAD_LEN: u8 = 33;
 const COMMAND_ACK_MSG_ID: u8 = 77;
 const COMMAND_ACK_CRC_EXTRA: u8 = 143;
+const PARAM_REQUEST_READ_MSG_ID: u8 = 20;
+const PARAM_REQUEST_READ_CRC_EXTRA: u8 = 214;
+const PARAM_REQUEST_LIST_MSG_ID: u8 = 21;
+const PARAM_REQUEST_LIST_CRC_EXTRA: u8 = 159;
+const PARAM_VALUE_MSG_ID: u8 = 22;
+const PARAM_VALUE_CRC_EXTRA: u8 = 220;
+const PARAM_SET_MSG_ID: u8 = 23;
+const PARAM_SET_CRC_EXTRA: u8 = 168;
+const AUTOPILOT_VERSION_MSG_ID: u8 = 148;
+const AUTOPILOT_VERSION_CRC_EXTRA: u8 = 178;
+
+/// MAVLink's fixed-width `param_id` field.
+pub const PARAM_ID_LEN: usize = 16;
 
 /// `MAV_CMD` values this firmware recognises.
 pub mod cmd {
     pub const COMPONENT_ARM_DISARM: u16 = 400;
     pub const NAV_RETURN_TO_LAUNCH: u16 = 20;
+    pub const REQUEST_AUTOPILOT_CAPABILITIES: u16 = 520;
 }
 
 /// `MAV_RESULT` values, for COMMAND_ACK.
@@ -309,6 +323,19 @@ pub enum Message {
         target_component: u8,
         confirmation: u8,
     },
+    /// GCS wants the whole parameter set streamed to it.
+    ParamRequestList,
+    /// GCS wants one parameter. Either by index, or by name when
+    /// `param_index` is -1 (which is how a GCS re-requests a parameter it
+    /// dropped, since it knows the name but not necessarily the index).
+    ParamRequestRead {
+        param_index: i16,
+        param_id: [u8; PARAM_ID_LEN],
+    },
+    ParamSet {
+        param_id: [u8; PARAM_ID_LEN],
+        param_value: f32,
+    },
 }
 
 /// `CRC_EXTRA` for the messages this parser accepts.
@@ -322,6 +349,9 @@ fn crc_extra_for(msg_id: u8) -> Option<u8> {
     match msg_id {
         HEARTBEAT_MSG_ID => Some(HEARTBEAT_CRC_EXTRA),
         COMMAND_LONG_MSG_ID => Some(COMMAND_LONG_CRC_EXTRA),
+        PARAM_REQUEST_READ_MSG_ID => Some(PARAM_REQUEST_READ_CRC_EXTRA),
+        PARAM_REQUEST_LIST_MSG_ID => Some(PARAM_REQUEST_LIST_CRC_EXTRA),
+        PARAM_SET_MSG_ID => Some(PARAM_SET_CRC_EXTRA),
         _ => None,
     }
 }
@@ -492,9 +522,91 @@ impl Parser {
                     confirmation: p[32],
                 })
             }
+            PARAM_REQUEST_LIST_MSG_ID => Some(Message::ParamRequestList),
+
+            PARAM_REQUEST_READ_MSG_ID => {
+                if self.len < 20 {
+                    return None;
+                }
+                let p = &self.payload;
+                let mut id = [0u8; PARAM_ID_LEN];
+                id.copy_from_slice(&p[4..4 + PARAM_ID_LEN]);
+                Some(Message::ParamRequestRead {
+                    param_index: i16::from_le_bytes([p[0], p[1]]),
+                    param_id: id,
+                })
+            }
+
+            PARAM_SET_MSG_ID => {
+                if self.len < 23 {
+                    return None;
+                }
+                let p = &self.payload;
+                let mut id = [0u8; PARAM_ID_LEN];
+                id.copy_from_slice(&p[6..6 + PARAM_ID_LEN]);
+                Some(Message::ParamSet {
+                    param_value: f32::from_le_bytes([p[0], p[1], p[2], p[3]]),
+                    param_id: id,
+                })
+            }
+
             _ => None,
         }
     }
+}
+
+/// PARAM_VALUE (msg 22) - one parameter, and the count/index pair a GCS uses
+/// to know whether it has the whole set yet.
+///
+/// `param_count` must be the same on every message of a stream, and
+/// `param_index` must be the parameter's real position: a GCS tracks which
+/// indices it has seen and re-requests the gaps. Sending a running counter
+/// instead of the true index is a classic way to make a parameter download
+/// hang at 99%.
+pub fn encode_param_value(
+    seq: u8,
+    param_id: &[u8; PARAM_ID_LEN],
+    param_value: f32,
+    param_type: u8,
+    param_count: u16,
+    param_index: u16,
+) -> [u8; 33] {
+    let mut payload = [0u8; 25];
+    payload[0..4].copy_from_slice(&param_value.to_le_bytes());
+    payload[4..6].copy_from_slice(&param_count.to_le_bytes());
+    payload[6..8].copy_from_slice(&param_index.to_le_bytes());
+    payload[8..8 + PARAM_ID_LEN].copy_from_slice(param_id);
+    payload[24] = param_type;
+
+    let mut out = [0u8; 33];
+    build_frame(&mut out, seq, PARAM_VALUE_MSG_ID, PARAM_VALUE_CRC_EXTRA, &payload);
+    out
+}
+
+/// AUTOPILOT_VERSION (msg 148) - answers a GCS's capabilities request.
+///
+/// Everything here is deliberately modest. `capabilities` advertises only
+/// PARAM_FLOAT, because that is genuinely all this firmware supports; claiming
+/// mission or FTP capability would make a GCS attempt protocols that would then
+/// silently fail.
+pub fn encode_autopilot_version(seq: u8, flight_sw_version: u32) -> [u8; 68] {
+    /// MAV_PROTOCOL_CAPABILITY_PARAM_FLOAT
+    const CAP_PARAM_FLOAT: u64 = 1;
+
+    let mut payload = [0u8; 60];
+    payload[0..8].copy_from_slice(&CAP_PARAM_FLOAT.to_le_bytes()); // capabilities
+    payload[8..16].copy_from_slice(&0u64.to_le_bytes()); // uid: none
+    payload[16..20].copy_from_slice(&flight_sw_version.to_le_bytes());
+    payload[20..24].copy_from_slice(&0u32.to_le_bytes()); // middleware_sw_version
+    payload[24..28].copy_from_slice(&0u32.to_le_bytes()); // os_sw_version
+    payload[28..32].copy_from_slice(&0u32.to_le_bytes()); // board_version
+    payload[32..34].copy_from_slice(&0u16.to_le_bytes()); // vendor_id
+    payload[34..36].copy_from_slice(&0u16.to_le_bytes()); // product_id
+    // flight/middleware/os custom version: 8 bytes each, left zero.
+
+    let mut out = [0u8; 68];
+    build_frame(&mut out, seq, AUTOPILOT_VERSION_MSG_ID, AUTOPILOT_VERSION_CRC_EXTRA, &payload);
+    out
 }
 
 /// COMMAND_ACK (msg 77) - every COMMAND_LONG must be answered, including ones
@@ -747,6 +859,70 @@ mod tests {
             }
         }
         assert!(matches!(got, Some(Message::CommandLong { .. })));
+    }
+
+    // --- parameter protocol ---
+
+    #[test]
+    fn parses_param_request_list() {
+        let f: [u8; 10] = [0xFE, 0x02, 0x0B, 0xFF, 0x00, 0x15, 0x01, 0x01, 0xC7, 0x7E];
+        let mut p = Parser::new();
+        assert_eq!(feed(&mut p, &f), Some(Message::ParamRequestList));
+    }
+
+    #[test]
+    fn parses_param_set() {
+        let f: [u8; 31] = [
+            0xFE, 0x17, 0x0C, 0xFF, 0x00, 0x17, 0x00, 0x00, 0xD0, 0x40, 0x01, 0x01, 0x4D, 0x43,
+            0x5F, 0x52, 0x4F, 0x4C, 0x4C, 0x5F, 0x41, 0x54, 0x54, 0x5F, 0x50, 0x00, 0x00, 0x00,
+            0x09, 0x27, 0x9A,
+        ];
+        let mut p = Parser::new();
+        match feed(&mut p, &f) {
+            Some(Message::ParamSet { param_id, param_value }) => {
+                assert_eq!(param_value, 6.5);
+                assert_eq!(&param_id[..13], b"MC_ROLL_ATT_P");
+                assert_eq!(&param_id[13..], &[0, 0, 0]);
+            }
+            other => panic!("expected ParamSet, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn parses_param_request_read_by_index() {
+        let f: [u8; 28] = [
+            0xFE, 0x14, 0x0D, 0xFF, 0x00, 0x14, 0x03, 0x00, 0x01, 0x01, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0A, 0x63,
+        ];
+        let mut p = Parser::new();
+        match feed(&mut p, &f) {
+            Some(Message::ParamRequestRead { param_index, .. }) => assert_eq!(param_index, 3),
+            other => panic!("expected ParamRequestRead, got {:?}", other),
+        }
+    }
+
+    #[test]
+    fn param_value_matches_pymavlink_reference() {
+        let expected: [u8; 33] = [
+            0xFE, 0x19, 0x0E, 0x01, 0x01, 0x16, 0x00, 0x00, 0x90, 0x40, 0x1A, 0x00, 0x00, 0x00,
+            0x4D, 0x43, 0x5F, 0x52, 0x4F, 0x4C, 0x4C, 0x5F, 0x41, 0x54, 0x54, 0x5F, 0x50, 0x00,
+            0x00, 0x00, 0x09, 0x9B, 0x9F,
+        ];
+        let mut id = [0u8; PARAM_ID_LEN];
+        id[..13].copy_from_slice(b"MC_ROLL_ATT_P");
+        assert_eq!(encode_param_value(14, &id, 4.5, 9, 26, 0), expected);
+    }
+
+    #[test]
+    fn autopilot_version_matches_pymavlink_reference() {
+        let expected: [u8; 68] = [
+            0xFE, 0x3C, 0x0F, 0x01, 0x01, 0x94, 0x01, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x68, 0xAF,
+        ];
+        assert_eq!(encode_autopilot_version(15, 0x0001_0000), expected);
     }
 
     #[test]

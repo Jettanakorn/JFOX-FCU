@@ -5,6 +5,7 @@
 pub mod types;
 pub mod ringbuf;
 pub mod can_frames;
+pub mod params;
 
 /// Common result type
 pub type Result<T> = core::result::Result<T, Error>;
