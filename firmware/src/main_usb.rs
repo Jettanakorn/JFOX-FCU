@@ -37,6 +37,20 @@ use common::params::{ParamTable, MAV_PARAM_TYPE_REAL32};
 /// major, minor, patch, and release type, packed little-endian.
 const FLIGHT_SW_VERSION: u32 = 0x0001_0000; // 0.1.0
 
+/// SPI1 divisor for **register** access: APB2 84MHz / 128 = 656kHz.
+///
+/// The MPU-6000 specifies a 1MHz maximum for register read/write. This is the
+/// slowest-but-one prescaler that fits under it, and it applies to every part
+/// on the internal bus during identification and configuration.
+const SPI_DIV_REGISTER: u8 = 6;
+
+/// SPI1 divisor for sensor **data** bursts: 84MHz / 16 = 5.25MHz.
+///
+/// The MPU-6000 allows 20MHz for the sensor/interrupt register block, the
+/// MS5611 allows 20MHz, and the ST parts allow 10MHz - so this is comfortably
+/// inside every part's limit while being fast enough for a 1kHz burst read.
+const SPI_DIV_DATA: u8 = 3;
+
 // USB imports
 use usb_device::prelude::*;
 use usbd_serial::SerialPort;
@@ -140,9 +154,20 @@ fn main() -> ! {
     info!("USB CDC initialized!");
 
     // Initialize SPI1 - the shared internal sensor bus ("SPI_INT")
+    //
+    // Two speeds, and the slow one is mandatory rather than cautious. The
+    // MPU-6000 datasheet limits SPI **register** access to 1MHz; only the
+    // sensor and interrupt data registers (59-96, 100-104) tolerate 20MHz.
+    // Everything init() touches - WHO_AM_I, PWR_MGMT_1, the CONFIG and
+    // range registers, SMPLRT_DIV - is a register access, so configuring
+    // the part at 5.25MHz runs it at over five times its specified maximum
+    // and the reads come back unreliable. PX4's own MPU6000 driver carries
+    // the same low/high split for this reason.
+    //
+    // The probe runs at the slow speed too: it is all WHO_AM_I reads.
     info!("Initializing SPI1 (internal sensor bus)...");
     let mut spi1 = unsafe { Spi::<1>::new() };
-    spi1.init_mode3(3); // APB2=84MHz, div=16 -> 5.25MHz
+    spi1.init_mode3(SPI_DIV_REGISTER); // 84MHz/128 = 656kHz, inside the 1MHz register limit
 
     // Probe the bus before anything claims it. Sensor population on the FMUv2
     // family is a per-unit build option, so what is fitted has to be asked
@@ -186,6 +211,20 @@ fn main() -> ! {
             None
         }
     };
+
+    // Configuration is done, so the bus can come up to data speed. Reads from
+    // here on are the ACCEL_XOUT_H burst and the MS5611's ADC, both of which
+    // their datasheets allow at 20MHz.
+    //
+    // Reconfiguring through a second handle for the same reason the barometer
+    // uses one: `Spi` holds only a base address, and `init_mode3` rewrites CR1
+    // for the peripheral regardless of which handle calls it. Single-threaded
+    // loop, no interrupt touches SPI1.
+    {
+        let mut spi_speed = unsafe { Spi::<1>::new() };
+        spi_speed.init_mode3(SPI_DIV_DATA);
+        info!("SPI1 raised to data speed (84MHz/16 = 5.25MHz)");
+    }
 
     // Barometer, if one answered the probe.
     //

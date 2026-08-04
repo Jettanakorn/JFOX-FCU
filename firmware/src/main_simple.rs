@@ -47,7 +47,13 @@ fn main() -> ! {
     info!("Initializing SPI1 for MPU-6000...");
     uart.write_str("[INIT] SPI1 for MPU-6000...\r\n");
     let mut spi1 = unsafe { Spi::<1>::new() };
-    spi1.init_mode3(3); // APB2=84MHz, div=16 -> 5.25MHz
+    // Two speeds: the MPU-6000 limits SPI REGISTER access to 1MHz, and
+    // only the sensor/interrupt data block (registers 59-96, 100-104)
+    // tolerates 20MHz. Everything init() touches is a register access, so
+    // it is configured at 84MHz/128 = 656kHz and the bus is raised to
+    // 84MHz/16 = 5.25MHz afterwards for the data burst. PX4's own MPU6000
+    // driver carries the same low/high split.
+    spi1.init_mode3(6);
 
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");

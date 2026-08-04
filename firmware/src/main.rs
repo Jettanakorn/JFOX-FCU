@@ -239,8 +239,13 @@ mod app {
         // Initialize SPI1 for MPU-6000 (SPI_INT bus: PA5/PA6/PA7, see bsp::pins).
         info!("Initializing SPI1 for MPU-6000...");
         let mut spi1 = unsafe { Spi::<1>::new() };
-        // SPI1 on APB2 (84MHz), divide by 16 => 5.25MHz (MPU-6000 max = 20MHz)
-        spi1.init_mode3(3);
+        // Two speeds: the MPU-6000 limits SPI REGISTER access to 1MHz, and
+        // only the sensor/interrupt data block (registers 59-96, 100-104)
+        // tolerates 20MHz. Everything init() touches is a register access, so
+        // it is configured at 84MHz/128 = 656kHz and the bus is raised to
+        // 84MHz/16 = 5.25MHz afterwards for the data burst. PX4's own MPU6000
+        // driver carries the same low/high split.
+        spi1.init_mode3(6);
 
         // Initialize MPU-6000 IMU
         info!("Initializing MPU-6000 IMU...");
@@ -265,6 +270,19 @@ mod app {
                 false
             }
         };
+
+        // Configuration done - raise the bus to data speed. This matters more
+        // here than in the bring-up binaries: imu_task runs at 1kHz, and a
+        // 14-byte burst at 656kHz costs ~171us of a 1ms budget, against ~21us
+        // at 5.25MHz. Reconfiguring through a second handle is sound because
+        // `Spi` holds only a base address and `init_mode3` rewrites the
+        // peripheral's CR1; this runs in `init()`, before any task is spawned,
+        // so nothing else can be mid-transfer.
+        {
+            let mut spi_speed = unsafe { Spi::<1>::new() };
+            spi_speed.init_mode3(3); // 84MHz/16 = 5.25MHz, inside every part's data-rate limit
+            info!("SPI1 raised to data speed (5.25MHz)");
+        }
 
         // ==== Power-on Built-In Test (PBIT) ====
         // Runs once, here, with exclusive access to every peripheral before
