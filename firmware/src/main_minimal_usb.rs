@@ -24,7 +24,7 @@ fn main() -> ! {
     // Get peripherals
     let dp = pac::Peripherals::take().unwrap();
 
-    // Configure 180MHz clock
+    // Configure 168MHz clock (PLLQ gives USB its exact 48MHz)
     let _clocks = unsafe { Clocks::configure() };
 
     // Initialize LED
@@ -110,8 +110,8 @@ fn main() -> ! {
             count = 0;
         }
 
-        // ~1ms delay at 180MHz
-        for _ in 0..180_000 {
+        // ~1ms delay at 168MHz
+        for _ in 0..168_000 {
             cortex_m::asm::nop();
         }
     }

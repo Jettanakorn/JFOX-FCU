@@ -1,10 +1,11 @@
 //! JFOX FCU - Bare-metal Rust Flight Controller
 //!
-//! This is the main firmware application for the JFOX FCU based on PX4FMUv2.4.5 hardware.
+//! This is the main firmware application for the JFOX FCU, targeting the PX4 FMUv2
+//! board family - PX4FMUv2.4.5 and Pixhawk 2.4.8 are the same reference design.
 //! It implements a real-time flight control system using RTIC (Real-Time Interrupt-driven Concurrency).
 //!
 //! Hardware:
-//! - STM32F427VIT6 @ 180MHz ("FMU"; this firmware runs FMU-only, see bsp::pins module docs)
+//! - STM32F427VIT6 @ 168MHz ("FMU"; this firmware runs FMU-only, see bsp::pins module docs)
 //! - MPU-6000 IMU @ 1kHz
 //! - MS5611 Barometer
 //! - 4x PWM outputs for quad-X motors (FMU-CH1..CH4, TIM1)
@@ -92,7 +93,7 @@ fn default_mpc_controller() -> MpcController {
 
 // SysTick-based monotonic timer, 1us/tick (covers both the millisecond delays
 // used by imu/control/heartbeat tasks and the microsecond delay used by
-// motor_task). 180MHz sysclk / 1_000_000 = 180, an exact divisor.
+// motor_task). 168MHz sysclk / 1_000_000 = 168, still an exact divisor.
 rtic_monotonics::systick_monotonic!(Mono, 1_000_000);
 
 fn default_stabilize_gains() -> StabilizeGains {
@@ -210,10 +211,10 @@ mod app {
     #[init]
     fn init(ctx: init::Context) -> (Shared, Local) {
         info!("JFOX FCU - Flight Controller Firmware");
-        info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6, FMU-only)");
+        info!("Hardware: PX4 FMUv2 family - 2.4.5 / Pixhawk 2.4.8 (STM32F427VIT6, FMU-only)");
         info!("Build: {}", env!("CARGO_PKG_VERSION"));
 
-        // Configure system clocks to 180MHz
+        // Configure system clocks to 168MHz (see bsp::clocks for why not 180)
         let clocks = unsafe { Clocks::configure() };
         info!("System clock configured: {}MHz", clocks.sysclk() / 1_000_000);
 
@@ -238,23 +239,50 @@ mod app {
         // Initialize SPI1 for MPU-6000 (SPI_INT bus: PA5/PA6/PA7, see bsp::pins).
         info!("Initializing SPI1 for MPU-6000...");
         let mut spi1 = unsafe { Spi::<1>::new() };
-        // SPI1 on APB2 (90MHz), divide by 16 => 5.625MHz (MPU-6000 max = 20MHz)
-        spi1.init_mode3(3);
+        // Two speeds: the MPU-6000 limits SPI REGISTER access to 1MHz, and
+        // only the sensor/interrupt data block (registers 59-96, 100-104)
+        // tolerates 20MHz. Everything init() touches is a register access, so
+        // it is configured at 84MHz/128 = 656kHz and the bus is raised to
+        // 84MHz/16 = 5.25MHz afterwards for the data burst. PX4's own MPU6000
+        // driver carries the same low/high split.
+        spi1.init_mode3(6);
 
         // Initialize MPU-6000 IMU
         info!("Initializing MPU-6000 IMU...");
         let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
         let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
         let imu_ok = match mpu6000.init() {
-            Ok(()) => {
-                info!("MPU-6000 initialized successfully");
+            Ok(variant) => {
+                info!("IMU initialized: {}", variant.name());
+                if !variant.is_hardware_verified() {
+                    // Accepted on register compatibility with the MPU-6000, not
+                    // on evidence. Worth saying out loud in the flight
+                    // application specifically.
+                    warn!(
+                        "IMU {} accepted on datasheet compatibility, never verified on silicon by this project",
+                        variant.name()
+                    );
+                }
                 true
             }
             Err(()) => {
-                error!("MPU-6000 initialization failed! Arming will be refused.");
+                error!("IMU initialization failed! Arming will be refused.");
                 false
             }
         };
+
+        // Configuration done - raise the bus to data speed. This matters more
+        // here than in the bring-up binaries: imu_task runs at 1kHz, and a
+        // 14-byte burst at 656kHz costs ~171us of a 1ms budget, against ~21us
+        // at 5.25MHz. Reconfiguring through a second handle is sound because
+        // `Spi` holds only a base address and `init_mode3` rewrites the
+        // peripheral's CR1; this runs in `init()`, before any task is spawned,
+        // so nothing else can be mid-transfer.
+        {
+            let mut spi_speed = unsafe { Spi::<1>::new() };
+            spi_speed.init_mode3(3); // 84MHz/16 = 5.25MHz, inside every part's data-rate limit
+            info!("SPI1 raised to data speed (5.25MHz)");
+        }
 
         // ==== Power-on Built-In Test (PBIT) ====
         // Runs once, here, with exclusive access to every peripheral before
@@ -622,7 +650,15 @@ mod app {
             if *ctx.local.dwt_log_counter >= DWT_LOG_DECIM_TICKS {
                 *ctx.local.dwt_log_counter = 0;
                 let elapsed_cycles = Dwt::elapsed_since(cycle_start);
-                info!("control_task: {} cycles ({}us @ 180MHz)", elapsed_cycles, elapsed_cycles / 180);
+                // Derived from bsp rather than a literal so the microsecond
+                // figure stays correct if the clock tree moves again.
+                const CYCLES_PER_US: u32 = bsp::clocks::HCLK_FREQ_HZ / 1_000_000;
+                info!(
+                    "control_task: {} cycles ({}us @ {}MHz)",
+                    elapsed_cycles,
+                    elapsed_cycles / CYCLES_PER_US,
+                    bsp::clocks::HCLK_FREQ_HZ / 1_000_000
+                );
             }
 
             // Wait 2ms (500Hz update rate)

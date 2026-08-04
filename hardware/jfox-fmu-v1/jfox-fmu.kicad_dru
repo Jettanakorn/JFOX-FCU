@@ -1,0 +1,97 @@
+(version 1)
+
+# Custom design rules for JFOX-FMU-v1.
+#
+# Every rule here is an exception scoped to ONE connector, and each exists for
+# the same reason: the pad geometry is fixed by the connector standard, and a
+# board-wide rule cannot be satisfied inside it. Each condition names the
+# reference designator, so the exception cannot quietly relax clearance
+# anywhere else. Lowering the board minimum instead would hide real spacing
+# errors in the routing that has not been done yet.
+#
+# On the syntax: the property is A.Reference. `A.Footprint` and
+# `A.Footprint_Name` are NOT valid DRC expression properties - KiCad accepts
+# a rule containing them, ignores it, and reports no error, so the violation
+# count simply does not change. Verified by forcing a 9 mm clearance through
+# each candidate and watching which ones moved the count:
+#
+#     A.Reference == 'J30'              161 -> 620   applied
+#     A.memberOfFootprint('J30')        161 -> 620   applied
+#     A.Footprint == 'USB_C_...'        161 -> 161   ignored
+#     A.Footprint_Name == 'USB_C_...'   161 -> 161   ignored
+#     A.Parent.Reference == 'J30'       161 -> 161   ignored
+
+# --- pads within one component --------------------------------------------
+# The netclass clearances are ROUTING rules. HighCurrent asks for 0.25 mm
+# because +5V_CARRIER, VDD_BRICK and VDD_SERVO carry several amps between
+# the module and the carrier - and that is the right rule for the tracks.
+# It is not a rule any fine-pitch package can satisfy between its own pins:
+# the LTC4417's pitch is fixed by the part, as is the USB-C receptacle's and
+# the mezzanine's. Applying a routing clearance inside a footprint reports
+# the manufacturer's own geometry as an error and says nothing about the
+# layout.
+#
+# So within a single component, fall back to the fabricator's absolute
+# minimum. 0.1 mm is a floor, not a licence: a footprint whose own pads are
+# closer than that is a broken footprint and still fails here.
+(rule "Pad spacing within one component"
+	(condition "A.Type == 'Pad' && B.Type == 'Pad' && A.Reference == B.Reference")
+	(constraint clearance (min 0.1mm)))
+
+# --- J30, USB-C receptacle ------------------------------------------------
+# GCT USB4085: through-hole contacts on a 0.85 mm pitch with 0.7 mm pads.
+# That leaves 0.15 mm of copper between adjacent contacts and a solder mask
+# web thinner than the 0.1 mm minimum. USB Type-C Rev 2.1 fixes the contact
+# pitch, so this is the connector as manufactured - there is nothing in the
+# layout to correct.
+(rule "USB-C receptacle internal pitch"
+	(condition "A.Reference == 'J30' && B.Reference == 'J30'")
+	(constraint clearance (min 0.12mm))
+	(constraint hole_to_hole (min 0.4mm)))
+
+(rule "USB-C receptacle mask web"
+	(condition "A.Reference == 'J30'")
+	(constraint solder_mask_expansion (min 0mm) (opt 0.02mm)))
+
+# --- J40, carrier mezzanine -----------------------------------------------
+# Hirose DF12C3.0-60DS: 0.5 mm pitch, so adjacent pads sit far closer than
+# the 0.25 mm HighCurrent clearance that +5V_CARRIER, VDD_BRICK and
+# VDD_SERVO carry. That clearance is sized for the routed rails - several
+# amps to the carrier - and stays in force everywhere those nets are
+# actually routed. Inside the connector the spacing is the connector's.
+(rule "Mezzanine header internal pitch"
+	(condition "A.Reference == 'J40' && B.Reference == 'J40'")
+	(constraint clearance (min 0.1mm))
+	(constraint solder_mask_expansion (min 0mm) (opt 0.02mm)))
+
+# --- U21, thermal via array ------------------------------------------------
+# The TPS62132's exposed pad is stitched to the ground plane by a via array,
+# and mask web between that pad and its own vias is reported as a bridge.
+# It is a bridge, and it is meant to be: pad and vias are the same net, and
+# the array is how the part gets rid of its heat. The 0.1 mm minimum web is
+# there to stop solder wicking BETWEEN NETS, which is not what this is.
+(rule "Thermal via array under U21"
+	(condition "A.Reference == 'U21' && B.Reference == 'U21'")
+	(constraint solder_mask_expansion (min 0mm) (opt 0mm)))
+
+# --- J40, card-edge gold fingers -------------------------------------------
+# Copper at the board edge is normally an error: the router bit tears it and
+# the exposed edge corrodes. For gold fingers it is the entire point - the
+# contacts have to reach the edge or the card cannot enter its socket. This
+# exception is scoped to J40 alone, so the rule still protects every other
+# net on the board.
+#
+# It carries two FABRICATION requirements that no rule can express, and that
+# must appear on the drawing:
+#   * selective hard gold (30 microinch min) on the finger area
+#   * 20-30 degree lead-in bevel on the card's leading edge
+(rule "Card edge gold fingers"
+	(condition "A.Reference == 'J40'")
+	(constraint edge_clearance (min 0mm)))
+
+# --- J30 / J31, front-panel openings ---------------------------------------
+# The USB receptacle and the card slot sit flush with the outline so a plug
+# or a card can reach them. Their shells therefore touch the edge.
+(rule "Front panel connector shells"
+	(condition "A.Reference == 'J30' || A.Reference == 'J31'")
+	(constraint edge_clearance (min 0mm)))

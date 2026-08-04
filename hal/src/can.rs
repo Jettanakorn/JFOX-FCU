@@ -8,19 +8,26 @@
 //! Only standard (11-bit) identifiers, classic CAN (no CAN-FD), and a single
 //! TX mailbox / single RX FIFO (FIFO0) with an accept-all filter are
 //! implemented - sufficient for the command-vote/sensor-cross-check traffic
-//! this bus carries. Bit timing is computed for a fixed 9-time-quanta bit
-//! (1 sync + 7 TS1 + 1 TS2, ~88.9% sample point), chosen because it divides
-//! the confirmed 45MHz APB1 clock (`bsp::clocks::PCLK1_FREQ_HZ`) evenly for
-//! both 500kbps and 1Mbps - unverified against a real bus/oscilloscope, flag
-//! for hardware bring-up.
+//! this bus carries. Bit timing is computed for a fixed 14-time-quanta bit
+//! (1 sync + 11 TS1 + 2 TS2, ~85.7% sample point), chosen because it divides
+//! the 42MHz APB1 clock (`bsp::clocks::PCLK1_FREQ_HZ`) evenly for both
+//! 500kbps (BRP=6) and 1Mbps (BRP=3) - unverified against a real
+//! bus/oscilloscope, flag for hardware bring-up.
+//!
+//! These constants are clock-dependent: the previous 9-tq bit divided the
+//! old 45MHz APB1 evenly, but not the 42MHz that came with the move to a
+//! 168MHz SYSCLK (see `bsp::clocks`' "Why 168MHz" note). At 42MHz a 9-tq bit
+//! yields a non-integer prescaler and `init()` would reject every bitrate
+//! with `BitrateNotAchievable`. Re-check this arithmetic against
+//! `PCLK1_FREQ_HZ` if the clock tree changes again.
 
 #![allow(dead_code)]
 
 use bsp::memory_map::*;
 
-const TQ_PER_BIT: u32 = 9;
-const TS1_ACTUAL: u32 = 7; // register field = actual - 1
-const TS2_ACTUAL: u32 = 1;
+const TQ_PER_BIT: u32 = 14; // 1 sync + TS1 + TS2, must equal TS1+TS2+1
+const TS1_ACTUAL: u32 = 11; // register field = actual - 1
+const TS2_ACTUAL: u32 = 2;
 const SJW_ACTUAL: u32 = 1;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

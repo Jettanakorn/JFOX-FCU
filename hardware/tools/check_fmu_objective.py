@@ -187,7 +187,7 @@ def main():
 
     # --- transient and ESD protection --------------------------------------
     p = []
-    for rail in ("VDD_BRICK", "VDD_SERVO", "VBUS_USB"):
+    for rail in ("+5V_CARRIER", "VBUS_USB"):
         tvs = [r for r, _ in nets.get(rail, set()) if r.startswith("D")]
         if not tvs:
             p.append(f"{rail} has no transient suppressor (DO-160G s17)")

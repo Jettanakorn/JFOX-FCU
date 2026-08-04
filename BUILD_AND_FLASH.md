@@ -34,7 +34,7 @@ cargo build --release --bin jfox-fcu-flight   # just one
 |---|---|
 | `jfox-fcu` | **Verified flashed and running on real PX4FMUv2.4.5 hardware** (2025-12-30, via the PX4-bootloader path below - see `docs/historical/VERIFICATION_STATUS.md`/`docs/historical/V2_STATUS.md` for the original verification record). |
 | `jfox-fcu-flight` | Builds clean and passes SITL (`sitl/`), but **has never been flashed to real hardware** - `HARDWARE_BRINGUP.md`'s Stage 1 is the runbook for actually doing that, and hasn't been executed yet. |
-| `jfox-fcu-usb` | Builds clean, has a real (CRC-correct, pymavlink-cross-checked) MAVLink v1 implementation - see below. **Never yet connected to a real GCS on real hardware** - the USB-clock fix it depends on (see below) is itself unverified on real silicon. |
+| `jfox-fcu-usb` | **Verified on real PX4FMUv2.4.5 hardware (2026-08-04): flashed via QGroundControl, enumerates, and QGC connects and holds the link.** Getting here took two fixes. (1) The 180MHz/PLLSAI clock configuration ran USB at ~51.4MHz and failed to enumerate at all (Windows: "Configuration Descriptor Request Failed", null VID/PID); the clock tree was reworked to 168MHz so PLLQ produces exactly 48MHz. (2) The main loop never called `serial.read()`, so the CDC OUT endpoint filled and NAK'd forever, blocking every host-side write and freezing QGC - see the USB-clock section below and commit `63eaee0`. QGC reports the vehicle **"Not Ready"**, which is correct: this binary cannot arm and serves no parameters, so a GCS has nothing to call ready. |
 | `jfox-fcu-minimal` | Builds clean; used historically to recover a board stuck in bootloader mode. |
 
 ## Flashing: three paths
@@ -104,14 +104,26 @@ verification could go without a board attached):
   select specific developer releases or install firmware from your local
   file system."
 
-**Not verified** (needs real hardware): that QGC actually accepts this
-`.px4` file and completes a real flash. `jfox-fcu-flight` has never been
-flashed by *any* method yet (see the status table above) - using QGC's
-uploader would be the first attempt by this path specifically, stacked on
-top of that. If you want the lowest-risk first flash, use Path 2
-(`px4_flash_complete.py`) first to confirm the board and binary work at
-all, then treat this path as a convenience once that's established -
-don't make this the first time you're finding out both things at once.
+**Verified on real hardware (2026-08-04): this path works, and it is now
+the recommended one.** QGC accepted a `px_mkfw.py`-generated `.px4` at
+`board_id = 9` and completed real flashes of both stock PX4 firmware and
+`jfox-fcu-usb`, reporting success and rebooting into the new image.
+
+**Prefer this path over Path 2.** The earlier advice here - use
+`px4_flash_complete.py` first as the lower-risk option - turned out to be
+wrong in practice, and the reason is worth recording:
+
+> The PX4 bootloader's listen window is only a few seconds, and with a
+> valid application present it hands off almost immediately. Windows needs
+> 1-3 seconds just to expose the COM port after enumeration, so a Python
+> script cannot reliably open the port and sync before the window closes.
+> Roughly 5000 sync attempts across several resets produced not one
+> `INSYNC`. QGC's native uploader wins that race; `px4_flash_complete.py`
+> does not. Worse, each failed attempt leaves a wedged handle that blocks
+> the port for minutes, and killing the process does not release it.
+
+Use Path 2 only with a board already held in bootloader mode. For everyday
+flashing, use QGC.
 
 **Steps**:
 
@@ -170,25 +182,75 @@ hand-computed (see `telemetry/src/mavlink.rs`'s doc comment and tests).
 This fixes an earlier version of this same binary, which sent a heartbeat
 missing its CRC entirely - silently rejected by every real MAVLink parser.
 
-**One real caveat before this can be trusted on hardware**: USB Full Speed
-requires a 48MHz clock accurate to +-0.25%. This firmware's main PLL cannot
-produce that exactly (see `bsp/src/clocks.rs`'s PLLSAI step for the full
-explanation), so a second PLL (PLLSAI) is configured to generate it
-instead. Most of that fix is cross-checked against this project's `stm32f4`
-PAC crate, but the final piece - the `CK48MSEL` register that actually
-routes PLLSAI's output to the USB peripheral - is **not modeled by this
-project's PAC at all**, and its exact register offset/bit position is
-sourced from reference-manual knowledge with no independent verification
-possible in the environment this was written in. It's flagged loudly in
-`bsp/src/clocks.rs`'s own comments. **Confirm real USB enumeration behavior
-on actual hardware, or check the address against a real RM0090 copy, before
-trusting this.**
+### The USB 48MHz clock, and why SYSCLK is 168MHz
 
-Once connected: QGroundControl should auto-connect over the enumerated COM
-port; Mission Planner needs the COM port selected manually. Confirm a
-correct autopilot icon and live attitude-indicator movement when the board
-is tilted by hand, and that the GCS's armed indicator stays "disarmed"
-(correctly - this binary cannot arm).
+USB Full Speed requires a 48MHz clock accurate to +-0.25%. On
+STM32F42x/43x that clock can come **only** from the main PLL's Q-output
+(PLL48CK) - unlike the F446/F469 and F412/F413, this part has no
+`CK48MSEL` mux, so PLLSAI cannot be used as a USB clock source.
+
+A 180MHz SYSCLK needs a 360MHz VCO, and 360 has no integer PLLQ giving 48
+(360/7.5). A 336MHz VCO does: 336/7 = 48 exactly, with PLLP=/2 giving
+168MHz. Exact USB and the part's 180MHz maximum are therefore mutually
+exclusive on this silicon, and this firmware runs at 168MHz so USB works.
+Full reasoning is in `bsp/src/clocks.rs`'s module-level note.
+
+**This is the fix for an observed hardware failure, and it is now
+hardware-verified (2026-08-04).** The earlier configuration ran at 180MHz
+and attempted to route PLLSAI to USB by writing `CK48MSEL` at RCC offset
+0x90 - reserved space on this part, which the PAC's failure to model it
+should have been read as a warning about. The write did nothing, USB ran
+from PLLQ at 360/7 ~= 51.43MHz (7.1% fast, far outside +-0.25%), and
+Windows failed enumeration with "Configuration Descriptor Request Failed"
+under a null VID/PID. At 168MHz the device enumerates cleanly and QGC
+connects.
+
+### The second USB fault: a CDC OUT endpoint nobody read
+
+Fixing the clock was necessary but not sufficient. The device enumerated,
+yet every host-side write still timed out and QGroundControl froze solid
+holding the port. Cause: the main loop called `usb_dev.poll()` but never
+`serial.read()`. This binary is transmit-only, so received bytes are
+genuinely unwanted - but an OUT endpoint that is never read fills after
+one packet and NAKs everything after it, the host's driver buffer backs up
+behind that, and every write blocks. Fixed in `63eaee0` by reading into a
+scratch buffer and discarding.
+
+**Two diagnostic lessons, recorded because this was misdiagnosed as a
+clock fault for hours:**
+
+- The device enumerated with `CM_PROB_NONE` the whole time. Full-speed
+  enumeration requires 48MHz within +-0.25%, so **a clean enumeration is
+  positive evidence the clock is right**, not a neutral observation.
+- The failures were **write-only** - reads never hung. A fault with a
+  direction is an endpoint problem, not a clock or silicon problem.
+
+Also: `jfox-fcu-usb` declares `UsbVidPid(0x26AC, 0x0011)`, byte-identical
+to the PX4 bootloader, so **the enumerated VID/PID cannot tell you which
+image is running**. Several wrong conclusions were drawn from that PID
+before it was noticed. Giving the application its own PID would make the
+question answerable from the host.
+
+One further item worth confirming during that pass: `Clocks::configure()`
+never writes `PWR_CR`, so the core runs at its reset-default voltage
+scale. That is believed adequate at 168MHz (over-drive mode is only
+required above it), which would also mean the old 180MHz configuration was
+out of spec on this point independently of the USB problem. This has not
+been checked against a real RM0090 copy - do that before relying on it.
+
+Once connected: QGroundControl auto-connects over the enumerated COM port;
+Mission Planner needs the COM port selected manually. Confirm live
+attitude-indicator movement when the board is tilted by hand, and that the
+GCS's armed indicator stays "disarmed" (correctly - this binary cannot
+arm).
+
+**Expect QGC to report the vehicle "Not Ready", and do not treat that as a
+fault.** A GCS calls a vehicle ready once it can arm it and has pulled a
+parameter set. This binary can never arm, and being transmit-only it never
+answers `PARAM_REQUEST_LIST` or a capability request, so QGC has nothing
+to call ready. A connected link with a moving attitude indicator is the
+whole of what this binary is meant to demonstrate; anything more needs
+`jfox-fcu-flight` and a command link, neither of which exists yet.
 
 ## What's next
 

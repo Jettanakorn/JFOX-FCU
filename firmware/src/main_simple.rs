@@ -20,9 +20,9 @@ use flight::MadgwickFilter;
 #[entry]
 fn main() -> ! {
     info!("JFOX FCU - Flight Controller Firmware v2.0 (LED + UART)");
-    info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6)");
+    info!("Hardware: PX4 FMUv2 family - 2.4.5 / Pixhawk 2.4.8 (STM32F427VIT6)");
 
-    // Configure system clocks to 180MHz
+    // Configure system clocks to 168MHz
     let clocks = unsafe { Clocks::configure() };
     info!("System clock: {}MHz", clocks.sysclk() / 1_000_000);
 
@@ -40,14 +40,20 @@ fn main() -> ! {
     // Send startup message via UART
     uart.write_str("\r\n========================================\r\n");
     uart.write_str("JFOX FCU v2.0 - Rust Flight Controller\r\n");
-    uart.write_str("Hardware: STM32F427VIT6 @ 180MHz\r\n");
+    uart.write_str("Hardware: STM32F427VIT6 @ 168MHz\r\n");
     uart.write_str("========================================\r\n\r\n");
 
     // Initialize SPI1 for MPU-6000
     info!("Initializing SPI1 for MPU-6000...");
     uart.write_str("[INIT] SPI1 for MPU-6000...\r\n");
     let mut spi1 = unsafe { Spi::<1>::new() };
-    spi1.init_mode3(3); // APB2=90MHz, div=16 -> 5.625MHz
+    // Two speeds: the MPU-6000 limits SPI REGISTER access to 1MHz, and
+    // only the sensor/interrupt data block (registers 59-96, 100-104)
+    // tolerates 20MHz. Everything init() touches is a register access, so
+    // it is configured at 84MHz/128 = 656kHz and the bus is raised to
+    // 84MHz/16 = 5.25MHz afterwards for the data burst. PX4's own MPU6000
+    // driver carries the same low/high split.
+    spi1.init_mode3(6);
 
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");
@@ -55,13 +61,15 @@ fn main() -> ! {
     let mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
     let mut mpu6000 = Mpu6000::new(spi1, mpu_cs);
     match mpu6000.init() {
-        Ok(()) => {
-            info!("MPU-6000 initialized successfully");
-            uart.write_str("[OK]   MPU-6000 ready!\r\n");
+        Ok(variant) => {
+            info!("IMU initialized: {}", variant.name());
+            uart.write_str("[OK]   IMU ready: ");
+            uart.write_str(variant.name());
+            uart.write_str("\r\n");
         }
         Err(()) => {
-            warn!("MPU-6000 initialization failed!");
-            uart.write_str("[WARN] MPU-6000 failed!\r\n");
+            warn!("IMU initialization failed!");
+            uart.write_str("[WARN] IMU failed - check WHO_AM_I\r\n");
         }
     }
 
@@ -137,8 +145,8 @@ fn main() -> ! {
             }
         }
 
-        // Simple delay (~1ms at 180MHz)
-        delay_cycles(180_000);
+        // Simple delay (~1ms at 168MHz)
+        delay_cycles(168_000);
     }
 }
 

@@ -2,13 +2,14 @@
 	(version 20260306)
 	(generator "jfox gen_fmu_schematic")
 	(generator_version "10.0")
-	(uuid "7ec73105-955f-464d-bc9a-bc93cbe93b7f")
+	(uuid "b5adc000-9767-4333-8e34-72ca757fe5ea")
 	(paper "A4" portrait)
 	(title_block
 		(title "EMI / EMC Protection")
 		(date "2026-08-03")
 		(rev "A")
 		(company "JFOX Aircraft Co., Ltd.")
+		(comment 9 "P/N JXK-1-1001-A")
 		(comment 1 "DO-160G s17 voltage spike, s25 ESD, s21 radiated emissions")
 		(comment 2 "CAN protection references GND_ISO, not GND - it is past the barrier")
 	)
@@ -1287,23 +1288,23 @@
 	)
 	)
 	(text "DO-160G s17 voltage spike, s25 ESD, s21 radiated emissions.\n\nEvery off-board harness is an antenna bonded to a board carrying two\ndeliberate switching sources - U21 at 2.5 MHz and each ISOW1044's\ninternal converter at 25 MHz. Suppression at the connector is the\nonly place it works: past it the harness is already radiating.\n\nPlacement is the requirement, not the part. Each device belongs AT\nits connector, ahead of everything it protects, with the shortest\nreturn to ground. A TVS 30 mm downstream of the connector protects\nthe last 30 mm of track and nothing else."
-		(at 38.1 13.97 0)
+		(at 40.64 13.97 0)
 		(effects
 			(font
 				(size 1.35 1.35)
 			)
 			(justify left top)
 		)
-		(uuid "6b1398b5-c636-44e4-a9f5-590c29d373d9")
+		(uuid "f55e8022-1101-4735-be54-0a268a8d3678")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
-		(at 63.5 80.01 0)
+		(at 66.04 80.01 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "cf6553c8-1ab8-4dbe-ac7e-876ef34fda0b")
+		(uuid "875407a9-4ad0-4eed-878f-9f76eba08acf")
 		(property "Reference" "D4"
-			(at 63.5 68.58 0)
+			(at 66.04 68.58 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1311,7 +1312,7 @@
 		)
 		)
 		(property "Value" "SMAJ6.0A"
-			(at 63.5 91.44 0)
+			(at 66.04 91.44 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1319,7 +1320,7 @@
 		)
 		)
 		(property "Footprint" "Diode_SMD:D_SMA"
-			(at 63.5 80.01 0)
+			(at 66.04 80.01 0)
 			(hide yes)
 			(effects
 			(font
@@ -1329,7 +1330,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D4")
 					(unit 1)
 				)
@@ -1338,17 +1339,17 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 80.01) (xy 54.61 80.01)
+			(xy 62.23 80.01) (xy 57.15 80.01)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "46314d83-0415-4b8a-a0a4-bebe1e67b1ce")
+		(uuid "fb0109e7-5174-4a7b-b71f-4c30c86b554a")
 	)
-	(global_label "VDD_BRICK"
+	(global_label "+5V_CARRIER"
 		(shape input)
-		(at 54.61 80.01 0)
+		(at 57.15 80.01 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1356,21 +1357,21 @@
 			)
 			(justify left)
 		)
-		(uuid "50fe71ae-4725-4847-972c-f341e6c95951")
+		(uuid "8718c427-e53c-462b-acf5-45afe64a5ff3")
 	)
 	(wire
 		(pts
-			(xy 67.31 80.01) (xy 72.39 80.01)
+			(xy 69.85 80.01) (xy 74.93 80.01)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "514788e3-7cc5-4e54-93c2-1ed636b0fa0d")
+		(uuid "ee73e0a1-6e7a-4e09-a18a-a32c82a1d450")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 72.39 80.01 180)
+		(at 74.93 80.01 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1378,184 +1379,16 @@
 			)
 			(justify left)
 		)
-		(uuid "b3d48407-46d2-4d42-bd76-a19ed9a135f3")
-	)
-	(symbol
-		(lib_id "Device:D_TVS")
-		(at 109.22 80.01 0)
-		(unit 1)
-		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "c0039941-978f-40f5-8dcf-5ae7ea9f8990")
-		(property "Reference" "D5"
-			(at 109.22 68.58 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Value" "SMAJ6.0A"
-			(at 109.22 91.44 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Footprint" "Diode_SMD:D_SMA"
-			(at 109.22 80.01 0)
-			(hide yes)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(instances
-			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
-					(reference "D5")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 105.41 80.01) (xy 100.33 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fc065407-0641-4970-a584-24e9ac074c04")
-	)
-	(global_label "VDD_SERVO"
-		(shape input)
-		(at 100.33 80.01 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "b418002b-dd4d-4ae9-8176-da05535b3fdd")
-	)
-	(wire
-		(pts
-			(xy 113.03 80.01) (xy 118.11 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6cdf799c-b2b4-46ae-bf5a-25f86b82f3f5")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 118.11 80.01 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "55230a0d-dfb0-4066-a5ec-e40ef7c55688")
-	)
-	(symbol
-		(lib_id "Device:D_TVS")
-		(at 154.94 80.01 0)
-		(unit 1)
-		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "7f06c082-110b-4c40-81f7-b8de4218ad46")
-		(property "Reference" "D6"
-			(at 154.94 68.58 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Value" "SMAJ6.0A"
-			(at 154.94 91.44 0)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(property "Footprint" "Diode_SMD:D_SMA"
-			(at 154.94 80.01 0)
-			(hide yes)
-			(effects
-			(font
-				(size 1.27 1.27)
-			)
-		)
-		)
-		(instances
-			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
-					(reference "D6")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(wire
-		(pts
-			(xy 151.13 80.01) (xy 146.05 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "fdde1f99-9d7c-4504-a20f-8180d101cf4b")
-	)
-	(global_label "VBUS_USB"
-		(shape input)
-		(at 146.05 80.01 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "32280013-7202-4ab8-ae65-9d0b08dd13d6")
-	)
-	(wire
-		(pts
-			(xy 158.75 80.01) (xy 163.83 80.01)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "3637da4e-c0b5-40d4-80b3-8d7d9990c797")
-	)
-	(global_label "GND"
-		(shape input)
-		(at 163.83 80.01 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "e7d480c6-531b-45fd-9274-1ee50269c1ab")
+		(uuid "57b71c88-8cc9-45e0-a70f-56a42624c68f")
 	)
 	(symbol
 		(lib_id "Power_Protection:USBLC6-2SC6")
-		(at 63.5 168.91 0)
+		(at 66.04 168.91 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "84d80059-15b6-4d8a-a13b-963fa1769385")
+		(uuid "ce9175c2-7e4c-4096-a52c-e9cbde88f4e8")
 		(property "Reference" "U40"
-			(at 63.5 154.94 0)
+			(at 66.04 154.94 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1563,7 +1396,7 @@
 		)
 		)
 		(property "Value" "USBLC6-2SC6"
-			(at 63.5 182.88 0)
+			(at 66.04 182.88 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1571,7 +1404,7 @@
 		)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:SOT-23-6"
-			(at 63.5 168.91 0)
+			(at 66.04 168.91 0)
 			(hide yes)
 			(effects
 			(font
@@ -1581,7 +1414,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "U40")
 					(unit 1)
 				)
@@ -1590,17 +1423,17 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 168.91) (xy 53.34 168.91)
+			(xy 60.96 168.91) (xy 55.88 168.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4c9d7eac-e8be-4d3d-9536-268b87cee5b8")
+		(uuid "27919af0-7e48-4281-acf1-80d724ee0ef1")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
-		(at 53.34 168.91 0)
+		(at 55.88 168.91 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1608,21 +1441,21 @@
 			)
 			(justify left)
 		)
-		(uuid "03269467-c770-41be-b70a-f5309b9ea173")
+		(uuid "a70e56f8-44d7-4c44-b5fd-f2b75e999fbc")
 	)
 	(wire
 		(pts
-			(xy 63.5 176.53) (xy 63.5 180.34)
+			(xy 66.04 176.53) (xy 66.04 180.34)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "f57a0e64-be4e-46cc-9350-9f679a8e25a0")
+		(uuid "c3e15c18-fbd7-4df7-bfcb-5daf121d1bdd")
 	)
 	(global_label "GND"
 		(shape input)
-		(at 63.5 180.34 180)
+		(at 66.04 180.34 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1630,21 +1463,21 @@
 			)
 			(justify left)
 		)
-		(uuid "fb6f8a73-aa6a-4040-9481-560a01c761e2")
+		(uuid "c61d09ef-a00e-4374-8fae-ec6e7a3b9c42")
 	)
 	(wire
 		(pts
-			(xy 58.42 171.45) (xy 53.34 171.45)
+			(xy 60.96 171.45) (xy 55.88 171.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d76c4875-1fa4-4e42-bbaf-692826b7dfcd")
+		(uuid "840e8932-67a5-4505-bf74-1dfd040b15e5")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
-		(at 53.34 171.45 0)
+		(at 55.88 171.45 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1652,21 +1485,21 @@
 			)
 			(justify left)
 		)
-		(uuid "1669d158-9caa-4e03-a70a-5794faef2af1")
+		(uuid "a0dc63a7-3d80-47c1-aef1-b86f0560cd6f")
 	)
 	(wire
 		(pts
-			(xy 68.58 171.45) (xy 73.66 171.45)
+			(xy 71.12 171.45) (xy 76.2 171.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7033c8e1-de51-43cd-acce-e07e33afc762")
+		(uuid "3151bd69-ec7a-418f-a31e-c15929802714")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
-		(at 73.66 171.45 180)
+		(at 76.2 171.45 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1674,21 +1507,21 @@
 			)
 			(justify left)
 		)
-		(uuid "1cc54def-0199-4c86-9ec9-c8ffd4dfaa77")
+		(uuid "7001356a-7400-401b-86e6-6888187cb15e")
 	)
 	(wire
 		(pts
-			(xy 63.5 163.83) (xy 63.5 160.02)
+			(xy 66.04 163.83) (xy 66.04 160.02)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c391beeb-023c-464d-8dfe-d1f124be1130")
+		(uuid "f1d0f93d-6790-4aa2-8cd5-786b38ace9e9")
 	)
 	(global_label "VBUS_USB"
 		(shape input)
-		(at 63.5 160.02 180)
+		(at 66.04 160.02 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1696,21 +1529,21 @@
 			)
 			(justify left)
 		)
-		(uuid "8d3fffe9-a628-4d96-81d8-0cd0136424c0")
+		(uuid "7d8f8c46-121e-43ec-a64a-b093ee2c39f0")
 	)
 	(wire
 		(pts
-			(xy 68.58 168.91) (xy 73.66 168.91)
+			(xy 71.12 168.91) (xy 76.2 168.91)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "e9a1bef0-9e04-44ce-b8c1-da8518234644")
+		(uuid "1177954a-63b3-42a1-ab9b-a4206e4819c6")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
-		(at 73.66 168.91 180)
+		(at 76.2 168.91 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1718,16 +1551,16 @@
 			)
 			(justify left)
 		)
-		(uuid "bc765a18-22d2-4155-b9f4-13e4e7f75e99")
+		(uuid "b2e39343-683e-4740-a8cb-12ba4977eac6")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
-		(at 137.16 168.91 0)
+		(at 139.7 168.91 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "e7fe2280-cf6f-4128-a782-534db45ffbb9")
+		(uuid "a96a1166-7b94-4f8d-ac4d-7a1ae162a8c9")
 		(property "Reference" "L5"
-			(at 137.16 157.48 0)
+			(at 139.7 157.48 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1735,7 +1568,7 @@
 		)
 		)
 		(property "Value" "90R@100MHz"
-			(at 137.16 180.34 0)
+			(at 139.7 180.34 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1743,7 +1576,7 @@
 		)
 		)
 		(property "Footprint" "Inductor_SMD:L_CommonModeChoke_Coilank_ACM1608"
-			(at 137.16 168.91 0)
+			(at 139.7 168.91 0)
 			(hide yes)
 			(effects
 			(font
@@ -1753,7 +1586,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L5")
 					(unit 1)
 				)
@@ -1762,17 +1595,17 @@
 	)
 	(wire
 		(pts
-			(xy 132.08 166.37) (xy 127.0 166.37)
+			(xy 134.62 166.37) (xy 129.54 166.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "2aa78b0e-400d-400e-a008-7893503a1303")
+		(uuid "db1e4f5e-4f0c-4055-a321-24421be25121")
 	)
 	(global_label "USB_DP_RAW"
 		(shape bidirectional)
-		(at 127.0 166.37 0)
+		(at 129.54 166.37 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1780,21 +1613,21 @@
 			)
 			(justify left)
 		)
-		(uuid "bf9ffb17-0fbb-4ade-9cb6-20862b6411a9")
+		(uuid "ab25ac2c-28f9-4e46-ae27-b894809d6674")
 	)
 	(wire
 		(pts
-			(xy 142.24 166.37) (xy 147.32 166.37)
+			(xy 144.78 166.37) (xy 149.86 166.37)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1acb82b6-565b-43af-8e5e-a4b56fd162e1")
+		(uuid "a281a8ee-05de-4b2b-977b-b64d6f93d6d3")
 	)
 	(global_label "USB_OTG_FS_DP"
 		(shape bidirectional)
-		(at 147.32 166.37 180)
+		(at 149.86 166.37 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1802,21 +1635,21 @@
 			)
 			(justify left)
 		)
-		(uuid "654e645a-0849-4151-9119-65ade735454e")
+		(uuid "6be5d02e-0dd1-4e05-86f7-79fa30d864ba")
 	)
 	(wire
 		(pts
-			(xy 132.08 171.45) (xy 127.0 171.45)
+			(xy 134.62 171.45) (xy 129.54 171.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "5e8e5d25-4ec6-4eba-8ac2-62324c5ffcf7")
+		(uuid "ba3efe93-1fb5-4b02-837d-23c3c4629336")
 	)
 	(global_label "USB_DM_RAW"
 		(shape bidirectional)
-		(at 127.0 171.45 0)
+		(at 129.54 171.45 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1824,21 +1657,21 @@
 			)
 			(justify left)
 		)
-		(uuid "f8fdb570-eb33-46ed-b93c-9efbcf47aa3b")
+		(uuid "42941099-58de-4028-862f-f4cce1f9d9ae")
 	)
 	(wire
 		(pts
-			(xy 142.24 171.45) (xy 147.32 171.45)
+			(xy 144.78 171.45) (xy 149.86 171.45)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "db2a3c7a-b629-4ef8-9ef2-e5c32db3518b")
+		(uuid "15587ea1-dd21-4446-ac7e-4533fbb00fcb")
 	)
 	(global_label "USB_OTG_FS_DM"
 		(shape bidirectional)
-		(at 147.32 171.45 180)
+		(at 149.86 171.45 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1846,16 +1679,16 @@
 			)
 			(justify left)
 		)
-		(uuid "87a93665-1770-4955-b5e7-54517311611d")
+		(uuid "39d7340d-1c55-42df-bcdd-bd71c5af6d31")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
-		(at 68.58 204.47 0)
+		(at 71.12 204.47 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "f2065efe-efea-4da0-a300-a446ae5ffdc1")
+		(uuid "c35dcda8-1360-44d2-a36e-4e64078ddc3a")
 		(property "Reference" "L3"
-			(at 68.58 193.04 0)
+			(at 71.12 193.04 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1863,7 +1696,7 @@
 		)
 		)
 		(property "Value" "51uH CM"
-			(at 68.58 215.9 0)
+			(at 71.12 215.9 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1871,7 +1704,7 @@
 		)
 		)
 		(property "Footprint" "Inductor_SMD:L_CommonModeChoke_Coilank_ACM1608"
-			(at 68.58 204.47 0)
+			(at 71.12 204.47 0)
 			(hide yes)
 			(effects
 			(font
@@ -1881,7 +1714,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L3")
 					(unit 1)
 				)
@@ -1890,17 +1723,17 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 201.93) (xy 58.42 201.93)
+			(xy 66.04 201.93) (xy 60.96 201.93)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "3d2e6483-c463-4990-8ea1-fa8c2697325d")
+		(uuid "85a66465-4915-4fa2-b5de-b2781971d2d3")
 	)
 	(global_label "CAN1_H"
 		(shape bidirectional)
-		(at 58.42 201.93 0)
+		(at 60.96 201.93 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1908,21 +1741,21 @@
 			)
 			(justify left)
 		)
-		(uuid "1af53aaa-0072-4c64-a0db-9539c5ef70b6")
+		(uuid "a412c020-6111-492d-ab80-442f91c97881")
 	)
 	(wire
 		(pts
-			(xy 73.66 201.93) (xy 78.74 201.93)
+			(xy 76.2 201.93) (xy 81.28 201.93)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0d9efcd5-9235-4651-b01c-748177acf18f")
+		(uuid "1b433988-f03b-4a17-a131-15f59d9f14c0")
 	)
 	(global_label "CAN1_H_C"
 		(shape bidirectional)
-		(at 78.74 201.93 180)
+		(at 81.28 201.93 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1930,21 +1763,21 @@
 			)
 			(justify left)
 		)
-		(uuid "687c47c5-0eaa-4f12-9035-6e9e6915bce6")
+		(uuid "8071d8fd-99ee-4486-b4a7-cf7843f69430")
 	)
 	(wire
 		(pts
-			(xy 63.5 207.01) (xy 58.42 207.01)
+			(xy 66.04 207.01) (xy 60.96 207.01)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "46bed382-be9a-4140-bef5-939afb3179e5")
+		(uuid "3c87d6d5-dc4a-41f2-9a48-fe8fc8344227")
 	)
 	(global_label "CAN1_L"
 		(shape bidirectional)
-		(at 58.42 207.01 0)
+		(at 60.96 207.01 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1952,21 +1785,21 @@
 			)
 			(justify left)
 		)
-		(uuid "ebf2921d-a245-41a1-9917-741c16d3c0f8")
+		(uuid "1cb64984-c803-4d6c-8561-3f7c7c67ca2a")
 	)
 	(wire
 		(pts
-			(xy 73.66 207.01) (xy 78.74 207.01)
+			(xy 76.2 207.01) (xy 81.28 207.01)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "7c825519-ffe7-497c-8d4f-74fcb0cdc740")
+		(uuid "fd46e572-1a0e-4743-b9d7-19187341c5cf")
 	)
 	(global_label "CAN1_L_C"
 		(shape bidirectional)
-		(at 78.74 207.01 180)
+		(at 81.28 207.01 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1974,16 +1807,16 @@
 			)
 			(justify left)
 		)
-		(uuid "b2f897d7-f8b1-4108-888f-c162ec466e86")
+		(uuid "159fc07e-321f-4b5b-a889-e18da5fa2293")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
-		(at 142.24 204.47 0)
+		(at 144.78 204.47 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "f0317e00-1bc0-4666-8bf5-d2922bdd4118")
+		(uuid "6a7d47ab-b424-4432-bd79-541679e00479")
 		(property "Reference" "D7"
-			(at 142.24 193.04 0)
+			(at 144.78 193.04 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1991,7 +1824,7 @@
 		)
 		)
 		(property "Value" "PESD2CAN"
-			(at 142.24 215.9 0)
+			(at 144.78 215.9 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -1999,7 +1832,7 @@
 		)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 142.24 204.47 0)
+			(at 144.78 204.47 0)
 			(hide yes)
 			(effects
 			(font
@@ -2009,7 +1842,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D7")
 					(unit 1)
 				)
@@ -2018,17 +1851,17 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 204.47) (xy 133.35 204.47)
+			(xy 140.97 204.47) (xy 135.89 204.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "35b5d87c-8fec-4626-b86d-6562292bbfb3")
+		(uuid "c3a5d135-bd92-42d2-bf95-cb35e3da036e")
 	)
 	(global_label "CAN1_H_C"
 		(shape bidirectional)
-		(at 133.35 204.47 0)
+		(at 135.89 204.47 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2036,21 +1869,21 @@
 			)
 			(justify left)
 		)
-		(uuid "b1e58834-3835-4044-8ddd-2449b778c4f5")
+		(uuid "f1f9b3cd-afe8-488c-a438-2cfda13f099a")
 	)
 	(wire
 		(pts
-			(xy 146.05 204.47) (xy 151.13 204.47)
+			(xy 148.59 204.47) (xy 153.67 204.47)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "38098dbc-00f6-4df2-a766-f434e9bd7bae")
+		(uuid "1f52644c-5f34-467f-9c8e-12f95c24fe0b")
 	)
 	(global_label "CAN1_L_C"
 		(shape bidirectional)
-		(at 151.13 204.47 180)
+		(at 153.67 204.47 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2058,16 +1891,16 @@
 			)
 			(justify left)
 		)
-		(uuid "f1357b5c-3d4c-43a7-8a12-931b7a52e298")
+		(uuid "bc8fbe65-e8de-427b-b5e8-8506ee7088f5")
 	)
 	(symbol
 		(lib_id "Filter:Choke_CommonMode_FerriteCore_1234")
-		(at 68.58 234.95 0)
+		(at 71.12 234.95 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "a82a5cb4-629e-4eac-ae94-ef2baab1b27c")
+		(uuid "00b2a776-5475-4b73-88ba-b562ad543b2c")
 		(property "Reference" "L4"
-			(at 68.58 223.52 0)
+			(at 71.12 223.52 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2075,7 +1908,7 @@
 		)
 		)
 		(property "Value" "51uH CM"
-			(at 68.58 246.38 0)
+			(at 71.12 246.38 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2083,7 +1916,7 @@
 		)
 		)
 		(property "Footprint" "Inductor_SMD:L_CommonModeChoke_Coilank_ACM1608"
-			(at 68.58 234.95 0)
+			(at 71.12 234.95 0)
 			(hide yes)
 			(effects
 			(font
@@ -2093,7 +1926,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "L4")
 					(unit 1)
 				)
@@ -2102,17 +1935,17 @@
 	)
 	(wire
 		(pts
-			(xy 63.5 232.41) (xy 58.42 232.41)
+			(xy 66.04 232.41) (xy 60.96 232.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "fd2b0dc4-8646-48fb-9116-0543fe65c6e3")
+		(uuid "a1bcdcc1-e500-4355-a7b1-30605e3a7795")
 	)
 	(global_label "CAN2_H"
 		(shape bidirectional)
-		(at 58.42 232.41 0)
+		(at 60.96 232.41 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2120,21 +1953,21 @@
 			)
 			(justify left)
 		)
-		(uuid "0e99e95d-978a-4e0b-85a1-15f0259bedde")
+		(uuid "655c28cc-9959-42bd-bf3e-21748410a892")
 	)
 	(wire
 		(pts
-			(xy 73.66 232.41) (xy 78.74 232.41)
+			(xy 76.2 232.41) (xy 81.28 232.41)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "482d51b7-4e79-4806-bad9-b528019296c3")
+		(uuid "a7592210-8caa-4ab6-9ce9-4848a8dff054")
 	)
 	(global_label "CAN2_H_C"
 		(shape bidirectional)
-		(at 78.74 232.41 180)
+		(at 81.28 232.41 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2142,21 +1975,21 @@
 			)
 			(justify left)
 		)
-		(uuid "965e0bb3-c0dc-484e-919f-ce26826ed338")
+		(uuid "b02c4d82-ce0c-42d2-901a-227bb534336c")
 	)
 	(wire
 		(pts
-			(xy 63.5 237.49) (xy 58.42 237.49)
+			(xy 66.04 237.49) (xy 60.96 237.49)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "d91dc766-4943-45d7-9c5d-1dfa5893e93e")
+		(uuid "236d0be8-f1a7-48ed-a0e1-346038342eb0")
 	)
 	(global_label "CAN2_L"
 		(shape bidirectional)
-		(at 58.42 237.49 0)
+		(at 60.96 237.49 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2164,21 +1997,21 @@
 			)
 			(justify left)
 		)
-		(uuid "770a9c04-d880-40cd-a61c-94d174705294")
+		(uuid "c932e18f-4a0b-4b6b-90d8-f92cfe337803")
 	)
 	(wire
 		(pts
-			(xy 73.66 237.49) (xy 78.74 237.49)
+			(xy 76.2 237.49) (xy 81.28 237.49)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "22ec6ebb-31e5-4370-9eb4-c90f2fb9907c")
+		(uuid "65302af5-e7a4-44ea-9e90-93ea3a4901ef")
 	)
 	(global_label "CAN2_L_C"
 		(shape bidirectional)
-		(at 78.74 237.49 180)
+		(at 81.28 237.49 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2186,16 +2019,16 @@
 			)
 			(justify left)
 		)
-		(uuid "9257f792-46dc-41ca-a060-a3ee06ed9f57")
+		(uuid "f4ce9189-f678-46af-ba92-844069a1530e")
 	)
 	(symbol
 		(lib_id "Device:D_TVS")
-		(at 142.24 234.95 0)
+		(at 144.78 234.95 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "defa41c4-f7bc-465e-9e1f-ddf8f0cd021b")
+		(uuid "9cc374c4-0c68-42fe-8298-7c33e33c1e7d")
 		(property "Reference" "D8"
-			(at 142.24 223.52 0)
+			(at 144.78 223.52 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2203,7 +2036,7 @@
 		)
 		)
 		(property "Value" "PESD2CAN"
-			(at 142.24 246.38 0)
+			(at 144.78 246.38 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2211,7 +2044,7 @@
 		)
 		)
 		(property "Footprint" "Diode_SMD:D_SOD-323"
-			(at 142.24 234.95 0)
+			(at 144.78 234.95 0)
 			(hide yes)
 			(effects
 			(font
@@ -2221,7 +2054,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "D8")
 					(unit 1)
 				)
@@ -2230,17 +2063,17 @@
 	)
 	(wire
 		(pts
-			(xy 138.43 234.95) (xy 133.35 234.95)
+			(xy 140.97 234.95) (xy 135.89 234.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "08e1dfcd-d8d6-47de-a43d-4b366706cb31")
+		(uuid "0859ab60-33cd-496c-b476-68a260e3e7b1")
 	)
 	(global_label "CAN2_H_C"
 		(shape bidirectional)
-		(at 133.35 234.95 0)
+		(at 135.89 234.95 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2248,21 +2081,21 @@
 			)
 			(justify left)
 		)
-		(uuid "09cb2f89-04b4-4600-bd5c-a8a5921eefef")
+		(uuid "f644456d-1acf-4ff2-94b0-2c5120e5e5c1")
 	)
 	(wire
 		(pts
-			(xy 146.05 234.95) (xy 151.13 234.95)
+			(xy 148.59 234.95) (xy 153.67 234.95)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "583ca4b7-a3b0-4e66-9cf1-b9ed1dc5130a")
+		(uuid "d30b13b0-b191-49d9-beb2-9683eed08608")
 	)
 	(global_label "CAN2_L_C"
 		(shape bidirectional)
-		(at 151.13 234.95 180)
+		(at 153.67 234.95 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2270,16 +2103,16 @@
 			)
 			(justify left)
 		)
-		(uuid "71d584c2-0de6-4e76-995b-d9a79b5075a1")
+		(uuid "1b495294-29e2-4051-be86-57b74d57c2ac")
 	)
 	(symbol
 		(lib_id "Device:FerriteBead")
-		(at 58.42 130.81 0)
+		(at 60.96 130.81 0)
 		(unit 1)
 		(exclude_from_sim no)(in_bom yes)(on_board yes)(dnp no)
-		(uuid "c65b8872-26da-40f5-afca-c4a8f5102dc8")
+		(uuid "edaa36ca-850c-4db9-b4f1-4be2a61d0d1f")
 		(property "Reference" "FB1"
-			(at 58.42 119.38 0)
+			(at 60.96 119.38 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2287,7 +2120,7 @@
 		)
 		)
 		(property "Value" "600R@100MHz"
-			(at 58.42 142.24 0)
+			(at 60.96 142.24 0)
 			(effects
 			(font
 				(size 1.27 1.27)
@@ -2295,7 +2128,7 @@
 		)
 		)
 		(property "Footprint" "Inductor_SMD:L_0805_2012Metric"
-			(at 58.42 130.81 0)
+			(at 60.96 130.81 0)
 			(hide yes)
 			(effects
 			(font
@@ -2305,7 +2138,7 @@
 		)
 		(instances
 			(project "jfox-fmu"
-				(path "/7ec73105-955f-464d-bc9a-bc93cbe93b7f"
+				(path "/b5adc000-9767-4333-8e34-72ca757fe5ea"
 					(reference "FB1")
 					(unit 1)
 				)
@@ -2314,17 +2147,17 @@
 	)
 	(wire
 		(pts
-			(xy 58.42 127.0) (xy 58.42 123.19)
+			(xy 60.96 127.0) (xy 60.96 123.19)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b4631bfe-5e0c-4342-8937-b31bc9070a76")
+		(uuid "204ceb54-a440-4c81-a94f-b7535a922453")
 	)
 	(global_label "+5V"
 		(shape input)
-		(at 58.42 123.19 180)
+		(at 60.96 123.19 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2332,21 +2165,21 @@
 			)
 			(justify left)
 		)
-		(uuid "c03db8eb-6445-4892-a16c-1b20cf329cc9")
+		(uuid "edc38fb9-8538-4f0d-b1ef-f7288f5dfc40")
 	)
 	(wire
 		(pts
-			(xy 58.42 134.62) (xy 58.42 138.43)
+			(xy 60.96 134.62) (xy 60.96 138.43)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "ba6367a3-73f3-4d83-8a2a-6b4a6caaffa9")
+		(uuid "56c8746a-749c-4c6f-902f-5bcbd7b96251")
 	)
 	(global_label "+5V_CARRIER"
 		(shape input)
-		(at 58.42 138.43 180)
+		(at 60.96 138.43 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -2354,7 +2187,7 @@
 			)
 			(justify left)
 		)
-		(uuid "08255764-9a3e-4f2e-8811-48ca4e03619f")
+		(uuid "4faec454-1aea-403e-b70a-cf00f64cc410")
 	)
 	(sheet_instances
 		(path "/"

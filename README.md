@@ -1,10 +1,20 @@
 # JFOX FCU - Bare-Metal Rust Flight Controller
 
-A bare-metal Rust firmware for the JFOX Flight Control Unit based on PX4FMUv2.4.5 hardware.
+A bare-metal Rust firmware for the JFOX Flight Control Unit, targeting the
+**PX4 FMUv2 board family** — `PX4FMUv2.4.5` and `Pixhawk 2.4.8` are revisions
+of the same reference design and share this pin map.
+
+**Verified on real Pixhawk 2.4.8 hardware (2026-08-04):** `jfox-fcu-usb`
+flashes via QGroundControl, enumerates over USB, and QGC connects and holds the
+link. Two things still vary across the family and are not settled by this
+firmware — sensor population (2.4.8 clones may carry an ICM-20608/20602 rather
+than an MPU-6000; `drivers::mpu6000` checks `WHO_AM_I` and fails loudly if so)
+and silicon revision (which is why `memory.x` uses flash bank 1 only — see the
+note there).
 
 ## Hardware
 
-- **MCU**: STM32F427VIT6 (ARM Cortex-M4F @ 180MHz)
+- **MCU**: STM32F427VIT6 (ARM Cortex-M4F @ 168MHz — see [Clock Configuration](#clock-configuration) for why not the part's 180MHz maximum)
 - **Flash**: 2MB
 - **RAM**: 256KB (192KB main + 64KB CCM)
 - **IMU**: MPU-6000 (6-axis gyro + accel) @ 1kHz
@@ -115,11 +125,33 @@ how to connect Mission Planner/QGroundControl.
 ## Clock Configuration
 
 - **HSE**: 24MHz (external crystal)
-- **PLL**: 24MHz / 12 × 180 / 2 = 180MHz
-- **SYSCLK**: 180MHz
-- **AHB (HCLK)**: 180MHz
-- **APB1 (PCLK1)**: 45MHz
-- **APB2 (PCLK2)**: 90MHz
+- **PLL**: 24MHz / 12 × 168 / 2 = 168MHz
+- **SYSCLK**: 168MHz
+- **AHB (HCLK)**: 168MHz
+- **APB1 (PCLK1)**: 42MHz
+- **APB2 (PCLK2)**: 84MHz
+- **USB 48MHz**: PLLQ = 336MHz VCO / 7 = 48MHz exactly
+
+### Why 168MHz, not the part's 180MHz maximum
+
+USB OTG FS needs 48MHz ±0.25%, and on STM32F42x/43x that clock can come
+**only** from the main PLL's Q-output (PLL48CK). Unlike the F446/F469 and
+F412/F413, this part has no `CK48MSEL` mux, so PLLSAI cannot feed USB.
+
+180MHz needs a 360MHz VCO, and 360 has no integer PLLQ giving 48
+(360/7.5). A 336MHz VCO does: 336/7 = 48 exactly, with PLLP=/2 giving
+168MHz. Exact USB and 180MHz are mutually exclusive on this silicon, and
+working USB was chosen over the extra 12MHz.
+
+An earlier revision ran at 180MHz and tried to route PLLSAI to USB by
+writing `CK48MSEL` at offset 0x90 — reserved space on this part, so the
+write did nothing and USB ran from PLLQ at 360/7 ≈ 51.43MHz (7.1% fast).
+Windows enumeration failed with "Configuration Descriptor Request Failed"
+under a null VID/PID. `bsp/src/clocks.rs` carries the full note.
+
+Anything clock-derived must be taken from `bsp::clocks` rather than
+hardcoded — CAN bit timing and UART baud divisors in particular both
+break silently if the clock tree moves and a stale literal is left behind.
 
 ## Memory Layout
 

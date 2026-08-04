@@ -31,7 +31,7 @@ impl Dwt {
         ctrl.write_volatile(ctrl.read_volatile() | CYCCNTENA);
     }
 
-    /// Current cycle count. Wraps every ~2^32 cycles (~23.9s at 180MHz).
+    /// Current cycle count. Wraps every ~2^32 cycles (~25.6s at 168MHz).
     pub fn cycle_count() -> u32 {
         unsafe { (DWT_CYCCNT as *const u32).read_volatile() }
     }

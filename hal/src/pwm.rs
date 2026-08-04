@@ -5,7 +5,7 @@
 //! resolution, for standard 1000-2000us ESC pulse widths.
 //!
 //! TIM1 and TIM4 sit on different clock domains (see `bsp::clocks::Clocks`:
-//! `tim_pclk2()` = 180MHz for TIM1, `tim_pclk1()` = 90MHz for TIM4) - callers
+//! `tim_pclk2()` = 168MHz for TIM1, `tim_pclk1()` = 84MHz for TIM4) - callers
 //! must pass the correct input clock to `init()`, it is not assumed.
 //!
 //! GPIO alternate-function configuration for the PWM pins (`bsp::pins::Pwm1`..
