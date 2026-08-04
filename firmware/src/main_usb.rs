@@ -100,7 +100,7 @@ unsafe impl UsbPeripheral for UsbPeripheralImpl {
 #[entry]
 fn main() -> ! {
     info!("JFOX FCU v3.0 - USB CDC + MAVLink Firmware");
-    info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6)");
+    info!("Hardware: PX4 FMUv2 family - 2.4.5 / Pixhawk 2.4.8 (STM32F427VIT6)");
 
     // Get peripherals (UsbPeripheralImpl talks to OTG_FS directly by fixed
     // register address rather than through `dp`, matching this workspace's

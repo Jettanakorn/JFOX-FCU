@@ -1,6 +1,16 @@
 # JFOX FCU - Bare-Metal Rust Flight Controller
 
-A bare-metal Rust firmware for the JFOX Flight Control Unit based on PX4FMUv2.4.5 hardware.
+A bare-metal Rust firmware for the JFOX Flight Control Unit, targeting the
+**PX4 FMUv2 board family** — `PX4FMUv2.4.5` and `Pixhawk 2.4.8` are revisions
+of the same reference design and share this pin map.
+
+**Verified on real Pixhawk 2.4.8 hardware (2026-08-04):** `jfox-fcu-usb`
+flashes via QGroundControl, enumerates over USB, and QGC connects and holds the
+link. Two things still vary across the family and are not settled by this
+firmware — sensor population (2.4.8 clones may carry an ICM-20608/20602 rather
+than an MPU-6000; `drivers::mpu6000` checks `WHO_AM_I` and fails loudly if so)
+and silicon revision (which is why `memory.x` uses flash bank 1 only — see the
+note there).
 
 ## Hardware
 

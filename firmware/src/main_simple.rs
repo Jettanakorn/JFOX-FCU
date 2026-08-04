@@ -20,7 +20,7 @@ use flight::MadgwickFilter;
 #[entry]
 fn main() -> ! {
     info!("JFOX FCU - Flight Controller Firmware v2.0 (LED + UART)");
-    info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6)");
+    info!("Hardware: PX4 FMUv2 family - 2.4.5 / Pixhawk 2.4.8 (STM32F427VIT6)");
 
     // Configure system clocks to 168MHz
     let clocks = unsafe { Clocks::configure() };

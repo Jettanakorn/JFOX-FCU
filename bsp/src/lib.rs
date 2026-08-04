@@ -1,4 +1,4 @@
-//! Board Support Package for JFOX FCU (PX4FMUv2.4.5)
+//! Board Support Package for JFOX FCU - PX4 FMUv2 family (2.4.5 / Pixhawk 2.4.8)
 //!
 //! This crate provides board-specific definitions including:
 //! - Pin mappings from the hardware schematic

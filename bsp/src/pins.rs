@@ -1,8 +1,25 @@
-//! Pin definitions from PX4FMUv2.4.5 schematic
+//! Pin definitions for the PX4 FMUv2 family - PX4FMUv2.4.5 and Pixhawk 2.4.8
 //!
 //! This module provides type-safe pin definitions extracted from the hardware schematic
 //! (`docs/PX4FMUv2.4.5.pdf`, sheet 1/12 "FMU SoC Ports / FRAM" and the timer-allocation
 //! note on sheet 3). All pin assignments are for the STM32F427VIT6 ("FMU") pinout.
+//!
+//! ## Board revisions
+//!
+//! 2.4.5 and 2.4.8 are revisions of the same FMUv2 reference design, and this pin map
+//! is common to both - the schematic above is 2.4.5 because that is the one vendored in
+//! `hardware/vendor/`. **Verified on real Pixhawk 2.4.8 hardware (2026-08-04)**:
+//! `jfox-fcu-usb` flashes, enumerates over USB, and QGroundControl connects, which
+//! exercises the clock tree, USB pins, SPI1 to the IMU and the status LED.
+//!
+//! Two things vary across the family and are *not* settled by this file:
+//!
+//! - **Sensor population is a per-unit build option.** 2.4.8 clones are known to ship
+//!   an ICM-20608/20602 in place of the MPU-6000. `drivers::mpu6000` verifies WHO_AM_I
+//!   and returns `Err` on mismatch rather than reading garbage, so a substituted part
+//!   fails loudly at init - check the boot log before assuming the IMU is present.
+//! - **Silicon revision varies**, which is why `memory.x` limits flash to bank 1. See
+//!   the note there.
 //!
 //! ## FMU-only board note
 //!

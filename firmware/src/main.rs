@@ -1,6 +1,7 @@
 //! JFOX FCU - Bare-metal Rust Flight Controller
 //!
-//! This is the main firmware application for the JFOX FCU based on PX4FMUv2.4.5 hardware.
+//! This is the main firmware application for the JFOX FCU, targeting the PX4 FMUv2
+//! board family - PX4FMUv2.4.5 and Pixhawk 2.4.8 are the same reference design.
 //! It implements a real-time flight control system using RTIC (Real-Time Interrupt-driven Concurrency).
 //!
 //! Hardware:
@@ -210,7 +211,7 @@ mod app {
     #[init]
     fn init(ctx: init::Context) -> (Shared, Local) {
         info!("JFOX FCU - Flight Controller Firmware");
-        info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6, FMU-only)");
+        info!("Hardware: PX4 FMUv2 family - 2.4.5 / Pixhawk 2.4.8 (STM32F427VIT6, FMU-only)");
         info!("Build: {}", env!("CARGO_PKG_VERSION"));
 
         // Configure system clocks to 168MHz (see bsp::clocks for why not 180)
