@@ -24,11 +24,13 @@ use cortex_m_rt::entry;
 
 use bsp::clocks::Clocks;
 use hal::{spi::Spi, gpio::*};
+use drivers::ms5611::{self, Ms5611, Osr};
+use drivers::probe::{self, BusScan, Device};
 use drivers::Mpu6000;
 use flight::MadgwickFilter;
 use flight::arming::{ArmingFsm, ArmRequest, PreArmChecks};
 use flight::bit::{BitReport, BitTestId};
-use telemetry::mavlink;
+use telemetry::mavlink::{self, sensor_bits};
 
 // USB imports
 use usb_device::prelude::*;
@@ -132,10 +134,35 @@ fn main() -> ! {
 
     info!("USB CDC initialized!");
 
-    // Initialize SPI1 for MPU-6000
-    info!("Initializing SPI1 for MPU-6000...");
+    // Initialize SPI1 - the shared internal sensor bus ("SPI_INT")
+    info!("Initializing SPI1 (internal sensor bus)...");
     let mut spi1 = unsafe { Spi::<1>::new() };
     spi1.init_mode3(3); // APB2=84MHz, div=16 -> 5.25MHz
+
+    // Probe the bus before anything claims it. Sensor population on the FMUv2
+    // family is a per-unit build option, so what is fitted has to be asked
+    // rather than assumed - see drivers::probe.
+    let (scan, baro_prom) = {
+        let mut scan = BusScan::empty();
+        let mut mpu_cs = unsafe { Pin::<'C', 2, Output>::new().into_output() };
+        let mut gyro_cs = unsafe { Pin::<'C', 13, Output>::new().into_output() };
+        let mut mag_cs = unsafe { Pin::<'C', 15, Output>::new().into_output() };
+        let mut baro_cs = unsafe { Pin::<'D', 7, Output>::new().into_output() };
+
+        // Every CS idles high; a device left selected corrupts the next probe.
+        let _ = mpu_cs.set_high();
+        let _ = gyro_cs.set_high();
+        let _ = mag_cs.set_high();
+        let _ = baro_cs.set_high();
+
+        scan.imu = probe::probe_imu(&mut spi1, &mut mpu_cs);
+        scan.gyro = probe::probe_st(&mut spi1, &mut gyro_cs);
+        scan.accel_mag = probe::probe_st(&mut spi1, &mut mag_cs);
+        let (baro_dev, prom) = probe::probe_baro(&mut spi1, &mut baro_cs);
+        scan.baro = baro_dev;
+        (scan, prom)
+    };
+    scan.log();
 
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");
@@ -151,6 +178,43 @@ fn main() -> ! {
             warn!("MPU-6000 initialization failed!");
             bit_report.record(BitTestId::ImuCommunication, false);
         }
+    }
+
+    // Barometer, if one answered the probe.
+    //
+    // This takes a second `Spi::<1>` handle aliasing the one `Mpu6000` now
+    // owns. That is sound here and only here: `Spi` holds nothing but a base
+    // address, `new()` does not reconfigure the bus (so this handle inherits
+    // the mode-3 setup above, which both parts accept), and this is a single
+    // threaded main loop with no interrupt touching SPI1 - the two are used
+    // strictly in sequence, each asserting only its own chip select. It would
+    // stop being sound the moment either moved into an interrupt.
+    let mut spi_baro = unsafe { Spi::<1>::new() };
+    let mut baro_cs = unsafe { Pin::<'D', 7, Output>::new().into_output() };
+    let _ = baro_cs.set_high();
+    let mut baro = if scan.baro == Device::Ms5611 {
+        info!("MS5611 barometer present, PROM CRC verified");
+        Some(Ms5611::from_prom(baro_prom, Osr::Osr1024))
+    } else {
+        info!("No barometer on this board - SCALED_PRESSURE will not be sent");
+        None
+    };
+    let mut last_baro: Option<ms5611::Reading> = None;
+
+    // Sensor bitmaps for SYS_STATUS, built from what actually answered. A bit
+    // set here that nothing populates would be a claim the GCS cannot check.
+    let mut sensors_present: u32 = 0;
+    if scan.imu.is_present() {
+        sensors_present |= sensor_bits::GYRO_3D | sensor_bits::ACCEL_3D;
+    }
+    if scan.gyro.is_present() {
+        sensors_present |= sensor_bits::GYRO_3D_2;
+    }
+    if scan.accel_mag.is_present() {
+        sensors_present |= sensor_bits::ACCEL_3D_2 | sensor_bits::MAG_3D;
+    }
+    if scan.baro == Device::Ms5611 {
+        sensors_present |= sensor_bits::ABSOLUTE_PRESSURE;
     }
 
     // Initialize Madgwick filter
@@ -184,6 +248,7 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
 
     let mut time_boot_ms: u32 = 0;
     let mut last_gyro = math::Vec3::zero();
+    let mut last_imu: Option<drivers::mpu6000::ImuData> = None;
 
     loop {
         // Poll USB - CRITICAL for USB operation!
@@ -209,6 +274,7 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
         let imu_ok = if let Ok(imu_data) = mpu6000.read_data() {
             madgwick.update(imu_data.gyro, imu_data.accel, IMU_DT_S);
             last_gyro = imu_data.gyro;
+            last_imu = Some(imu_data);
             true
         } else {
             if count == 0 {
@@ -224,7 +290,17 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
         let checks = PreArmChecks { bit_passed: bit_report.all_passed(), attitude_valid: imu_ok };
         arming.update(ArmRequest::None, checks, IMU_DT_S);
 
-        // ATTITUDE @ ~4Hz (every 250 ticks of this 1kHz loop).
+        // Barometer conversions advance one tick at a time and never block -
+        // see drivers::ms5611. A completed reading is held for the next
+        // SCALED_PRESSURE send rather than triggering one, so telemetry rate
+        // stays decoupled from conversion rate.
+        if let Some(b) = baro.as_mut() {
+            if let Some(reading) = b.tick(&mut spi_baro, &mut baro_cs) {
+                last_baro = Some(reading);
+            }
+        }
+
+        // ATTITUDE + SCALED_IMU @ ~4Hz (every 250 ticks of this 1kHz loop).
         attitude_send_count += 1;
         if attitude_send_count >= 250 {
             attitude_send_count = 0;
@@ -232,6 +308,37 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
             let frame = mavlink::encode_attitude(mav_seq, time_boot_ms, roll, pitch, yaw, last_gyro.x, last_gyro.y, last_gyro.z);
             mav_seq = mav_seq.wrapping_add(1);
             let _ = serial.write(&frame);
+
+            // SCALED_IMU is the sensor itself rather than the estimate - what
+            // you plot to tell a bad IMU from a bad filter. Units are fixed by
+            // the dialect: accel in milli-g, gyro in milli-rad/s. This
+            // firmware works in g and rad/s, hence the x1000.
+            if let Some(imu) = last_imu {
+                let frame = mavlink::encode_scaled_imu(
+                    mav_seq,
+                    time_boot_ms,
+                    (imu.accel.x * 1000.0) as i16,
+                    (imu.accel.y * 1000.0) as i16,
+                    (imu.accel.z * 1000.0) as i16,
+                    (imu.gyro.x * 1000.0) as i16,
+                    (imu.gyro.y * 1000.0) as i16,
+                    (imu.gyro.z * 1000.0) as i16,
+                    0, 0, 0, // no magnetometer driven on this board
+                );
+                mav_seq = mav_seq.wrapping_add(1);
+                let _ = serial.write(&frame);
+            }
+
+            if let Some(r) = last_baro {
+                let frame = mavlink::encode_scaled_pressure(
+                    mav_seq,
+                    time_boot_ms,
+                    r.pressure_hpa(),
+                    r.temperature_cdeg as i16,
+                );
+                mav_seq = mav_seq.wrapping_add(1);
+                let _ = serial.write(&frame);
+            }
         }
 
         // HEARTBEAT + SYS_STATUS @ 1Hz (every 1000 ticks).
@@ -258,7 +365,17 @@ Hardware: STM32F427VIT6 @ 168MHz\r\n\
             mav_seq = mav_seq.wrapping_add(1);
             let _ = serial.write(&hb);
 
-            let sys_status = mavlink::encode_sys_status(mav_seq, bit_report.all_passed());
+            // Health drops only for sensors this firmware actually drives and
+            // that have actually failed. A detected-but-unsupported part
+            // (L3GD20, LSM303D) stays present-and-healthy: nothing here has
+            // grounds to call it broken.
+            let health = if bit_report.all_passed() {
+                sensors_present
+            } else {
+                sensors_present & !(sensor_bits::GYRO_3D | sensor_bits::ACCEL_3D)
+            };
+            let sys_status =
+                mavlink::encode_sys_status_detailed(mav_seq, sensors_present, sensors_present, health);
             mav_seq = mav_seq.wrapping_add(1);
             let _ = serial.write(&sys_status);
         }

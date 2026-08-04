@@ -39,6 +39,22 @@ const SYS_STATUS_MSG_ID: u8 = 1;
 const SYS_STATUS_CRC_EXTRA: u8 = 124;
 const ATTITUDE_MSG_ID: u8 = 30;
 const ATTITUDE_CRC_EXTRA: u8 = 39;
+const SCALED_IMU_MSG_ID: u8 = 26;
+const SCALED_IMU_CRC_EXTRA: u8 = 170;
+const SCALED_PRESSURE_MSG_ID: u8 = 29;
+const SCALED_PRESSURE_CRC_EXTRA: u8 = 115;
+
+/// `MAV_SYS_STATUS_SENSOR` bits, for the three SYS_STATUS bitmaps. Only the
+/// ones this firmware can actually report are defined - a bit set in
+/// `present` that nothing ever populates tells a GCS a lie it cannot check.
+pub mod sensor_bits {
+    pub const GYRO_3D: u32 = 0x0000_0001;
+    pub const ACCEL_3D: u32 = 0x0000_0002;
+    pub const MAG_3D: u32 = 0x0000_0004;
+    pub const ABSOLUTE_PRESSURE: u32 = 0x0000_0008;
+    pub const GYRO_3D_2: u32 = 0x0002_0000;
+    pub const ACCEL_3D_2: u32 = 0x0004_0000;
+}
 
 const MAV_TYPE_QUADROTOR: u8 = 2;
 const MAV_AUTOPILOT_GENERIC: u8 = 0;
@@ -131,11 +147,34 @@ pub fn encode_heartbeat(seq: u8, armed: bool) -> [u8; 17] {
 /// sensor has an error").
 pub fn encode_sys_status(seq: u8, sensors_healthy: bool) -> [u8; 39] {
     const SENSOR_BITS: u32 = 0x1F;
-    let mut payload = [0u8; 31];
-    payload[0..4].copy_from_slice(&SENSOR_BITS.to_le_bytes()); // present
-    payload[4..8].copy_from_slice(&SENSOR_BITS.to_le_bytes()); // enabled
     let health = if sensors_healthy { SENSOR_BITS } else { 0 };
-    payload[8..12].copy_from_slice(&health.to_le_bytes()); // health
+    encode_sys_status_detailed(seq, SENSOR_BITS, SENSOR_BITS, health)
+}
+
+/// SYS_STATUS with real per-sensor bitmaps, for callers that have actually
+/// probed the bus and know which devices answered.
+///
+/// `present`/`enabled`/`health` are `MAV_SYS_STATUS_SENSOR` bitmaps - see
+/// [`sensor_bits`]. A GCS reads a bit clear in `health` but set in
+/// `present` as "this sensor exists and has failed", which is why a sensor
+/// that was never detected must be absent from *all three* maps rather than
+/// present-and-unhealthy.
+///
+/// Note the wire order is not the declaration order: MAVLink sorts fields by
+/// descending type size, which moves `battery_remaining` (int8) from its
+/// declared position after `current_battery` to the very end of the payload.
+/// Getting that wrong produces a frame with a valid CRC and wrong contents,
+/// which is worse than one that fails to parse.
+pub fn encode_sys_status_detailed(
+    seq: u8,
+    present: u32,
+    enabled: u32,
+    health: u32,
+) -> [u8; 39] {
+    let mut payload = [0u8; 31];
+    payload[0..4].copy_from_slice(&present.to_le_bytes());
+    payload[4..8].copy_from_slice(&enabled.to_le_bytes());
+    payload[8..12].copy_from_slice(&health.to_le_bytes());
     payload[12..14].copy_from_slice(&250u16.to_le_bytes()); // load (d%, unused - fixed placeholder)
     payload[14..16].copy_from_slice(&0xFFFFu16.to_le_bytes()); // voltage_battery: not sent
     payload[16..18].copy_from_slice(&(-1i16).to_le_bytes()); // current_battery: not sent
@@ -149,6 +188,64 @@ pub fn encode_sys_status(seq: u8, sensors_healthy: bool) -> [u8; 39] {
 
     let mut out = [0u8; 39];
     build_frame(&mut out, seq, SYS_STATUS_MSG_ID, SYS_STATUS_CRC_EXTRA, &payload);
+    out
+}
+
+/// SCALED_IMU (msg 26) - raw-ish IMU in engineering units, which is what a
+/// GCS plots when you want to see the sensor rather than the estimate.
+///
+/// Units are fixed by the dialect and are *not* the units this firmware works
+/// in internally, so the caller converts:
+/// - accel: milli-g (`mG`)
+/// - gyro: milli-radians/second (`mrad/s`)
+/// - mag: milli-gauss (`mgauss`)
+///
+/// Pass zeros for `*mag` when no magnetometer is fitted or read; a GCS plots
+/// a flat zero trace, which reads as "not measured" rather than as a bogus
+/// field value.
+#[allow(clippy::too_many_arguments)]
+pub fn encode_scaled_imu(
+    seq: u8,
+    time_boot_ms: u32,
+    xacc: i16, yacc: i16, zacc: i16,
+    xgyro: i16, ygyro: i16, zgyro: i16,
+    xmag: i16, ymag: i16, zmag: i16,
+) -> [u8; 30] {
+    let mut payload = [0u8; 22];
+    payload[0..4].copy_from_slice(&time_boot_ms.to_le_bytes());
+    payload[4..6].copy_from_slice(&xacc.to_le_bytes());
+    payload[6..8].copy_from_slice(&yacc.to_le_bytes());
+    payload[8..10].copy_from_slice(&zacc.to_le_bytes());
+    payload[10..12].copy_from_slice(&xgyro.to_le_bytes());
+    payload[12..14].copy_from_slice(&ygyro.to_le_bytes());
+    payload[14..16].copy_from_slice(&zgyro.to_le_bytes());
+    payload[16..18].copy_from_slice(&xmag.to_le_bytes());
+    payload[18..20].copy_from_slice(&ymag.to_le_bytes());
+    payload[20..22].copy_from_slice(&zmag.to_le_bytes());
+
+    let mut out = [0u8; 30];
+    build_frame(&mut out, seq, SCALED_IMU_MSG_ID, SCALED_IMU_CRC_EXTRA, &payload);
+    out
+}
+
+/// SCALED_PRESSURE (msg 29) - barometer, in the dialect's units:
+/// `press_abs`/`press_diff` in hectopascals (mbar), `temperature` in
+/// centidegrees Celsius. `press_diff` is 0 here: this board has no
+/// differential (airspeed) sensor.
+pub fn encode_scaled_pressure(
+    seq: u8,
+    time_boot_ms: u32,
+    press_abs_hpa: f32,
+    temperature_cdeg: i16,
+) -> [u8; 22] {
+    let mut payload = [0u8; 14];
+    payload[0..4].copy_from_slice(&time_boot_ms.to_le_bytes());
+    payload[4..8].copy_from_slice(&press_abs_hpa.to_le_bytes());
+    payload[8..12].copy_from_slice(&0.0f32.to_le_bytes()); // press_diff: no airspeed sensor
+    payload[12..14].copy_from_slice(&temperature_cdeg.to_le_bytes());
+
+    let mut out = [0u8; 22];
+    build_frame(&mut out, seq, SCALED_PRESSURE_MSG_ID, SCALED_PRESSURE_CRC_EXTRA, &payload);
     out
 }
 
@@ -211,6 +308,61 @@ mod tests {
             254, 31, 4, 1, 1, 1, 31, 0, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 250, 0, 255, 255, 255, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 109, 176,
         ];
         assert_eq!(encode_sys_status(4, false), expected);
+    }
+
+    #[test]
+    fn scaled_imu_matches_pymavlink_reference() {
+        let expected: [u8; 30] = [
+            0xFE, 0x16, 0x07, 0x01, 0x01, 0x1A, 0x40, 0xE2, 0x01, 0x00, 0xF4, 0xFF, 0x22, 0x00,
+            0xE8, 0x03, 0xFB, 0xFF, 0x06, 0x00, 0xF9, 0xFF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+            0x3B, 0x7B,
+        ];
+        assert_eq!(
+            encode_scaled_imu(7, 123456, -12, 34, 1000, -5, 6, -7, 0, 0, 0),
+            expected
+        );
+    }
+
+    #[test]
+    fn scaled_pressure_matches_pymavlink_reference() {
+        let expected: [u8; 22] = [
+            0xFE, 0x0E, 0x08, 0x01, 0x01, 0x1D, 0x40, 0xE2, 0x01, 0x00, 0x00, 0x50, 0x7D, 0x44,
+            0x00, 0x00, 0x00, 0x00, 0xD7, 0x07, 0x74, 0x1E,
+        ];
+        assert_eq!(encode_scaled_pressure(8, 123456, 1013.25, 2007), expected);
+    }
+
+    /// The refactor that introduced `encode_sys_status_detailed` must not have
+    /// changed what `encode_sys_status` puts on the wire.
+    #[test]
+    fn sys_status_delegates_without_changing_the_frame() {
+        assert_eq!(
+            encode_sys_status(3, true),
+            encode_sys_status_detailed(3, 0x1F, 0x1F, 0x1F)
+        );
+        assert_eq!(
+            encode_sys_status(4, false),
+            encode_sys_status_detailed(4, 0x1F, 0x1F, 0x00)
+        );
+    }
+
+    /// A sensor that was never detected must be absent from all three bitmaps.
+    /// Present-but-unhealthy means "fitted and broken" to a GCS, which is a
+    /// different and wrong claim.
+    #[test]
+    fn absent_sensor_is_absent_from_every_bitmap() {
+        use sensor_bits::*;
+        let present = GYRO_3D | ACCEL_3D; // IMU only: no baro, no mag
+        let frame = encode_sys_status_detailed(1, present, present, present);
+
+        let p = u32::from_le_bytes([frame[6], frame[7], frame[8], frame[9]]);
+        let e = u32::from_le_bytes([frame[10], frame[11], frame[12], frame[13]]);
+        let h = u32::from_le_bytes([frame[14], frame[15], frame[16], frame[17]]);
+
+        assert_eq!(p & ABSOLUTE_PRESSURE, 0);
+        assert_eq!(e & ABSOLUTE_PRESSURE, 0);
+        assert_eq!(h & ABSOLUTE_PRESSURE, 0);
+        assert_eq!(p & MAG_3D, 0);
     }
 
     #[test]
