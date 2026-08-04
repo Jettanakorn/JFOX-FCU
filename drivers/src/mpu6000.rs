@@ -294,7 +294,7 @@ where
 
 /// Simple delay function (TODO: use proper timer-based delay)
 fn delay_ms(ms: u32) {
-    let cycles = ms * 180_000; // Approximate for 180MHz
+    let cycles = ms * 168_000; // Approximate for 168MHz (see bsp::clocks)
     for _ in 0..cycles {
         cortex_m::asm::nop();
     }

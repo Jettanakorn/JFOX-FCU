@@ -34,7 +34,7 @@ cargo build --release --bin jfox-fcu-flight   # just one
 |---|---|
 | `jfox-fcu` | **Verified flashed and running on real PX4FMUv2.4.5 hardware** (2025-12-30, via the PX4-bootloader path below - see `docs/historical/VERIFICATION_STATUS.md`/`docs/historical/V2_STATUS.md` for the original verification record). |
 | `jfox-fcu-flight` | Builds clean and passes SITL (`sitl/`), but **has never been flashed to real hardware** - `HARDWARE_BRINGUP.md`'s Stage 1 is the runbook for actually doing that, and hasn't been executed yet. |
-| `jfox-fcu-usb` | Builds clean, has a real (CRC-correct, pymavlink-cross-checked) MAVLink v1 implementation - see below. **Never yet connected to a real GCS on real hardware** - the USB-clock fix it depends on (see below) is itself unverified on real silicon. |
+| `jfox-fcu-usb` | Builds clean, has a real (CRC-correct, pymavlink-cross-checked) MAVLink v1 implementation - see below. **Flashed to real hardware and failed to enumerate** under the earlier 180MHz/PLLSAI clock configuration (Windows: "Configuration Descriptor Request Failed", null VID/PID). The clock tree has since been reworked to 168MHz so PLLQ produces exactly 48MHz - see below. **That fix has not itself been flashed or re-tested on real silicon yet**, and no GCS has connected to this board. |
 | `jfox-fcu-minimal` | Builds clean; used historically to recover a board stuck in bootloader mode. |
 
 ## Flashing: three paths
@@ -170,19 +170,36 @@ hand-computed (see `telemetry/src/mavlink.rs`'s doc comment and tests).
 This fixes an earlier version of this same binary, which sent a heartbeat
 missing its CRC entirely - silently rejected by every real MAVLink parser.
 
-**One real caveat before this can be trusted on hardware**: USB Full Speed
-requires a 48MHz clock accurate to +-0.25%. This firmware's main PLL cannot
-produce that exactly (see `bsp/src/clocks.rs`'s PLLSAI step for the full
-explanation), so a second PLL (PLLSAI) is configured to generate it
-instead. Most of that fix is cross-checked against this project's `stm32f4`
-PAC crate, but the final piece - the `CK48MSEL` register that actually
-routes PLLSAI's output to the USB peripheral - is **not modeled by this
-project's PAC at all**, and its exact register offset/bit position is
-sourced from reference-manual knowledge with no independent verification
-possible in the environment this was written in. It's flagged loudly in
-`bsp/src/clocks.rs`'s own comments. **Confirm real USB enumeration behavior
-on actual hardware, or check the address against a real RM0090 copy, before
-trusting this.**
+### The USB 48MHz clock, and why SYSCLK is 168MHz
+
+USB Full Speed requires a 48MHz clock accurate to +-0.25%. On
+STM32F42x/43x that clock can come **only** from the main PLL's Q-output
+(PLL48CK) - unlike the F446/F469 and F412/F413, this part has no
+`CK48MSEL` mux, so PLLSAI cannot be used as a USB clock source.
+
+A 180MHz SYSCLK needs a 360MHz VCO, and 360 has no integer PLLQ giving 48
+(360/7.5). A 336MHz VCO does: 336/7 = 48 exactly, with PLLP=/2 giving
+168MHz. Exact USB and the part's 180MHz maximum are therefore mutually
+exclusive on this silicon, and this firmware runs at 168MHz so USB works.
+Full reasoning is in `bsp/src/clocks.rs`'s module-level note.
+
+**This is the fix for an observed hardware failure, and the fix itself is
+not yet hardware-verified.** The earlier configuration ran at 180MHz and
+attempted to route PLLSAI to USB by writing `CK48MSEL` at RCC offset 0x90
+- reserved space on this part, which the PAC's failure to model it should
+have been read as a warning about. The write did nothing, USB ran from
+PLLQ at 360/7 ~= 51.43MHz (7.1% fast, far outside +-0.25%), and Windows
+failed enumeration with "Configuration Descriptor Request Failed" under a
+null VID/PID. The current configuration should resolve that, but **nothing
+has been reflashed since the change** - treat first enumeration as the
+open verification step, not a formality.
+
+One further item worth confirming during that pass: `Clocks::configure()`
+never writes `PWR_CR`, so the core runs at its reset-default voltage
+scale. That is believed adequate at 168MHz (over-drive mode is only
+required above it), which would also mean the old 180MHz configuration was
+out of spec on this point independently of the USB problem. This has not
+been checked against a real RM0090 copy - do that before relying on it.
 
 Once connected: QGroundControl should auto-connect over the enumerated COM
 port; Mission Planner needs the COM port selected manually. Confirm a

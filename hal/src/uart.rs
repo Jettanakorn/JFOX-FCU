@@ -54,8 +54,8 @@ impl<const N: u8> Uart<N> {
     /// Initialize UART with specified baud rate
     ///
     /// Assumes system is already clocked:
-    /// - USART1 on APB2 (90MHz)
-    /// - USART2-4 on APB1 (45MHz)
+    /// - USART1 on APB2 (`bsp::clocks::PCLK2_FREQ_HZ`)
+    /// - USART2-4 on APB1 (`bsp::clocks::PCLK1_FREQ_HZ`)
     pub fn init(&mut self, baud: u32) {
         unsafe {
             let cr1 = (self.base + 0x0C) as *mut u32;
@@ -66,9 +66,12 @@ impl<const N: u8> Uart<N> {
 
             // Calculate baud rate divisor
             // BRR = fCK / (16 * baud)
+            // Taken from bsp rather than hardcoded: these must track
+            // `bsp::clocks::Clocks::configure()`'s prescalers, and a stale
+            // copy here silently skews every baud rate.
             let clock = match N {
-                1 => 90_000_000, // APB2
-                _ => 45_000_000, // APB1
+                1 => bsp::clocks::PCLK2_FREQ_HZ, // APB2
+                _ => bsp::clocks::PCLK1_FREQ_HZ, // APB1
             };
             let divisor = clock / (16 * baud);
             brr.write_volatile(divisor);

@@ -108,7 +108,7 @@ fn main() -> ! {
     // only for the ownership/take-once safety property, not its fields).
     let _dp = pac::Peripherals::take().unwrap();
 
-    // Configure system clocks to 180MHz
+    // Configure system clocks to 168MHz (PLLQ gives USB its exact 48MHz)
     let clocks = unsafe { Clocks::configure() };
     info!("System clock: {}MHz", clocks.sysclk() / 1_000_000);
 
@@ -135,7 +135,7 @@ fn main() -> ! {
     // Initialize SPI1 for MPU-6000
     info!("Initializing SPI1 for MPU-6000...");
     let mut spi1 = unsafe { Spi::<1>::new() };
-    spi1.init_mode3(3); // APB2=90MHz, div=16 -> 5.625MHz
+    spi1.init_mode3(3); // APB2=84MHz, div=16 -> 5.25MHz
 
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");
@@ -177,7 +177,7 @@ fn main() -> ! {
 
     let startup_msg = b"\r\n========================================\r\n\
 JFOX FCU v3.0 - USB CDC + real MAVLink\r\n\
-Hardware: STM32F427VIT6 @ 180MHz\r\n\
+Hardware: STM32F427VIT6 @ 168MHz\r\n\
 ========================================\r\n\r\n\
 [OK] USB CDC ready\r\n\
 [OK] MAVLink HEARTBEAT/SYS_STATUS/ATTITUDE enabled\r\n\r\n";
@@ -254,8 +254,8 @@ Hardware: STM32F427VIT6 @ 180MHz\r\n\
 
         time_boot_ms = time_boot_ms.wrapping_add(1);
 
-        // Simple delay (~1ms at 180MHz)
-        delay_cycles(180_000);
+        // Simple delay (~1ms at 168MHz)
+        delay_cycles(168_000);
     }
 }
 

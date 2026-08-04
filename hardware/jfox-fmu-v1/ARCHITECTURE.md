@@ -30,7 +30,7 @@ choice - and is negative-tested.
 
 | | PX4FMUv2.4.5 (current) | JFOX-FMU v1 |
 |---|---|---|
-| MCU | STM32F427VIT6, Cortex-M4 @180 MHz | **STM32H753IIT6**, Cortex-M7 @480 MHz |
+| MCU | STM32F427VIT6, Cortex-M4 @168 MHz (180 MHz max, but unusable — it forecloses an exact 48 MHz USB clock, see `bsp/src/clocks.rs`) | **STM32H753IIT6**, Cortex-M7 @480 MHz |
 | RAM | 256 KB (192 main + 64 CCM) | **1 MB** |
 | Flash | 2 MB | 2 MB |
 | IMU | 1 × MPU-6000 | **3 ×, two vendors, one SPI bus each** |

@@ -22,7 +22,7 @@ fn main() -> ! {
     info!("JFOX FCU - Flight Controller Firmware v2.0 (LED + UART)");
     info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6)");
 
-    // Configure system clocks to 180MHz
+    // Configure system clocks to 168MHz
     let clocks = unsafe { Clocks::configure() };
     info!("System clock: {}MHz", clocks.sysclk() / 1_000_000);
 
@@ -40,14 +40,14 @@ fn main() -> ! {
     // Send startup message via UART
     uart.write_str("\r\n========================================\r\n");
     uart.write_str("JFOX FCU v2.0 - Rust Flight Controller\r\n");
-    uart.write_str("Hardware: STM32F427VIT6 @ 180MHz\r\n");
+    uart.write_str("Hardware: STM32F427VIT6 @ 168MHz\r\n");
     uart.write_str("========================================\r\n\r\n");
 
     // Initialize SPI1 for MPU-6000
     info!("Initializing SPI1 for MPU-6000...");
     uart.write_str("[INIT] SPI1 for MPU-6000...\r\n");
     let mut spi1 = unsafe { Spi::<1>::new() };
-    spi1.init_mode3(3); // APB2=90MHz, div=16 -> 5.625MHz
+    spi1.init_mode3(3); // APB2=84MHz, div=16 -> 5.25MHz
 
     // Initialize MPU-6000 IMU
     info!("Initializing MPU-6000 IMU...");
@@ -137,8 +137,8 @@ fn main() -> ! {
             }
         }
 
-        // Simple delay (~1ms at 180MHz)
-        delay_cycles(180_000);
+        // Simple delay (~1ms at 168MHz)
+        delay_cycles(168_000);
     }
 }
 

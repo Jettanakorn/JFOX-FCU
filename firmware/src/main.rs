@@ -4,7 +4,7 @@
 //! It implements a real-time flight control system using RTIC (Real-Time Interrupt-driven Concurrency).
 //!
 //! Hardware:
-//! - STM32F427VIT6 @ 180MHz ("FMU"; this firmware runs FMU-only, see bsp::pins module docs)
+//! - STM32F427VIT6 @ 168MHz ("FMU"; this firmware runs FMU-only, see bsp::pins module docs)
 //! - MPU-6000 IMU @ 1kHz
 //! - MS5611 Barometer
 //! - 4x PWM outputs for quad-X motors (FMU-CH1..CH4, TIM1)
@@ -92,7 +92,7 @@ fn default_mpc_controller() -> MpcController {
 
 // SysTick-based monotonic timer, 1us/tick (covers both the millisecond delays
 // used by imu/control/heartbeat tasks and the microsecond delay used by
-// motor_task). 180MHz sysclk / 1_000_000 = 180, an exact divisor.
+// motor_task). 168MHz sysclk / 1_000_000 = 168, still an exact divisor.
 rtic_monotonics::systick_monotonic!(Mono, 1_000_000);
 
 fn default_stabilize_gains() -> StabilizeGains {
@@ -213,7 +213,7 @@ mod app {
         info!("Hardware: PX4FMUv2.4.5 (STM32F427VIT6, FMU-only)");
         info!("Build: {}", env!("CARGO_PKG_VERSION"));
 
-        // Configure system clocks to 180MHz
+        // Configure system clocks to 168MHz (see bsp::clocks for why not 180)
         let clocks = unsafe { Clocks::configure() };
         info!("System clock configured: {}MHz", clocks.sysclk() / 1_000_000);
 
@@ -238,7 +238,7 @@ mod app {
         // Initialize SPI1 for MPU-6000 (SPI_INT bus: PA5/PA6/PA7, see bsp::pins).
         info!("Initializing SPI1 for MPU-6000...");
         let mut spi1 = unsafe { Spi::<1>::new() };
-        // SPI1 on APB2 (90MHz), divide by 16 => 5.625MHz (MPU-6000 max = 20MHz)
+        // SPI1 on APB2 (84MHz), divide by 16 => 5.25MHz (MPU-6000 max = 20MHz)
         spi1.init_mode3(3);
 
         // Initialize MPU-6000 IMU
@@ -622,7 +622,15 @@ mod app {
             if *ctx.local.dwt_log_counter >= DWT_LOG_DECIM_TICKS {
                 *ctx.local.dwt_log_counter = 0;
                 let elapsed_cycles = Dwt::elapsed_since(cycle_start);
-                info!("control_task: {} cycles ({}us @ 180MHz)", elapsed_cycles, elapsed_cycles / 180);
+                // Derived from bsp rather than a literal so the microsecond
+                // figure stays correct if the clock tree moves again.
+                const CYCLES_PER_US: u32 = bsp::clocks::HCLK_FREQ_HZ / 1_000_000;
+                info!(
+                    "control_task: {} cycles ({}us @ {}MHz)",
+                    elapsed_cycles,
+                    elapsed_cycles / CYCLES_PER_US,
+                    bsp::clocks::HCLK_FREQ_HZ / 1_000_000
+                );
             }
 
             // Wait 2ms (500Hz update rate)

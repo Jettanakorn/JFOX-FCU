@@ -90,8 +90,10 @@ behaves correctly on real silicon, matching what SITL predicted.
    exists to guarantee.
 5. **Control-loop timing** (this is the actual point of `hal::dwt::Dwt`,
    added in Phase 2 specifically because it couldn't be measured without real
-   hardware): watch the `control_task: {cycles} cycles ({us}us @ 180MHz)`
-   log line (~1Hz). Record the steady-state value.
+   hardware): watch the `control_task: {cycles} cycles ({us}us @ 168MHz)`
+   log line (~1Hz). Record the steady-state value. Both the µs figure and
+   the MHz in that line are derived from `bsp::clocks::HCLK_FREQ_HZ`, so
+   they track the clock tree rather than needing an update here.
    - If headroom relative to the 2ms budget is small, reduce
      `MPC_ADMM_MAX_ITERS` in `firmware/src/main.rs` before proceeding — the
      value there (10) was never validated against real timing, only assumed
@@ -124,10 +126,14 @@ a real bus, before trusting them as part of a voting quorum.
    use a bench CAN analyzer. Confirm `Can::<1>::init()` succeeds (returns
    `Ok`, not `CanError::InitTimeout`/`BitrateNotAchievable`), and that a
    transmitted `CanFrame` is received back with the same ID/DLC/data. This
-   validates the bit-timing math in `hal::can` (9 time-quanta per bit,
-   computed from the 45MHz APB1 clock) against a real bus for the first time
-   - it was only checked by inspection, never against an oscilloscope or a
-     second node.
+   validates the bit-timing math in `hal::can` (14 time-quanta per bit,
+   ~85.7% sample point, computed from the 42MHz APB1 clock) against a real
+   bus for the first time - it was only checked by inspection, never against
+   an oscilloscope or a second node. Note these constants changed with the
+   move to a 168MHz SYSCLK: the previous 9-tq bit divided the old 45MHz APB1
+   evenly but yields a non-integer prescaler at 42MHz, which is why
+   `BitrateNotAchievable` is a live failure mode to watch for here rather
+   than a theoretical one.
 2. **2-board exchange**: connect two boards' CAN1 over CAN_H/CAN_L via each
    board's J405 connector (4-pin DF13C-4P-1.25V, driven by the onboard
    MAX3051 transceiver U401). **Termination note, resolved from the
